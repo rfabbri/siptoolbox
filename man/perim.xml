@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>perim</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="perim">Perimeter of binary shape</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>p = perim(Img)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       binary array, 1 for object and 0 for background (double precision)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>p</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       approximate perimeter of the shape inside Img
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ This is a simple routine to measure the perimeter of a 2D  shape. It assumes border pixels as a polygonal line:  adjacent border pixels has measure size 1 or sqrt(2). </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xbasc()
+       imshow(Img,2);
+       p = perim(Img)
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>follow</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwborder</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>im2bw</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

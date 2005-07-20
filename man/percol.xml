@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>percol</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="percol">Test if binary image is percolated</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>p = percol(img [,direction])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       an image in which 0 is considered background, while positive values are considered object (also called site).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>direction</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        1 if percolation is to be tested horizontally; 0 if it is to be tested vertically
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>p</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       1 if image is percolated; 0 otherwise.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function percol tests if an image is 4-connected from side  to side. This is useful for analysing images comming from  site percolation simulations. The percol routine has the  advantage to be implemented in the C language. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       p=0.02;
+       a = 1*(rand(10,10) <= p)
+       while (~percol(a))   // test the image if one side connects to the other
+       end
+       // now, surely, the image is connected side-to-side (i.e., it has percolated)
+       xbasc();
+       imshow(1-a,2); // 1 is displayed as black
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>xgetmouse</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>xclick</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>locate</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

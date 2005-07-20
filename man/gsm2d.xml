@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>gsm2d</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="gsm2d">2D gaussian smoothing</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>MG = gsm(M [,sigma])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>M</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the matrix (intensity image) to be smoothed
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>sigma</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the standard deviation of the gaussian kernel. Defaults to 5.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>MG</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the smoothed image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function gsm performs 2D gaussian smoothing of the image  M, with standard deviation sigma, using FFT. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       [Img,map] = imread('onca.gif');
+       xbasc()
+       imshow(Img,map);
+       Img = im2gray(Img, map);     // Img is now 0-1 range
+       xbasc()
+       imshow(Img);
+       Img = gsm2d(Img,2);
+       xbasc()
+       imshow(Img);
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>gsm</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imconv</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>fft</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

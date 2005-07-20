@@ -1,0 +1,31 @@
+mode(-1);
+//
+// Shows a menu with demos to choose
+//
+// AUTHOR
+//    Ricardo Fabbri  <rfabbri@if.sc.usp.br>
+//    Cybernetic Vision Research Group
+//    Luciano da Fontoura Costa, supervisor.
+//    http://cyvision.if.sc.usp.br
+//
+// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+// 
+sip_demolist = ['Introduction'
+            'TransMogrify'
+            'Interferometry GUI'];
+
+while %t
+num = x_choose(sip_demolist, 'Choose a demo');
+
+select num
+case 0
+   break
+case 1
+   exec (SIPDIR+'macros/sip-intro.dem')
+case 2
+   exec (SIPDIR+'macros/mogrify.dem')
+case 3
+   exec (SIPDIR+'macros/interferometry_gui.dem')
+   break
+end // case
+end // while

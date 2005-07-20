@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>poledetection</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="poledetection">Poles (or residues) detection in a wrapped phase image</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>poles = poledetection(image[,threshold])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       The gray-level image containing the wrapped phase.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>threshold</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        The minimum difference betwwen 2 pixels to consider that a phase jump occurs. Default=0.5
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>poles</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A matrix elements with the value zero are consistent points, others (positive or negative) are residus (or poles).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Ideally, phase unwrapping should not depend on the path  followed to unwrapp.
+ So we consider a small loop of 4  adjacents pixels. 
+We decide that there&apos;s a phase jump if  the difference between 
+2 neighbours is superior to a  threshold (=0.5 by default).
+ We count the number of jumps  when we follow the loop clockwise and anticlockwise.  
+Because of noise, we observe that these numbers are differents in certain 
+locations of the image. 
+The phase is  called "inconsistent" in these points. 
+Unwrapping process is very uncertain there. 
+These poles (or residues) can be marked so that the  unwrapping process 
+ignores them, or can be used to create  branches in residue-cut tree algorithms. 
+</P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   stacksize(4e7);
+
+   pw=gray_imread(SIPDIR+'images/photonics/pyramide_noisy.jpg'); //phase wrapped
+   xset("window",0);xbasc();imshow(pw);
+
+   poles=abs(poledetection(pw));//locate residues, no matter of the sign
+   xset("window",1);xbasc();imshow(poles,[]);//bright pixels
+   // show places where phase jumps are very uncertains
+
+   //Avoid unwrapping these points:
+   mf=imvariance(pw);//calculate a "merit function"
+   //mark bad pixels as visited (merit function=3000):
+   //you can comment this line if you want to compare results with and without
+   //poledetection
+   mf(find(poles>0))=3000;
+
+   //phase unwrapping:
+   puw=unwrapp(pw,mf);
+   xset("window",2);xbasc();imshow(puw,[]);
+   ]]></EXAMPLE>
+<!-- ================================= -->
+<SECTION label="References">
+<P>
+"Phase unwrapping algorithms for radar interferometry: residue-cut,
+least-squares, and synthesis algorithms"
+by Zebker and Lu, Journal of Optical Society Am. A, vol 15, N.3, March 1998
+</P>
+<P>
+"Satellite radar interferometry: two-dimensional phase unwrapping"
+by Goldstein, Zebker, Werner
+in Radio Science, vol 23, number 4, pages 713-720, july-august 1988
+</P>
+</SECTION>
+
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn (DOT) druel1 (AT) libertysurf (DOT) fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapl</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>unwrapp</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imvariance</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

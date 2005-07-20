@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>gsm</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="gsm">1D gaussian smoothing</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[xsm, Xsm] = gsm(x [, sigma, delta, in, out])</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>[xsm, Xsm] = gsm(x, &lt;named_args&gt;)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>x</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the vector to be smoothed (row or column vector), real or complex.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>sigma</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the standard deviation of the gaussian kernel. If sigma is zero, gsm returns the input vector unaltered in xsm. (Defaults to 5)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>delta</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       a double number. If the input is in the time domain, this is the time between samples (delta t), and defaults to 1. If the input is in the frequency domain, this is the frequency increment between samples (delta f), and defaults to 1/N, where N is the number of samples.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>in</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       indicates if the input, x, is a function of time (no FFT has been applied) or frequency (FFT has already been applied). Can be &apos;time&apos; or &apos;frequency&apos;. (Defaults to &apos;time&apos;)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>out</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       indicates if the output, xsm, is a function of time (inverse FFT will be applied) or frequency (inverse FFT will not be applied). Can be &apos;time&apos; or &apos;frequency&apos;. (Defaults to &apos;time&apos;) This is a sequence of statements key1=value1, key2=value2,... where key1, key2,... can be any of the optional arguments above (sigma, in, out), in any order.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>xsm</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the smoothed vector in "time" or "frequency" domain.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>Xsm</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the smoothed vector in "frequency" domain.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function gsm performs gaussian smoothing of the vector x,  with
+ standard deviation sigma, using FFT. The optional  arguments in
+ and out enables the user to reuse previously  done FFTs. Here are
+ some possible uses of gsm: </P>
+ <DESCRIPTION_INDENT>
+    <DESCRIPTION_ITEM label="xsm = gsm(x)">
+<TT>sigma</TT> defaults to 5, <TT>in</TT> and <TT>out</TT> both defaults to 'time'.
+    </DESCRIPTION_ITEM>
+    <DESCRIPTION_ITEM label="xsm = gsm(x,15)">
+<TT>sigma</TT> equals 15, <TT>in</TT> and <TT>out</TT> both defaults to 'time'.
+    </DESCRIPTION_ITEM>
+    <DESCRIPTION_ITEM label="xsm = gsm(x,15, out=&apos;frequency&apos;)">
+<TT>x</TT> in time domain.
+<TT>xsm</TT> in frequency domain (inverse fft is NOT done by gsm)
+    </DESCRIPTION_ITEM>
+    <DESCRIPTION_ITEM label="xsm = gsm(x,15,in=&apos;frequency&apos;, out=&apos;frequency&apos;)">
+xsm = gsm(x,15,in='frequency', out='frequency')
+<TT>x</TT> in frequency domain (fft has already been done).
+<TT>xsm</TT> in frequency domain (inverse fft is NOT done by gsm)
+    </DESCRIPTION_ITEM>
+    <DESCRIPTION_ITEM label="xsm = gsm(x, &apos;frequency&apos;, delta=0.1)">
+<TT>delta f</TT> is 0.1
+<TT>sigma</TT> defaults to 5
+<TT>x</TT> in frequency domain.
+<TT>xsm</TT> in time domain (inverse fft is done by gsm)
+    </DESCRIPTION_ITEM>
+ </DESCRIPTION_INDENT>
+ <P>
+ In all above examples, Xsm is in the frequency domain. It  is the second output parameter, and thus it was discarded  in the above examples. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xset('window',0);
+       xbasc()
+       imshow(Img,2);
+
+       [x,y] = follow(Img);  // get the parametric contour
+       t=1:size(x,'*');
+       xset('window',1)
+       xbasc()
+       subplot(121)
+       plot2d(t,x,2);
+       subplot(122)
+       plot2d(t,y,1);
+
+       xsm = gsm(x,15);    // gaussian-smooth the contour
+       ysm = gsm(y,15);
+       subplot(121)
+       plot2d(t,xsm,2);
+       subplot(122)
+       plot2d(t,ysm,1);
+
+       // builds an image from parametric contour:
+       Img2=unfollow(xsm,ysm,size(Img));
+       xset('window',0);
+       xbasc()
+       imshow(Img2,2);
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>gsm2d</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>fft</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

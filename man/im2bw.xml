@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>im2bw</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="im2bw">Convert images to binary by thresholding</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>BW = im2bw(Img, level [, maxvalue])</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>BW = im2bw(Index, map, level [, maxvalue])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N x 3 truecolor image or M x N grayscale intensity image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>Index</PARAM_NAME> and
+      <PARAM_NAME>map</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N indexed image and its M x 3 colormap.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>level</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ the threshold level, between 0 to 1 (a ratio, like percentage). Pixels of the image that are higher or equal than the level are mapped to 1, while pixels that are strictly lower than the level are mapped to zero.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>maxvalue</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        the maximum value to assume <TT>Img</TT> can take. (Optional, defaults to 1)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>BW</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ Resultant image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function <TT>im2bw</TT> converts RGB images, indexed images and grayscale intensity images to binary, by thresholding. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+       [Img,map] = imread('indian.bmp');
+       xbasc()
+       imshow(Img, map);
+       bw = im2bw(Img, map,0.5);
+       imshow(bw,2);
+       bw = im2bw(Img, map,0.2);
+       imshow(bw,2);
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>im2gray</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

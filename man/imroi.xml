@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imroi</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imroi">Roi (region of interest) of an image</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>mask=imroi(image[,type_of_mask,option])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A gray, color or binary image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>type_of_mask</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        &apos;rect&apos; rectangular or &apos;ellipse&apos; are the only available selections by now.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>option</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       0 displays no coordinates (default) 1 displays coordinates
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>mask</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Binary matrix (0 and 1) corresponding to the image selection. 
+It has the same size as the input image (e.g. it is 3D if the input is 3D, and 2D if the input is 2D).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ The function allows the user to select a Region of Interest (ROI) in an image ALREADY DISPLAYED, and returns the  corresponding binary matrix. </P>
+   <P>
+ The mask is working with any of binary, gray or color  images. </P>
+   <P>
+ With the ellipse selection, you draw the rectangle in  which the ellipse is drawn. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       a=imread(SIPDIR+'images/ararauna.jpg');
+       xset("window",0);xbasc();
+       imshow(a);
+       mask=imroi(a);
+       //the user must then select the ROI with the mouse
+       b=a.*mask;
+       xset("window",1);xbasc();
+       imshow(b);//displays just the ROI
+   ]]></EXAMPLE>
+<!-- ================================= -->
+<REMARKS>
+   <P>
+      The Matlab equivalent is <TT>roipoly</TT>, whose interface is a bit more
+complicated.
+</P><P>
+With Scilab-2.6, for color images, the image.*mask is not working
+(problem of matrix sizes).
+One possibility to solve this:
+</P>
+<VERBATIM>
+image(1,1,1)=image(1,1,1);
+</VERBATIM>
+<P>
+then you can do
+</P>
+<VERBATIM>
+image.*mask;
+</VERBATIM>
+<P>
+With Scilab-2.7 there is no problem.
+</P>
+</REMARKS>
+<!-- ================================= -->
+<SECTION label="TIP">
+   <P>
+To generate much more complex ROI's, you can use the Gimp (GNU Image
+Manipulation Program) [<A href="www.gimp.org">www.gimp.org</A>],
+although of course this is not an integrated solution.
+   </P>
+</SECTION>
+<!-- ================================== -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+      <AUTHORS_ITEM name="Ricardo"> The code to display coordinates comes directly from the 
+function xgetpixel by Ricardo Fabbri
+</AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>imread</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>xgetpixel</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM>GIMP</SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

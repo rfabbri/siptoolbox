@@ -1,0 +1,548 @@
+SIP - Scilab Image Processing Toolbox
+Copyright (C) 2002-2004 Ricardo Fabbri
+__________________________________________________________________
+
+
+	+ new DCT function by Angus Errington
+	+ new features in interferometry_gui by jocelyn
+
+0.4.0 Major new features!
+   This list highlights the main changes from 0.3.1 to 0.4.0. Read the
+   previous changelogs for minor improvements and details.
+   
+   + Help files moved to XML/HTML format and were totally revised;
+   + NEW hsv2rgb and rgb2hsv functions to convert between RGB images 
+     and HSV (Hue Saturation Intensity) images.
+   + NEW radon and iradon functions
+   + NEW sip_set_verbose, sip_quiet and sip_wordy functions to adjust 
+     the messaging level issued by sip routines. For instance, this 
+     may be used to stop imread and mogrify from issuing verbose 
+     messages.
+   + NEW sip_setenv to set environment variables.
+   + imvariance is now coded in C for efficiency
+   + unwrapl and unwrapp functions are now coded in C. unwrapl now 
+     returns the unwrapped_phase and the phase_jumps.
+   + NEW rgbplot function to plot the RGB components of a colormap
+   + NEW sip_colormap function
+   + FIX to imread: when you read a non-indexed image (such as
+     truecolor or binary) with two output parameters, imread crashed 
+     scilab in some cases. This is now fixed. (thx to )
+   + FIX regarding truecolor images in imwrite, imread and mogrify 
+     functions, by using scilab's new hypermatrix structure.
+   + imwrite now supports the "depth" optional argument to set image 
+     depth. It defaults to 16bpp, but one can now set it to 8bpp.
+   + GANDALF is NOT needed anymore for the a source build
+   + Animal 0.14.0 or later is required for a source build
+   + Virtually any version of ImageMagick is now supported for 
+     compiling from source (all  versions down to 5.4.2)
+   + Both sabcmd and xsltproc are supported to build the help pages; 
+     SIP will use whichever is available.
+   + NEW preliminary imxprofile, wich has some improvements to 
+     improfile but is not fully functional.
+   + INCOMPATIBLE: function angle changed to "getangle"
+   + Many other bugfixes and minor improvements
+
+   Main Developers: Ricardo Fabbri and Jocelyn Druel.
+   Special Thanks to: Sandro da Silva, Leandro Estrozi, Edson 
+   Nakamura, Dean Messing, Enrico Segre, Torsten Werner
+
+
+0.4.0 RC2
+   + Fix to poledetection.xml help page
+
+
+0.4.0 RC1
+   + FIXED small syntax error in imroi.sci
+   + Binaries are available
+
+20040710-2
+   + fixed small bug where the file "builder.sce" was not included 
+   (thx. Torsten)
+   
+
+20040710
+   + NEW hsv2rgb and rgb2hsv functions to convert between RGB images 
+     to HSV colorspace images. It also works for colormaps.  (thx.  
+     Sandro da Silva)
+   + NEW radon and iradon functions (by Leandro Estrozi)
+   + FIX regarding truecolor images in imwrite, imread and mogrify 
+     functions, by using scilab's new hypermatrix structure.
+   + NEW sip_set_verbose, sip_quiet and sip_wordy functions to adjust 
+     the messaging level issued by sip routines. For instance, this 
+     may be used to stop imread and mogrify from issuing verbose 
+     messages, which are very annoying when these functions are used 
+     inside loops.
+   + NEW sip_setenv to set environment variables.
+   + unwrapl and unwrapp functions are now coded in C (by Jocelyn 
+     Druel). unwrapl now returns the unwrapped_phase and the 
+     phase_jumps to be consistent with the unwrapp function.
+   + INCOMPATIBLE: improvements to imxprofile, new parameters
+   + NEW threshold parameter for unwrapp
+   + improvements to the interferometry GUI - Gamma correction on 
+     colormaps, use of imxprofile instead of improfile, and more.
+   + INCOMPATIBLE: function angle changed to "getangle" because 
+     "angle" is too simple and often conflicts with user variables.
+   + dummy builder.sce file so that Scilab includes SIP in the
+     toolboxes menu (thx. Enrico Segre).
+   + many fixes and improvements to help pages
+
+20040527-2
+   + the new help pages weren't loadable in scilab 2.7, only in 
+   scilab 3.0 RC1. It now works with both versions.
+
+20040527
+   + GANDALF IS NOT NEEDED ANYMORE; this dependency gave
+   way too much trouble for nothing; it is too hard to build and
+   yet we use just a small part of it. We also started to merge
+   Gandalf into Animal.
+   + Animal 0.13.0 or later is REQUIRED
+
+20040523 Important improvements to the build process
+   + ImageMagick 6 is now supported (in addition to older versions 
+   down to 5.4.2), although there is a BUG in ImageMagick 6 that makes 
+   some images not to be read. The support for older versions is now
+   very robust, as we added many feature checks in the configure script
+   + imwrite now supports the "depth" optional argument to set image 
+   depth. It defaults to 16bpp, but one can now set it to 8bpp.
+   + both sabcmd and xsltproc are supported to build the help pages; 
+   SIP will use whichever is available.
+   + using up-to-date libtool 1.5.6, autoconf 2.59, and automake 1.8.5
+
+20040520
+   + bugfix to imread: when you read a non-indexed image (such as
+   truecolor or binary) with two output parameters, imread crashed
+   scilab in some cases. This is now fixed. (thx to D. Messing)
+   + new rgbplot function to plot the RGB components of a colormap
+   + imvariance is now coded in C for efficiency
+   + new preliminary imxprofile, wich has some improvements to 
+   improfile but is not fully functional.
+   + Thx to J. Druel for the last 3 items above.
+
+20040428
+   + Help files in XML format were all totally revised
+   + new sip_colormap function (wasn't included before by mistake)
+   + bwdist returns undefined image and a warning in case the input
+   has every pixel different than 0.
+   + Scilab scripts are now installed w/o exec perms (thx Torsten)
+   + Sources ".sci" corresponding to ".bin" files are now installed
+   + Enhanced example for gsm (1D Gaussian Smoothing)
+
+20040320 Changes to the help system only
+   + some help files (e.g. mogrify.xml) now have all the sections;
+   + we now use our own XSL and DTD for the help files
+   + configure now requires xsltproc program
+   + old man files being distributed so people can match to the
+   new XML files and fix them to include the now-supported sections.
+
+20040314
+   + help files moved to XML format; there are still some features
+   missing, such as REMARKS and some other manual sections.
+
+0.3.1
+   + watershed - fixed an error in the interface between Scilab
+   + imshow - in the double-buffered mode xset('pixmap',1), 
+   the user doesn't need to issue xset('wshow'); imshow does it.
+   + Demos are faster: use double-buffering to show images; affects
+   introductory demo and mogrify demo.
+
+0.3.0  Major new features!
+   This list highlights the main changes from 0.2.0 to 0.3.0. Read the
+   previous changelogs for minor improvements and details.
+
+   + NEW bwlabel function to label connected components in a binary image.
+   + NEW watershed function, for image segmentation. It accepts
+     markers.  There is a nice example in the help page, showing how
+     to separate overlying objects in a binary image.
+   + NEW bwdist function with very fast euclidean distance transform 
+     algorithms: Olivier Cuisenaire's algorithm (CVIU 1999) and Calvin Maurer's 
+     algorithm (PAMI 2003). Probably the fastest exact methods anywhere.
+     There is also a nice example in the help page for "bwdist".
+   + NEW imroi function to define ROI's (Regions of Interest) using 
+     the mouse. Rectangle and ellipse selections are supported. 
+   + NEW imnoise function, to generate a few types of noise, such as
+     gaussian white noise, salt & pepper, and more.
+   + NEW thin function (Zhang-Suen thinning)
+   + sipdemo is now called by "exec(SIPDEMO)"
+   + INCOMPATIBLE: Double-precision Images are now normalized like M4t1ab:
+
+          TYPE OF IMAGE           SIZE          VALUE RANGE    
+              Grayscale images     2D               0-1
+              Truecolor images     3D (RGB)         0-1    
+        Paletted images, index     2D               1-NC (Number of Colors)
+     Paletted images, colormap    NCx3              0-1
+
+     This has many advantages. For instance, imwrite and imshow doesn't require 
+     normalization to obscure values such as 255 or 65535.
+   + NEW GUI demo, mainly for interferometry images
+   + NEW mogrify demo
+   + mogrify now supports color images, and has a roubust error treatment.
+     All operations such as rotation, zoom, and color segmentation
+     are now working for these images. There is a nice example in the help page.
+   + INCOMPATIBLE: mogrify's drawing commands and many other 
+     functionalities are now working. An INCOMPATIBLE improvement 
+     has been made so more complex operations are now possible.  
+     For example, to rotate an image:
+     BEFORE:   mogrify(image, '-rotate 60');      // WRONG
+     NOW   :   mogrify(image, ['-rotate', '60']); // CORRECT
+     The advantage is that you can now do this:
+     mogrify(image, ['+antialias'; '-draw'; 'ellipse 50,50 30,30 0,360']);
+     For one argument without parameter, nothing has changed:
+     mogrify(image, '-equalize');  // histogram equalization
+   + INCOMPATIBLE: drawline function has been changed & fixed. 
+     It was previously broken.  Thx to Marconi for reporting.
+   + INCOMPATIBLE: improfile changed 
+   + INCOMPATIBLE: fftshift was renamed to sip_fftshift, because
+     Scilab CVS now provides an fftshift.
+   + NEW mkfftfilter function to provide frequency-domain filter kernels.
+   + NEW ind2rgb function to convert indexed images to direct RGB 
+     hypermatrix storage.
+   + NEW gray_imread function, to read every image as grayscale
+   + NEW perim function, to compute the perimeter of a shape
+   + NEW imvariance - image local variance 
+   + NEW pifilter - denoises an image without affecting abrupt variations.
+   + NEW imphase - phase calculation (useful for interferometry)
+   + NEW unwrapp - phase unwrapping by path following, used in
+     interferometry/photonics
+   + NEW poledetection function to detect residues in wrapped phased 
+     images.
+   + NEW SIP manual by Jocelyn Druel: 
+      http://genie-optique.chez.tiscali.fr/SIP
+   + FIXED memleaks in various C functions (thx. to Linder). Corrected
+     functions are: imread, bwlabel, thin, skel, bwdist, drawline, mogrify
+   + FIXED bug in minmax function
+   + imshow is faster for truecolor images, because it now uses less colors.
+   + im2gray is now much faster
+   + Error messages are now more descriptive in imread, imwrite, imfinfo 
+     and mogrify. 
+   + Many other bugfixes and minor improvements
+   + Depends on: Animal 0.10.4 (or later required), ImageMagick 5.5.7 
+   (recommended), and Gandalf library 1.3.2 (recommended).  
+
+
+20040201
+   + INCOMPATIBLE IMPROVEMENT: all arguments to mogrify are now working!
+   But now mogrify's "argv" argument now a string vector for options
+   with parameters. For example, suppose "image" is a scilab array:
+   BEFORE: mogrify(image, '-rotate 60');      // WRONG
+   NOW   : mogrify(image, ['-rotate', '60']); // CORRECT
+
+   This way, options like "draw" and many others are now working!!
+   An example:
+
+   mogrify(image, ['+antialias'; '-draw'; 'ellipse 50,50 30,30 0,360']);
+
+   this, of course, equalizes the image and draws an ellipse, all in one
+   command and all done in memory. If only one string is present you may
+   type as before:
+
+   mogrify(image, '-equalize');  // histogram equalization
+
+   + Error treatment in mogrify is now robust and descriptive. In previous
+   versions, mogrify didn't report errors if the parameters were wrong.
+   + Error messages are now more descriptive in imread, imwrite, imfinfo 
+   and mogrify. 
+   + This release was tested with ImageMagick 5.5.7 and Animal 0.10.1
+
+20040130
+   + mogrify working w/ truecolor and paletted images!
+   + im2gray now converts indexed images to a 0-255 Grayscale img,
+   so that a simple imshow without normalization will work.  
+   + imshow for truecolor imgs has now an optional parameter to set the
+   number of levels of sampling to use for color reduction before plotting.
+   And, by default, the number of levels is 9 levels per channel (which gives
+   9^3 = 729 colors), and is much faster to display in Scilab. BTW, scilab has
+   only a limited number of colors and is slow for setting colormaps.
+
+20040127
+   + New extremely fast euclidean distance tranform algorithms were added to
+   bwdist: Olivier Cuisenaire's algorithm (CVIU 1999) and Calvin Maurer's 
+   algorithm (PAMI 2003). These seem to be the fastest exact methods available!
+   There is also a nice example in the help page for "bwdist".
+   + bwdist no
+   + Works with Animal 0.10.1
+
+20040115
+   + Fixed memleaks in various C functions (thx. to Linder). Corrected
+   functions are: imread, bwlabel, thin, skel, bwdist, drawline, mogrify
+   + Fixed severe memleaks in bwdist. (thx. to Linder)
+   + Fixed Bug in imshow regarding to indexed images (thx. Marconi). 
+   As a side effect, this fixes a bug in SIP's introductory demo.
+   + New ellipse selection in function imroi. (thx. to Jocelyn).
+   + New ind2rgb function to convert indexed images to direct RGB 
+   hypermatrix storage.
+   + New poledetection function to detect residues in wrapped phased 
+   images.
+   + Many other bugfixes and minor improvements
+
+20031219
+   + New bwlabel function to label connected components in a binary 
+   image. It is coded in C for efficiency.
+
+   * Contributions by Jocelyn Druel:
+   + New pifilter function that denoises an image without affecting 
+   abrupt variations.
+   + New imroi function to define ROI's (Regions of Interest) using 
+   the mouse. Until now only rectangular regions are supported. 
+
+   + INCOMPATIBILITY: fftshift was renamed to sip_fftshift, because
+   Scilab CVS now provides an fftshift.
+
+
+20031216
+   + Minor fixes
+
+20031212
+   + The building procedure was updated with the trio autoconf 
+   2.58, automake 1.8 and libtool 1.5
+
+20031126
+   + watershed with markers wasn't working. Fixed.
+
+
+20030923
+   + fixed a bug in bwdist (Lotufo-Zampirolli EDT implementation)
+   regarding a mysterious black line on the top of the image.
+   + started an imcorrcoef template matching function.
+   Don't use it yet, since we must first improve the imconv routine.
+   + small bugfix to im2bw regarding indexed images.
+   + new xor convenience function 
+
+20030811
+   + New function: watershed, for image segmentation. It accepts
+   markers.  There is a nice example in the help page, showing how
+   to separate overlying objects in a binary image.
+   + Requires Animal 0.7.0
+
+20030804
+   + New function: bwdist, for distance tranform. A new very fast
+   exact euclidean method is available (Lotufo-Zampirolli 2001).
+   + New function: imnoise, to generate a few types of noise, such as
+   gaussian white noise, salt & pepper, and more.
+   + im2gray and gray_imread are now much faster
+   + im2bw threshold is by default taken relatively to the maximum value
+   of the image, instead of 255. This approach is more convenient.
+   + autoreconf now works without any error messages
+
+20030527
+   + function drawline: incompatible changes and bugfix. It was
+   previously broken. Thx to Marconi for reporting.
+
+20030525
+   + new "thin" (standard Zhang-Suen thinning) implemented in C
+   + gray_imread (simply to read every image as grayscale) manpage
+   + improfile changed (it is now incompatible with the previous one)
+   + manpage for perim
+   + new example figures
+   + requires Animal 0.5.0
+
+20030522 many contribs thx to Jocelyn Druel
+   + fixed bug in minmax
+   + new GUI demo
+   + sipdemo is now called by "exec(SIPDEMO)"
+   + new imvariance - image local variance 
+   + new imphase - phase calculation (useful for interferometry)
+   + new unwrapp - phase unwrapping by path following, used in
+     interferometry/photonics
+   + loader.sce now displays SIP version
+   + manpage fixes
+
+0.2.0 Major feature enhancements!
+   This list summarizes the changes from 0.1.1 to 0.2.0.
+
+   + New mogrify command (resizing, rotating, filtering, etc)
+   + New state-of-the-art O(n) skeletonization algorithm based
+     on the euclidean metric, implemented in C and accessible
+     through the scilab function "skel".  It has a multiscale
+     pruning parameter.
+   + Fast euclidean distance transform and discrete Voronoi 
+     diagram calculated by the same algorithm.
+   + New xgetpixel command to get pixel coordinates from mouse
+     position
+   + New edilate command to do exact euclidean dilation
+   + New percol command to check for image percolation
+   + New drawline command to draw a line in an image
+   + New perim function (perimeter measure of a shape)
+   + minmax - new min/max noise removal from images (by curvature/levelsets)
+   + New Hough transform (early working implementation)
+   + Early fractal dimension implementation
+   + Curvature/ffteriv/gsm/gsm2d rewrite
+   + Curvature2d - estimates the curvature of a surface / image
+   + Improfile - plot data profiles along line segments through an image
+   + Imshow is now faster for truecolor images. 
+   + Adaptive thresholding though the mogrify parameter "-lat". This 
+     requires ImageMagick 5.5.2 or later.
+	+ New edge-detection by FFT gradient estimation; this
+	  is available in the 'edge' routine, by giving an 'fftderiv' value 
+     for the method argument. 
+   + New masks for mkfilter - laplacian masks, low-pass masks, sharp
+     masks, mean, and circular.
+   + New unwrapl function - unwraps phased images linearly
+   + Imshow has new strf parameter
+   + Imshow is now faster for truecolor images. 
+   + No more need to normalize truecolor images to 0-65535 range 
+     for imshow. This means you can now call imshow(im), 
+     and _not_ imshow(im*65535), if 0 <= im(i,j,k) <= 255
+   + No more need to fix Scilab makefile bugs to compile SIP. The
+     build process is now based on autoconf, which means the user
+     types "configure; make; make install" to compile SIP (only
+     POSIX-like environments are supported).
+   + A "hello_sip" function added as a simple example, for new 
+     developers, of how to add a new C-language routine to SIP.
+   + The general purpose C routines were moved to AnImaL (An Imaging
+     Library), which is independent of Scilab.
+   + Many bugfixes
+
+
+20030315
+   + New unwrapl function - unwraps phased images linearly
+   + improfile bugfix
+   + imshow is a little faster for truecolor images
+   + new masks for mkfilter - laplacian masks, low-pass masks, sharp
+     masks, mean, and circular.
+
+20030307.1
+   + images/bin.xpm was not being included (fixed)
+   + whatis file didn't have the new functions (fixed)
+
+20030307   
+   + minmax - new min/max noise removal from images (curvature/levelset)
+   + curvature2d - estimates the curvature of a surface / image
+   + improfile - plot data profiles along line segments through an image
+   + imshow is now faster for truecolor images. 
+   + No more need to normalize truecolor images to 0-65535 range 
+     for imshow. This means you can now call imshow(im), 
+     and _not_ imshow(im*65535), if 0 <= im(i,j,k) <= 255
+   + mkfilter has new "circular" mask
+   + manual for edilate function
+   + fix in manual for dilate function
+
+20030306
+   + full support for autoconf (./configure; make; make install),
+     with automatic detection of scilab and external libraries.
+   + txt files updated for the next release
+   + imshow is faster for truecolor images, thx to A. Calio.
+     (note that B. Pincon's changes have not yet been comited)
+   + no instructions for binaries yet
+
+20030305.1
+   + This is the first full-featured sip-dev release of 2003.
+   + build system improved
+   + man, images and .txt files included
+
+20030305
+   + macros included
+   + still no images or help pages
+   + build system improved
+
+20030304
+   + Preliminary autoconf support
+   + install only with ./configure; make; make install
+   + Needs animal.sf.net (An IMAge Library) to be installed.
+   + No macros nor man
+   + New perim function
+
+20021203
+	+ New edge-detection by FFT gradient estimation; this
+	  is available in the 'edge' routine, by giving an 'fftderiv'
+	  value for the method argument. The manpage was updated to
+	  contain more info on this.
+   + New hough transform (early working implementation)
+   + Adaptive thresholding though the mogrify parameter "-lat".	
+     This needs the new ImageMagick 5.5.2.
+	+ Gsm2d rewrite; about 5 to 10% speedup.
+   + bwborder was broken; fixed.
+   + Drawline manpage
+
+20021125
+   + curvature/ffteriv/gsm rewrite (not definite, though)
+   + simple filename fix of the test suite inside "tst" directory
+
+20021123
+   + compilation was failing; fixed builder.sce files in src.
+
+20021121.1
+   + A "hello_sip" function added as a simple example, for new 
+     developers, of how to add a new C-language routine to SIP.
+   + A hello_sip help page written as a starting point for new
+     developers.
+
+20021121
+   + Early fractal dimension implementation
+
+20021105
+   + Scilab 2.6 bugfix necessary to compile was wrong in INSTALL.txt
+     It is not  EXTRA_LD_FLAGS, but EXTRA_LDFLAGS, a simple mistake
+     that can corrupt the installation.
+   + Removed nonsense mogrify parameters from the help page.
+   + Development versioning scheme is changed to eliminate the dashes. 
+     The version number is now a single increasing number formed by
+     the date of release. 
+
+2002-10-31
+   + Bugfix in internal euclidean structure (affects "skel" and
+     "edilate" routines).
+   + Parameter "full" in the previous "skel" routine documentation 
+     is actually "both".
+
+2002-10-30
+   + New state-of-the-art O(n) skeletonization algorithm based
+     on the euclidean metric, implemented in C and accesible
+     through the scilab function "skel".  It has a multiscale
+     pruning parameter.
+   + Fast euclidean distance transform and discrete Voronoi 
+     diagram calculated by the same algorithm.
+   + Skeletonization now accepts shapes with holes and more than 
+     one shape in the input image.
+   + SIP now builds on both Scilab 2.6 stable and CVS.
+   + Minor bug fixes in some other routines
+
+2002-09-25 Major updates in this release!
+   + C code now implements many functions
+   + new mogrify command (resizing, rotating, filtering, etc)
+   + new skel command (skeletonization + distance transform +
+     discrete Voronoi diagram) with scale-space skeleton detail
+     filtering, and exact euclidean metric.
+   + new xgetpixel command to get pixel coordinates from mouse
+     position
+   + new edilate command to do exact euclidean dilation
+   + new percol command to do image percolation
+   + new drawline command to draw a line in an image
+   + imwrite bug fix ("Pixel cache not open" message is now gone)
+   + imshow has new strf parameter
+   + documentation updated
+   + various minor fixes
+   + SIP has a total of 27 routines now; mogrify alone is worth
+     about 10 routines!
+
+0.1.1 
+   + "gsm" function got better but compatible. The user may
+   select if input or output is in time (real), complex
+   or frequency, enabling more effective use of FFT's.
+   + "fftderiv" now enables input to be in time (real),
+   complex or frequency. It also has a sigma parameter for
+   simultaneous gaussian smoothing. This is an incompatible
+   change.  
+   + "curvature" is 2x faster.
+   + many manpage fixes 
+   + various minor fixes
+
+0.1 Initial release
+   + I/O of image files in almost ANY format, using
+   ImageMagick 5.4.2
+   + display is done using scilab's own graphical window.
+   + new functions with flexible, stable interface and 
+   error treatment.
+   + stable interfaces and error treatment in the
+   previous functions
+   + help pages for all the functions, with EXAMPLES
+   sections.
+   + demos
+   + home page
+   + nice photographs (thanks to Eduardo Justiniano)
+
+0.0 FABBRI toolbox
+   the ancestor of the SIP toolbox. Did very simple
+   image processing, without well-defined interfaces
+   for the functions. Almost no documentation. Had to
+   rely on IMAGE toolbox to read in just PPM/PGM/PBM
+   ascii image files and display with an external program. 

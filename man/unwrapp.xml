@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>unwrapp</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="unwrapp">Unwraps phased images by path following</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[unwrapped_phase,jumps] = unwrapp(image,merit_function, ...</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>[line_start,column_start,threshold])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       The gray-level image containing the wrapped phase.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>merit_function</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        The quality of each pixel is estimated: the result is stored in a "merit function" (mf).
+ Some merit functions can be laplacien, variance... 
+A good quality pixel has a low merit function. 
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>line_start</PARAM_NAME> and
+      <PARAM_NAME>column_start</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+The starting point to begin the path.
+The function will automatically search for the best point in a 15x15
+neighbourhood.
+<P>
+If these parameters are not specified, the function will 
+search the best point (=the point with the lowest merit function) in a 
+sqarre around the center of the image.
+</P>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>threshold</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+If the difference between 2 pixels is higher than the threshold,
+then there's a phase jump.
+<P>
+Default = 0.5
+</P>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ For an explanation on phased images, have a look at the  help of the function unwrapl. </P>
+   <P>
+ This function uses an algorithm of "path following" to  unwrapp the phase: The idea is to unwrapp non ambiguous  pixels first. 
+Here are some details:  
+</P>
+<P>
+1) the quality of each pixel is estimated by a "merit  function". 
+Most often, the "merit function" will be variance (function "imvariance"), 
+but you could try others  functions like laplacien. 
+A good quality pixel has a low  merit function.  
+</P>
+<P>
+2) We begin from a point of good quality. 
+It is called  "integrator point".  
+</P>
+<P>
+3) we rely it to its best quality neighbour, which becomes  the new "integrator point".  
+</P>
+<P>
+4) If the difference between phases of the 2 points is  higher 
+(or lower) than a threshold (=0.5 by default), 
+then we consider there&apos;s a phase jump.  
+</P>
+<P>
+5) we continue until all points are treated. </P>
+   <P>
+ How to ignore some points ? You can decide that some  points are so unsure that you prefer to simply ignore  them. This can be done by affecting them a merit function  &gt;= 3000. </P>
+   <P>
+ Note about the "jumps" matrix: it is a matrix containing  only the number of 
+jumps needed to re-establish phase continuity: unwrapped_phase=image+jumps; </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   stacksize(4e7);
+
+   pw=imread(SIPDIR+'images/photonics/pyramide_wrapped.jpg'); //phase wrapped
+
+   mf=imvariance(pw);//calculate a "merit function"
+   //you could try also: mf=imconv(a,mkfilter('laplace1'));
+
+   [puw,jumps]=unwrapp(pw,mf);
+
+   xset("window",1);xbasc();xselect();imshow(normal(puw,1,0));
+   xtitle("unwrapped phase");
+   xset("window",2);xbasc();plot3d1(1:8:size(puw,'r'),1:8:size(puw,'c'),puw(1:8:$,1:8:$))
+   ]]></EXAMPLE>
+<!-- ================================= -->
+<SECTION label="References">
+<P>
+"techniques automatiques de raccordement de phase"
+</P>
+<P>
+David VENET, 
+Memoire de l'universite de Lausanne.
+</P>
+</SECTION>
+
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; 
+<P>
+This function is now coded in C and interfaced with Scilab.
+Jean Denaveaut helped greatly for this.
+</P>
+</AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapl</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imvariance</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imphase</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

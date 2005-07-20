@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>pifilter</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="pifilter">Pi filter for phased images</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>filtered_image = pifilter(image[,filter_name])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A gray image (normally a phased image).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>filter_name</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        A low-pass filter. It can be &apos;mean&apos; or &apos;low-pass&apos; (see mkfilter). Default is &apos;mean&apos;.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Filters a phased image before unwrapping it. 
+The purpose  is to keep the phase jumps sharp: 
+a convolution by a lowpass kernel would be catastrophic, because it would 
+smooth  these jumps, causing the demodulation algorithm to fail. </P>
+  
+ Principle:
+      <DESCRIPTION_INDENT>
+      <DESCRIPTION_ITEM>
+1) We calculate the sinus and cosinus of the phase 
+      </DESCRIPTION_ITEM>
+      <DESCRIPTION_ITEM>
+ 2) We apply a convolution filtering on each component  
+      </DESCRIPTION_ITEM>
+      <DESCRIPTION_ITEM>
+3) We get the phase again with an atan
+      </DESCRIPTION_ITEM>
+      </DESCRIPTION_INDENT>
+
+   <P>
+ This function uses the mkfilter and imconv functions.  
+Reasonable kernels are: &apos;low-pass&apos; and &apos;mean&apos;. A high-pass  filter would make no sense as it would burst noise ! </P>
+   <P>
+ You can use pifilter for ordinary grayscale images to  smooth them 
+without loosing the edges. 
+This filter is similar to the median filter, but will leave edges even 
+stronger. 
+However, the noise will more often not be  removed; just attenuated. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       a=gray_imread(SIPDIR+'images/photonics/pyramide_noisy.jpg');
+       xset("window",0);xbasc();
+       imshow(a);
+       improfile(a);//to visualise profiles
+       b=pifilter(a);
+       xset("window",1);xbasc();
+       imshow(b);
+       improfile(b);//jumps are still well visible and other parts are smoothed
+   ]]></EXAMPLE>
+
+<!-- ================================= -->
+<SECTION label="References">
+       "Techniques  automatiques  de  raccordement  de   phase" by
+       David Venet
+       Ecole Federale de Lausanne (1995-96)
+</SECTION>
+
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapl</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>unwrapp</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imconv</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

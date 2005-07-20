@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>fractal</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="fractal">Multiscale fractal dimension curve</SHORT_DESCRIPTION>
+   <DESCRIPTION>
+   <P>
+ "fractal" routine is under development. It&apos;s sourcecode  has some documentation. </P>
+   </DESCRIPTION>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press. 
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM>other toolboxes</SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

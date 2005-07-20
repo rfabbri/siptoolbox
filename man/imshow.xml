@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>imshow</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>February 2004</DATE>
+<SHORT_DESCRIPTION name="imshow">Displays images in scilab graphic window</SHORT_DESCRIPTION>
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>imshow(Img)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>imshow(Img,n)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>imshow(Img,[low high])</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>imshow(Img,Map)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>imshow(RGBImg)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>imshow filename</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>imshow(Img, arg2 [, strf])</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<PARAM>
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>filename</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   A String, the image filename to be displayed. The extension determines the type of the image.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Img</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      MxN matrix, a grayscale (0-1 range) or pseudo-color/indexed (1-Ncolors range) image.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>n</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   A scalar, the number of levels of gray to display Img. 1x2 array corresponding to the grayscale range to be considered.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+      <PARAM_NAME>[low high]</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         1x2 array corresponding to the grayscale  range  to be considered.
+      </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Map</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   Mx3 matrix containing the image colormap (for indexed images). Entries may range from 0 to 1
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>RGBImg</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   MxNx3 hypermatrix in 0-1 range.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>strf</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   this is used to e.g. put axes around your image. See the plot2d help page. You may use this optional parameter in the assignment style, as in
+   <VERBATIM>
+      imshow(img,strf='041')  // same as imshow but draw axes
+   </VERBATIM>
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM_INDENT>
+</PARAM>
+<DESCRIPTION>
+   <DESCRIPTION_INDENT>
+   <DESCRIPTION_ITEM label="imshow(Img,n)">
+   displays Img using n gray levels. Img is an  MxN matrix in 0 -
+   (n-1) range. If n is omitted, it will  be assumed to be 256.
+   </DESCRIPTION_ITEM>
+   <DESCRIPTION_ITEM label="imshow(Img,[low high])">
+   displays Img using a grayscale  within the
+   specified range. Elements &lt;= low will map onto  black, Elements
+   &gt;= high will map onto white, and elements  in between will map
+   as a shade of gray. If an empty matrix  <TT>&apos;[]&apos;</TT> is used,
+   <TT>[low,high]</TT> will be assumed to be <TT>[mini(Img),  maxi(Img)]</TT>. 
+   </DESCRIPTION_ITEM>
+   <DESCRIPTION_ITEM label="imshow(Img,Map)">
+   displays Img using the specified colormap. 
+   </DESCRIPTION_ITEM>
+   <DESCRIPTION_ITEM label="imshow(RGBImg)">
+   displays the RGBImg MxNx3 (0-1) truecolor  image. 
+   </DESCRIPTION_ITEM>
+   <DESCRIPTION_ITEM label="imshow(&apos;filename&apos;)">
+      displays the image <TT>filename</TT> in the scilab  graphical
+      window. Any raster image format is accepted (see Remarks section). 
+   </DESCRIPTION_ITEM>
+   </DESCRIPTION_INDENT>
+</DESCRIPTION>
+<EXAMPLE><![CDATA[
+    initial_dir = PWD;
+    chdir (SIPDIR + 'images');
+
+    a = rand(100,100);   // create random image
+    xbasc();
+    imshow(a);
+
+    imshow(a*255 + 1,hotcolormap(256));
+    imshow(a,[0.3 0.6]);
+    imshow(a,[]);
+    xbasc();
+    imshow('example.png');
+
+    chdir(initial_dir);
+]]></EXAMPLE>
+<REMARKS>
+In  theory,  <TT>imshow(filename)</TT>  will  work  with any raster
+image format.  In practice, it has been  tested  only for BMP,
+GIF, JPEG, PNG, PCX, TIFF, XPM, and MIFF. Displaying other file
+formats will probably work, but this case  have not been tested by
+the developers of the SIP toolbox.
+</REMARKS>
+<SECTION label="Bugs and Shortcomings">
+<P>
+   The display of truecolor images is somewhat inefficient.
+</P> <P>
+   Images are stored in double precision matrices. Hopefully,
+   the next release will make usage of integer types.
+</P>
+</SECTION>
+<AUTHORS>
+   <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+<SEE_ALSO>
+   <SEE_ALSO_ITEM> <LINK>imread</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>imwrite</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>imfinfo</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>Matplot</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>xgetpixel</LINK> </SEE_ALSO_ITEM>
+</SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

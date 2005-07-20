@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>dilate</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="dilate">Morphological dilation of binary images</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>E = dilate(Img, [SE, center])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Binary image to be dilated. (0 for background, 1 for object)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>SE</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Arbitrary structuring element represented as a binary array. Defaults to M x N Binary dilated image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>center</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       origin of structuring element. Shold be within image dimensions. Defaults to the center of the SE array.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>E</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Binary dilated image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function dilate performs morphological dilation of a binary image <TT>Img</TT> using <TT>SE</TT> as the structuring element. </P>
+   </DESCRIPTION>
+<EXAMPLE><![CDATA[
+   Img = imread(SIPDIR+'images/tru.jpg');
+   Img = 1-im2bw(Img, 0.3);
+   Img = thin(Img);
+   xbasc()
+   imshow(Img, 2);
+
+   e = dilate(Img);
+   xbasc()
+   imshow(e, 2);
+
+   SE = eye(10,10);
+   e = dilate(Img, SE, [1,1]);
+   xbasc()
+   imshow(e, 2);
+]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<REMARKS>
+The algorithm is fully functional, but there
+exists many better ones. The present implementation 
+will certainly change, but the interface
+shall remain unaltered.
+</REMARKS>
+<!-- ================================= -->
+<BIBLIO>
+<P>
+"Morphological Algorithms", Luc Vincent, in
+"Mathematical Morphology in Image Processing", 
+Ed. Marcel Dekker, 1993.
+</P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>erode</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edilate</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwdist</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>watershed</LINK>(example)</SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

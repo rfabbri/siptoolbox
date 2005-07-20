@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imnoise</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imnoise">Generate noise (salt &amp; pepper, etc)</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>J = imnoise(I, type [,parameters])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>I</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Input image (grayscale).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>J</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Noisy image (grayscale).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>type</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       String having one of these values:
+       <PARAM_INDENT>
+      <PARAM_ITEM>
+         <PARAM_NAME>'salt &amp; pepper'</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            drop-out/On-off noise
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>'speckle'</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            multiplicative noise
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>'gaussian'</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            Gaussian white/additive noise
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>'localvar'</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            Pixel-specific  variance  (Zero-mean Gaussian
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+       </PARAM_INDENT>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>parameters</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        A sequence of parameters to control the noise distribution, depending on the chosen type. If omitted, default values are used (see below).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ imnoise(Img, type) adds a type of noise to the intensity  image Img. Optionally, you can control the noise parameters starting at the 3rd. argument to imnoise. Here are  example of noise types and their params: </P>
+   <P>
+ J = imnoise(I,&apos;salt &amp; pepper&apos;,d) adds drop-out noise,  where d is the noise density (probability of swapping a  pixel). (default: d=0.05). </P>
+   <P>
+ J = imnoise(I,&apos;salt &amp; pepper&apos;, d, val) does the same, but  "val" is the value of salt (defaults to maximum of image).  If "val" == 0, then pixels are replaced by uniformly random gray values. </P>
+   <P>
+ J = imnoise(I,&apos;gaussian&apos;,m,v) adds Gaussian additive noise  of mean m and variance v. (default: m=0 and v=0.01) </P>
+   <P>
+ J = imnoise(I,&apos;localvar&apos;,V) additive zero-mean Gaussian  noise where the variance at Img(i,j) is V(i,j). </P>
+   <P>
+ J = imnoise(I,&apos;speckle&apos;,v) adds multiplicative noise,  using J = I+ noise*I, where noise is uniformly distributed  with mean 0 and variance v. (default: v=0.04) </P>
+   <P>
+ The mean and variance parameters are specified as if image  intensities went from 0 to 1. By default, we consider that  "1" corresponds to the maximum intensity value of the  image. If you want to change this for &apos;gaussian&apos; and  &apos;speckle&apos;, pass an extra parameter at the end of the argument list. For instance, your image may have maximum  intensity 180 even though the grayscale range is 0-1: </P>
+   <P>
+ J = imnoise(I,&apos;gaussian&apos;, m, v, val) </P>
+   <P>
+ J = imnoise(I,&apos;speckle&apos;, v, val) </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   xset('auto clear', 'on');
+   A = gray_imread(SIPDIR + 'images/gra.jpg');
+   imshow(A);
+
+   N = imnoise(A,'salt & pepper');
+   imshow(N,[]);
+
+   N = imnoise(A,'salt & pepper',0.3);
+   imshow(N,[]);
+
+
+   // Replace pixel by independent random value:
+   N = imnoise(A,'salt & pepper',0.3,0);
+   imshow(N,[]);
+
+   // Replace pixel by *dependent* random value:
+   N = imnoise(A,'speckle');
+   imshow(N,[]);
+
+   xset('auto clear', 'off');
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Noise Generation", The Hypermedia Image Processing Reference
+(HIPR), R. Fisher, S. Perkins, A. Walker and E. Wolfart,
+University of Edinburgh:
+   </P>
+   <P><A href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/">http://homepages.inf.ed.ac.uk/rbf/HIPR2</A></P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>mogrify</LINK>&apos;-noise&apos;flag</SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm2d</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

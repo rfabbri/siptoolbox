@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>im2gray</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="im2gray">Converts color images or colormaps to grayscale</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>GrayImg = im2gray(RGBImg)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>GrayImg = im2gray(index, map)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>GrayMap = im2gray(RGBColormap)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>RGBImg</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N x 3 truecolor image in any range.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>RGBColormap</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        M x 3 colormap in RGB colorspace.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>index</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       and map M x N indexed image and its M x 3 colormap.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>GrayImg</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        M x N intensity image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>GrayMap</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        M x 3 colormap.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function <TT>im2gray</TT> converts RGB images, indexed images and RGB colormaps to grayscale. This is accomplished by converting these objects to YIQ colorspace, make the I and Q channels equal to zero, and finally converting back to RGB colorspace. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+       Img = imread('tru.jpg');
+       Img = im2gray(Img);
+       xbasc()
+       imshow(Img);
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>im2bw</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>rgb2ntsc</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

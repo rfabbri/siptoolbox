@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>mkfftfilter</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="mkfftfilter">Builds 2D frequency-domain filters</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>transfer_function = mkfftfilter(image,filtername,frequency1[,frequency2])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A gray-level image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>filtername</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         a string, the name can be &apos;binary&apos;,
+         &apos;butterworth1&apos;, &apos;butterworth2&apos;, 
+         &apos;exp&apos;, &apos;gauss&apos;, or &apos;trapeze&apos;
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>frequency1</PARAM_NAME> and
+         <PARAM_NAME>frequency2</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+         1st and 2nd cut-off frequencies which set the filter characteristics.
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>transfer_function</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        is a matrix with values between 0 and 1. These values can then be applied on the fft spectrum of an image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ This function gives some popular filters to be applied on  the spectrum (fft) of an image. </P>
+   <P>
+ The Fourier Transform gives informations about which frequencies are present in a signal (=spectrum). </P>
+   <P>
+ A great property of the spectrum is that the original  image can be reconstructed from it. Of course, modifications in the spectrum will result in a modified image, but  spectrum modifications can be easier and more intuitive. </P>
+   <P>
+ A combination of several filters is possible. </P>
+   <P>
+ All these filters are cylindrical and act only on amplitude (not on phase). The following filters are available  (h is the trasfer function): </P>
+   <P>
+ h=1/(1+(f/frequency1)^(2*n)) n=1,2 or 3 for &apos;butterworth1&apos;, &apos;butterworth2&apos; or &apos;butterworth3&apos;. </P>
+   <P>
+ The exponential filter: h=exp(-(f/frequency1)^1); </P>
+   <P>
+ The gaussian filter which is a particular case of the  exponential: h=exp(-(f/frequency1)^2); </P>
+   <P>
+ h=1 if f&lt;=frequency1 h=-(f-frequency2)/(frequency2-frequency1) h=0 if f&gt;=frequency2 </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   stacksize(4e7); // increase the stack size because 
+                   // images are very much memory consumming
+
+   image=gray_imread(SIPDIR+'images/ararauna.png');
+   xset("window",0);xbasc();imshow(image);
+   xtitle("Original Image");
+
+   IM=fft(image,-1);
+
+   //calculate the power spectrum
+   spectrum=real((IM).*conj(IM));
+   //for visualisation: the low frequencies are moved to the center of the image
+   //with sip_fftshift,
+   //the use of log(spectrum+1) allows to observe great amplitude variations.
+   xset("window",1);xbasc();imshow(sip_fftshift(log(spectrum+1)),[]);
+   xtitle("Power Spectrum");
+
+   //transfer function
+   h=mkfftfilter(image,'binary',20);
+   xset("window",2);xbasc();imshow(h);
+   xtitle("Transfer Function");
+
+   IM2=IM.*sip_fftshift(h);//spectrum modification
+
+   //reverse transform
+   im2=real(fft(IM2,1));
+   xset("window",3);xbasc();xselect();imshow(im2,[]);
+   xtitle("Low-pass binary filtering");
+
+   //High-pass filter
+   IM3=IM.*sip_fftshift(1-h);//spectrum modification with (1-h)
+   im3=real(fft(IM3,1));
+   xset("window",4);xbasc();xselect();imshow(im3,[]);
+   xtitle("High-pass binary filtering");
+
+   //Combination of 2 filters
+   h1=mkfftfilter(image,'binary',30);
+   h2=mkfftfilter(image,'binary',5);
+   h=h1-h2;
+   IM4=IM.*sip_fftshift(h);//spectrum modification
+   im4=real(fft(IM4,1));
+   xset("window",5);xbasc();xselect();imshow(im4,[]);
+   xtitle("Band-pass binary filtering");
+   ]]></EXAMPLE>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Jocelyn"> Jocelyn Druel &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>sip_fftshift</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm2d</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imconv</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+
+
+</MAN>
+
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

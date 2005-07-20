@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>hello_sip</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="hello_sip">Learn to add your own C routine to SIP</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>sum = hello_sip(a,b)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>a</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       double-precision scalar
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>b</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       double-precision scalar
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>c</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       double-precision scalar
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ "hello_sip" is a very simple example routine. The aim is that new developers know quickly how to add a new C-language implemented function to SIP. </P>
+   <DESCRIPTION_INDENT>
+   <DESCRIPTION_ITEM label="hello_sip(a,b)">
+ simply returns <TT>a</TT> + <TT>b</TT> through a C routine.
+   </DESCRIPTION_ITEM>
+   </DESCRIPTION_INDENT>
+   <P>
+ The following files in the SIP sourcecode tree are related to the implementation of hello_sip: </P>
+
+<!-- ====== CONFERIR, esta por minha conta baseado no hello_sip.man ======== -->
+<VERBATIM>
+    src/hello_int.c -- 
+        interfaces C to Scilab
+    config/libsip_build.sce -- 
+        specifies the interface source files and scilab name; this
+        script is ran by Scilab to compile the interface C routines
+        into a shared library.
+
+From AnImaL (aminal.sourceforge.net), 
+    animal/hello.c -- 
+        routine that returns a+b
+    animal/hello.h -- 
+        header with the prototype of hello
+    animal/animal.h 
+        general header for the internal C library
+
+</VERBATIM>
+   </DESCRIPTION>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+<REMARKS>
+   <P>
+In the SIP source tree, start with the "hello.c" file inside the
+directory "src".
+</P><P>
+Obsolete: Figure 1 of the first SIP monograph
+(written in portuguese), which may be found in the SIP home page.
+SIP now uses an independent computer vision library, AnImaL, for its internal
+processing. See:
+</P>
+<P><A href="http://animal.sourceforge.net">http://animal.sourceforge.net</A></P>
+<P>
+Moreover, in the scilab source tree, the directories
+"examples/interface-tour-so" and "examples/interface-tutorial-so"
+provide detailed information on interfacing C and Scilab.
+</P>
+</REMARKS>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

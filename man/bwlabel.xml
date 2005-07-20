@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>bwlabel</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="bwlabel">Connected component labeling</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[L, n] = bwlabel(img [, nhood])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A binary image, where 0 stands for background.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>nhood</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A scalar. The connectivity to consider in the algorithm. May be 4 or 8. Defaults to 8.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>L</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ A matrix of the same size as <TT>img</TT>, with the pixels of each connected object having the same number. The numbers vary from 1 to <TT>N</TT>, where <TT>N</TT> is the number of connected objects. The background is numbered 0.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>n</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       The number of connected components. Equals to <TT>maxi(L)</TT>.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function <TT>bwlabel</TT> numbers all the objects in a binary image. One common application is to filter out objects that have less than a certain ammount of pixels. See the examples. </P>
+   <P>
+ You can use the Scilab find function in conjunction with
+ <TT>bwlabel</TT> to return vectors of indices for the pixels that
+ make up a specific object. For example, to return the coordinates
+ for the pixels in object 3: </P>
+ <VERBATIM>
+    [r,c] = find(bwlabel(BW)==3)
+ </VERBATIM>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   //
+   // EXAMPLE 1
+   //
+
+   Img =[0     0     0     0     0     1     1
+         0     1     1     0     0     1     1
+         0     1     1     0     0     1     1
+         0     0     0     1     0     1     1
+         0     0     0     1     0     1     1
+         0     0     0     1     0     1     1
+         0     0     1     1     0     1     1
+         0     0     0     0     0     1     1];
+
+   L = bwlabel(Img,4)
+
+   // Objects 2 and 3 are connected if 8-connectivity is used:
+
+   L = bwlabel(Img) // default: 8-connectivity
+
+   [r,c] = find(L==2);
+
+   rc = [r' c']     // coordinates of object 2!
+
+
+   //
+   // EXAMPLE 2
+   //
+   xset('auto clear', 'on');
+
+   a = gray_imread(SIPDIR + 'images/disks.bmp');
+
+   // Add some noise
+   //
+   a = imnoise(a,'salt & pepper'); 
+   a = 1-a;
+   imshow(a,2);  // convention: objects are white(1)
+
+   // Label every connected component with a unique number.
+   //
+   [L, n] = bwlabel(a);
+
+   // Shows each component with a different color
+   //
+   imshow(L+1, rand(n+1,3));
+
+   // Get one specific region (probably a single noise point)
+   reg = (L == 300);
+   imshow(reg*1, 2);
+
+   // Eliminate regions smaller than 100 pixels (noise)
+   // and those larger than 1000 pixels (cluttered disks)
+   for i=1:n
+      f = find(L==i);      // linear coordinates of i-th region
+      reg_size = size(f,'*');
+      if reg_size < 100 | reg_size > 1000
+         L(f) = 0;         // merge small regions with the background
+      end
+   end
+
+   imshow(L+1, rand(n+1,3));   // note how the small regions are gone
+
+
+   // Just as a side-activity, let's fill the unwanted holes:
+
+   bw = 1*(L>0);  // binarize the image
+   imshow(bw,2)
+   bw = dilate(bw);
+   bw = erode(bw);
+   imshow(bw,2);  // every hole is now filled
+
+   xset('auto clear', 'off');
+   ]]></EXAMPLE>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+We use a simple stack-based flooding implementation written in C,
+but there exist many faster algorithms. The flood/fill region growing process may be found in most books of imaging science. For instance:
+   </P>
+   <P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press,
+pp. 335-347.
+   </P>
+   <P>
+Example of fast algorithm (not implemented):
+   </P>
+   <P>
+Haralick, Robert M., and Linda G. Shapiro, Computer and Robot Vision, Volume I, Addison-Wesley, 1992, pp. 28-48. 
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>bwborder</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>erode</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>dilate</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>watershed</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

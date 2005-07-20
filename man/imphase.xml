@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imphase</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imphase">Image phase calculation.</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>phase_value = imphase(formula_name,thresh,im1,im2,im3[,im4,im5])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>phase_value</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        a 2D array containing the calculated phase (between (-%pi) and (+%pi)).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>formula_name</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        a string, the name of the formula to use to calculate the phase. 
+May be
+	<PARAM_INDENT>
+	    <PARAM_ITEM>
+	      <PARAM_NAME>&apos;bucket3a&apos;</PARAM_NAME> 
+	      <PARAM_DESCRIPTION>
+ 3 images, phase_shift=(%pi/2)
+	      </PARAM_DESCRIPTION>
+	    </PARAM_ITEM>
+	    <PARAM_ITEM>
+	      <PARAM_NAME> &apos;bucket3b&apos;</PARAM_NAME>
+	      <PARAM_DESCRIPTION>
+ 3 images, phase_shift=(2*%pi/3)
+	      </PARAM_DESCRIPTION>
+	    </PARAM_ITEM>
+	    <PARAM_ITEM>
+	      <PARAM_NAME> &apos;bucket3c&apos;</PARAM_NAME>
+	      <PARAM_DESCRIPTION>
+3 images, phase_shift=(2*%pi/3)
+	      </PARAM_DESCRIPTION>
+	    </PARAM_ITEM>
+	    <PARAM_ITEM>
+	      <PARAM_NAME> &apos;bucket4a&apos;</PARAM_NAME>
+	      <PARAM_DESCRIPTION>
+4 images, phase_shift=(%pi/2)
+	      </PARAM_DESCRIPTION>
+	    </PARAM_ITEM>
+	    <PARAM_ITEM>
+	      <PARAM_NAME> &apos;bucket5a&apos;</PARAM_NAME>
+	      <PARAM_DESCRIPTION>
+5 images, phase_shift=(%pi/2)
+	      </PARAM_DESCRIPTION>
+	    </PARAM_ITEM>
+	    <PARAM_ITEM>
+	      <PARAM_NAME> &apos;bucket5b&apos;</PARAM_NAME>
+	      <PARAM_DESCRIPTION>
+5 images, phase_shift=(%pi/2)
+	      </PARAM_DESCRIPTION>
+	    </PARAM_ITEM>
+    </PARAM_INDENT>
+	</PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>threshold</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        if the difference for a pixel between 2 images is less than this threshold, than this pixels is considered to be belong to the background. matrix containing an image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>im1</PARAM_NAME>
+      <PARAM_NAME>im2</PARAM_NAME>...
+      <PARAM_DESCRIPTION>
+         matrices containing images.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ imphase calculates the phased image resulting from the  combination of several phase-shifted pictures. </P>
+   <P>
+ This function is used in profilometry (or in interferometry) to calculate the phase on any point of an image. The  elevation of a point is proportionnal to the calculated of  this point. </P>
+   <P>
+ Here is a usual method for proceeding: 
+</P>
+<P>
+ 1) Fringes are projected on a reference plane, perpendicular to a CCD camera.
+</P>
+<P>
+  2) A 1st image is taken with the CCD camera. 
+</P>
+<P>
+ 3) Fringes are deplaced from a quarter of an interfringe  (in this case, phase shift = %pi/2)  
+</P>
+<P>
+4) A 2nd image is taken. And so on...  
+</P>
+<P>
+5) The phased image(phref) is calculated from these  images. 
+Several algorithms exist depending on the phase shift (often (2*%pi/3) or (%pi/2)) and the number of images available.
+
+
+ </P>
+   <P>
+ 6) Repeat the same operations with an object instead of  the reference plane.
+ Calculate (phobj): the phased image  for the object.  
+</P>
+<P>
+7) Unwrap (phref) and (phobj) in (uwphref) and (uwphobj).  
+</P>
+<P>
+8) The altitude map is proportional to (uwphobj)-(uwphref) </P>
+   <P>
+ Using five images (when it is possible) should lead to  better phase calculation. </P>
+<P>
+An alternative method is to substract (phobj-phref) modulo 256 (if all images
+are 8bit) and only then unwrap the resulting image:
+in this case, there is only one unwrapping process.
+</P>
+
+   <P>
+Bellow are the formula used: 
+</P>
+<P>
+'bucket3a': phase shift is 90 degres ;
+usage: general purpose (vibration environnements) ; 
+phase=arctan((i3-i2)/(i1-i2))
+ </P>
+   <P>
+'bucket3b': phase shift is 120 degres ; 
+usage: general purpose (vibration environnements) ; 
+p1=2*(%pi/3);p2=2*p1 ;
+phase=arctan(((i3-i2)+(i1-i3)*cos(p1)+(i2-i1)*cos(p2))/
+            ((i1-i3)*sin(p1)+(i2-i1)*sin(p2)))
+
+</P>
+   <P>
+'bucket3c': phase shift is 120 degres ; 
+usage: general purpose (vibration environnements) ; 
+phase=arctan((sqrt(3)*(i3-i2))/(2*i1-i2-i3))
+ </P>
+   <P>
+'bucket4a': phase shift is 90 degres ; 
+usage: general purpose ; 
+phase=arctan((i4-i2)/(i1-i3))
+</P>
+   <P>
+'bucket5a': phase shift is 90 degres ;
+usage: phase shift correction (Hariharan) ; 
+phase=arctan((2*(i4-i2))/(i1-2*i3+i5))
+ </P>
+   <P>
+'bucket5b': phase shift is 90 degres ; 
+usage: enhanced phase shift error correction (Creath/Schmit) ;
+phase=arctan((i1-4*i2+4*i4-i5)/(i1+2*i2-6*i3+2*i4+i5))
+ </P>
+   <P>
+ Note about Object mask: If the value of a pixel doesn&apos;t  vary more than the threshold between two images, than we  consider that this pixel is in the background (and not on  the object on which we project fringes), and we give it  the phase = 0 radian. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   As all this may not be easy for people unused to these
+   concepts of phase shifting and phase unwrapping,
+   here is a very detailled (and long) example:
+   all the steps (1 to 8) above are illustrated.
+   I found more useful for this example to show how to simulate 
+   several objects
+
+
+   //begin
+   stacksize(4e7);//much memory needed to treat pictures
+
+   nb=6;//number of black fringes on the reference plane
+   step=0.02;//definition of the image
+   theta=%pi/6;//fringes are projected on the object
+   //with this angle (compared to the vertical)
+   //(nb:this script doesn't consider shadows which can occur in real cases) 
+
+   xmax=5.3;
+   x=0:step:xmax;
+   p=(xmax/nb)/cos(theta);//distance between two black fringes
+   //projected on a plane perpendicular to the camera
+   //(=interfringe seen from the camera)
+   y=ones(x);
+   plan=(x'*y)';//matrix defining the reference plane
+
+
+
+   //Now we choose an altitude for each point of the plane:
+   //Below is the simulation of 3 common objects:
+   //a gaussian, a wedge and a pyramid.
+   //just uncomment the one you want (here: pyramid)
+
+
+   //Simulation of a gaussian object:
+   //size_gauss=1.5;//parameter to have a gaussian object large or narrow
+   //amplitude=5;//maximal height of the object
+   //relief_line=exp((-(x-2.5).^2)/size_gauss);//these functions can be adapted to 
+   //relief_column=exp((-(x-2.5).^2)/size_gauss);// simulate any object you want
+   //z=amplitude*relief_column'*relief_line;//compute altitude
+
+
+   //Simulation of a prism (or a wedge): because of the dicontinuities 
+   //the unwrapping process will make an error in shape reconstitution
+   //relief_line=ones(x); 
+   //start_point=56;//the prism begins on column 56
+   //relief_line(start_point:$)=2*(x(start_point:$)-x(start_point))...
+   //                                   +relief_line(start_point-1);
+   //relief_column=ones(x);
+   //z=relief_column'*relief_line;//compute altitude
+   //z(1:54,:)=ones(z(1:54,:));//the prism is only between
+   //z(100:$,:)=ones(z(100:$,:));//lines 55 to 99
+
+
+   //Simulation of a pyramid
+   relief_line=ones(x); 
+   start_point=floor(size(x,'c')/2);//the pyramid is centered in the picture
+   relief_line(1:start_point)=2*(x(1:start_point)); 
+   relief_line(start_point:$)=-2*(x(start_point:$)-x(start_point))...
+                                       +relief_line(start_point-1); 
+   relief_column=ones(x);
+   relief_column(1:start_point)=2*(x(1:start_point)); 
+   relief_column(start_point:$)=-2*(x(start_point:$)-x(start_point))...
+                                       +relief_column(start_point-1); 
+   //compute altitude:
+   z=relief_column'*ones(relief_line)+ones(relief_column)'*relief_line;
+
+
+   //phase calculation
+   phref=2*%pi*(plan/p);//phase of reference (phase of the points of
+   //the reference plane)
+   phobj=2*%pi*(plan+z*tan(theta))/p;//phase of the points of the object
+
+
+   //simulate 4 images shifted with (%pi/2) for the reference plane
+   //and calculate the phased image
+   phi=phref;
+   image=zeros(phi);
+
+   for a=1:4
+   dephi=(a-1)*%pi/2;//phase shift=(%pi/2)
+   lum=127.5*(1+cos(phi+dephi));//calculate luminance of the image
+   image(:,:,a)=lum;
+   end
+
+   //phase calculation for the reference plane
+   ph1=imphase('bucket4a',0,image(:,:,1),image(:,:,2),image(:,:,3),image(:,:,4));
+
+
+   //simulate 4 images shifted with (%pi/2) with fringes projected on the object
+   phi=phobj;
+   image=zeros(phi);
+
+   for a=1:4
+   dephi=(a-1)*%pi/2;//phase shift=(%pi/2)
+   lum=127.5*(1+cos(phi+dephi));//calculate luminance of the image
+   image(:,:,a)=lum;
+   end
+
+   //phase calculation for the object
+   ph2=imphase('bucket4a',0,image(:,:,1),image(:,:,2),image(:,:,3),image(:,:,4));
+
+
+
+   //display the original object on which we projected fringes
+   xset("window",0);xbasc();
+   plot3d1(1:8:size(z,'r'),1:8:size(z,'c'),z(1:8:$,1:8:$));
+   xtitle("original object: relief");
+
+   //display one of the images with fringes
+   xset("window",1);xbasc();imshow(image(:,:,1)/maxi(image(:,:,1));
+   xtitle(['one of the original images:';'friges are projected on the object']);
+
+   //display the phased image of the object
+   xset("window",2);xbasc();
+   imshow((ph2+%pi)*(1/(2*%pi)));xtitle('image of phase for the object');
+
+
+
+   //Now we verify if what we've done is correct:  
+   //we exploit the phased images to find again the profile of the object:
+   //1st step is phase unwrapping:
+   disp('phase unwrapping: be a bit patient');
+   //unwrap the phase corresponding to the referenc plane:
+   uwphref=unwrapl((ph1+%pi)*(127.5/%pi));
+   //unwrap the phase corresponding to the object:
+   uwphobj=unwrapl((ph2+%pi)*(127.5/%pi));
+
+
+   //2nd step:the difference of unwrapped phases is 
+   //proportionnal to the altitude z
+   uwpht=uwphobj-uwphref;
+   //3rd step: display
+   xset("window",3);xbasc();plot3d1(1:size(uwpht,'r'),1:size(uwpht,'c'),uwpht);
+   xtitle(['phase reconstituted from the wrapped phases';
+           'this phase is proportionnal to altitude']);
+       
+   //end
+   ]]></EXAMPLE>
+
+
+<!-- ================================= -->
+<BIBLIO>
+<P>
+software FRINGE ANALYSIS by HOLO3 (St Louis, FRANCE)
+</P>
+<P>
+software INTELLIWAVE by engsynthesis
+</P>
+<P>
+"Modelisation de forme 3D par methode de moire de projection
+et analyse par decalage de phases", 
+Cyril Breque and Fabrice Bremand
+</P>
+<P>
+"Metrologie optique par decalage de phase",
+Yves Surrel,conservatoire national des arts et metiers
+</P>
+<P>
+A google search with keywords: phase shifting interferometry or 
+moire or phase unwrapping should lead to good introductory documents
+on the subject.
+</P>
+</BIBLIO>
+
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapl</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>unwrapp</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>poledetection</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

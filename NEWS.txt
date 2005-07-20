@@ -1,0 +1,3 @@
+please see "ChangeLog.txt" file or the 
+"News" section of the sip homepage:
+http://siptoolbox.sourceforge.net

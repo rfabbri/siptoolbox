@@ -1,0 +1,158 @@
+MINGW BUILD
+-----------
+
+MinGW (Minimallist GNU for Windows) is a set of development tools for 
+generating native Windows code. It enables you to compile this toolbox 
+using configure and make, similar to Unix. 
+
+There are some specific things that you must set up by hand in
+order to compile this toolbox with MinGW. The whole process consists 
+in the following steps
+
+o  Vist www.mingw.org, download and install the following packages:
+   MinGW, MSYS, and MSYS-DTK
+
+o  Your scilab installation must be in c:\scilab (/c/scilab in MSYS), 
+   because this path is hardcoded in the build process.  Please move 
+   your scilab installation to that place or else put an entry in the 
+   /etc/fstab file inside MSYS.  You can also pass the SCIDIR variable 
+   in the configure.ac file but this was not tested. 
+
+o  Your ImageMagick (IM) installation must be in  c:\imagemagick 
+   (/c/imagemagick in MSYS). You can also pass the MAGICK_DIR var to 
+   configure but this was not tested. The IM directory must also 
+   contain the DLLs. For this, you have to check an option to 
+   install C development stuff while installing it.
+
+o  In /c/imagemagick, add a "lib" prefix to all DLLs:
+
+      for i in *.dll; do cp $i lib$i; done
+
+   I think this could be avoided but I don't know how. Anyway, 
+   it works.
+
+   NOTE: one must make sure that ImageMagick's import libs are not 
+   used because they are incompatible with the GNU linker. Compilation 
+   must see only the dlls, and proper import libs will be generated 
+   automatically during the build process.
+
+o  Install the Animal library just like you would in Unix:
+      
+      ./configure
+      make 
+      make install
+
+o  Inside /c/scilab/bin (MSYS path), we must rename the libraries 
+   "LibScilab.*" to lowercase. Even though Windows is case 
+   insensitive, the uppercase prefix "Lib" causes problem to programs 
+   inside MSYS.  This step can be quickly done inside the MSYS shell 
+   typing this:
+
+      mkdir /tmp/scilibs
+      mv /c/scilab/bin/LibSci* /tmp/scilibs
+      cd /tmp/scilibs
+      for i in `ls Lib*`; do
+         mv $i /c/scilab/bin/`echo $i | tr A-Z a-z`;
+      done 
+
+o  Enter the toolbox's toplevel directory, and type:
+
+      ./configure
+      make
+      make install
+
+o  For some versions of libtool/automake you may have to install the 
+   DLL of the toolbox by hand:
+
+      cp src/.libs/libsip*.dll /c/scilab/contrib/sip/lib/libsip.dll
+
+o  From a Unix/Linux installation (e.g. the linux binaries), 
+   manually copy all the macros/*, man/*, images/*  to the 
+   corresponding directory /c/scilab/contrib/ . No, we did not pretend 
+   to build the help and macro files under Windows, but it can be 
+   done if scilab can be called from the commandline.
+
+o  Rename "dll" in loader_include.sce???
+
+Now enter Scilab and execute the "loader.sce" script placed in the 
+directory where the toolbox was installed.
+
+
+
+
+===================================
+DEVELOPER's NOTES
+The port using MinGW is not completely done yet. These are just some informal 
+notes to some developers.
+
+
+Informal Notes
+==============
+
+DOING
+
+->> Redo the steps, documenting more details and perfecting build/installation scripts
+   ->> libsip stopped working <<
+
+      - I cannot compile the latest SIP: 
+         undefined reference to animal_err_set_trace
+
+      - config files: solved with MAGICK_CONFIGURE_PATH
+      - modules: have to recompiled imagemagick without the "installed" option.
+
+   - reinstall each component
+   - ATTEMPT: use link to load libraries one by one, as in our Linux binaries
+      - hey this doesn't seem to be working
+
+- If the ImageMagick installation directory is removed/moved, everything stops!
+   - but also the ImageMagick DLLs must be in the same directory of the
+     executables!
+   - TEST: in magick-hello, try to see if it still runs, even after renaming the
+     directory /c/imagemagick.
+   
+- DLL cannot find imagemagick config files other than the installed ones
+   - nasty solution: set the path in autoexec -- but user has reboot computer :(
+   - other option: edit registry
+   - yet another option: change s fontes do imagemagick
+      - it is a pain to recompile ImageMagick under windowze
+   - another option: try GraphicsMagick
+
+TODO - Build System
+- setenv only works in unix
+- #define compression...  0
+- dont use imagemagick's lib directory:
+   -L/imagemagick/ instead of /imagemagick/lib
+
+TODO - Software itself
+- Clear is not being issued in windowz- images are being overposed in the new
+  graphics mode
+   - try old mode
+   - try to find the cause/ report bug
+   - see if imshow's EXAMPLE works
+
+After compiled:
+- copy man/*  sci/* generated and installed in Linux 
+   (to generate them seamlessly under windows is a pain)
+   - maybe change configure so that these directories are taken into account on
+     Windows
+
+- libsip.dll is not installed by libtool
+   - maybe do a install-hook?
+
+----------------------------------------
+----------------------------------------
+
+
+
+Miscellaneous Hints
+===================
+
+If you want to compile ImageMagick using MinGW, here are some hints:
+
+- mingw-delegates (in sip's SourceForge file archive) 
+   - unpack it in mingw dir
+
+- Speed up ImageMagick compilation by using:
+   ./configure --without-magick-plus-plus
+
+

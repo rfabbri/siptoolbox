@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>watershed</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>February 2004</DATE>
+<SHORT_DESCRIPTION name="watershed">image segmentation with markers</SHORT_DESCRIPTION>
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>w = watershed(img [,markers, nhood])</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<PARAM>
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>img</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    Grayscale image array. Preferably the gradient of the image to segment.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>markers</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+     image with the markers (seeds). Each mark must have a unique
+     label from 1 to N, where N is the number of marks. If
+     <TT>markers</TT> is &apos;-1&apos; or omitted, then the regional
+     minima of <TT>im</TT> will be taken as the markers.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>nhood</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    A scalar. The connectivity to consider in the algorithm. May be 4 or 8, for 4-neighborhood or 8-neighborhood, resp.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>w</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    image with the watershed regions (catchment basins), each with a unique number, from 1 to N. The elements labeled 1 belong to the first watershed region, the elements labeled 2 belong to the second basin, and so on. If markers != -1 or is omitted, the regions will have the same label as the corresponding supplied markers.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM_INDENT>
+</PARAM>
+<DESCRIPTION>
+<P>
+   Function <TT>watershed</TT> computes the Watershed transform for
+   image segmentation. This operation is also known as morphological
+   sup-reconstruction. It is a region-growing  algorithm which
+   partitions the image into regions around  each marker. Read
+   the references or search the Internet  for more theoretical
+   information. </P>
+<P>
+   In the example we show a useful application of this operator:
+   separation of overlapping objects. 
+</P>
+</DESCRIPTION>
+<EXAMPLE><![CDATA[
+   // Suppose we have an image of many round or oval objects, such as a 
+   // microscope image of blood cells.  After thresholding the image, we
+   // end up with a binary image like this:
+
+   xset('auto clear', 'on');
+   a = gray_imread(SIPDIR + 'images/disks.bmp');
+   imshow(a,2);
+
+   //
+   // We want to make the computer count the number of cells in the image, 
+   // but there are some circles that are overlapping, thus forming a single 
+   // connected component. Watershed is classically used for separating
+   // mingled objects like these. 
+   //
+   // First, calculate the distance transform:
+
+   a = 1-a;
+   d = bwdist(a);
+   d = normal(sqrt(d),255);   // normalize it to 0-255 range
+   imshow(d+1, hotcolormap(256));   
+
+   //
+   // The latter command shows the distance transform in shades from
+   // black to red to yellow to white. The brighter the color, the
+   // greater the distance of a point to the background.
+   // If you have the ENRICO toolbox, you can nicely plot the distance
+   // transform in 3D using sadesurf. ENRICO is not necessary for this
+   // example, but anyway you may download it at:
+   //       http://www.weizmann.ac.il/~fesegre/scistuff.html
+   //
+   // Note that the peaks of the distance transform are in the middle of
+   // each blob. The idea is to run watershed segmentation using these
+   // peaks as markers. For this, we invert the distance transform so
+   // that the peaks become the regional minima:
+
+   d = 255 - d;
+   imshow(d+1, hotcolormap(256));
+
+   // Now we "and" the distance transform with the original image, so
+   // that the background remains dark.
+
+   d = d .* a;
+   imshow(d+1,hotcolormap(256));
+
+   // Finally, run watershed segmentation. It automatically detects the
+   // regional minima for us:
+
+   w = watershed(d/255);   // input to watershed must be in 0-1 range
+   imshow(w, rand(256,3));
+    
+   // 'w' is an image with a unique number for each watershed region.
+   // The imshow with a random colormap displays each region with a
+   // unique arbitrary color. Note how the regions were correctly separated by
+   // watershed, except for the hardest cases. It is extremely easy to
+   // count the number of regions:
+
+   n = maxi(w) - 1     // 26 regions minus the background
+
+   // The computer found 25 regions, but there are 20, an error of about 20%
+   // Let's improve this result. In the cases with many overlapping
+   // circles, the result would be perfect if it weren't for the small
+   // spurious regions. These are much smaller than the circles,
+   // so we can safely eliminate the regions with less than 100 pixels:
+
+   w2 = w;
+   for i=1:n
+      f = find(w==i);        // coordinates of i-th region
+      if size(f,'*') < 100
+         w2(f) = 26;         // merge small regions with the background
+      end
+   end
+
+   imshow(w2, rand(256,3));   // note how the small regions are gone
+
+   // Now we count again, using a different way:
+
+   n = size( unique(w2), '*') - 1    // subtract 1 for the background
+
+   // Now it's 100% correct! We have an authomatic method wich is surprisingly 
+   // robust. This is specially useful to deal with bigger images in large 
+   // ammount. 
+   //
+   // Enjoy!
+   //
+   // TIP #1: Another way to improve the results is to do a median
+   // filtering of the distance transform. This will remove many spurious
+   // minima. Use mogrify(img, ['-median', '2']). Slight Gaussian smoothing also
+   // works well.
+   //
+   // TIP #2: for grayscale image segmentation, calculate the image
+   // gradient before watershed. Use edge(img,'sobel',-1) for this.
+   //
+   // TIP #3: use xgetpixel in a for loop (or something similar) to select
+   // the seed pixels to be used with watershed segmentation.
+
+   xset('auto clear', 'off');
+]]></EXAMPLE>
+<!-- ================================= -->
+<BIBLIO>
+<P>
+"The Image Foresting Tranform: Theory, Algorithms, and Applications"
+A.X. Falcao, R.A. Lotufo, and J.Stolfi, IEEE T. Pattern Analysis and
+Machine Intelligence, (accepted for publication). 
+</P>
+<P>
+The IFT home page and the GIFT free software: 
+</P>
+<P>
+<A href="http://www.ic.unicamp.br/~afalcao/ift.html">http://www.ic.unicamp.br/~afalcao/ift.html</A>
+</P>
+<P>
+The original algorithm certainly that of Vincent and Soille, although
+it differs from the one we used in SIP/Animal:
+</P><P>
+"Watersheds in digital spaces: an efficient algorithm based on
+immersion simulations." IEEE T. Pattern Analysis and Machine
+Intelligence, 1991.
+</P>
+</BIBLIO>
+<!-- ================================= -->
+<AUTHORS>
+<AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwdist</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>xgetpixel</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mogrify</LINK>(-segment option)</SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>im2bw</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

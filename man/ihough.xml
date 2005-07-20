@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>ihough</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="ihough">Inverse hough transform</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>im = ihough(ht,dims)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>ht</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ binarized Hough transform accumulation matrix. <TT>Rho</TT> varies along rows; <TT>theta</TT> varies along columns. <TT>Theta</TT> range is 0-179 degrees w/ 180 samples.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>dims</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ vector with the size of the output image. Can be the output of the <TT>size</TT> routine.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>im</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       binary image with digital straight lines
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+    </PARAM_INDENT>
+    </PARAM>
+
+   <DESCRIPTION>
+   <P>
+ Function ihough calculates the inverse hough transform of a binary image. It takes as input a binarized hough image, and draws the corresponding digital straight lines in the output image. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       Cf. help page for hough.
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Digital Image Processing Algorithms", I. 
+Pitas, Prentice Hall.
+   </P>
+   <P>
+"Shape Analysis and Classification", L. da F. Costa and R.
+M. Cesar Jr., CRC Press.
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>hough</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>iradon</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>drawline</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

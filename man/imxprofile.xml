@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imxprofile</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>June 2004</DATE>
+   <SHORT_DESCRIPTION name="imxprofile">Draws intensity profiles of an already displayed image</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>
+[x,y,hprofile,vprofile]=imxprofile(matrix[,option,xscale,yscale,zscale,maximal_luminance])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>matrix</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+	  is an image. It can be either a gray level or an indexed image.
+<P>
+If a color image is displayed, it's internally converted to a gray one to display
+intensity profiles.
+</P>
+<P>
+This image should be displayed before invoquing imxprofile.
+</P>
+
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>option</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       0 to draw the profiles on the image, 1 to draw the profiles in separated windows,
+2 to draw the profiles on the image and the gaussian interpolation (used with laser beam images).
+<P>
+Default=0.
+</P>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>xscale, yscale</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+	  A multiplication factor on one of the axis.
+It allows to display coordinates directly in mm (after a calibration
+to determine the conversion pixels - mm).
+<P>
+Default=1.
+</P>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>zscale</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+	  A multiplication factor on the z axis.
+It can be used to display gray levels in the 0-255 range instead of in the
+0-1 range (for example).
+<P>
+Default=1.
+</P>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+
+      <PARAM_ITEM>
+      <PARAM_NAME>maximal_luminance</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+is useful to choose the scale at which hprofile and vprofile will 
+be displayed.
+<P>
+The default setting is to calculate a value such that the maximal value of the image
+will be displayed
+at a quarter of the image.
+</P>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>x</PARAM_NAME> or
+      <PARAM_NAME>y</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+      are the corresponding column and row in the image matrix.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+
+      <PARAM_ITEM>
+         <PARAM_NAME>hprofile</PARAM_NAME> or
+      <PARAM_NAME>vprofile</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+      Matrix containing the horizontal (or vertical) profile selected.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+    <P>
+This is an improved version of improfile: it's supposed to be more intuitive
+and pleasant.
+</P>
+   <P>
+The function draws the values of pixels on a line and a row. 
+It can  draw
+ profiles on the image and in separate windows. 
+</P>
+<P>
+People interested in determining the radius w of a laser beam
+(in order to calculate its beam waist for example)
+can try option=2.
+</P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   a=gray_imread(SIPDIR+'images/tru.jpg');
+   imshow(a); 
+   imxprofile(a);
+
+   //profiles in separate windows
+   xbasc();
+   imshow(a); 
+   imxprofile(a,1)
+
+   //laser beam visualisation
+   b=imread(SIPDIR+'images/photonics/laser1.jpg');
+   xbasc();imshow(b,[]);
+   imxprofile(b,2);
+   ]]></EXAMPLE>
+
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn DOT druel1 AT libertysurf DOT fr&gt;
+</AUTHORS_ITEM>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri AT users DOTsf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<REMARKS>
+   This function is still BETA. Scilab's display may be slow, or some
+   minor bugs may appear during the use of this function.
+</REMARKS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>xgetpixel</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>improfile</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?> 
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+  <LANGUAGE>eng</LANGUAGE>
+  <TITLE>sip_setenv</TITLE>
+  <TYPE>Scilab Function</TYPE>
+  <DATE>July 2004</DATE>
+  <SHORT_DESCRIPTION name="sip_setenv">sets environment variables
+     </SHORT_DESCRIPTION>
+  <CALLING_SEQUENCE>
+     <CALLING_SEQUENCE_ITEM>mode = sip_setenv(varname, value)
+    </CALLING_SEQUENCE_ITEM>
+  </CALLING_SEQUENCE>
+  <PARAM target="in">
+    <PARAM_INDENT>
+      <PARAM_ITEM>
+   <PARAM_NAME>varname</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      string. The name of the environment variable
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>value</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      string. The value of the variable 
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+  </PARAM>
+  <DESCRIPTION>
+    <P>
+       <VERB>sip_setenv</VERB> is an interface to the C
+       <VERB>setenv</VERB> function. It sets environment variables
+       seen by any commands spawned within scilab.
+    </P>
+  </DESCRIPTION>
+<EXAMPLE><![CDATA[
+   sip_setenv('MY_VARIABLE','this is a content');
+   getenv('MY_VARIABLE')
+]]></EXAMPLE>
+<!-- ================================= -->
+<REMARKS>
+   This command shall be part of the core scilab distro in the
+   future. For now, it is only available in SIP.
+</REMARKS>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+  <SEE_ALSO>
+   <SEE_ALSO_ITEM> <LINK>getenv</LINK> </SEE_ALSO_ITEM>
+  </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

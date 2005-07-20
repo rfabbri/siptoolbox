@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>fftderiv</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="fftderiv">Derivative of a vector using FFT</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[Dy, DY] = fftderiv(y, [n , sigma, delta, in, out])</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>[Dy, DY] = fftderiv(y, &lt;named_args&gt;)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>y</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       vector containing a periodic window of a function to be differentiated.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>n</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the order of the derivative. It is 1 for 1st derivative, 2 for 2nd derivative, and so on.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>sigma</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the standard deviation of the gaussian kernel used to smooth the input. If sigma is zero, fftderiv will not smooth the input. (Defaults to 5)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>delta</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       a double number. If the input is in the time domain, this is the time between samples (delta t), and defaults to 1. If the input is in the frequency domain, this is the frequency increment between samples (delta f), and defaults to 1/N, where N is the number of samples.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>in</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       indicates if the input, x, is a function of time (no FFT has
+       been applied) or frequency (FFT has already been applied). Can
+       be &apos;time&apos; or &apos;frequency&apos;. (Defaults to &apos;time&apos;)
+
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>out</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         Can be &apos;time&apos;, &apos;frequency&apos;, or
+         &apos;complex&apos;(Defaults to &apos;time&apos;). This
+         indicates if the desired output <TT>xsm</TT> is a function of time
+         (inverse FFT will be applied) or frequency (inverse FFT
+         will not be applied). Use the value &apos;complex&apos; if
+         you want the output in time domain but without eliminating
+         the inverse FFT's complex part.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>&lt;named_args&gt;</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+       This is a sequence of statements key1=value1, key2=value2,... where
+       key1, key2,... can be any of the optional arguments above,
+       in any order.
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Dy</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the derivative vector in "time" or "frequency" domain, or in
+       time domain with "complex" component.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>FDy</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       the derivative vector in "frequency" domain.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+      Function <TT>fftderiv</TT> performs the n-th derivative of a periodic
+ function, stored in a vector, using FFT. The  optional arguments in
+ and out enables the user to reuse  previously done FFTs. Here are
+ some possible uses: </P>
+ <DESCRIPTION_INDENT>
+    <DESCRIPTION_ITEM label="Dy = fftderiv(y)">
+   <TT>n</TT> defaults to 1, <TT>sigma</TT> defaults to 5, 
+   <TT>in</TT> and <TT>out</TT> both defaults to 'time'.
+    </DESCRIPTION_ITEM>
+    <DESCRIPTION_ITEM label="Dy = fftderiv(y,2,3)">
+   <TT>n</TT> equals 2, <TT>sigma</TT> equals 3, 
+   <TT>in</TT> and <TT>out</TT> both defaults to 'time'.
+    </DESCRIPTION_ITEM>
+    <DESCRIPTION_ITEM label="Dy = fftderiv(y,sigma=3, in='frequency',out='frequency')">
+<TT>n</TT> dafaults to 1,
+<TT>y</TT> in frequency domain (fft has already been done).
+<TT>Dy</TT> in frequency domain (inverse fft is NOT done by gsm)
+    </DESCRIPTION_ITEM>
+ </DESCRIPTION_INDENT>
+
+ <P>
+ In all above examples, <TT>FDy</TT> is in the frequency domain. It
+ is the second output parameter, and thus it was discarded  in the
+ above examples. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       step = 2*%pi/100;
+       y = sin(step:step:2*%pi);  // from 2pi/100 to 2pi
+       xbasc()
+       plot(y);
+       // 1st derivative, a sigma of 3 steps to the left and to the right
+       d = fftderiv(y,1,3*step,step);
+       xbasc()
+       plot(d)   // a cosine period
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<REMARKS>
+   <P>
+For a derivative without noises,
+the vector <TT>y</TT> must be an exact period of a continuous periodic function,
+i.e., its repetition has to be continuous. A direct way for checking 
+this is to plot <TT>z = [y y]</TT> and look close in the middle. If there is
+not a minimal discontinuity, then <TT>fftderiv</TT> will certainly work
+without need for smoothing.
+   </P>
+   <P>
+<TT>y</TT> should be smoothed before using <TT>fftderiv</TT> so the
+derivative is less sensitive to discontinuities and aliasing.
+For an estimation of the <TT>sigma</TT> parameter, please refer to
+the references below.
+   </P>
+</REMARKS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M Cesar Jr., CRC Press,
+pp. 335-347.
+   </P>
+   <P>
+"1D and 2D Fourier-based approaches to numeric curvature estimation
+and their comparative performance assessment", L. F. Estrozi, L.
+G. R. Filho, A. G. Campos and L. da F. Costa,
+Digital Signal Processing, 2002.
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>follow</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>fftshift</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>curvature</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

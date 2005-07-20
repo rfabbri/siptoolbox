@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imfinfo</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imfinfo">Image file information</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>info = imfinfo(filename)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>info = imfinfo(filename, &apos;verbose&apos;)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>filename</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        A string, the image filename to be described. The extension determines the type of the image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>'verbose'</PARAM_NAME>
+         <PARAM_DESCRIPTION>causes <TT>imfinfo</TT> to print image
+            description on the screen.
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>info</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+      A structure (Scilab typed list) containing the descriptions
+      under each of the following fields: 
+      <PARAM_INDENT>
+      <PARAM_ITEM>
+         <PARAM_NAME>FileName</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            a string
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>FileSize</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            measured in bytes
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>Format</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            "JPEG", "TIFF", "GIF", "BMP", etc.
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>Width</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            number of columns
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>Height</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            number of rows
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>Depth</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            bits per pixel
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>StorageType</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            "truecolor" or "indexed"
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>NumberOfColors</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            size of the colormap.  Equals  to  zero  for
+            truecolor images
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>ResolutionUnit</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            "inch" or "centimeters"
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>XResolution</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            number  of  pixels  per  <TT>ResolutionUnit</TT> in X direction
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>YResolution</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            number  of  pixels  per  <TT>ResolutionUnit</TT> in Y direction
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      </PARAM_INDENT>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ imfinfo is used to get a description from image files,  without reading the pixels into memory. A structure  (Scilab typed list) is returned with the information,  which can be accessed by their names (e.g. info.Depth,  info.FileSize, ...). The &apos;verbose&apos; option causes the  description to be printed in an organised manner. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   info = imfinfo('example.png');     // reads information into a tlist
+   info.Depth                         // members are accessed by name
+   info.StorageType
+   imfinfo('example.png','verbose');  // pretty-print description
+
+   chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>imwrite</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imread</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imshow</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

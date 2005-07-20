@@ -1,0 +1,14 @@
+Authors of SIP - Scilab Image Processing toolbox 
+================================================
+(See also the file THANKS)
+
+Ricardo Fabbri <rfabbri@if.sc.usp.br> 
+   - wrote most of this software
+
+Luciano da Fontoura Costa <luciano@if.sc.usp.br>
+   - supervisioned
+
+The authors are both grateful to: 
+   - FAPESP, proc. 01/09335-8 for research grant in 2002
+   - PIBIC/CNPq for research grant in years 2000 and 2001
+

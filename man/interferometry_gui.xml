@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>interferometry_gui</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="interferometry_gui">Graphical User
+      Interface (GUI) for SIP functions</SHORT_DESCRIPTION>
+   <DESCRIPTION>
+   <P>
+ This is a quick start guide: first of all, this GUI was  written to make 
+tests in the photonic field, which means  you&apos;ll find many 
+functions related to laser images. </P>
+   <P>
+ As it is highly customizable, you can adapt it easily to  your needs. </P>
+   <P>
+ Here is a description of a few experiments and pictures:  
+</P>
+<P>
+1) laser1.jpg is a picture of a laser beam magnified by a microscope 
+objective X10 and filtered by a pinhole of a  few microns (=spatial filter).
+Operation &gt; Profiles show the intensity profiles.
+LaserBeam &gt; Find Gaussian Profiles allows modelling of  these profiles by a
+ gaussian curve (laser beam should have  a gaussian profile). 
+The beam waist can be deducted from  these values.
+The laser speckle can be smoothed by one (or several)  median filtering(s) found in Operations: this filter  removes the high-frequency noise. </P>
+   <P>
+ 2) speckle1.png and speckle2.png are 2 images of an experiment in speckle interferometry: 
+a Michelson interferometer is created but the 1st mirror is replaced by 
+a rugged  metallic piece and the second one is replaced by a metallic rule.  
+A CCD Camera saves a first image.  The rule is bent. 
+The Camera take a second picture.  
+Try, Open &gt; speckle1.png then Operations &gt; substract 2  images 
+(absolute value).  
+Fringes appear: between 2 dark fringes, the rule has moved  from a 
+distance equal to the light wavelength/2 (here,  633/2=316.5 nm).  
+Normalization, filtering can help better visualization of  the fringes. </P>
+   <P>
+ 3) pyramide_wrapped.jpg is what is called a phased image:  
+it was obtained by projecting fringes on an object then on  a 
+reference plane.  
+The goal is to modelize the object in 3D. 
+Operations &gt;  Profiles show that luminance is somewhat proportional to  altitude, 
+but each time its value reach 255, there&apos;s a  jump and the luminance 
+restart from zero.  
+The phase unwrapping process is intended to remove these  jumps.  
+PhasedImages &gt; Unwrap linearly can do it with a very good  quality image (like pyramide_wrapped.jpg).  
+A more complex algorithm is used by Unwrap by path following: 
+it can unwrap more difficult images. 
+You can test  with the merit function called Variance: it&apos;s usually the  best choice. 
+Be a bit patient when launching those functions: it takes  some time (about 2 min on a recent computer). </P>
+   </DESCRIPTION>
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapp</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>unwrapl</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>improfile</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

@@ -1,0 +1,1414 @@
+mode (-1);
+//gui_0.3.9.sce
+
+// Description:
+// Graphical User Interface for a pleasant use of SIP
+// (Scilab Image Processing)
+// It is less flexible than writing scripts in Scilab,
+// but it's easier to use for beginners.
+//
+// It was designed for students in a photonic formation.
+// Most of the operations are possible only on grayscale images
+// It should be easy to add new menus for specific usages
+//
+// 
+// AUTHOR
+//    Jocelyn DRUEL  <jocelyn.druel1@libertysurf.fr>
+//    Labo Photonique, Lycee Gustave Eiffel
+//    59280 ARMENTIERES (FRANCE)
+//
+//
+// MODIFIED BY
+//    Ricardo Fabbri <rfabbri@if.sc.usp.br>
+//
+//
+// LICENSE: GNU GPL
+// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+//
+// CHANGELOG:
+// 0.3.9: added filters + switch to Scilab old graphic style
+// 0.3.8: snap1 improved: if convert is available (from ImageMagick),
+// the snap is much faster. xawtv>=3.90 is needed
+// 0.3.7: profiles in pixels or in mm.
+// Unwrapping process with Second differences and discontinuity detection.
+// Invert bug corrected
+// 0.3.6: Gamma correction on colormaps, altitude calibration, 
+// unwrapp with poles detection, mydirtmp1 is only used at start
+// 0.3.5: use of imxprofile instead of improfile.
+// 0.3.4: menus reorganisation; default width and height for the graphic window
+// 0.3.3: colormaps+xset('pixmap',1)
+// 0.3.2: Constant add and multiply
+//
+// Adapted to the new sip standard: all images are in 0-1 range
+// of the variable INTERFGUI exists, the demo goes in this directory.
+// The anim1 function now works even if the 1st image chosen has not the same
+// size as the image displayed
+// all plot3d display the image*255 to have better visualisation (instead of
+// z in range 0-1).
+// QuickStart that indicates the user should consult the manual page of
+// interferometry_gui.
+//
+// Older:
+// median filtering and histogram equalization are corrected to work with the new mogrify syntax.
+// open1() and write1() modified to avoid normalisation after image opening.
+//
+// TODO:
+// threshold, distance measure, more filtering
+// Verify every Cancel button works fine
+// Verify correct size of the graphic window for each function
+// The laser beam > find gaussian profiles returns an error on 
+// images treated with a ROI.
+
+
+
+//1st initialisation:
+
+INIT_GRAPH=get("old_style");//memorize Scilab mode
+set("old_style","on");//needed by imxprofile functions
+
+INTERFGUI_INI=getcwd();
+
+INTERFGUI_VERSION='0.3.9';
+
+if exists('INTERFGUI') then
+  mydirtmp1=INTERFGUI;
+else  
+  mydirtmp1=SIPDIR+'images/photonics/'
+  //If you prefer, you can change this to:
+  //mydirtmp1=unix_g('echo $HOME');
+  //or
+  //mydirtmp1=getcwd();//to get the current directory
+end;
+
+chdir(mydirtmp1);
+
+
+w1=800;h1=600;//default width and height for the graphic window
+global w1;global h1;
+
+
+
+
+//------
+//Menu ImageFiles
+//------
+
+function start1()
+text=["Welcome to this demo of how SIP functions can be accessed by a GUI";..
+	"It was written to illustrate photonic image treatements";..
+	"Please consult the help page of interferometry_gui";..
+	"to find how to use the examples.";..
+	" ";..
+	"This GUI is highly customizable:";..
+	"Do not hesitate to adapt it to your own needs.";..
+	" ";..
+	"Authors:";..
+	"Jocelyn Druel, Labo Photonique, Lycee Gustave Eiffel, Armentieres (France)";..
+	"with modifications by Ricardo Fabbri.";..
+	" ";..
+	"Version: "+INTERFGUI_VERSION;..
+    	]
+x_message(text)
+endfunction
+
+
+
+
+function display1(image,name,map)
+if ~exists('map','local') then
+  map=xget("colormap");
+end;
+xset("pixmap",1);
+xbasc();
+global w1; global h1;
+imshow(round(image*225+1),map);
+//xset('pixmap',0);
+if (size(image,'c')<(w1-200)) then
+  xset("wdim",w1,h1);
+end;
+xtitle(name);
+xset("wshow");
+endfunction
+
+
+function [image,name]=open1(map)
+name=xgetfile('*');
+if name<>''
+   image=gray_imread(name);
+   display1(image,name,map)
+   printf("\n** If the image does not appear correctly, try normalizing it.\n");
+ end
+endfunction
+
+function write1(image)
+NewName=xgetfile('*');
+imwrite(image,NewName);
+endfunction
+
+
+function info1(image,name)
+text=["Image Name: ";"   "+name;..
+	"Size: ";"   "+string(size(image,'r'))+" x "+string(size(image,'c'));..
+	"Max: ";"   "+string(max(image));..
+	"Min: ";"   "+string(min(image));..
+	"Mean: ";"   "+string(mean(image));..
+	"Standard Deviation: ";"   "+string(stdev(image))];
+x_message(text)
+endfunction
+
+
+
+function histo1(image,name)
+xset("window",1);xbasc();
+xset("pixmap",0);
+step1=evstr(x_dialog('Nb of values ?','64'));
+histplot(step1,image);
+xtitle(name);
+xset("window",0)
+endfunction
+
+
+
+function [map,mapnumber1]=colormap1(image,name,oldmapnumber)
+mapnumber1=oldmapnumber;
+mapnumber1=evstr(x_dialog(['Colormap Number (1 to 19) ?';..
+	'1: BlackWhite';..
+	'2: Fluorescine';..
+	'3: Caramel';..
+	'4: Cappuccino';..
+	'5: Chocolate';..
+	'6: Hot';..
+	'7: Hot2';..
+	'8: BluRed';..
+	'9: LightBlueRed';..
+	'10: Sunrise';..
+	'11: BluBlackRed';..
+	'12: BluBlackRed_II';..
+	'13: BluGreenRed';..
+	'14: BluGreenRed_II';..
+	'15: BluGreenRed_III';..
+	'16: Prism';..
+	'17: Prism_II';..
+	'18: Bands';..
+	'19: BlackBands';..
+	'Or negative number to have the complementary map'],..
+    string(oldmapnumber)));
+
+map=sip_colormap(mapnumber1,256);
+xset("colormap",map);
+display1(image,name,map);
+endfunction
+
+
+
+function colormap2(map) //view colormap
+xset("window",1);
+rgbplot(map);
+xset("window",0);
+endfunction
+
+
+function newmap=gamma1(image,name,map)
+g1=x_dialog('Gamma Value ?','1');
+if (g1<>0) then
+  g=evstr(g1);
+  newmap=(map).^(1/g);
+  display1(image,name,map);
+end;//if
+endfunction
+
+function view3d1(image,name,map)
+xset("window",1);xbasc();
+xset("colormap",map);
+step1=evstr(x_dialog('Step to display ?','8'));
+plot3d1(1:step1:size(image,'r'),1:step1:size(image,'c'),255*image(1:step1:$,1:step1:$));
+xtitle(name);
+xset("window",0)
+endfunction
+
+
+function quit1(INTERFGUI_INI,INIT_GRAPH);
+chdir(INTERFGUI_INI);
+xdel();
+set("old_style",INIT_GRAPH);
+endfunction
+
+
+
+
+//------
+//End Menu ImageFiles
+//------
+
+
+
+//------
+//Menu Operations
+//------
+
+
+function image=normal1(original,name,map)//normalizing image beetween 0-1
+xset("window",1);xbasc();titlepage(["Normalising";"(Range 0 .. 1)"]);
+imagetmp=normal(original,1,0);
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map);
+endfunction
+
+function image=threshold1(original,name,map)//thresholding
+image=original;
+cste1=x_dialog('Threshold (0-1 range) ?','0.5');
+if (cste1<>[]) then //Cancel Button ?
+  xset("window",1);xbasc();titlepage(['Thresholding = '+cste1+' ...']);
+  cste2=evstr(cste1);
+  imagetmp=im2bw(original,cste2);
+  display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update Image ?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map)
+end;//Cancel
+endfunction
+
+
+function image=add2(original,name,map)//constant add
+cste1=evstr(x_dialog(['Constant',..
+	'(values of the image are in the 0-1 range) ?'],..
+    '0.1'));
+xset("window",1);xbasc();titlepage(['Adding...']);
+imagetmp=original+(cste1);
+//imagetmp(find(imagetmp>255))=255;
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+ 
+function image=multiply1(original,name,map)//constant multiplication
+cste1=evstr(x_dialog('Constante ?','1.4'));
+xset("window",1);xbasc();titlepage(['Multiplying...']);
+imagetmp=original*cste1;
+//imagetmp(find(imagetmp>255))=255;
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+function image=drop1(original,name,map)//constant multiplication
+//cste1=evstr(x_dialog('Constante ?','1.4'));
+xset("window",1);xbasc();titlepage(['Searching for Values out of Range...']);
+imagetmp=original;
+imagetmp(find(imagetmp>1))=1;
+imagetmp(find(imagetmp<0))=0;
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+function image=filter1(original,name,map)//various filters
+choice=x_choose(['Mean 3x3';..
+	'Mean 5x5';..
+	'Gaussian';..
+	'Median';..
+	'Pi';..
+	'Sharp Enhancer 1';..
+	'Sharp Enhancer 2';..		
+	'Laplacien1';..
+	'Sobel horizontal';..
+	'Sobel vertical';..
+	'Prewitt horizontal';..
+	'Prewitt vertical'],..
+    ["Choose Your Filter"])
+
+image=original;
+if (choice<>0) then //Cancel ?
+  if (choice==1) then  //Mean 3x3
+    xset("window",1);xbasc();titlepage(['Mean 3x3 Filtering...']);
+    imagetmp=imconv(original,mkfilter('mean'));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Mean 3x3
+  if (choice==2) then  //Mean 5x5
+    xset("window",1);xbasc();titlepage(['Mean 5x5 Filtering...']);
+    imagetmp=imconv(original,(1/25)*ones(5,5));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Mean 5x5
+  if (choice==3) then  //Gaussian
+    xset("window",1);xbasc();titlepage(['Gaussian Filtering...']);
+    imagetmp=imconv(original,(1/16)*[1 2 1;2 4 2;1 2 1])
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Gaussian
+  if (choice==4) then  //Median
+    radius1=x_dialog('radius ?','1')
+    xset("window",1);xbasc();titlepage(['Median Filtering...']);
+    imagetmp=mogrify(original,['-median',radius1])
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Median
+  if (choice==5) then  //Pi Filtering
+    xset("window",1);xbasc();titlepage(['Pi Filtering...']);
+    imagetmp=pifilter(original)
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Pi Filtering
+  if (choice==6) then  //sh1
+    xset("window",1);xbasc();titlepage(['Sharp Enhancer 1 Filtering...']);
+    imagetmp=imconv(original,mkfilter('sh1'));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//sh1
+  if (choice==7) then  //sh2
+    xset("window",1);xbasc();titlepage(['Sharp Enhancer 2 Filtering...']);
+    imagetmp=imconv(original,mkfilter('sh2'));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//sh2
+  if (choice==8) then  //Laplace1
+    xset("window",1);xbasc();titlepage(['Laplace1 Filtering...']);
+    imagetmp=imconv(original,mkfilter('laplace1'));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Laplace1
+  if (choice==9) then  //Sobel horizontal
+    xset("window",1);xbasc();titlepage(['Horizontal Sobel Filtering...']);
+    imagetmp=imconv(original,mkfilter('sobel'));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Sobel horizontal
+  if (choice==10) then  //Sobel vertical
+    xset("window",1);xbasc();titlepage(['Vertical Sobel Filtering...']);
+    imagetmp=imconv(original,mkfilter('sobel')');
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Sobel vertical
+  if (choice==11) then  //Prewitt horizontal
+    xset("window",1);xbasc();titlepage(['Horizontal Prewitt Filtering...']);
+    imagetmp=imconv(original,mkfilter('prewitt'));
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Prewitt horizontal
+  if (choice==12) then  //Prewitt vertical
+    xset("window",1);xbasc();titlepage(['Vertical Prewitt Filtering...']);
+    imagetmp=imconv(original,mkfilter('prewitt')');
+    display1(imagetmp,name,map);
+    update_choice=x_choose(['Yes';'No'],["Update Image ?"])
+    if update_choice==1 then  
+      image=imagetmp
+    end;
+  end;//Prewitt vertical
+
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+end;//Cancel
+endfunction
+
+
+
+
+
+function image=equalize1(original,name,map) //histogram equalization
+xset("window",1);xbasc();titlepage(['Histogram Equalization...']);
+imagetmp=normal(mogrify(original,'-equalize'),1);
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update image?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+function image=subtract1(original,name,map) //subtraction absolute value
+file1=xgetfile('*',title=["Name of the file to subtract"]);
+xset("window",1);xbasc();titlepage(["Reading File and Calculating..."]);
+im1=gray_imread(file1)
+imagetmp=abs(original-im1)
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+function image=subtract2(original,name,map) //subtraction modulo 256
+file1=xgetfile('*',title=["Name of the file to subtract"]);
+xset("window",1);xbasc();titlepage(["Reading File and Calculating..."]);
+im1=gray_imread(file1)
+imagetmp=uint8(normal(original,255))-uint8(255*im1);
+imagetmp=double(imagetmp)/255;
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+function image=add1(original,name,map) //add several images
+nb_images=x_dialog('Nb of images to add to the current image ?','1')
+for i=1:evstr(nb_images)
+    file1=xgetfile("*",title=["Name of the file "+string(i)+"/"+nb_images+" to add"]);
+  xset("window",1);xbasc();titlepage(["Reading File and Calculating..."]);
+  im1=gray_imread(file1)
+  imagetmp=original+im1;
+end;
+
+xset("window",1);xbasc();titlepage(['Calculating the Average Image...']);
+imagetmp=imagetmp/(evstr(nb_images)+1)
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+
+function profils1(original,name)//image profile (pixels)
+//xbasc();
+xset('pixmap',0);
+imxprofile(image);
+xset('pixmap',1);
+endfunction
+
+function [xscale,yscale,zscale]=profils2(original,name,xscale1,yscale1,zscale1)//image profile (mm)
+//xbasc();
+values=x_mdialog('Enter your values',..
+      ['Conversion x axis: 1 mm for xx pixels';..
+	  'Conversion y axis: 1 mm for yy pixels';..
+	  'Multiplication Factor on z axis'],..
+      [string(xscale1),string(yscale1),string(zscale1)]);
+  
+if (values<>[]) then //Cancel Button ?
+//  size_jumps=evstr(values(1));
+  xscale=evstr(values(1));
+  yscale=evstr(values(2));
+  zscale=evstr(values(3));
+//  obj=puw'*(size_jumps/256);
+  //new
+  xset('pixmap',0);
+//  obj=(puw-min(puw))*size_jumps;//all values will be positive
+  imxprofile(original,0,(1/xscale),(1/yscale),zscale);
+  xset('pixmap',1);
+end;//Cancel
+endfunction
+
+
+function [image,puw]=invert1(original,name,map,puw)//inversion
+xset("window",1);xbasc();titlepage(['Inverting...']);
+imagetmp=1-original;
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+  if puw<>[] then
+  puw=max(puw)-puw;
+  end; //if puw
+end;//choice==1
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+function image=power1(original,name,map)//multiplies the image by itself
+pow1=evstr(x_dialog('Power ?','5'))
+xset("window",1);xbasc();titlepage(['Multiplying...']);
+imagetmp=normal(original.^pow1,1);
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+function image=select1(original,name,map)//selects a rectangular ROI (Region of Interest)
+xset('pixmap',0);
+mask1=imroi(image,'rect');
+[br,bc]=find(mask1>0);//find boundaries
+imagetmp=image(br(1):br($),bc(1):bc($));
+xset("window",1);xbasc();
+display1(imagetmp,name,map);
+choice=x_choose(['Update Image';'Invert Selection';'Cancel'],["Choice ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+if choice==2 then  
+  imagetmp=image.*abs(1-mask1);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update Image ?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+function image=select2(original,name,map)//selects an ellipse ROI (Region of Interest)
+xset('pixmap',0);
+mask1=imroi(image,'ellipse');
+[br,bc]=find(mask1>0);//find boundaries
+imagetmp=image.*mask1;
+xset("window",1);xbasc();
+display1(imagetmp,name,map);
+choice=x_choose(['Update Image';'Invert Selection';'Cancel'],["Choice ?"])
+if choice==1 then  
+  image=imagetmp
+end;
+if choice==2 then  
+  imagetmp=image.*abs(1-mask1);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update Image ?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+
+
+//------
+//End Menu Operations
+//------
+
+
+
+//------
+//Menu PhasedImages
+//------
+
+
+function image=phasecalc1(image,name,map)//phase calculation
+choice=x_choose(['Bucket 3a (90 deg)';'Bucket 3b (120 deg)';'Bucket 3c (120 deg)';'Bucket 4a (90 deg)';'Bucket 5a (90 deg)';'Bucket 5b (90 deg)'],["Choose your calculation method"])
+
+threshold1=evstr(x_dialog(["A pixel is considered in the background";..
+	"if its value beetween 2 images has not changed";..
+	"of more than this threshold (0<=threshold<=1)";"Your Value ?"],..
+    '0'));
+
+if choice==1 then //bucket 3a
+  xset("window",1)
+  file1=xgetfile('*',title=["Name of file 1/3"]);
+  file2=xgetfile('*',title=["Name of file 2/3"]);
+  file3=xgetfile('*',title=["Name of file 3/3"]);
+  xbasc();
+  titlepage(['Calculating the Phased Image...']);
+  im1=gray_imread(file1);
+  im2=gray_imread(file2);
+  im3=gray_imread(file3);
+  imagetmp=normal(imphase('bucket3a',threshold1,im1,im2,im3),1);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update image?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map);  
+end;//bucket 3a
+
+if choice==2 then //bucket 3b
+  xset("window",1)
+  file1=xgetfile('*',title=["Name of file 1/3"]);
+  file2=xgetfile('*',title=["Name of file 2/3"]);
+  file3=xgetfile('*',title=["Name of file 3/3"]);
+  xbasc();
+  titlepage(['Calculating the Phased Image...']);
+  im1=gray_imread(file1);
+  im2=gray_imread(file2);
+  im3=gray_imread(file3);
+  imagetmp=normal(imphase('bucket3b',threshold1,im1,im2,im3),1,0);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update image?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map);  
+end;//bucket 3b
+
+if choice==3 then //bucket 3c
+  xset("window",1)
+  file1=xgetfile('*',title=["Name of file 1/3"]);
+  file2=xgetfile('*',title=["Name of file 2/3"]);
+  file3=xgetfile('*',title=["Name of file 3/3"]);
+  xbasc();
+  titlepage(['Calculating the Phased Image...']);
+  im1=gray_imread(file1);
+  im2=gray_imread(file2);
+  im3=gray_imread(file3);
+  imagetmp=normal(imphase('bucket3c',threshold1,im1,im2,im3),1,0);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update image?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map);  
+end;//bucket 3c
+
+if choice==4 then //bucket 4a
+  xset("window",1)
+  file1=xgetfile('*',title=["Name of file 1/4"]);
+  file2=xgetfile('*',title=["Name of file 2/4"]);
+  file3=xgetfile('*',title=["Name of file 3/4"]);
+  file4=xgetfile('*',title=["Name of file 4/4"]);
+  xbasc();
+  titlepage(['Calculating the Phased Image...']);
+  im1=gray_imread(file1);
+  im2=gray_imread(file2);
+  im3=gray_imread(file3);
+  im4=gray_imread(file4);
+  imagetmp=normal(imphase('bucket4a',threshold1,im1,im2,im3,im4),1,0);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update image?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map);  
+end;//bucket 4a
+
+if choice==5 then //bucket 5a
+  xset("window",1)
+  file1=xgetfile('*',title=["Name of file 1/5"]);
+  file2=xgetfile('*',title=["Name of file 2/5"]);
+  file3=xgetfile('*',title=["Name of file 3/5"]);
+  file4=xgetfile('*',title=["Name of file 4/5"]);
+  file5=xgetfile('*',title=["Name of file 5/5"]);
+  xbasc();
+  titlepage(['Calculating the Phased Image...']);
+  im1=gray_imread(file1);
+  im2=gray_imread(file2);
+  im3=gray_imread(file3);
+  im4=gray_imread(file4);
+  im5=gray_imread(file5);
+  imagetmp=normal(imphase('bucket5a',threshold1,im1,im2,im3,im4,im5),1,0);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update image?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map);  
+end;//bucket 5a
+
+if choice==6 then //bucket 5b
+  xset("window",1)
+  file1=xgetfile('*',title=["Name of file 1/5"]);
+  file2=xgetfile('*',title=["Name of file 2/5"]);
+  file3=xgetfile('*',title=["Name of file 3/5"]);
+  file4=xgetfile('*',title=["Name of file 4/5"]);
+  file5=xgetfile('*',title=["Name of file 5/5"]);
+  xbasc();
+  titlepage(['Calculating the Phased Image...']);
+  im1=gray_imread(file1);
+  im2=gray_imread(file2);
+  im3=gray_imread(file3);
+  im4=gray_imread(file4);
+  im5=gray_imread(file5);
+  imagetmp=normal(imphase('bucket5b',threshold1,im1,im2,im3,im4,im5),1,0);
+  xbasc();display1(imagetmp,name,map);
+  choice=x_choose(['Yes';'No'],["Update image?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);
+  xset("window",0);
+  display1(image,name,map);  
+end;//bucket 5b
+endfunction
+
+
+
+
+
+function image=merit1(original,name,map)//calculates a merit function
+choice=x_choose(['Variance';'Laplacien1';'Second Difference';'Discontinuity Detection'],["Choose your calculation method"])
+if choice==1 then  
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  imagetmp=normal(imvariance(original),1,0)
+  end;
+if choice==2 then  
+  kern=mkfilter('laplace1');//convolution kernel
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  imagetmp=normal(imconv(original,kern),1,0)
+end;
+if choice==3 then  
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  //convolution kernels
+  kern1=[1 0 0;0 -2 0; 0 0 1];
+  kern2=[0 1 0;0 -2 0;0 1 0];
+  kern3=[0 0 1;0 -2 0;1 0 0];
+  kern4=[0 0 0;1 -2 1;0 0 0];
+  imagetmp=abs(imconv(original,kern1))+abs(imconv(original,kern2))+abs(imconv(original,kern3))+abs(imconv(original,kern4));
+end;
+if choice==4 then  
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  //convolution kernels
+  kern1=[1 1 1 1 1;0 0 0 0 0;0 0 0 0 0;0 0 0 0 0;-1 -1 -1 -1 -1];
+  kern2=[1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1];
+  kern3=[1 1 1 0 0;1 0 0 0 0;1 0 0 0 -1;0 0 0 0 -1;0 0 -1 -1 -1];
+  kern4=[0 0 1 1 1;0 0 0 0 1;-1 0 0 0 1;-1 0 0 0 0;-1 -1 -1 0 0];
+  imagetmp=abs(imconv(original,kern1))+abs(imconv(original,kern2))+abs(imconv(original,kern3))+abs(imconv(original,kern4));
+end;
+display1(imagetmp,name,map);
+choice=x_choose(['Yes';'No'],["Update Image?"])
+if choice==1 then  
+  image=imagetmp
+end;
+xdel(1);
+xset("window",0);
+display1(image,name,map)
+endfunction
+
+
+function poled1(original,name,map)//poles detection
+xset("window",1);xbasc();titlepage(['Finding Poles...']);
+p1=abs(poledetection(original,0.5));
+display1(normal(p1,1,0),name,map);
+x_message('Continue ?');
+xdel(1);
+endfunction
+
+
+function [image,puw]=unwrapl1(original,name,map)//unwraps linearly
+choice=x_choose(['Horizontal','Vertical'],["Choose your direction"])
+if choice==1 then  
+  xset("window",1);xbasc();titlepage(['Unwrapping (row by row)...']);
+  puw=unwrapl(original,0.5,0,"h")//see the unwrapl function for details on parameters
+  imagetmp=normal(puw,1,0)
+  end;
+if choice==2 then  
+  xset("window",1);xbasc();titlepage(['Unwrapping (column by column)...']);
+  puw=unwrapl(original,0.5,0,"v")//see the unwrapl function for details on parameters
+  imagetmp=normal(puw,1,0)
+end;
+if (choice<>0) then //Cancel button
+  display1(imagetmp,name,map);
+  xset("window",2);xbasc();
+  plot3d1(1:4:size(puw,'r'),1:4:size(puw,'c'),255*puw(1:4:$,1:4:$))
+  choice=x_choose(['Yes';'No'],["Update Image ?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);xdel(2);
+  xset("window",0);
+  display1(image,name);
+else
+  image=original;//avoids an error if Cancel is hit  
+end;
+endfunction
+
+
+
+function [image,puw]=unwrapp1(original,name,map)//unwraps by path following
+choice=x_choose(['Variance';..
+	'Laplacien1';..
+	'Second Difference';..
+	'Discontinuity Detection';..
+	'Variance + Discontinuity Detection';..
+	'Variance + Poles';..
+	'Laplacien1 + Poles';..
+	'Second Difference + Poles';..
+	'Variance + Discontinuity Detection + Poles'],..
+    ["Choose Your Merit Function"])
+if (choice==1)|(choice==6) then  //Variance
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  mf1=imvariance(original);
+end;
+if (choice==2)|(choice==7) then  //Laplacien
+  kern=mkfilter('laplace1');//convolution kernel
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  mf1=abs(imconv(original,kern));
+end;
+if (choice==3)|(choice==8) then  //Second difference
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  //convolution kernels
+  kern1=[1 0 0;0 -2 0; 0 0 1];
+  kern2=[0 1 0;0 -2 0;0 1 0];
+  kern3=[0 0 1;0 -2 0;1 0 0];
+  kern4=[0 0 0;1 -2 1;0 0 0];
+  mf1=abs(imconv(original,kern1))+abs(imconv(original,kern2))+abs(imconv(original,kern3))+abs(imconv(original,kern4));
+end;
+if (choice==4)|(choice==5)|(choice==9) then  //Discontinuity detection
+  xset("window",1);xbasc();titlepage(['Calculating Merit Function...']);
+  //convolution kernels
+  kern1=[1 1 1 1 1;0 0 0 0 0;0 0 0 0 0;0 0 0 0 0;-1 -1 -1 -1 -1];
+  kern2=[1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1];
+  kern3=[1 1 1 0 0;1 0 0 0 0;1 0 0 0 -1;0 0 0 0 -1;0 0 -1 -1 -1];
+  kern4=[0 0 1 1 1;0 0 0 0 1;-1 0 0 0 1;-1 0 0 0 0;-1 -1 -1 0 0];
+  mf1=abs(imconv(original,kern1))+abs(imconv(original,kern2))+abs(imconv(original,kern3))+abs(imconv(original,kern4));
+end;
+
+if (choice==8)|(choice==9) then //Discontinuity detection + variance
+  mf1=mf1+imvariance(original);
+end;
+if (choice>=6)&(choice<=9) then //pole detection
+  p1=abs(poledetection(original,0.5));
+  mf1(find(p1>0))=3000;//mark bad pixels as visited
+end;
+
+if (choice<>0) then //Cancel button ?
+  xbasc();imshow(normal(mf1,1,0));xtitle(["Unwrapping by Path Following";"Be patient"]);
+  puw=unwrapp(original,mf1);
+  imagetmp=normal(puw,1)
+  display1(imagetmp,name,map);
+  //3D display
+  xset("window",2);xbasc();
+  //view3d1(imagetmp,name,map);
+  xset("colormap",map);
+  [r,c]=size(puw);
+  plot3d1(1:8:r,1:8:c,255*puw(1:8:$,1:8:$))
+  xtitle(name);
+  //end 3D display
+  
+  choice=x_choose(['Yes';'No'],["Update Image ?"])
+  if choice==1 then  
+    image=imagetmp
+  end;
+  xdel(1);xdel(2);
+  xset("window",0);
+  display1(image,name);
+else
+  image=original;//avoids an error if Cancel is hit  
+end;
+endfunction
+
+
+function [obj,xscale,yscale]=calibration1(puw,xscale1,yscale1) //restitues the real dimensions of the object
+if puw==[] then
+  x_message('You must first unwrapp a phased image');
+  obj=[];
+else
+  values=x_mdialog('Enter your values',..
+      ['Conversion x axis: 1 mm for xx pixels';..
+	  'Conversion y axis: 1 mm for yy pixels';..
+	  'A phase jump correspond to zz mm'],..
+      [string(xscale1),string(yscale1),'5']);
+  
+  if (values<>[]) then //Cancel Button ?
+    size_jumps=evstr(values(3));
+    xscale=evstr(values(1));
+    yscale=evstr(values(2));
+    xset('pixmap',0);
+    obj=(puw-min(puw))*size_jumps;//all values will be positive
+    imxprofile(obj,0,(1/xscale),(1/yscale));
+    xset('pixmap',1);
+  end;//Cancel  
+end;
+endfunction
+
+
+
+
+
+function anim1(original) //animation of several images
+nb_images=x_dialog('Nb of images ?','3')
+//imagetmp=zeros(original);
+  file1=xgetfile('*',title=["Name of the file 1/"+nb_images+" in the animation"]);
+  imagetmp=gray_imread(file1);
+  imagetmp(:,:,1)=imagetmp;
+// xset("window",1);xbasc();titlepage(["Reading File..."]);
+for i=2:evstr(nb_images)
+  file1=xgetfile('*',title=["Name of the file "+string(i)+"/"+nb_images+" in the animation"]);
+  imagetmp(:,:,i)=gray_imread(file1);
+  xset("window",1);xbasc();titlepage(["Reading File..."]);
+end;
+
+xset("pixmap",1);//animation is on
+while %t
+  for i=1:evstr(nb_images)
+    if i==evstr(nb_images) then
+      xset("wwpc");imshow(imagetmp(:,:,i));
+      xtitle(["Image "+string(i)+"/"+nb_images;"Move the mouse to replay";"Right Click to stop"]);
+      xset("wshow");
+    else
+      xset("wwpc");imshow(imagetmp(:,:,i));
+      xtitle("Image "+string(i)+"/"+nb_images);
+      xset("wshow");
+    end;//if
+  end;//for
+  
+  answer1=xgetmouse();
+  if answer1(3)==2 then break; end//right click to stop animation
+end;//while
+xset("pixmap",0);xdel(1)
+
+endfunction
+
+
+
+//------
+//End Menu PhasedImages
+//------
+
+
+
+//------
+//Menu LaserBeams
+//------
+
+function gaussian1(image,name) //find the gaussian profiles
+xset('pixmap',0);
+imxprofile(image,2);
+xset('pixmap',1);
+endfunction
+
+
+
+function calculs1(image,name)
+//Calculates divergence and beam waist w0
+values=x_mdialog('Enter your values',['radius w (pixels)';'Distance waist-screen (cm)';
+    'Conversion cm-pixels:nb of cm';'corresponding to a nb of pixels';'wavelength (nm)'],['20','200','5','80','633']);
+
+w_pix=evstr(values(1));
+D=evstr(values(2));
+cm=evstr(values(3));
+pix=evstr(values(4));
+lambda=evstr(values(5));
+
+w_cm=w_pix*cm/pix;
+theta_mrad=atan(w_cm/D)*1e3;
+theta_deg=atan(w_cm/D)*(180/%pi);
+w0_mu=lambda/(%pi*theta_mrad);
+
+x_message(['Results :';' ';..
+    'Half-divergence';'   = '+string(theta_mrad)+' mrad';..
+    '   = '+string(theta_deg)+' degres';..
+	' ';'Beam waist w0';'   = '+string(w0_mu)+' microns'])
+endfunction
+
+
+
+function [Mean1,dev1]=sf1(datas1)
+//student fisher law for uncertainty
+d=[];
+
+disp("Errors estimation by Student Fisher Law");
+disp("You can enter")
+disp("1) your datas")
+disp("2) new if you want to delete all the previously entered datas")
+disp("3) enter end when you have finished entering your datas")
+disp(" ")
+
+while d<>"end"
+//  d=input("Enter your values (new to erase old datas and end to stop): ","string");
+  d=input("Enter your datas (or new, or end): ","string");
+  if d<>"new" & d<>"end" then data=evstr(d); datas1=[datas1,data]; end;
+  if d=="new" then datas1=[], end;
+end; //while
+
+niv_conf=input("Confidence Level (0 to  100 \%): ","string");
+alpha=1-evstr(niv_conf)*0.01;
+
+Mean1=mean(datas1);
+s=st_deviation(datas1);
+N=size(datas1,'c');
+coefficient=cdft("T",N-1,1-alpha/2,alpha/2);
+dev1=coefficient*s/sqrt(N);
+
+x_message(['The entered datas are following: ',string(datas1),..
+	'The standard devation is: ','   '+string(s),..
+	'The mean is: ','   '+string(Mean1),..
+	'The confidence level is ','   '+niv_conf+' %',..
+	'Delta is ','   '+string(dev1),..
+	'Your measure is then :',..
+	string(Mean1-dev1)+' < '+string(Mean1)+' < '+string(Mean1+dev1)	]);
+
+xselect(); //back to graphical view
+endfunction
+
+
+
+
+//------
+//End Menu LaserBeams
+//------
+
+
+
+
+//------
+//Menu Hardware
+//------
+
+
+function video1()
+if MSDOS then 
+  x_message(['This is a Linux Feature Only';'Sorry']);
+else
+  if unix('type xawtv')==0 then
+    unix('xawtv&');
+    xpause(1e6);//wait: xawtv must be active to use xawtv-remote
+    unix('xawtv-remote setinput Composite1');
+  else
+    x_message(['You need to install xawtv on your system']);
+  end;
+end;
+endfunction
+
+
+function [image,name]=snap1() //snap an image from pctv card
+if unix('ps -A|grep xawtv')==0 then
+  unix('xawtv-remote snap ppm full tmp-snap1.ppm');
+//for a strange reason, it seems that we have to snap 2 images to have a correct result
+  rep=unix_g('type convert');
+  if rep<>'' then //Image Magick is available
+    unix('rm -f tmp-snap1.pgm');
+    //for a strange reason, it seems that we have to convert twice to have a correct result
+    unix('convert -depth 8 tmp-snap1.ppm tmp-snap1.pgm');//convert in grayscale
+    unix('convert -depth 8 tmp-snap1.ppm tmp-snap1.pgm');//convert in grayscale
+    image=gray_imread('tmp-snap1.pgm');
+    name='tmp-snap1.pgm';
+  else 
+    image=gray_imread('tmp-snap1.ppm');//convert in  gray is longer with SIP
+    name='tmp-snap1.ppm';
+  end;//test if Image Magick is available
+  display1(image,name);
+else
+  x_message(['You need to launch xawtv first']);
+end;
+endfunction
+
+
+
+
+function fringes1(image,name,map)//Displays a fringe pattern 
+//Default values
+c=1000;//nb of columns
+l=800;//nb of lines
+x0=-100;//position of the graphical window
+y0=-130;//idem
+n=20;//nb of dark fringes
+phi=0;
+
+values=x_mdialog('Enter your values',..
+      ['Number of columns: ';..
+	  'Number of lines: ';..
+	  'X0 (Graphical Window): ';..
+	  'Y0 (Graphical Window): ';..
+	  'Number of Dark Fringes';..
+	   ],..
+      [string(c),string(l),string(x0),string(y0),string(n)]);
+c=evstr(values(1));
+l=evstr(values(2));
+x0=evstr(values(3));
+y0=evstr(values(4));
+n=evstr(values(5));
+//Calculate the image
+x=linspace(0,2*%pi,c);
+y=linspace(0,1,l);
+y=ones(y);
+
+z=0.5*(1+cos(n*x+phi))'*y;
+z=z';
+xset("window",1);xbasc();xselect();
+xset("wpos",x0,y0);
+display1(z,name,map);
+xclick();
+xdel(1);
+xset("window",0);//back to original window
+endfunction
+
+
+
+function getphased1(image,name,map)//Displays a several fringe pattern and take 
+//corresponding pictures
+
+//Default values
+c=1000;//nb of columns
+l=800;//nb of lines
+x0=-100;//position of the graphical window
+y0=-130;//idem
+n=20;//nb of dark fringes
+dephi=%pi/4;
+npict=4;
+
+values=x_mdialog(['Enter your values';'The images will be named Phased1.pgm,...'],..
+      ['Number of columns: ';..
+	  'Number of lines: ';..
+	  'X0 (Graphical Window): ';..
+	  'Y0 (Graphical Window): ';..
+	  'Number of Dark Fringes ';..
+	  'Dephasing: ';..
+	  'Number of Pictures: '
+	   ],..
+      [string(c),string(l),string(x0),string(y0),string(n),..
+	  string(dephi),string(npict)]);
+c=evstr(values(1));
+l=evstr(values(2));
+x0=evstr(values(3));
+y0=evstr(values(4));
+n=evstr(values(5));
+dephi=evstr(values(6));
+npict=evstr(values(7));
+
+//If xawtv running ?
+if unix('ps -A|grep xawtv')==0 then
+  //Calculate the fringe pattern
+  x=linspace(0,2*%pi,c);
+  y=linspace(0,1,l);
+  y=ones(y);
+  
+  for a=0:npict-1//take the pictures
+    phi=a*dephi;
+    z=0.5*(1+cos(n*x+phi))'*y;
+    z=z';
+    xset("window",1);xbasc();xselect();
+    xset("wpos",x0,y0);
+    display1(z,name,map);
+    name='Phased'+string(a+1)+'.jpg';
+    unix('xawtv-remote snap jpeg full '+name);
+  end;//for a (take pictures)
+  rep=unix_g('type convert');
+  if rep<>'' then //Image Magick is available
+    for a=0:npict-1//convert all the images in grayscale
+      nameinit='Phased'+string(a+1)+'.jpg';
+      namefinal='Phased'+string(a+1)+'.pgm';  
+      unix('convert '+nameinit+' '+namefinal);//convert in grayscale:image magick needed
+    end;//for a (conversion in grayscale)
+  end;//if Image Magick is available
+  
+  xclick();//clic to destroy the window
+  xdel(1);  
+else
+  x_message(['You need to launch xawtv first']);
+end;//if unix
+endfunction
+
+
+
+
+//------
+//End Menu Hardware
+//------
+
+
+
+
+
+//intialisation + menus creation
+xdel(0);xset("window",0);
+xset("wpos",0,20);
+xset("wdim",w1,h1);
+xselect();
+titlepage(["Start with menu ImageFiles"]);
+datas=[];puw=[];
+map1=graycolormap(256);//default colormap
+mapnumber1=1;//gray
+xset("colormap",map1);
+xscale=10;
+yscale=15;
+zscale=255;
+
+
+if ~MSDOS then
+  delmenu(0,"3D Rot.");
+  delmenu(0,"File");
+else
+  delmenu(0,"3D &Rot.");
+  delmenu(0,"&File");
+  
+end;
+
+
+addmenu(0,'ImageFiles',['Quick Start - About','Open','Write (for grayscale images)',..
+	'Infos',..
+	'Histogram',..
+	'Change Colormap',..
+	'View Colormap',..
+	'Adjust Gamma',..
+	'Refresh Display',..
+	'View in 3D',..
+	'Quit']);
+
+addmenu(0,'Operations',..
+    ['Normalize',..
+	'Threshold',..
+	'Constant Add',..
+	'Constant Multiply',..
+	'Drop values Out of Range',..
+	'Histogram Equalization',..
+	'Filters',..
+	'Subtract 2 images (absolute value)',..
+	'Subtract 2 images (modulo 256)',..
+	'Add Several Images'..
+	'Profiles (pixels)',..
+	'Profiles (mm)',..
+	'Invert','Power',..
+	'Select a rectangular ROI',..
+	'Select an ellipsoidal ROI']);
+
+
+
+addmenu(0,'PhasedImages',..
+    ['Calculate Wrapped Phase',..
+	'Choose Merit Function',..
+	'Show Poles',..
+	'Unwrap linearly',..
+	'Unwrap by Path Following',..
+	'Altitude Calibration',..
+	'Animation'])
+
+addmenu(0,'LaserBeams',..
+    ['Find Gaussian Profiles',..
+	'Calculations',..
+	'Errors estimation (text mode)"])
+
+
+addmenu(0,'Hardware',..
+    ['Video Camera (Xawtv)',..
+	'Snap From Video Camera',..
+	'Display Fringe Pattern (Videoprojector)',..
+	'Get Phased Images (Videoprojector)'])
+
+
+
+
+//Menu actions
+ImageFiles_0=["start1()","[image,name]=open1(map1)","write1(image)",..
+	"info1(image,name)",..
+	"histo1(image,name)",..
+	"[map1,mapnumber1]=colormap1(image,name,mapnumber1)",..
+	"colormap2(map1)",..
+	"map1=gamma1(image,name,map1)",..
+	"display1(image,name,map1)",..
+	"view3d1(image,name,map1)",..
+	"quit1(INTERFGUI_INI,INIT_GRAPH)"];
+
+Operations_0=["image=normal1(image,name,map1)",..
+	"image=threshold1(image,name,map1)",..
+	"image=add2(image,name,map1)",..
+	"image=multiply1(image,name,map1)",..
+	"image=drop1(image,name,map1)",..
+	"image=equalize1(image,name,map1)"..
+	"image=filter1(image,name,map1)",..
+	"image=subtract1(image,name,map1)",..
+	"image=subtract2(image,name,map1)",..
+	"image=add1(image,name,map1)",..
+	"profils1(image,name)",..
+	"[xscale,yscale,zscale]=profils2(image,name,xscale,yscale,zscale)",..
+	"[image,puw]=invert1(image,name,map1,puw)",..
+	"image=power1(image,name,map1)",..
+	"image=select1(image,name,map1)",..
+	"image=select2(image,name,map1)"
+	]
+
+
+PhasedImages_0=["image=phasecalc1(image,name,map1)",..
+	"image=merit1(image,name,map1)",..
+	"poled1(image,name,map1)",..
+	"[image,puw]=unwrapl1(image,name,map1)",..
+	"[image,puw]=unwrapp1(image,name,map1)",..
+	"[obj,xscale,yscale]=calibration1(puw,xscale,yscale)",..
+	"anim1(image)"];
+
+LaserBeams_0=["gaussian1(image,name)",..
+	"calculs1(image,name)","sf1(datas)"];
+
+
+
+Hardware_0=["video1()",..
+	"[image,name]=snap1()",..
+	"fringes1(image,name,map1)",..
+	"getphased1(image,name,map1)"];
+
+
+//The end
+

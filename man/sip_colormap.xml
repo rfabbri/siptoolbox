@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?> 
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+  <LANGUAGE>eng</LANGUAGE>
+  <TITLE>sip_colormap: creates a beautiful colormap</TITLE>
+  <TYPE>SIP Toolbox</TYPE>
+  <DATE>February 2004</DATE>
+  <SHORT_DESCRIPTION name="sip_colormap">creates a beautiful colormap</SHORT_DESCRIPTION>
+  <CALLING_SEQUENCE>
+    <CALLING_SEQUENCE_ITEM>[map,map_number] = sip_colormap(colormap_name_or_number [,number_of_colors])
+    </CALLING_SEQUENCE_ITEM>
+  </CALLING_SEQUENCE>
+  <PARAM target="in">
+    <PARAM_INDENT>
+      <PARAM_ITEM>
+   <PARAM_NAME>colormap_name_or_number  </PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      can be either a string or a number
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+      <PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME> string </PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      is one of the 19 predefined colormap names (ex 'bluered').
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME> number </PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      between 1 and 19.
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+      </PARAM_INDENT>
+      <PARAM_ITEM>
+   <PARAM_NAME>number_of_colors</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      the number of rows in the colormap. 
+     <P>
+       Default is 256 (8 bits).
+     </P>
+     <P>
+If this number is negative, then the function will return the 
+complimentary colormap.
+     </P>
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+    </PARAM_INDENT>
+  </PARAM>
+  <PARAM target="out">
+    <PARAM_INDENT>
+      <PARAM_ITEM>
+   <PARAM_NAME>map</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      a colormap of size number of colors.
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+   <PARAM_NAME>map_number</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      the number of the colormap (for quick access).
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+    </PARAM_INDENT>
+  </PARAM>
+
+  <DESCRIPTION>
+    <P>
+    <VERB>sip_colormap(colormap_number,[number_of_colors])</VERB> returns one the 
+predefined colormaps.
+    </P>
+
+    <P>
+    <VERB>sip_colormap()</VERB> shows the available names.
+    </P>
+
+    <P>
+These colormaps were created by Enrico Segre and are from the ENRICO toolbox.
+Have a look at this toolbox if you want to improve Scilab displays.
+    </P>
+  </DESCRIPTION>
+
+
+<EXAMPLE><![CDATA[
+   image=imread(SIPDIR+'images/photonics/laser1.jpg');
+   //reads an indexed image
+   map=sip_colormap(10,256); //takes the colormap number 19
+   //it's the same as: map=sip_colormap('sunrise',256);
+   xbasc();imshow(image,map);
+   //display in false colors
+
+   //For 3D plots, with the map number 16 ('prism')
+   xset("window",1);xset("colormap",sip_colormap(16,256));
+   [r,c]=size(image);
+   plot3d1(1:4:r,1:4:c,image(1:4:r,1:4:c))
+
+   //You can have the complimentary colormap with
+   comp_map=abs(1-map);
+   xbasc();imshow(image,comp_map);
+   //or simply:comp_map=sip_coloramp(16,-256)
+
+   //To reverse the color order:
+   invmap(256:-1:1,1:3)=sip_colormap(7,256);
+
+   //To display a colormap:
+   map1=ones(1:100)'*(256:-1:1);           
+   xbasc();imshow(map1',sip_colormap(4))   
+   //will display the colormap number 4 in 256 colors
+]]></EXAMPLE>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Enrico">
+The original colormaps were created and named by Enrico Segre.
+    </AUTHORS_ITEM>
+   <AUTHORS_ITEM name="Jocelyn">
+Code reorganization for the SIP toolbox by 
+ Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt;
+    </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+  <SEE_ALSO>
+    <SEE_ALSO_ITEM>
+       <LINK>colormap</LINK> 
+    </SEE_ALSO_ITEM>   
+    <SEE_ALSO_ITEM>
+       <LINK>imshow</LINK> 
+    </SEE_ALSO_ITEM> 
+  </SEE_ALSO>
+
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

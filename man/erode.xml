@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>erode</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="erode">Morphological erosion of binary images</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>E = erode(Img, [SE, center])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Binary image to be eroded. (0 for background, 1 for object)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>E</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Binary eroded image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>SE</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Arbitrary structuring element represented as a binary array. Defaults to
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>center</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       origin of structuring element. Shold be within image dimensions. Defaults to the center of the SE array.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function erode performs morphological erosion of a binary  image Img using SE as the structuring element. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = gray_imread('disks2.bmp');
+       imshow(Img,2);
+       Img = 1-Img;
+       SE = ones(10,10);
+       e = erode(Img, SE);
+       xbasc()
+       imshow(e ,2);
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<REMARKS>
+The algorithm is fully functional, but there
+exists many better ones. The present implementation 
+will certainly change, but the interface
+shall remain unaltered.
+</REMARKS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>dilate</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edilate</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwdist</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

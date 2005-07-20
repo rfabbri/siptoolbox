@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>follow</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="follow">A contour follower</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[x,y] = follow(Img)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>[x,y] = follow(Img, 4)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>[x,y] = follow(Img, 8)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       binary array, 1 for object and 0 for background (double precision)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>x</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       and y vectors, storing the parametrized contour.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function follow extracts parametric contours of binary  objects. This is useful for further extracting object  features such as curvature and bending energy. </P>
+   <P>
+ It is assumed that Img has only one object. </P>
+   <P>
+ x and y both store the parametrized contour. That is,  (x(i),y(i)) is a point of the contour, where the coordinate system is assumed as starting from bottom-left corner  (0,0) to uper-right corner of the image. To get the  (row,col) matrix coordinates, use the transformation  below: </P>
+ <VERBATIM>
+      row = size(Img,'r') - y
+      col = x+1
+ </VERBATIM>
+   <P>
+ The second argument is an optional parameter, being 4 or 8  depending if the border following is to be made in 4- or  8-neighborhood sequence, yielding a 4- or 8-connected contour. </P>
+   <P>
+ follow(Img) equals follow(Img, 8). </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xset('window',0)
+       xbasc()
+       imshow(Img,2);
+       [x,y] = follow(Img);
+       xset('window',1)
+       xbasc()
+       plot2d(1:size(x,'*'),x,2);
+       plot2d(1:size(y,'*'),y,1);
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+          "Shape Analysis and Classification", L. da F. Costa and R.
+       M Cesar Jr., CRC Press, pp. 335-347.
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unfollow</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwborder</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>curvature</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>unfollow</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="unfollow">Converts  a    parametric
+      contour into a binary image </SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>Img = unfollow(x,y,dims)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>x</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       and y vectors, storing the parametrized contour. They are truncated before calculation.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>dims</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       vector [row, column] storing the dimensions of the output Image. This has to be consistent with the size of the resulting contour.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       binary array, 1 for object and 0 for background (double precision)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function unfollow plots a contour from its parametric representation into a binary image. This operation is the  reverse of the follow function. </P>
+   <P>
+ x and y both store the parametrized contour. That is,  (x(i),y(i)) is a point of the contour, where the coordinate system is assumed as starting from bottom-left corner  (0,0) to uper-right corner of the image. To get (x,y)  coordinates from (row,col) matrix coordinates, use the  transformation below: </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xset('window',0);
+       xbasc()
+       imshow(Img,2);
+       [x,y] = follow(Img);
+       xbasc()
+       xsm = gsm(x,15);
+       ysm = gsm(y,15);
+       Img2=unfollow(xsm,ysm,size(Img));
+       xbasc()
+
+       imshow(Img2,2);
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>follow</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwborder</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>curvature</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

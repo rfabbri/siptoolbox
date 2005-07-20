@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>ntsc2rgb</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="ntsc2rgb">Converts from YIQ to RGB colorspace</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>RGB = ntsc2rgb(YIQ)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>RGB</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A RGB image (M x N x 3) in 0-1 range or a RGB colormap (M x 3) in 0-1 range
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>YIQ</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A YIQ image (M x N x 3) in 0-1 range or a YIQ colormap (M x 3) in 0-1 range
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ ntsc2rgb(YIQ) converts an YIQ image or colormap from YIQ  to RGB colorspace. The YIQ model is used in NTSC and European TV&apos;s. It is useful for b&amp;w and color compatibility,  since the cromaticity (I and Q) and luminance (Y) are conveniently isolated. ntsc2rgb(YIQ) uses the following operation to convert each YIQ triplet: </P>
+   <VERBATIM>
+        ! R !   !  1.000  0.956    0.621   !   ! Y !
+        ! G ! = !  1.000  -0.272   -0.647  ! * ! I !
+        ! B !   !  1.000  -1.105   1.702   !   ! Q !
+   </VERBATIM>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       rgb = imread('tru.jpg');    // RGB colorspace 0-1
+       imshow(rgb);
+       yiq = rgb2ntsc(rgb);        // YIQ colorspace 0-1
+       yiq(:,:,2) = yiq(:,:,2) /4; // Decrease chromaticity
+       yiq(:,:,3) = yiq(:,:,3) /4;
+       rgb = ntsc2rgb(yiq);
+       imshow(rgb);
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>rgb2ntsc</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>im2gray</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

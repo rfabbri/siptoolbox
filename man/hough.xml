@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>hough</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="hough">Hough transform for line detection</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[ht, rho_range] = hough(imbin)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>imbin</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       binary image array (foreground equals 1)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>ht</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ Hough transform accumulation matrix. <TT>Rho</TT> varies along rows; <TT>theta</TT> varies along columns. <TT>Theta</TT> range is 0-179 degrees w/ 180 samples.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>rho_range</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ Vector containing the range of radius values. Equals -rmax:rmax, where <TT>rmax</TT> is the maximum radius possibly found in the input image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function hough calculates the hough transform of a binary  image. The coordinate system is centered in the image, and the Y axis points downwards. <TT>Theta</TT> grows from X axis to Y axis. Negative <TT>rhos</TT> point to the upper half of the image. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   // ======= Example 1
+
+   im = imread('star.bmp');
+   im = bwborder(im);
+   xbasc()
+   imshow(im,2);
+
+   h = hough(im);
+   xbasc()
+   imshow(h,[]);  // theta varies horizontally from 0 to 180
+
+   ht = 1*(h>= 40); // threshold the hough space
+   lim = ihough(ht,size(im)); // draw the detected lines
+   xbasc()
+   imshow(lim + 2*im +1, hotcolormap(4)) // detected lines shown in yellow
+
+
+   // ======= Example 2: how to obtain the parameters
+   //
+   // creating a empty picture with a line at y = -90
+   e = zeros(200,200);
+   e(10,:) = 1;
+
+   // (remember that the Y axis points downwards and is centered in the
+   // middle of the image)
+
+   // getting its hough transform, and finding the points 
+   // corresponding to y=10
+   [h, rrange] = hough(e);
+   [r,c] = find(h == max(h))
+
+   // Gets the parameters of the line
+   theta = c - 1       // 90 degrees
+   rho   = rrange(r)   // -90 rho (upper half of image)
+
+   // thx to Herve Lombaert for inspiring example #2 !
+
+   chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press. 
+   </P>
+   <P>
+"Practical Computer Vision using C", J. R. 
+Parker, Wiley.
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>ihough</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>radon</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>drawline</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

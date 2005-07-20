@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>bwdist</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>February 2004</DATE>
+<SHORT_DESCRIPTION name="bwdist">distance transforms</SHORT_DESCRIPTION>
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>dt = bwdist(img [,algorithm])</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<PARAM>
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>img</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      Binary image. If every pixel is different than 0, the output is
+      undefined and may contain arbitrary values.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>algorithm</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      Listed below are various algorithms that are available in SIP,
+      together with the shortest string form accepted (for speed
+      of use). This argument is CASE-INSENSITIVE, for convenience. Some of the
+      algorithms are faster than others, but this depends heavily
+      on the size and content of the input.
+      <PARAM_INDENT>
+         <PARAM_ITEM>
+         <PARAM_NAME>&apos;euclidean&apos; or &apos;euclid&apos;</PARAM_NAME>
+         <PARAM_DESCRIPTION>the default fast exact euclidean
+         algorithm. Currently, it is the same as the
+         &apos;cuisenaire pmn&apos;
+         bellow. (DEFAULT)
+         </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;cuisenaire pmn&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>very fast exact euclidean
+            algorithm. It is based on propagation of multiple
+            neighborhoods to build up an exact EDT.
+            </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;cuisenaire pmon&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>a variation of the latter that uses
+            multiple oriented neighborhoods It seems to be slightly
+            slower, in general, but can be faster for some cases (we
+            don't know exactly which)
+            </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;cuisenaire psn4&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>a variation
+            of the latter that uses only 4-neighborhood. This is
+            faster but less precise</PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;cuisenaire psn8&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>a variation of the latter that uses
+            diagonal neighborhood
+            after 4-neighborhood to improve the precision. This is
+            faster than the full &apos;pmn&apos; algorithm, but less
+            precise. It is a little slower than psn4 but considerably more
+            precise.
+         </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;maurer&apos; or &apos;mau&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>very fast (and
+            recent) exact euclidean algorithm, based on certain dimensionality
+            properties of Voronoi diagrams. Seems to be slightly slower
+            than &apos;cuisenaire pmn&apos;, but can be faster for some
+            (unknown) cases.
+            </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;lotufo-zampirolli&apos; or &apos;lotufo-z&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>very fast exact euclidean
+            algorithm. Seems to be slightly slower than maurer and
+            cuisenaire, in general, but can be faster for some
+            cases.
+            </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;IFT 8&apos; or &apos;IFT&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>a fast algorithm using the euclidean
+            metric. For large and thick shapes, there may be a few
+            small errors, which are dispensable for most practical
+            applications.</PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;IFT 4&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>the same algorithm but with
+            4-neighborhood propagation. This means that this method
+            is about 2x faster but less precise</PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;exact dilations&apos; or &apos;exact dil&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>will perform an exact euclidean
+            algorithm that is slow for medium shapes, but
+            it is always exact and reasonably fast for thin
+            shapes.</PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+      </PARAM_INDENT>
+   </PARAM_DESCRIPTION> </PARAM_ITEM> <PARAM_ITEM>
+   <PARAM_NAME>dt</PARAM_NAME> <PARAM_DESCRIPTION>
+      The distance transform of the image. It is undefined if the
+      input is an image without any pixels equal to 0.
+</PARAM_DESCRIPTION> </PARAM_ITEM>
+   </PARAM_INDENT> </PARAM> 
+   
+<DESCRIPTION> <P>
+ Function bwdist computes the distance transform. For each
+ foreground pixel (i.e. value &apos;1&apos;) in the input image, the
+ distance transform assigns a value that is the smallest  distance
+ between that pixel and the all the 0-pixels (you can also think of
+ the distance to the outer boundary of the object). 
+ </P>
+ <P>
+ Many different methods are provided for comparison purposes. If you
+ are going to use bwdist extensively, you may test all the algorithms
+ to find the best one for your particular type of image. 
+ </P>
+</DESCRIPTION> 
+<!-- ================================= --> 
+<EXAMPLE><![CDATA[
+   xset('auto clear', 'on');
+
+   // First, a simple example to illustrate the concept
+   A = zeros(15,10);
+   A(4:12,3:7)=1;
+   A(4:5,3:4)=0
+
+   D = bwdist(A)
+   D = sqrt(D)
+   // Note how the values in D were calculated.
+   // For each pixel p such that A(p)=1, D(p) is the minimum euclidean 
+   // distance of p and the 0-pixels (background).
+
+
+   // -----------------------------------
+   //  Now to a more interesting example
+   // -----------------------------------
+
+
+   A = gray_imread(SIPDIR + 'images/escher.png');
+   imshow(A,2);
+
+   D = bwdist(A);       // method=='cuisenaire pmn'
+   imshow(log(1+D),[]); // normalizes image to enhance visualization
+
+   D = bwdist(A,'exact dilations');
+   imshow(log(1+D),[]);
+
+   // To obtain an external EDT, simply invert the shape:
+   B = 1-A;
+   D = bwdist(B,'maurer');
+   imshow(log(1+D),[]);
+
+   // To obtain an external+internal EDT, simply compute
+   // the binary border of the shape and pass its negative
+   // to bwdist:
+   A = bwborder(A);
+   A = 1-A;
+   D = bwdist(A,'lotufo-zampirolli');
+   imshow(log(1+D),[]);
+
+   // ---------------------------------
+   //  Other forms to visualize the DT
+   // ---------------------------------
+
+   // Wrapping (note the wavefronts of iso-distance)
+   imshow(modulo(sqrt(D),10),[])
+
+   // Usual:
+   D = bwdist(A);
+   D = normal(sqrt(D),1000,1);
+   imshow(D,hotcolormap(1000));
+
+   // There is also of DT application in the example for the "watershed"
+   // function.
+
+   xset('auto clear', 'off');
+]]></EXAMPLE> 
+<!-- ================================= --> 
+<BIBLIO>
+   <ITEMIZE>
+   <ITEM label="Cuisenaire">
+   <P>
+   Cuisenaire, O and  Macq, B,
+   "Fast Euclidean Distance Transformation by Propagation Using
+   Multiple Neighborhoods", Computer Vision and Image Understanding, no. 2,
+   vol 76, 163--172, 76, 1999.
+   </P>
+   <P>
+   Chapter 3 of "Distance transformations: fast algorithms and applications 
+   to medical image processing", Olivier Cuisenaire's Ph.D. Thesis, October 
+   1999, Université catholique de Louvain, Belgium.
+   </P>
+   </ITEM>
+   <ITEM label="Maurer">  
+   <P>
+   Maurer, C.R. and  R. Qi and  V. Raghavan,
+   "A Linear Time Algorithm for Computing the Euclidean Distance Transform in Arbitrary Dimensions",
+   IEEE Transactions on Pattern Analysis and Machine Intelligence,
+   vol. 25, no. 2, pp. 265-270, february 2003.
+   </P></ITEM>
+   <ITEM label="IFT">  
+   <P>
+   "Multiscale Skeletons by Image Foresting Transform
+   and its Application to Neuromorphometry", 
+   A.X. Falcao, L. da F. Costa, B.S. da Cunha,
+   Pattern Recognition, 2002. 
+   </P>
+   </ITEM>
+
+   <ITEM label="Lotufo-Zampirolli">
+   <P>
+   R. Lotufo and F. Zampirolli, Fastmultidimensional parallel
+   euclidean distance
+   transform based on mathematical morphology, in T. Wu and D. Borges, editors,
+   Proccedings of SIBGRAPI 2001, XIV Brazilian Symposium on Computer Graphics 
+   and Image Processing, pages 100-105. IEEE Computer Society, 2001.
+   </P>
+   </ITEM>
+
+   <ITEM label="Exact Dilations">
+   <P>
+   "Multiresolution shape representation without border shifting",
+   L. da F. Costa, and L. F. Estrozi, Electronics Letters, no. 21, vol. 35, 
+   pp. 1829-1830, 1999.
+   </P>
+   <P>
+   "Shape Analysis and Classification", 
+   L. da F. Costa and R.M. Cesar Jr., CRC Press. 
+   </P>
+   </ITEM>
+   </ITEMIZE>
+</BIBLIO>
+<!-- ================================= --> 
+<AUTHORS>
+   <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri
+   (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS> 
+<!-- ================================= --> 
+<SECTION label="Availability"> The latest version
+of the Scilab Image Processing toolbox can be found at <P><A
+href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION> 
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>skel</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>thin</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN> 
+<!-- ===================================================
+           SIP - Scilab Image Processing toolbox Copyright (C)
+           2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

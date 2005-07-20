@@ -1,0 +1,1035 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!-- Better processed with html_sip.xsl -->
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>mogrify</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>February 2004</DATE>
+<SHORT_DESCRIPTION name="mogrify">
+   Filter,  rotate,  zoom, equalization, and MANY
+</SHORT_DESCRIPTION>
+<!-- ========================================== -->
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>[imout (,map)] = mogrify(im, argv)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>[imout (,map)] = mogrify(imRGB, argv)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>[imout (,map)] = mogrify(index, colormap, argv)</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<!-- ========================================== -->
+<PARAM target="in">
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>im</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   binary or grayscale image in the 0-1 range
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>imRGB</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   truecolor image represented as a 3D array, in the 0-1 range.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>index</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   a 2D array in the 1-NC range, where NC is the number of colors.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>colormap</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   an (NCx3) matrix in the 0-1 range.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>argv</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   (argument vector), a string vector, row or column, containing image processing commands. See the section "Argv Argument" bellow for a listing of the available options. The "Example" bellow demonstrates how to use this argument.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM_INDENT>
+</PARAM>
+<PARAM target="out">
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>imout</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    For truecolor images, this is a MxNx3 matrix in the 0-1 range. For binary images, image is a MxNx1 matrix (0=black and 1=white). For grayscale images, this is an MxN matrix in the 0-1 range. For indexed images, this is an MxN matrix in the 1-NC range, where NC is the number of colors.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>map</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    NCx3 matrix containing the image colormap, qhere Nc is the number of colors. Entries range from 0 to 1.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM_INDENT>
+</PARAM>
+<!-- ================================= -->
+<SECTION label="News">
+mogrify is now working with truecolor and paletted images.
+</SECTION>
+<!-- ================================= -->
+<DESCRIPTION>
+<P>
+   Function mogrify does many image processing operations. It  is a
+   direct C-language interface to ImageMagick, providing  the same
+   functinality as the commandline "mogrify" utilty. The difference
+   is that SIP&apos;s mogrify acts upon scilab  matrices instead of
+   image files, and, therefore, is considerably faster. Please
+   see the section "ARGV ARGUMENT"  bellow for details on how the
+   parameter argv is built.
+</P>
+</DESCRIPTION>
+<!-- ================================= -->
+<EXAMPLE><![CDATA[
+Please follow the TransMogrify demo using the following command:
+     exec(SIPDEMO);
+]]></EXAMPLE>
+<!-- ================================= -->
+<SECTION label="ARGV Argument">
+   In this section, angle brackets ("&lt;&gt;") enclose variables and
+curly brackets ("{}") enclose optional parameters. For example,
+<TT>"-fuzz &lt;distance&gt;{%}"</TT> means you can use the option
+<TT>['-fuzz','10']</TT> or <TT>['-fuzz', '2%']</TT>.
+<ITEMIZE>
+   <ITEM label="-affine &lt;matrix&gt;">
+      drawing transform matrix
+   <P>
+      This option provides a transform matrix {sx,rx,ry,sy,tx,ty} for
+      use by subsequent 
+      <BD>-draw</BD> or 
+      <BD>-transform</BD> option.
+
+   </P>
+   </ITEM>
+      <ITEM label="-antialias">
+      remove pixel aliasing
+   <P>
+      By default antialiasing algorithms are used when drawing objects (e.g. lines)
+      or rendering vector formats (e.g. WMF and Postscript). Use +antialias to
+      disable use of antialiasing algorithms. Reasons to disable antialiasing
+      include avoiding increasing colors in the image, or improving rendering speed.
+   </P>
+   </ITEM>
+      <ITEM label="-background &lt;color&gt;">
+      the background color
+   <P>
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </P>
+   </ITEM>
+      <ITEM label="-blur &lt;radius&gt;x&lt;sigma&gt;">
+      blur the image with a Gaussian operator
+   <P>
+      Blur with the given radius and standard deviation (sigma). It is
+      better if the radius be greater than sigma, but the larger it is,
+      the slower is the processing.  If a radius equal to 0 is passed,
+      then mogrify uses the optimal radius.
+   </P>
+   </ITEM>
+      <ITEM label="-border &lt;width&gt;x&lt;height&gt;">
+      surround the image with a border of color
+   <P>
+      See <BD>-geometry</BD> for details
+      about the geometry specification.
+   </P>
+   </ITEM>
+      <ITEM label="-bordercolor &lt;color&gt;">
+      the border color
+   <P>
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </P>
+   </ITEM>
+      <ITEM label="-channel &lt;type&gt;">
+      the type of channel
+   <P>
+      Choose from: <BD>Red</BD>, <BD>Green</BD>, <BD>Blue</BD>, 
+      <BD>Cyan</BD>, <BD>Magenta</BD>, <BD>Yellow</BD>, or <BD>Black</BD>.
+   </P><P>
+      Use this option to extract a particular channel from the image.
+   </P>
+   </ITEM>
+      <ITEM label="-charcoal &lt;factor&gt;">
+      simulate a charcoal drawing
+   </ITEM>
+      <ITEM label="-colorize &lt;value&gt;">
+      colorize the image with the pen color
+   <P>
+      Specify the amount of colorization as a percentage. You can apply separate
+      colorization values to the red, green, and blue channels of the image with
+      a colorization value list delineated with slashes (e.g. 0/0/50).
+   </P>
+   </ITEM>
+      <ITEM label="-colorspace &lt;value&gt;">
+      the type of colorspace
+   <P>
+      Choices are: <BD>GRAY</BD>, <BD>OHTA</BD>, <BD>RGB</BD>,
+      <BD>Transparent</BD>,
+      <BD>XYZ</BD>,
+      <BD>YCbCr</BD>, <BD>YIQ</BD>, <BD>YPbPr</BD>,
+      <BD>YUV</BD>, or <BD>CMYK</BD>.
+   </P><P>
+      Color reduction, by default, takes place in the RGB color space. Empirical
+      evidence suggests that distances in color spaces such as YUV or YIQ correspond
+      to perceptual color differences more closely than do distances in RGB space.
+      These color spaces may give better results when color reducing an image.
+      Refer to quantize for more details.
+   </P><P>
+      The <BD>Transparent</BD> color space behaves uniquely in that it preserves
+      the matte channel of the image if it exists.
+   </P><P>
+      The <BD>-colors</BD> or <BD>-monochrome</BD> option is required for this
+      option to take effect.
+   </P>
+   </ITEM>
+      <ITEM label="-contrast">
+      enhance or reduce the image contrast
+   <P>
+      This option enhances the intensity differences between the lighter and
+      darker elements of the image. Use <BD>-contrast</BD> to enhance
+      the image
+      or <BD>+contrast</BD> to reduce the image contrast.
+   </P>
+   </ITEM>
+      <ITEM label="-crop &lt;width&gt;x&lt;height&gt;{+-}&lt;x&gt;{+-}&lt;y&gt;{%}">
+      preferred size and location of the cropped image
+   <P>
+      See <BD>-geometry</BD> for details
+      about the geometry specification.
+   </P><P>
+      The width and height give the size of the image that remains after cropping,
+      and x and y are offsets that give the location of the top left
+      corner of the cropped
+      image with respect to the original image.  To specify the amount to be
+      removed, use <BD>-shave</BD> instead.
+   </P><P>
+      To specify a percentage width or height to be removed instead, append
+      <BD>%</BD>. For example
+      to crop the image by ten percent (five percent on each side of the image),
+      use <BD>-crop 10%</BD>.
+   </P><P>
+      If the x and y offsets are present, a single image is
+      generated, consisting of the pixels from the cropping region.
+      The offsets specify the location of the upper left corner of
+      the cropping region measured downward and rightward with respect to the
+      upper left corner of the image.
+      If the <BD>-gravity</BD> option is present with NorthEast, East,
+      or SouthEast
+      gravity, it gives the distance leftward from the right edge
+      of the image to the right edge of the cropping region.  Similarly, if
+      the <BD>-gravity</BD> option is present with SouthWest, South,
+      or SouthEast
+      gravity, the distance is measured upward between the bottom
+      edges.
+   </P><P>
+      If the x and y offsets are omitted, a set of tiles of the
+      specified geometry, covering the entire input image, is generated.  The
+      rightmost tiles and the bottom tiles are smaller if the
+      specified geometry extends beyond the dimensions of the input image.
+   </P>
+   </ITEM>
+      <ITEM label="-cycle &lt;amount&gt;">
+      displace image colormap by amount
+   <P>
+      Amount defines the number of positions each colormap entry is
+      shifted.
+   </P>
+   </ITEM>
+      <ITEM label="-debug">
+      enable debug printout
+      </ITEM>
+      <ITEM label="-despeckle">
+      reduce the speckles within an image
+      </ITEM>
+      <ITEM label="-dither">
+      apply Floyd/Steinberg error diffusion to the image
+   <P>
+      The basic strategy of dithering is to trade intensity resolution for spatial
+      resolution by averaging the intensities of several neighboring pixels.
+      Images which suffer from severe contouring when reducing colors can be
+      improved with this option.
+   </P><P>
+      The <BD>-colors</BD> or <BD>-monochrome</BD> option is required for this option
+      to take effect.
+   </P><P>
+      Use <BD>+dither</BD> to turn off dithering and to render PostScript without
+      text or graphic aliasing.
+   </P>
+   </ITEM>
+      <ITEM label="-draw &lt;string&gt;">
+      annotate an image with one or more graphic primitives
+   <P>
+      Use this option to annotate an image with one or more graphic primitives.
+      The primitives include shapes, text, transformations,
+      and pixel operations.  The shape primitives are
+   </P><VERBATIM>
+           point           x,y
+           line            x0,y0 x1,y1
+           rectangle       x0,y0 x1,y1
+           roundRectangle  x0,y0 x1,y1 wc,hc
+           arc             x0,y0 x1,y1 a0,a1
+           ellipse         x0,y0 rx,ry a0,a1
+           circle          x0,y0 x1,y1
+           polyline        x0,y0  ...  xn,yn
+           polygon         x0,y0  ...  xn,yn
+           Bezier          x0,y0  ...  xn,yn
+           path            path specification
+           image           operator x0,y0 w,h filename
+   </VERBATIM><P>
+      The text primitive is
+   </P><VERBATIM>
+           text            x0,y0 string
+   </VERBATIM><P>
+      The transformation primitives are
+   </P><VERBATIM>
+           rotate          degrees
+           translate       dx,dy
+           scale           sx,sy
+           skewX           degrees
+           skewY           degrees
+   </VERBATIM><P>
+      The pixel operation primitives are
+   </P><P>
+           color           x0,y0 method
+   </P><P>
+      The shape primitives are drawn in the color specified in the preceding
+      <BD>-stroke</BD> option. Except for the <BD>line</BD> and <BD>point</BD>
+      primitives, they are filled with the color specified in the preceding
+      <BD>-fill</BD> option.  For unfilled shapes, use -fill none.
+   </P><P>
+      <BD>Point</BD> requires a single coordinate.
+   </P><P>
+      <BD>Line</BD> requires a start and end coordinate.
+   </P><P>
+      <BD>Rectangle</BD>
+      expects an upper left and lower right coordinate.
+   </P><P>
+      <BD>RoundRectangle</BD> has the upper left and lower right coordinates
+      and the width and height of the corners.
+   </P><P>
+      <BD>Circle</BD> has a center coordinate and a coordinate for
+      the outer edge.
+   </P><P>
+      Use <BD>Arc</BD> to circumscribe an arc within
+      a rectangle.  Arcs require a start and end point as well as the degree
+      of rotation (e.g. 130,30 200,100 45,90).
+   </P><P>
+      Use <BD>Ellipse</BD> to draw a partial ellipse
+      centered at the given point with the x-axis and y-axis radius
+      and start and end of arc in degrees (e.g. 100,100 100,150 0,360).
+   </P><P>
+      Finally, <BD>polyline</BD> and <BD>polygon</BD> require
+      three or more coordinates to define its boundaries.
+      Coordinates are integers separated by an optional comma.  For example,
+      to define a circle centered at 100,100
+      that extends to 150,150 use:
+   </P><P>
+           ['-draw'; 'circle 100,100 150,150']
+   </P><P>
+      <BD>Paths</BD>
+      (See Paths)
+      represent an outline of an object which is defined in terms of
+      moveto (set a new current point), lineto (draw a straight line),
+      curveto (draw a curve using a cubic Bezier), arc (elliptical or
+      circular arc) and closepath (close the current shape by drawing a line
+      to the last moveto) elements. Compound paths (i.e., a path with
+      subpaths, each consisting of a single moveto followed by one or more
+      line or curve operations) are possible to allow effects such as
+      "donut holes" in objects.
+   </P><P>
+      Use <BD>image</BD> to composite an image with another image. Follow the
+      image keyword with the composite operator, image location, image size,
+      and filename:
+   </P><P>
+           ['-draw'; 'image Over 100,100 225,225 image.jpg']
+   </P><P>
+      You can use 0,0 for the image size, which means to use the actual
+      dimensions found in the image header. Otherwise, it will
+      be scaled to the given dimensions.
+   </P><P>
+      Use <BD>text</BD> to annotate an image with text. Follow the text coordinates
+      with a string. If the string has embedded spaces, enclose it in double
+      quotes. Optionally you can include the image filename, type, width, height,
+      or other image attribute by embedding special format character.
+      See <BD>-comment</BD> for details.
+   </P><P>
+      For example,
+   </P><P>
+           ['-draw'; 'text 100,100 ""%wx%h""']
+   </P><P>
+      annotates the image with 512x480 for an image whose width
+      is 512 and height is 480.
+   </P><P>
+      If the first character of string is @, the text is read from
+      a file titled by the remaining characters in the string.
+   </P><P>
+      <BD>Rotate</BD> rotates subsequent shape primitives and text primitives about
+      the origin of the main image. If the <BD>-region</BD> option precedes the
+      <BD>-draw</BD> option, the origen for transformations is the upper left
+      corner of the region.
+   </P><P>
+      <BD>Translate</BD> translates them.
+   </P><P>
+      <BD>Scale</BD> scales them.
+   </P><P>
+      <BD>SkewX</BD> and <BD>SkewY</BD> skew them with respect to the origen of
+      the main image or the region.
+   </P><P>
+      The transformations modify the current affine matrix, which is initialized
+      from the initial affine matrix defined by the <BD>-affine</BD> option.
+      Transformations are cumulative within the <BD>-draw</BD> option.
+      The initial affine matrix is not affected; that matrix is only changed by the
+      appearance of another <BD>-affine</BD> option.  If another <BD>-draw</BD>
+      option appears, the current affine matrix is reinitialized from
+      the initial affine matrix.
+   </P><P>
+      Use <BD>color</BD> to change the color of a pixel to the fill color (see
+      <BD>-fill</BD>). Follow the pixel coordinate
+      with a method:
+   </P><VERBATIM>
+           point
+           replace
+           floodfill
+           filltoborder
+           reset
+   </VERBATIM><P>
+      Consider the target pixel as that specified by your coordinate. The
+      <BD>point</BD>
+      method recolors the target pixel. The <BD>replace</BD> method recolors any
+      pixel that matches the color of the target pixel.
+      <BD>Floodfill</BD> recolors
+      any pixel that matches the color of the target pixel and is a neighbor,
+      whereas <BD>filltoborder</BD> recolors any neighbor pixel that is not the
+      border color. Finally, <BD>reset</BD> recolors all pixels.
+   </P><P>
+   </P><P>
+      You can set the primitive color, font, and font bounding box
+      color with
+      <BD>-fill</BD>, <BD>-font</BD>, and <BD>-box</BD> respectively. Options
+      are processed in the <BD>argv</BD> order so be sure to use these
+      options before the <BD>-draw</BD> option.
+   </P>
+   </ITEM>
+      <ITEM label="-edge &lt;radius&gt;">
+      detect edges within an image
+      </ITEM>
+      <ITEM label="-emboss">
+      emboss an image
+      </ITEM>
+      <ITEM label="-encoding &lt;type&gt;">
+      specify the text encoding
+   <P>
+      Choose from AdobeCustom, AdobeExpert, AdobeStandard, AppleRoman,
+      BIG5, GB2312, Latin 2, None, SJIScode, Symbol, Unicode, Wansung.
+   </P>
+   </ITEM>
+      <ITEM label="-enhance">
+      apply a digital filter to enhance a noisy image
+      </ITEM>
+      <ITEM label="-equalize">
+      perform histogram equalization to the image
+      </ITEM>
+      <ITEM label="-fill &lt;color&gt;">
+      color to use when filling a graphic primitive
+   <P>
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </P><P>
+      See <BD>-draw</BD> for further
+      details.
+   </P>
+   </ITEM>
+      <ITEM label="-filter &lt;type&gt;">
+      use this type of filter when resizing an image
+   <P>
+      Use this option to affect the resizing operation of an image (see
+      <BD>-geometry</BD>).
+      Choose from these filters:
+      </P><VERBATIM>
+           Point
+           Box
+           Triangle
+           Hermite
+           Hanning
+           Hamming
+           Blackman
+           Gaussian
+           Quadratic
+           Cubic
+           Catrom
+           Mitchell
+           Lanczos
+           Bessel
+           Sinc
+   </VERBATIM><P>
+      The default filter is <BD>Lanczos</BD>
+
+   </P>
+   </ITEM>
+      <ITEM label="-flip">
+      create a "mirror image"
+   <P>
+      reflect the scanlines in the vertical direction.
+   </P>
+   </ITEM>
+      <ITEM label="-flop">
+      create a "mirror image"
+   <P>
+      reflect the scanlines in the horizontal direction.
+   </P>
+   </ITEM>
+      <ITEM label="-font &lt;name&gt;">
+      use this font when annotating the image with text
+   <P>
+      You can tag a font to specify whether it is a PostScript, TrueType, or OPTION1
+      font.  For example, Arial.ttf is a TrueType font, ps:helvetica
+      is PostScript, and x:fixed is OPTION1.
+   </P>
+   </ITEM>
+      <ITEM label="-foreground &lt;color&gt;">
+      define the foreground color
+   <P>
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </P>
+   </ITEM>
+      <ITEM label="-frame &lt;width&gt;x&lt;height&gt;+&lt;outer bevel width&gt;+&lt;inner bevel width&gt;">
+      surround the image with an ornamental border
+   <P>
+      See <BD>-geometry</BD> for details
+      about the geometry specification.
+      The <BD>-frame</BD> option is not affected by the <BD>-gravity</BD> option.
+   </P><P>
+      The color of the border is specified with the
+      <BD>-mattecolor</BD> command
+      line option.
+   </P>
+   </ITEM>
+      <ITEM label="-frame">
+      include the X window frame in the imported image
+      </ITEM>
+      <ITEM label="-fuzz &lt;distance&gt;{%}">
+      colors within this distance are considered equal
+   <P>
+      A number of algorithms search for a target color. By default the color
+      must be exact. Use this option to match colors that are close to the target
+      color in RGB space. For example, if you want to automatically trim the
+      edges of an image with <BD>-trim</BD> but the image was scanned and the
+      target background color may differ by a small amount. This option can account
+      for these differences.
+   </P><P>
+      The distance can be in absolute intensity units or, by appending
+      "%", as a percentage of the maximum possible intensity.
+   </P>
+   </ITEM>
+      <ITEM label="-gamma &lt;value&gt;">
+      level of gamma correction
+   <P>
+      The same color image displayed on two different workstations may look different
+      due to differences in the display monitor. Use gamma correction to adjust
+      for this color difference. Reasonable values extend from <BD>0.8</BD> to
+      <BD>2.3</BD>.
+   </P><P>
+      You can apply separate gamma values to the red, green, and blue channels
+      of the image with a gamma value list delineated with slashes
+      (e.g., <BD>1.7</BD>/<BD>2.3</BD>/<BD>1.2</BD>).
+
+   </P>
+   </ITEM>
+      <ITEM label="-Gaussian &lt;radius&gt;x&lt;sigma&gt;">
+      blur the image with a Gaussian operator
+   <P>
+      Use the given radius and standard deviation (sigma).
+   </P>
+   </ITEM>
+      <ITEM label="-geometry &lt;width&gt;x&lt;height&gt;{+-}&lt;x&gt;{+-}&lt;y&gt;{%}{@} {!}{&lt;}{&gt;}">
+      preferred size and location of the Image window.
+   <P>
+      By default, the window size is the image
+      size and the location is chosen by you when it is mapped.
+   </P><P>
+      By default, the width and height are maximum values. That is, the image
+      is expanded or contracted to fit the width and height value while maintaining
+      the aspect ratio of the image. Append an exclamation point to the geometry
+      to force the image size to exactly the size you specify. For example,
+      if you specify 640x480! the image width is set to 640 pixels and
+      height to 480.
+   </P><P>
+      If only the width is specified, the width assumes the
+      value and the height is chosen to maintain the aspect ratio of the image.
+      Similarly, if only the height is specified (e.g., -geometry x256),
+      the width is chosen to maintain the aspect ratio.
+   </P><P>
+      To specify a percentage width or height instead, append %. The image size
+      is multiplied by the width and height percentages to obtain the final image
+      dimensions. To increase the size of an image, use a value greater than
+      100 (e.g. 125%). To decrease an image's size, use a percentage less than
+      100.
+   </P><P>
+      Use @ to specify the maximum area in pixels of an image.
+   </P><P>
+      Use &gt; to change the dimensions of the image only if
+      its width or height exceeds the geometry specification. &lt; resizes
+      the image only if both of its dimensions are less than the geometry
+      specification. For Example,
+      if you specify '640x480&gt;' and the image size is 256x256, the image
+      size does not change. However, if the image is 512x512 or 1024x1024, it is
+      resized to 480x480.  Enclose the geometry specification in quotation marks to
+      prevent the &lt; or &gt; from being interpreted by your shell
+      as a file redirection.
+   </P><P>
+      <BD>-geometry</BD> is synonymous with <BD>-resize</BD> and
+      specifies the size of the output image.  The offsets, if present, are ignored.
+
+   </P>
+   </ITEM>
+      <ITEM label="-gravity &lt;type&gt;">
+      direction primitive  gravitates to when annotating the image.
+   <P>
+      Choices are: NorthWest, North,
+      NorthEast, West, Center, East, SouthWest, South, SouthEast.
+   </P><P>
+      The direction you choose specifies where to position the text or other
+      graphic primitive when annotating
+      the image. For example Center gravity forces the text to be centered
+      within the image. By default, the image gravity is NorthWest.
+      See <BD>-draw</BD> for more details about graphic primitives.
+   </P><P>
+      The <BD>-gravity</BD> option is also used in concert with the <BD>-geometry</BD>
+      option and other options that take <BD>&lt;geometry&gt;</BD> as a parameter, such
+      as the <BD>-crop</BD> option.  See <BD>-geometry</BD> for details of how the
+      <BD>-gravity</BD> option interacts with the
+      <BD>&lt;x&gt;</BD> and <BD>&lt;y&gt;</BD> parameters of a geometry
+      specification.
+   </P>
+   </ITEM>
+      <ITEM label="-implode &lt;factor&gt;">
+      implode image pixels about the center. It is a real number.
+      </ITEM>
+      <ITEM label="-lat &lt;radius&gt;x&lt;sigma&gt;{+-}&lt;offset&gt;{%}">
+      perform local adaptive thresholding
+   <P>
+      Perform local adaptive thresholding using the specified radius, sigma,
+      and offset.  The offset is a distance in sample space from the mean,
+      as an absolute integer ranging from 0 to the maximum sample value or
+      as a percentage.
+      For reasonable results, radius should be larger than sigma.  Use a radius
+      of 0 to have the method select a suitable radius.
+   </P>
+   </ITEM>
+      <ITEM label="-level &lt;value&gt;">
+      adjust the level of image contrast
+   <P>
+      Give three point values delineated with commas: black, mid, and white
+      (e.g. 10,1.0,65000).  The white and black points range from 0 to MaxRGB
+      and mid ranges from 0 to 10.
+   </P>
+   </ITEM>
+      <ITEM label="-linewidth">
+      the line width for subsequent draw operations
+   </ITEM>
+      <ITEM label="-map &lt;filename&gt;">
+      </ITEM>
+      <ITEM label="-mask &lt;filename&gt;">
+      Specify a clipping mask
+   <P>
+      The image read from the file is used as a clipping mask.  It must have
+      the same dimensions as the image being masked.
+   </P><P>
+      If the mask image contains an opacity channel, the opacity of each pixel is
+      used to define the mask.  Otherwise, the intensity (gray level) of each
+      pixel is used.
+   </P><P>
+      Use <BD>+mask</BD> to remove the clipping mask.
+   </P><P>
+      It is not necessary to use <BD>-clip</BD> to activate the mask; <BD>-clip</BD>
+      is implied by <BD>-mask</BD>.
+   </P></ITEM>   
+      <ITEM label="-matte">
+   </ITEM>
+      <ITEM label="-mattecolor &lt;color&gt;">
+      </ITEM>
+      <ITEM label="-median &lt;radius&gt;">
+      apply a median filter to the image
+      </ITEM>
+      <ITEM label="-monochrome">
+      transform the image to black and white
+      </ITEM>
+      <ITEM label="-negate">
+      replace every pixel with its complementary color
+   <P>
+      The red, green, and blue intensities of an image are negated.
+      White becomes black,
+      yellow becomes blue, etc.
+      Use <BD>+negate</BD>
+      to only negate the grayscale pixels of the image.
+   </P>
+   </ITEM>
+      <ITEM label="-noise &lt;radius|type&gt;">
+      add or reduce noise in an image
+   <P>
+      The principal function of noise peak elimination filter is to smooth the
+      objects within an image without losing edge information and without creating
+      undesired structures. The central idea of the algorithm is to replace a
+      pixel with its next neighbor in value within a pixel window, if this pixel
+      has been found to be noise. A pixel is defined as noise if and only if
+      this pixel is a maximum or minimum within the pixel window.
+   </P><P>
+      Use <BD>radius</BD> to specify the width of the neighborhood.
+   </P><P>
+      Use <BD>+noise</BD> followed by a noise type to add noise to an image. Choose
+      from these noise types:
+   </P><VERBATIM>
+           Uniform
+           Gaussian
+           Multiplicative
+           Impulse
+           Laplacian
+           Poisson
+   </VERBATIM>
+   </ITEM>
+      <ITEM label="-normalize">
+      transform image to span the full range of color values
+   <P>
+      This is a contrast enhancement technique.
+   </P>
+   </ITEM>
+      <ITEM label="-opaque &lt;color&gt;">
+      change this color to the pen color within the image
+   <P>
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+
+
+   </P>
+   </ITEM>
+      <ITEM label="-paint &lt;radius&gt;">
+      simulate an oil painting
+   <P>
+      Each pixel is replaced by the most frequent color in a circular neighborhood
+      whose width is specified with radius.
+   </P>
+   </ITEM>
+      <ITEM label="-raise &lt;width&gt;x&lt;height&gt;">
+      lighten or darken image edges
+   <P>
+      This will create a 3-D effect.
+      See <BD>-geometry</BD> for details
+      details about the geometry specification.
+      Offsets are not used.
+   </P><P>
+      Use <BD>-raise</BD> to create a raised effect, otherwise use <BD>+raise</BD>.
+   </P>
+   </ITEM>
+      <ITEM label="-region &lt;width&gt;x&lt;height&gt;{+-}&lt;x&gt;{+-}&lt;y&gt;">
+      apply options to a portion of the image
+   <P>
+      The x and y offsets are treated in the same manner as in <BD>-crop</BD>.
+   </P>
+   </ITEM>
+      <ITEM label="-resize &lt;width&gt;x&lt;height&gt;{%}{@}{!}{&lt;}{&gt;}">
+      resize an image
+   <P>
+      This is an alias for the <BD>-geometry</BD> option and it behaves in the
+      same manner. If the <BD>-filter</BD> option precedes the <BD>-resize</BD>
+      option, the specified filter is used.
+   </P><P>
+      There are some exceptions:
+   </P><P>
+      When used as a composite option, <BD>-resize</BD> conveys the preferred
+      size of the output image, while <BD>-geometry</BD> conveys
+      the size and placement of the composite image within the main
+      image.
+   </P><P>
+      When used as a montage option, <BD>-resize</BD> conveys the preferred
+      size of the montage, while <BD>-geometry</BD> conveys
+      information about the tiles.
+   </P>
+   </ITEM>
+      <ITEM label="-roll {+-}&lt;x&gt;{+-}&lt;y&gt;">
+      roll an image vertically or horizontally
+   <P>
+      See <BD>-geometry</BD> for details
+      the geometry specification.
+      The x and y offsets are not affected
+      by the <BD>-gravity</BD> option.
+   </P><P>
+      A negative x  offset rolls the image left-to-right. A negative y
+      offset rolls the image top-to-bottom.
+   </P>
+   </ITEM>
+      <ITEM label="-rotate &lt;degrees&gt;{&lt;}{&gt;}">
+      apply Paeth image rotation to the image
+   <P>
+      Use &gt; to rotate the image only if its width exceeds the height.
+      &lt; rotates the image only if its width is less than the
+      height. For example, if you specify -rotate "-90&gt;" and the image
+      size is 480x640, the image is not rotated.  However, if the
+      image is 640x480, it is rotated by -90 degrees.  If you use &gt; or
+      &lt;, enclose it in quotation marks to prevent it from being
+      misinterpreted as a file redirection.
+   </P><P>
+
+      Empty triangles left over from rotating the image are filled with the color
+      defined as <BD>background</BD> (class <BD>backgroundColor</BD>). See X(1)
+      for details.
+   </P>
+   </ITEM>
+      <ITEM label="-sample &lt;geometry&gt;">
+      scale image with pixel sampling
+   <P>
+      See <BD>-geometry</BD> for details about
+      the geometry specification.
+      <BD>-sample</BD> ignores the <BD>-filter</BD> selection if the <BD>-filter</BD> option
+      is present.  Offsets, if present in the geometry string, are ignored, and
+      the <BD>-gravity</BD> option has no effect.
+   </P>
+   </ITEM>
+      <ITEM label="-sampling_factor &lt;horizontal_factor&gt;x&lt;vertical_factor&gt;">
+      sampling factors used by JPEG or MPEG-2 encoder and YUV decoder/encoder.
+   <P>
+      This option specifies the sampling factors to be used by the JPEG encoder for
+      chroma downsampling.  If this option is omitted, the JPEG library
+      will use its own default values.  When reading or writing the YUV format
+      and when writing the M2V (MPEG-2) format, use
+      <BD>-sampling_factor 2x1</BD> to specify the 4:2:2 downsampling method.
+   </P>
+   </ITEM>
+      <ITEM label="-scale &lt;geometry&gt;">
+      scale the image.
+   <P>
+      See <BD>-geometry</BD> for details about
+      the geometry specification.  <BD>-scale</BD> uses a simpler, faster algorithm,
+      and it ignores the <BD>-filter</BD> selection if the <BD>-filter</BD> option
+      is present.  Offsets, if present in the geometry string, are ignored, and
+      the <BD>-gravity</BD> option has no effect.
+   </P>
+   </ITEM>
+      <ITEM label="-seed &lt;value&gt;">
+      pseudo-random number generator seed value
+      </ITEM>
+      <ITEM label="-segment &lt;cluster threshold&gt;x&lt;smoothing threshold&gt;">
+      segment an image
+   <P>
+      Segment an image by analyzing the histograms of the color components and
+      identifying units that are homogeneous with the fuzzy c-means technique.
+   </P><P>
+      Specify cluster threshold as the number of pixels in each cluster
+      must exceed the the cluster threshold to be considered valid. Smoothing
+      threshold eliminates noise in the second derivative of the histogram.
+      As the value is increased, you can expect a smoother second derivative.
+      The default is 1.5. See
+      "Image Segmentation", below,
+      for details.
+   </P>
+   </ITEM>
+      <ITEM label="-shade &lt;azimuth&gt;x&lt;elevation&gt;">
+      shade the image using a distant light source
+   <P>
+      Specify azimuth and elevation as the position of the light
+      source. Use <BD>+shade</BD> to return the shading results as a grayscale
+      image.
+   </P>
+   </ITEM>
+      <ITEM label="-sharpen &lt;radius&gt;x&lt;sigma&gt;">
+      sharpen the image
+   <P>
+      Use a Gaussian operator of the given radius and
+      standard deviation (sigma).
+   </P>
+   </ITEM>
+      <ITEM label="-shave &lt;width&gt;x&lt;height&gt;">
+      shave pixels from the image edges
+   <P>
+      Specify the width of the region to be removed from both
+      sides of the image and the height of the regions to be removed from
+      top and bottom.
+   </P>
+   </ITEM>
+      <ITEM label="-shear &lt;x degrees&gt;x&lt;y degrees&gt;">
+      shear the image along the X or Y axis
+   <P>
+      Use the specified positive or negative shear angle.
+   </P><P>
+      Shearing slides one edge of an image along the X or Y axis, creating a
+      parallelogram. An X direction shear slides an edge along the X axis, while
+      a Y direction shear slides an edge along the Y axis. The amount of the
+      shear is controlled by a shear angle. For X direction shears, x degrees
+      is measured relative to the Y axis, and similarly, for Y direction shears
+      y
+      degrees is measured relative to the X axis.
+   </P><P>
+      Empty triangles left over from shearing the image are filled with the color
+      defined as <BD>background</BD> (class <BD>backgroundColor</BD>). See X(1)
+      for details.
+   </P>
+   </ITEM>
+      <ITEM label="-solarize &lt;factor&gt;">
+      negate all pixels above the threshold level
+   <P>
+      Specify factor as the
+      percent threshold of the intensity (0 - 99.9%).
+   </P><P>
+      This option produces a solarization effect seen when exposing a
+      photographic film to light during the development process.
+   </P>
+   </ITEM>
+      <ITEM label="-spread &lt;amount&gt;">
+      displace image pixels by a random amount
+   <P>
+      Amount defines the size of the neighborhood around each pixel to
+      choose a candidate pixel to swap.
+   </P>
+   </ITEM>
+      <ITEM label="-stroke &lt;color&gt;">
+      color to use when stroking a graphic primitive
+   <P>
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </P><P>
+      See <BD>-draw</BD> for further
+      details.
+
+   </P>
+   </ITEM>
+      <ITEM label="-strokewidth &lt;value&gt;">
+      set the stroke width
+   <P>
+      See <BD>-draw</BD> for further details.
+   </P>
+   </ITEM>
+      <ITEM label="-swirl &lt;degrees&gt;">
+      swirl image pixels about the center
+   <P>
+      Degrees defines the tightness of the swirl.
+   </P></ITEM>
+      <ITEM label="-texture &lt;filename&gt;">
+      </ITEM>
+      <ITEM label="-threshold &lt;value&gt;">
+      threshold the image
+      <P>
+      Create a bi-level image such that any pixel intensity that is equal or
+      exceeds the threshold is reassigned the maximum intensity otherwise the
+      minimum intensity.
+      </P></ITEM>
+      <ITEM label="-tile &lt;filename&gt;">
+      </ITEM>
+      <ITEM label="-tile &lt;geometry&gt;">
+      layout of images [montage]
+      </ITEM>
+      <ITEM label="-transform">
+      transform the image
+   <P>
+      This option applies the transformation matrix from a previous
+      <BD>-affine</BD> option.
+   </P><P>
+          mogrify(img, '-affine 2,2,-2,2,0,0 -transform bird.ppm');
+      </P>
+      </ITEM>
+      <ITEM label="-transparent &lt;color&gt;">
+      </ITEM>
+      <ITEM label="-treedepth &lt;value&gt;">
+      tree depth for the color reduction algorithm
+   <P>
+      Normally, this integer value is zero or one. A zero or one tells display
+      to choose an optimal tree depth for the color reduction algorithm
+   </P><P>
+      An optimal depth generally allows the best representation of the source
+      image with the fastest computational speed and the least amount of memory.
+      However, the default depth is inappropriate for some images. To assure
+      the best representation, try values between 2 and 8 for this parameter.
+      Refer to
+      quantize for more details.
+   </P><P>
+      The <BD>-colors</BD> or <BD>-monochrome</BD> option is required for this option
+      to take effect.
+   </P>
+   </ITEM>
+      <ITEM label="-trim">
+      trim an image
+   <P>
+      This option removes any edges that are exactly the same color as the
+      corner pixels.  Use <BD>-fuzz</BD> to make <BD>-trim</BD> remove edges that
+      are nearly the same color as the corner pixels.
+   </P>
+   </ITEM>
+      <ITEM label="-type &lt;type&gt;">
+      </ITEM>
+      <ITEM label="-unsharp &lt;radius&gt;x&lt;sigma&gt;">
+      sharpen the image with an unsharp mask operator
+   <P>
+      Use the given radius and standard deviation (sigma).
+
+   </P>
+   </ITEM>
+      <ITEM label="-wave &lt;amplitude&gt;x&lt;wavelength&gt;">
+      alter an image along a sine wave
+   <P>
+      Specify amplitude and wavelength
+      of the wave.
+   </P>
+   </ITEM>
+</ITEMIZE>
+</SECTION>
+<!-- ================================= -->
+<SECTION label="Image Segmenation">
+<P>
+Use <BD>-segment</BD> to segment an image by analyzing the histograms of
+the color components and identifying units that are homogeneous with the
+fuzzy c-means technique. The scale-space filter analyzes the histograms
+of the three color components of the image and identifies a set of classes.
+The extents of each class is used to coarsely segment the image with thresholding.
+The color associated with each class is determined by the mean color of
+all pixels within the extents of a particular class. Finally, any unclassified
+pixels are assigned to the closest class with the fuzzy c-means technique.
+</P><P>   
+The fuzzy c-Means algorithm can be summarized as follows:
+</P><P>   
+Build a histogram, one for each color component of the image.
+</P><P>   
+For each histogram, successively apply the scale-space filter and build
+an interval tree of zero crossings in the second derivative at each scale.
+Analyze this scale-space "fingerprint" to determine which peaks or valleys
+in the histogram are most predominant.
+</P><P>   
+The fingerprint defines intervals on the axis of the histogram. Each interval
+contains either a minima or a maxima in the original signal. If each color
+component lies within the maxima interval, that pixel is considered "classified"
+and is assigned an unique class number.
+</P><P>   
+Any pixel that fails to be classified in the above thresholding pass is
+classified using the fuzzy c-Means technique. It is assigned to one of
+the classes discovered in the histogram analysis phase.
+</P><P>   
+The fuzzy c-Means technique attempts to cluster a pixel by finding the
+local minima of the generalized within group sum of squared error objective
+function. A pixel is assigned to the closest class of which the fuzzy membership
+has a maximum value.
+</P><P>   
+For additional information see:
+Young Won Lim, Sang Uk Lee, "On The Color Image Segmentation
+Algorithm Based on the Thresholding and the Fuzzy c-Means Techniques",
+Pattern Recognition, Volume 23, Number 9, pages 935-952, 1990.
+</P>
+</SECTION>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be
+found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+<SEE_ALSO>
+   <SEE_ALSO_ITEM> <LINK>imread</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>imwrite</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>imfinfo</LINK> </SEE_ALSO_ITEM>
+</SEE_ALSO>
+</MAN>

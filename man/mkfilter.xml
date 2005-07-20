@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>mkfilter</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="mkfilter">Returns popular 2D convolution kernels</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>K = mkfilter(name)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>name</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       a string, the name of the filter mask. May be &apos;sobel&apos;, &apos;prewitt&apos;, &apos;laplace1&apos;, &apos;laplace2&apos;, &apos;laplace3&apos;,&apos;sh1&apos; (or &apos;sharp1&apos;), &apos;sh2&apos; (or &apos;sharp2&apos;), &apos;low-pass&apos;, &apos;mean&apos;, &apos;circular&apos;, &apos;circular-mean&apos;. In the future there will be more options.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>K</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       a 2D array containing the convolution kernel.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ mkfilter builds well-known 2D filter "masks" (kernels),  such as sobel, prewitt, mean, etc. to be used together  with a function such as imconv. </P>
+   <P>
+ K = mkfilter(&apos;sobel&apos;) returns a 3x3 edge-finding and yderivative approximation filter. To find vertical edges,  use -K&apos;. </P>
+   <P>
+ K = mkfilter(&apos;prewitt&apos;) returns another 3x3 edge-finding  and y-derivative approximation filter. To find vertical  edges, use -K&apos;. </P>
+   <P>
+ K = mkfilter(&apos;laplace1&apos;) returns a 3x3 kernel which shows  points of an image where intensity is varying quickly.  The "laplacien" of an image is the two-dimensionnal second  derivative. Because images are discrete (and not continuous), the "laplacien" can only be approximated. The 3  different kernels often used to estimate it are given by  "laplace1", "laplace2" and "laplace3". These kernels can  be used to detect edges of an image. </P>
+   <P>
+ K = mkfilter(&apos;sh1&apos;): "sharp enhancer". Returns a 3x3 kernel which renforce high frequencies of the image: it  accentuates the variations of a pixel compared to its  neighbours. Problem: it enhances the noise too (it may be  useful to denoise the image before). </P>
+   <P>
+ K = mkfilter(&apos;sh2&apos;) has the same effect than "sh1" but its  coefficients are more powerfull. </P>
+   <P>
+ K = mkfilter(&apos;low-pass&apos;) : this is a low-pass filter. The  goal is inverse of sharp enhancer filters - the image is  smoothed. This kernel is only one of the possible kernels. </P>
+   <P>
+ K = mkfilter(&apos;mean&apos;) : this is another low-pass filter.  The mean value of the central pixel and its neighbours is  affected at the central pixel. </P>
+   <P>
+ K = mkfilter(&apos;circular&apos;,rad) is an euclidean circular mask  with radius "rad" pixels, whose elements are all 1. </P>
+   <P>
+ K = mkfilter(&apos;circular-mean&apos;,rad) is a low pass filter,  the same as &apos;circular&apos;, but the matrix K is divided by the  number of 1-elements. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('tru.jpg');
+       Img = im2gray(Img);
+       xbasc()
+       imshow(Img);
+       sob = mkfilter('sobel');    // stamp effect
+       A = imconv(Img, sob);
+       xbasc()
+       imshow(A, [])
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn Druel &lt;jdruel (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+      <AUTHORS_ITEM name="Leandro"> Leandro Estrozi &lt;lfestrozi@if.sc.usp.br&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>imconv</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

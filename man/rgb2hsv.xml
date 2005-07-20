@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>rgb2hsv</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>July 2004</DATE>
+   <SHORT_DESCRIPTION name="rgb2hsv">Converts from RGB to HSV 
+      colorspace</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>HSV = rgb2hsv(RGB)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>HSVMAP = 
+         rgb2hsv(RGBMAP)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>RGB</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A RGB image (M x N x 3) in 0-1 range or a RGB colormap (M x 
+       3) in 0-1 range
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>HSV</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A HSV image (M x N x 3) in 0-1 range or a HSV colormap (M x 3) 
+       in 0-1 range
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+      <TT>rgb2hsv(RGB)</TT> converts an RGB image or colormap from to 
+      the HSV colorspace. The HSV model separates Hue (color)
+      Saturation (ammount of color) and Value (intensity). It is 
+      much more useful for manipulation than the RGB space and also 
+      for segmenting images by color.
+   </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+      rgb = imread(SIPDIR + 'images/tru.jpg'):
+      xbasc();
+      imshow(rgb);
+
+      hsv = rgb2hsv(rgb);
+      xbasc();
+      imshow(hsv(:,:,3))  // intensity
+      imshow(hsv(:,:,1))  // hue (color component)
+
+      hsv(:,:,2) = 1      // saturate the image
+
+      rgb = hsv2rgb(hsv);
+      xbasc();
+      imshow(rgb);
+
+      // You may also convert a single triplet:
+
+      rgb2hsv([1 1 0])
+
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>hsv2rgb</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>rgb2ntsc</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>im2gray</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

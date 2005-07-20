@@ -1,0 +1,111 @@
+GENERAL PROBLEMS
+
+
+1) Whenever I upgrade Scilab, do I need to reinstall or recompile SIP?
+   Yes. If you are using a binary version of SIP, then you should
+   install a specific binary to your version of scilab. If you are
+   compiling from source, then you should recompile and re-install
+   SIP.
+
+2) SIP compilation hangs
+
+This happens with gcc-2.9x.x, but not with gcc-3 and up.  If you wait
+a long time, you will see that gcc-2 will finaly finish compilation.
+This is a limitation of gcc-2.
+
+3) When i run mogrify and the option '-segment' on an indexed image, 
+it crashes,  with a message in the console:
+memory.c:88: AcquireMemory: Assertion `size != 0' failed
+
+This is a bug from ImageMagick 5.5.7. Currently there is no solution
+to this, but please report to us if you encontered this bug with another
+version of ImageMagick.
+
+4) Scilab crashes when I try to read a truecolor image with an
+accidental second output parameter.
+
+This bug has been fixed since the new SIP development version of 20040520.
+
+
+5) In Scilab-2.6 only there is a bug with color images:
+   A=imread(SIPDIR+'images/ararauna.jpg');
+   size(A)
+      ! 161 !
+      ! 200 !
+      ! 3   !
+   B(1,1,1)=A(1,1,1)
+   size(B)
+   ! 161 200 3 !
+
+   The size of A was a column vector, but the size of B is now a row
+   vector. This does not occur in Scilab 2.7, but only in 2.6. 
+   (thx to J. Druel for reporting)
+
+
+
+COMMON LINUX/UNlX PROBLEMS & SOLUTIONS
+
+1) Linux General Problems
+
+   If you SIP are to install sip from souce code, your system must
+   be prepared for compilation. That means you must have *all*
+   development packages of your system installed, unless you know
+   for sure what you don't need.  My recommendations are:
+      - Don't trust your distribution's ImageMagick binary packages;
+        there's a chance they are buggy.
+      - Learn how to install ImageMagick from source. This way
+        you learn how to install most free software from source.
+      - Linux has nice windows-like features, but it is good
+        for you to learn it's much nicer UNlX features!
+      - Ask me questions by e-mail <rfabbri@if.sc.usp.br>
+
+
+2) RedHat 7.x  and other common Linux problems
+    
+   The imagemagick development RPM has been buggy in the past
+   RH releases.  Please install ImageMagick from source. The
+   problem is that RH 7.x put the C language headers in
+   /usr/X11R6/include/X11/magick/magick but this is not informed
+   by the Magick-config utility.  Maybe this happens with other RH
+   versions as well, so be aware. Here is a step-by-step procedure
+   for naive Linux users to install SIP:
+      - remove all imagemagick RPMs from your system
+      - install the latest ImageMagick from source:
+            ./configure --enable-shared
+            make 
+            make install
+      - edit /etc/ld.so.conf, and add the following line to it:
+            /usr/local/lib
+      - type
+            /sbin/ldconfig
+      - fix the OTHERLIBS bug described in the file INSTALL.txt
+      - rebuild SIP (exec builder.sce as root)
+
+
+3) Scilab crashes whenever a SIP function is called.
+    
+   This is probably due to ImageMagick shared library conflicts in
+   your system. When uninstalling previous ImageMagick packages,
+   make SURE that your package manager has removed ALL related
+   files. ImageMagick is used by many other programs, so your package
+   manager might still keep some shared libs EVEN when it is told
+   to uninstall the package. That is why I recommend installing new
+   imagemagick packages under /usr/local. That way you can easily
+   check for conflicting imagemagick libraries in /usr/lib, in case
+   something strange occurs. If any libmagick* file is in /usr/lib,
+   just delete them; delete your sip installation; unpack it again;
+   exec builder.sce; exec loader.sce; sipdemo(); enjoy;
+
+
+4) "sh: Magick-config: command not found"
+    
+   If this message appears while running the builder.sce script
+   under UNlXs, just insert the full path to the "Magick-config" program
+   in your PATH and in root's PATH. Then run builder.sce again.
+
+
+-----------------------------------------------------------------
+SIP - Scilab Image Processing toolbox
+Copyright (C) 2002-2004, 2003  Ricardo Fabbri
+
+See the file COPYING for license-related issues

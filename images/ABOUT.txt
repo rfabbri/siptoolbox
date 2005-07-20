@@ -1,0 +1,12 @@
+SIP - Scilab Image Processing toolbox
+Copyright (C) 2002  Ricardo Fabbri
+
+The following files are nice pictures from Brazil,
+provided by Eduardo Justiniano <e.justiniano@uol.com.br>.
+They are part of the software, being subject to the terms 
+described in the file COPYING. We will be very grateful if 
+you refer to Justiniano's home page <www.brazilnature.com>
+in case you make use of any of the photos below.
+
+ararauna.jpg
+   a blue macaw

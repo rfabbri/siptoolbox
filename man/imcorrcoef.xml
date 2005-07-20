@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imcorrcoef</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imcorrcoef">Template matching by normalized correlation</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>C = imcorrcoef(Img, template)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Grayscale image in any range.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>template</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        n x n matrix, n odd. A small object to be found in the image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>C</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       The correlation coefficient image. Its highest value occurs where the template matches exactly.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function imcorrcoef performs template matching by 2D correlation of a grayscale image and a template. This means  the template is compared to the image pixel-by-pixel, for  every possible translation of the template. The result is  normalized to range from -1 to +1. You may also use the  absolute value of this measure. </P>
+   <P>
+ This is an expensive calculation, and should be used only  for small templates. The object to be detected must appear  in the image with very little variation of rotation and  scale. This is useful if you can restrict the image capture to avoid those problems. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   //
+   // Let's detect the letter "B" in a license plate
+   //
+   img = gray_imread(SIPDIR+'images/plate.gif');
+   xbasc(); imshow(img);
+   template = gray_imread(SIPDIR+'images/template.jpg');
+   xbasc(); imshow(template);
+
+   C = imcorrcoef(img, template);
+
+   xbasc();
+   imshow(img+2*(C==maxi(C)),[]);  // letter is detected!!
+   ]]></EXAMPLE>
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>imconv</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

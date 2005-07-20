@@ -1,0 +1,189 @@
+mode (-1);
+deff('[] = clrscr()', 'nl=lines(); lines(0); ...
+                       for i=1:nl(2) do, printf(''\n''), end;... 
+                       lines(nl(1),nl(2));')
+
+mem_usage = stacksize();
+if (mem_usage(1) < 5000000)
+   printf("Trying to increase memory stacksize...\n");
+   stacksize(5000000);
+end
+clear mem_usage
+
+// turn on double-buffering:
+prev_pixmap_mode = xget('pixmap');
+xset('pixmap',1);
+
+DIRINI = PWD
+chdir (SIPDIR+'images');
+
+clrscr()
+mode (3);
+// 
+//          SIP - SCILAB IMAGE PROCESSING TOOLBOX
+//                    TransMogrify Demo
+//    This demo assumes your scilab window has at least 24
+// lines and 75 rows of text. 
+// Each time you see a "halt-->"  prompt, press <ENTER> to 
+// continue. 
+// To quit this demo, type <CTRL-C> followed by "abort" 
+// then press <ENTER>.
+// Please send feedback to Ricardo Fabbri <rfabbri@if.sc.usp.br>
+//
+halt()
+clrscr()
+//
+// The mogrify command, named after the word 'TransMogrify', is 
+// the  richest command in SIP. TransMogrify means 'tranform', 
+// and that is exactly what mogrify does. Many transforms are 
+// available, and they can be organized in these categories: 
+// enhancement, geometry, segmentation, artistic, and drawing. 
+//
+// Enough talk... 
+//
+
+halt()
+clrscr()
+
+//  EXAMPLE 1 -- Basics
+
+[im,map] = imread('plate.gif');
+xbasc(),   imshow(im,map)
+halt()
+
+// Histogram Equalization
+// This makes the image features more visible
+[im2,map2] = mogrify(im,map, '-equalize');
+xbasc(),   imshow(im2,map2)
+halt()
+clrscr()
+//
+// Geometric Operations
+//
+im = gray_imread('onca.png');
+xbasc(),   imshow(im)
+halt()
+
+// ROTATION:
+// commands that have an associated parameter shall be
+// written in the form of a string vector, like this:
+im2 = mogrify(im, ['-rotate', '40']);
+xbasc(),   imshow(im2)
+halt()
+
+// BLUR
+im2 = mogrify(im, ['-blur', '11']);
+xbasc(),   imshow(im2)
+halt()
+clrscr()
+//
+// You can even COMBINE COMMANDS!! See bellow:
+//
+
+// RESIZE image to 400 rows; maintain aspect ratio
+// and also SHARPEN the image:
+im2 = mogrify(im, ['-resize', 'x400', '-sharpen', '5']);   
+xbasc(),   imshow(im2)
+
+halt()
+clrscr()
+// MEDIAN DENOISING FILTER
+
+// let's add some noise:
+im2 = imnoise(im,'salt & pepper');
+xbasc();   imshow(im2)
+halt()
+
+// Now let's take it off
+im2 = mogrify(im, ['-median', '1']);
+xbasc(),   imshow(im2)
+
+halt()
+clrscr()
+
+//
+// EXAMPLE -- Segmentation
+//
+// For more information on the segmentation algorithm, 
+// see the "IMAGE SEGMENTATION" section of the help page.
+
+[im,map]   = imread('ararauna.png');
+xbasc(),   imshow(im,map);
+halt()
+
+// Apply a color segmentation algorithm
+//
+[im2,map2] = mogrify(im,map, ['-segment', '10000x7.8']);
+xbasc(),   imshow(im2,map2);
+
+halt()
+clrscr()
+
+// EXAMPLE 3 -- Drawing! 
+//
+// Mogrify is also a complete suite for drawing in your images using
+// the Scilab language. 
+//
+// You can draw circles, rectangles, lines, curves and more! Let's
+// take al look at how this works.
+//
+
+[im,map]   = imread('ararauna.png');   // a pretty Brazilian birdie
+xbasc(),   imshow(im,map);
+halt()
+
+im2 = mogrify(im,map, ['-draw'; 'circle 35,40 50,60']);
+xbasc(),   imshow(im2);
+
+halt()
+clrscr()
+// We can build up big arguments separately:
+
+argv = ['-stroke'     ; 'red' 
+        '-fill'       ; 'none' 
+        '-draw'       ; 'ellipse 35,40 30,35 0,360' 
+        '-stroke'     ; 'green'
+        '-strokewidth'; '3'
+        '-fill'       ; 'dark gray'
+        '-draw'       ; 'polygon 70,90 80,140 170,60 119,80'];
+
+halt()
+
+im2 = mogrify(im,map, argv);
+xbasc(),   imshow(im2);
+
+halt()
+clrscr()
+
+//
+//EXAMPLE 4 -- Artistic effects
+// 
+// EMBOSS EFFECT
+[im,map]   = imread('indian.bmp');
+xbasc(),  imshow(im,map);
+halt()
+
+im2 = mogrify(im,map, ['-emboss', '2']);
+xbasc(),  imshow(im2);  // im2 is was in 0-65535 range
+halt()
+
+// SWIRL EFFECT
+im2 = mogrify(im,map, ['-swirl', '200']);
+xbasc(),  imshow(im2);  // im2 is was in 0-65535 range
+halt()
+clrscr()
+
+//       
+//          SIP - SCILAB IMAGE PROCESSING TOOLBOX
+//                   END OF Mogrify DEMO       
+//   For more information, refer to the help pages for: imread,
+//   imwrite, imshow, and imfinfo functions. Also follow the
+//   EXAMPLE sections in the manpages of SIP functions.
+//    
+//   This demo was written by:
+//   Ricardo Fabbri <rfabbri@if.sc.usp.br>
+//
+halt()
+xset('pixmap',prev_pixmap_mode);
+chdir (DIRINI);
+clear im im2 map prev_pixmap_mode DIRINI

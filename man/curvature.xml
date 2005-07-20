@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>curvature</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="curvature">Curvature of a contour</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>K = curvature(BW [,sigma, delta])</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>K = curvature(x,y [,sigma, delta])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>K</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       vector containing the curvature of the contour at each point.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>BW</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Binary image containing only one object (0 for background, 1 for object).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>x</PARAM_NAME>, 
+      <PARAM_NAME>y</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       vectors, storing the parametrized contour.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>sigma</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       standard deviation of the gaussian function used to smooth the contour before computing the curvature. Defaults to 5.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>delta</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       a double number, the time between samples (delta t), and defaults to 1.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function curvature calculates the curvature at each point  of a binary contour, using FFT and a formula from differential geometry. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xbasc()
+       imshow(Img,2);
+       k = curvature(Img,13);  // 13 sigma (shape is smoothed so curvature exists)
+       xbasc()
+       plot(k)
+       //
+       // observe there are six curvature peaks,
+       // corresponding to the six peaks of the star. There
+       // is one peak half at 0 and half at about 450.
+       // That's because the parametrization of
+       // the contour started at the highest peak and
+       // terminated there. Note also that the shape had to
+       // be considerably smoothed so the curvature doesn't
+       // blow up at the very sharp peaks of the star.
+       //
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt;</AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+<P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press. 
+</P>
+<P>
+"Differential  Geometry  of Curves and Surfaces", Manfredo
+P. do Carmo, Prentice Hall, 1976.
+</P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>follow</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>fftderiv</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

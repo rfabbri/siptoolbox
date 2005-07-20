@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imvariance</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imvariance">Calculates the variance of an image</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>variance_matrix = imvariance(image)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       A gray-level image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ This function computes a matrix containing the variance of  each point of an image. </P>
+   <P>
+ The variance is the sum of the absolute value of the differences between the central pixel and its neighbours: </P>
+   <P>
+ variance=sum(|x(neighbour)-x(central)|) </P>
+   <P>
+ A low variance value means a pixel is not very different  from its neigbours (in all directions). </P>
+   <P>
+ This property can be used to unwrap phased images. In  case of a "path-following algorithm", the variance can be  a "merit function" used to determine which pixels should  be connected first. This "merit function" is much more  noise immune than a "merit function" based on a laplace  kernel. </P>
+   <P>
+ This algorithm calculates the variance everywhere even on  the edges. In some cases, consider multiplying by a mask  like this </P>
+ <VERBATIM>
+ [8/3 8/5 8/5...;
+  8/5   1   1...;
+ </VERBATIM>
+   <P>
+ so that edge values are really significative. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+stacksize(1e7); // images are very much memory consumming...
+
+varian=imvariance(imread(SIPDIR+'images/photonics/pyramide_wrapped.jpg'));
+
+imshow(varian/max(varian)); // high levels (blank on the image) 
+				                // represent points where intensity
+				                // changes quickly
+   ]]></EXAMPLE>
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapl</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK>(&apos;laplace1&apos;)</SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

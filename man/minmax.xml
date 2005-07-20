@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>minmax</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>February 2004</DATE>
+<SHORT_DESCRIPTION name="minmax">Min/Max algorithm for noise removal from images</SHORT_DESCRIPTION>
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>Output = minmax(Input, [NSteps, StepSize, Adapt, NonAdaptThreshold,</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>IntMaskSize, ExtMaskSize])</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<PARAM>
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>Input</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    a matrix containing a gray-scale image to be filtered by min/max algorithm.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>NSteps</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    number of steps to perform. Default is 10.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>StepSize</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+     the step increment for the iterative procedure. Default is 0.05.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Adapt</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    indicates if the algorithm should adapt itself to the local image gray level or if it considers the NonAdaptThreshold value for defining light and dark regions. Default is FALSE.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>NonAdaptThreshold</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+     If Adapt is FALSE, intensity values greater than NonAdaptThreshold will be considered as light regions.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>IntMaskSize</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+     Size of the Internal window in which curvature values will be taken into account for deciding Min or Max curvature flow. Default is 1.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>ExtMaskSize</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+     Size of the External window in which curvature values will be taken into account for deciding Min or Max curvature flow in the Adapt mode. Default is 0.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Output</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+    a matrix containing the filtered image.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM_INDENT>
+</PARAM>
+<DESCRIPTION>
+<P>
+ Function minmax filters a gray-scale image using curvature-guided surface evolution. Object borders remain sharp  while low-scale noise is removed. </P>
+</DESCRIPTION>
+<EXAMPLE><![CDATA[
+    M = gray_imread(SIPDIR+'images/noisypoly.bmp');
+    subplot(1,2,1);
+    imshow(M);
+    new_M = minmax(M, NSteps=30);
+    subplot(1,2,2);
+    imshow(new_M);
+]]></EXAMPLE>
+<!-- ================================= -->
+<BIBLIO>
+"Image Processing via Level Set Curvature Flow ", Malladi, R.,
+and Sethian, J.A., Proceedings of the National Academy of Sciences,
+Vol. 92(15), pp. 7046-7050, July 1995
+</BIBLIO>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Leandro"> Leandro Estrozi &lt;lfestrozi (AT) if DOT
+      sc DOT usp DOT br&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>curvature</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>curvature2d</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mogrify</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

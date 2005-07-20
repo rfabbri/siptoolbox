@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>imconv</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="imconv">2D convolution</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>Outm = imconv(Img, mask [, form])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Grayscale (intensity) image in any range.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>mask</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       n x n matrix, n odd. This is the spatial convolution kernel.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>form</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+ determines the size of <TT>Outm</TT>. It assumes be one of the following values &apos;same&apos; <TT>Outm</TT> has the same size as the original &apos;full&apos; <TT>Outm</TT> contains the full convolution, (M+n-1) &apos;valid&apos;
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Outm</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       The convolved matrix (grayscale image).
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function <TT>imconv</TT> performs 2D spatial convolution of a grayscale image and a mask. </P>
+   <DESCRIPTION_INDENT>
+   <DESCRIPTION_ITEM label="edge(Img)">
+ Detects edges in <TT>Img</TT>, using the sobel gradient estimator, 0.5 threshold level and in both horizontal and vertical directions.
+   </DESCRIPTION_ITEM>
+   </DESCRIPTION_INDENT>
+   <P>
+ The other parameters are optional and non-positional. That is, they may be passed to the function by their name. The following example illustrates this. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+       // Detect horizontal lines
+       h = [ -1    -1 -1
+         2     2  2
+        -1    -1 -1]
+       img = imread('gra.jpg');
+       res = imconv(img,h);
+       imshow(res,[]);
+       // Detect diagonal lines
+       d = [ -1    -1  2
+        -1     2 -1
+         2    -1 -1]
+       res = imconv(img,d);
+       imshow(res,[]);
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt;, with help from </AUTHORS_ITEM>
+      <AUTHORS_ITEM name="Scilab"> Scilab Group &lt;Scilab@inria.fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

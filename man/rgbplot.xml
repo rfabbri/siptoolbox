@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>rgbplot</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>April 2004</DATE>
+<SHORT_DESCRIPTION name="rgbplot">displays the three components (red, green and blue)
+of a colormap</SHORT_DESCRIPTION>
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>rgbplot(colormap)</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<PARAM>
+   <PARAM_ITEM>
+   <PARAM_NAME>colormap</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+     a correct colormap.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM>
+<DESCRIPTION>
+<P>
+rgbplot helps visualise a colormap. </P>
+</DESCRIPTION>
+<!-- ================================= -->
+<EXAMPLE><![CDATA[
+    map1=sip_colormap('bluered');      // creates a 256 colormap
+    rgbplot(map1);
+    //have another try with:
+    map2=sip_colormap('bluegreenred'); 
+    rgbplot(map2);
+]]></EXAMPLE>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Jocelyn"> Jocelyn Druel &lt;jocelyn.druel1@libertysurf.frt&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+<SEE_ALSO>
+   <SEE_ALSO_ITEM> <LINK>sip_colormap</LINK> </SEE_ALSO_ITEM>
+   <SEE_ALSO_ITEM> <LINK>colormap</LINK> </SEE_ALSO_ITEM>
+</SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

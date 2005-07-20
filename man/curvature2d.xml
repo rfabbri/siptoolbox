@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>curvature2d</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="curvature2d">Curvature of a surface or image</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>Output = curvature2d(Input)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <DESCRIPTION>
+   <P>
+ "curvature2d" calculates the curvature of an intensity  image or
+ surface represented as a 2D matrix. It currently uses a simple finite
+ difference scheme. </P>
+   </DESCRIPTION>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Leandro"> Leandro Estrozi &lt;lfestrozi@if.sc.usp.br&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>curvature</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>minmax</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>fftderiv</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

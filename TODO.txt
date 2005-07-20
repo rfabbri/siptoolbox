@@ -1,0 +1,2 @@
+Please visist the "Pending" section at the SIP development home page:
+      http://siptoolbox.sourceforge.net

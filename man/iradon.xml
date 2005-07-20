@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>iradon</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>Julho 2004</DATE>
+   <SHORT_DESCRIPTION name="iradon">Inverse hough transform</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>img = iradon(R [,theta, filter])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>R</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        radon transform 2D array, in which each each column
+        represents one projection angle uniformly spaced between
+        0 and 180 degrees
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>theta</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         scalar or vector. As a vector, it contains the uniformly 
+         spaced angle interval corresponding to the columns of R. As a 
+         scalar, it is <TT>DeltaTheta</TT> - just the sample space 
+         between 0 and 180. If omitted or <TT>'[]'</TT>, 
+         it is treated as <TT>DeltaTheta</TT> equal to 
+         <TT>180/size(R,'c')</TT>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>filter</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         string, used to disable the default Ram-Lak (ramp) filtering.
+         Can be 'Ram-Lak' or anything else for no filtering.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>im</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         reconstructed image
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+    </PARAM_INDENT>
+    </PARAM>
+
+   <DESCRIPTION>
+   <P>
+      Function iradon reconstructs an image from the Radon transform.
+      Currently, it uses the "Back Projection" algorithm.
+   </P>
+   <P>
+      If <VERB>theta</VERB> is a scalar, it is 
+      <VERB>DeltaTheta</VERB>, and R's angle interval is assumed to be 
+      <VERB>0:DelaTheta:180-DeltaTheta</VERB>
+   </P>
+   <P>
+      Input parameters can be assigned in a "named" fashion, for instance:
+      <VERB>I = iradon(R,filter='no')</VERB>.
+   </P>
+   </DESCRIPTION>
+   <EXAMPLE>
+      Cf. help page for <LINK>radon</LINK>.
+   </EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Leandro"> Leandro Farias Estrozi &lt;estrozi (AT) vms DOT cnrs-gif DOT fr&gt;</AUTHORS_ITEM>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+      "The Radon Transform: Theory and Implementation",  Peter Toft,
+      PhD Thesis, Technical University of Denmark, 1996:
+      <A href="http://pto.linux.dk/PhD/">http://pto.linux.dk/PhD/</A>
+   </P>
+   <P>
+      A. C. Kak, and M. Slaney, "Principles of Computerized
+      Tomographic Imaging", IEEE Press
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>radon</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>hough</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>ihough</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

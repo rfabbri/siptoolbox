@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>getangle</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="getangle">gradient direction of edges</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>theta = getangle(DeltaX, DeltaY)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>DeltaX</PARAM_NAME> and
+      <PARAM_NAME>DeltaY</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+         <TT>M x N</TT> intensity images, resulting from convolution
+         with gradient masks in two orthogonal directions
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>theta</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Intensity image. Each pixel has the getangle of the approximated
+       gradient, in radians. Where <TT>DeltaX</TT> is zero,
+       <TT>theta</TT> is taken as PI/2.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ The function <TT>getangle</TT> obtains the gradient direction <TT>theta</TT> from images yielded from convolution with gradient masks in direction x and y (<TT>DeltaX</TT> and <TT>DeltaY</TT>, respectively). </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('disks.bmp');
+       xbasc()
+       imshow(Img,2);
+       Dx = edge(Img,thresh=-1, direction='horizontal');
+       Dy = edge(Img,thresh=-1, direction='vertical');
+       t = getangle(Dx,Dy);
+       imshow(t,[])
+
+       chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>edge</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

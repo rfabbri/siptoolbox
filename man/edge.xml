@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>edge</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="edge">Edge detection</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>E = edge(Img)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>E = edge(Img, &lt;named_args&gt;)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>E = edge(Img, method)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>E = edge(Img, method, thresh)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>E = edge(Img, method, thresh, direction)</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>E = edge(Img, method, thresh, direction, sigma)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Grayscale (intensity) image in any range.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>method</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       may be &apos;sobel&apos;(default), &apos;prewitt&apos; or &apos;fftderiv&apos;. Other methods will appear in the future.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>thresh</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       sets the threshold level, from 0 to 1. Defaults to 0.5. If negative, then the output image, <TT>E</TT>, will have the un-thresholded gradient image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>direction</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        may be &apos;horizontal&apos;, &apos;vertical&apos; or &apos;both&apos;(default). This determines the direction to compute the image gradient.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>sigma</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Controls the ammount of high-frequency attenuation in some
+       methods (only the &apos;fftderiv&apos; method uses this
+       parameter). This can be used to obtain different levels of
+       detail and to filter out high-frequency noise. Defaults
+       to 1. 
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+         <PARAM_NAME>&lt;named_args&gt;</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       This is a sequence of statements key1=value1,
+       key2=value2,... where key1, key2,... can be any of the
+       optional arguments above, in any order.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>E</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+      Resulting image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ The function edge performs edge detection on a grayscale intensity image. The user may set the method, the threshold level and the direction of the edge detection. </P>
+   <DESCRIPTION_INDENT>
+   <DESCRIPTION_ITEM label="edge(Img)">
+ Detects edges in <TT>Img</TT>, using the sobel gradient estimator, 0.5 threshold level and in both horizontal and vertical directions.
+   </DESCRIPTION_ITEM>
+   </DESCRIPTION_INDENT>
+   <P>
+ The other parameters are optional and non-positional. That is, they may be passed to the function by their name. The following example illustrates this. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   Img = imread('tru.jpg');
+   Img = im2gray(Img);
+   xbasc()
+   imshow(Img);
+
+   e = edge(Img);  // sobel, thresh = 0.5
+   xbasc()
+   imshow(e,2)
+
+   e = edge(Img,'prewitt'); // thresh = 0.5
+   xbasc()
+   imshow(e,2)
+
+   e = edge(Img,'fftderiv', 0.4);  // FFT gradient method; 0.4 threshold
+   xbasc()
+   imshow(e,[])
+
+   // It is useful to thin the edges, eliminating redundant pixels:
+   e = thin(e);
+   xbasc()
+   imshow(e,[])
+
+   e = edge(Img,'fftderiv',sigma=3,thresh=-1); // thicker edges, no threshold
+   xbasc()
+   imshow(e,[])
+
+   e = edge(Img,thresh=-1);
+   xbasc()
+   imshow(e,[])
+
+   chdir(initial_dir);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press, section 3.3.
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>bwborder</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mogrify</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>getangle</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imconv</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>im2gray</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

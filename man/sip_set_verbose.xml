@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?> 
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+  <LANGUAGE>eng</LANGUAGE>
+  <TITLE>sip_set_verbose</TITLE>
+  <TYPE>Scilab Function</TYPE>
+  <DATE>July 2004</DATE>
+  <SHORT_DESCRIPTION name="sip_set_verbose">set the messaging level for
+     SIP routines</SHORT_DESCRIPTION>
+  <SHORT_DESCRIPTION name="sip_quiet">suppress vebose messages</SHORT_DESCRIPTION>
+  <SHORT_DESCRIPTION name="sip_wordy">enable verbose messages</SHORT_DESCRIPTION>
+  <SHORT_DESCRIPTION name="sip_get_verbose">the current verbose mode</SHORT_DESCRIPTION>
+  <CALLING_SEQUENCE>
+     <CALLING_SEQUENCE_ITEM>old_mode = sip_set_verbose([mode_string])
+    </CALLING_SEQUENCE_ITEM>
+     <CALLING_SEQUENCE_ITEM>old_mode = sip_quiet()
+    </CALLING_SEQUENCE_ITEM>
+     <CALLING_SEQUENCE_ITEM>old_mode = sip_wordy()
+    </CALLING_SEQUENCE_ITEM>
+     <CALLING_SEQUENCE_ITEM>mode = sip_get_verbose()
+    </CALLING_SEQUENCE_ITEM>
+  </CALLING_SEQUENCE>
+  <PARAM target="in">
+    <PARAM_INDENT>
+      <PARAM_ITEM>
+   <PARAM_NAME>mode_string</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      string (optional). May be <TT>'wordy'</TT> or <TT>'quiet'</TT>.
+      If omitted, defaults to the opposite of the previous mode.
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+  </PARAM>
+  <PARAM target="out">
+    <PARAM_INDENT>
+      <PARAM_ITEM>
+   <PARAM_NAME>old_mode</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+      a string containing the messaging mode just BEFORE the function
+      was called.
+   </PARAM_DESCRIPTION> 
+      </PARAM_ITEM>
+    </PARAM_INDENT>
+  </PARAM>
+
+  <DESCRIPTION>
+    <P>
+       <VERB>sip_set_verbose('quiet')</VERB> or simply
+       <VERB>sip_quiet()</VERB> prevents helper messages
+       from being issued by SIP functions such as imread, mogrify, and
+       others. It is useful when one wants to use those functions
+       inside a loop, for example.
+    </P>
+    <P>
+       <VERB>sip_set_verbose('wordy')</VERB> or simply
+       <VERB>sip_wordy()</VERB> causes helper messages
+       to be issued by SIP functions such as imread, mogrify, and
+       others. It is useful for debugging and for interactive usage.
+    </P>
+
+    <P>
+       <VERB>sip_set_verbose()</VERB> toggles/inverts the current mode.
+    </P>
+    <P>
+       The output is always the PREVIOUS verbose mode.
+    </P>
+  </DESCRIPTION>
+
+
+<EXAMPLE><![CDATA[
+   sip_quiet();             // shut up!
+   [im,map] = imread(SIPDIR+'images/escher.png');
+
+   sip_wordy();             // verbose messages
+   [im,map] = imread(SIPDIR+'images/escher.png');  
+
+   //---------------------------------------------
+   // The following can be useful inside a script:
+
+   previous_mode = sip_quiet();
+   im2 = mogrify(im,map,['-rotate','30']);
+
+   // recall user's mode
+   sip_set_verbose(previous_mode);
+]]></EXAMPLE>
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+  <SEE_ALSO>
+  </SEE_ALSO>
+
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

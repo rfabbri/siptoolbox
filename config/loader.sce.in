@@ -1,0 +1,51 @@
+mode(-1);
+// 
+// -------------------------------------------------------------------------
+// SIP - Scilab Image Processing toolbox
+// Copyright (C) 2002  Ricardo Fabbri
+//
+// This program is free software; you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation; either version 2 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+// -------------------------------------------------------------------------
+//
+
+// specific part
+libname='siplib'
+libtitle='SIP - Scilab Image Processing Toolbox @PACKAGE_VERSION@';
+
+// get the absolute path 
+SIPDIR=get_absolute_file_path('loader.sce') + '/'; 
+SIPDEMO=SIPDIR+'macros/sipdemo_gui.dem';
+
+// load the library macros
+execstr(libname+'=lib(""'+SIPDIR+'macros/'+'"")')
+// XXX TODO PREDEF ALL???
+
+// add the help chapter
+if getversion()=="scilab-2.7" then
+   %helps = [%helps; SIPDIR+'man', libtitle]
+else
+   add_help_chapter(libtitle,SIPDIR+'man');
+end
+
+// ADD C routines
+exec (SIPDIR+'loader_include.sce');
+
+mess=[libtitle+' loaded';
+    'Enter ""exec(SIPDEMO);"" for demonstrations.']
+
+write(%io(2),'--------------------------------------------');
+write(%io(2),mess);
+
+clear libtitle mess

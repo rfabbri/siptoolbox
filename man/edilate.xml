@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>edilate</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="edilate">Euclidean  morphological  dilation  of  binary</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>Dil = edilate(Img, [radius, form])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Img</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       M x N Binary image to be dilated. (0 for background, 1 for object)
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>radius</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       of circular euclidean structuring element to be used. Defaults to 5.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>form</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       determines the size of <TT>Dil</TT>. It assumes be one of the
+       following values:
+       <PARAM_INDENT>
+         <PARAM_ITEM>
+         <PARAM_NAME>'same'</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            <TT>Dil</TT> has the same size as the original image,
+            <TT>M x N</TT>. The image is assumed to be 0 outside its
+            bounds.
+         </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+         <PARAM_NAME>'full'</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            Dil contains the full dilation, <TT>(M+2*radius-1) x
+            (N+2*radius-1)</TT>.  The image is assumed to be 0
+            outside its bounds.
+         </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+      </PARAM_INDENT>
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>Dil</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+      Resultant image.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Function <TT>edilate</TT> performs exact euclidean dilation of a binary image <TT>Img</TT> using a circle as the structuring element. It is implemented in C to be fast. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+       Img = gray_imread(SIPDIR+'images/tru.jpg');
+       Img = 1-im2bw(Img, 0.3);
+       xbasc()
+       imshow(Img,2);
+       e = edilate(Img,7);
+       xbasc()
+       imshow(e,2);
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<BIBLIO>
+   <P>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press.
+   </P>
+</BIBLIO>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>dilate</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>erode</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>bwdist</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>thin</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>skel</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>unwrapl</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>May 2004</DATE>
+   <SHORT_DESCRIPTION name="unwrapl">Unwraps phased images linearly</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>[unwrapped_phase, phase_jumps] = unwrapl(image[,threshold,step,direction])</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM>
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+      <PARAM_NAME>unwrapped_phase</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        is a matrix containing the unwrapped phase. Its values are not in 0-1 range, but depend of the number of phase jumps which were made You have to normalize it to 0-1 if you want to visualize it.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>phase_jumps</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        is a matrix containing the jumps of phase. 
+It contains positive and negative values.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+
+      <PARAM_ITEM>
+      <PARAM_NAME>image</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       The gray-level image containing the wrapped phase.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>threshold</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        If the difference between the value of two succesive pixels is higher than the threshold, we consider that there&apos;s a jump of phase in the image. Default=0.5
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>step</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+       Try to be a little noise immune by not allowing another jump in the phase if the distance from the previous is less than the value of step. Default=0.
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+      <PARAM_ITEM>
+      <PARAM_NAME>direction</PARAM_NAME>
+      <PARAM_DESCRIPTION>
+        "h" to scan the image row by row, "v" to scan columnwise. Default="h"
+      </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ Phased images are obtained in various interferometry  domains. The phase (coded in gray levels) is represented  as the altitude of each pixel. Because the phase is modulo (2*pi or 1 when working with gray levels), the absolute altitude is not known. </P>
+   <P>
+ This function unwraps a phased image (gray levels) in the  simplest
+ manner: linearly. It works this way:  
+ </P>
+ <ITEMIZE>
+<ITEM> computes a linear matrix: 1st line is read from left to right,
+2nd line is read from right to left, etc...
+</ITEM>
+<ITEM> compares the gradient to a threshold (0.5 is the default):
+add or substract 1 to ensure phase continuity.
+</ITEM>
+<ITEM> rebuilds a image matrix from the linear matrix
+</ITEM>
+<ITEM> step: don't authorize 2 phase jumps which are too close from one another
+</ITEM>
+<ITEM> direction: h (horizontal: default) or v (vertical)
+</ITEM>
+<ITEM> jumps is the map containing the number of phase jumps
+</ITEM>
+</ITEMIZE>
+   <P>
+ Very simple and quite fast algorithm. But very noise sensitive. Images to treat should be of excellent quality. </P>
+   <P>
+ For those not familiar with phase unwrapping, I tried to  write a very detailed example. </P>
+   </DESCRIPTION>
+<EXAMPLE><![CDATA[
+   stacksize(1e7); // images are memory-expensive
+
+   pw=gray_imread(SIPDIR+'images/photonics/pyramide_wrapped.jpg'); //phase wrapped
+
+   xset("window",0); //create a 1st window to display the original image
+   xbasc();xselect();imshow(pw);
+   xtitle("original wrapped phase")
+
+   //we try to show the object in 3D:
+   //because of phase jumps, it's not very good
+   xset("window",1);//the best of all: in a 3rd window, show the object in 3D
+   xbasc();xselect();
+   //we take 1 point on 4 to draw the object (faster and more beautifull than
+   //drawing all the points)
+   plot3d1(1:4:size(pw,'r'),1:4:size(pw,'c'),pw(1:4:$,1:4:$));
+   xtitle("original wrapped phase in 3D")
+
+   //now we unwrap the phase linearly:
+   //In this example we don't need any additionnal parameters
+   //because the image is of good quality.
+   //be a little patient for this operation
+   puw=unwrapl(pw);//phase unwrapped
+
+   //and we show the result
+   xset("window",2);//show the unwrapped phase in 2D: we have to put it in the 0-1 range
+   //to display it properly
+   xbasc();xselect();imshow(normal(puw));
+   xtitle("unwrapped phase");
+
+   xset("window",3);//we can now show the original object in 3D
+   xbasc();xselect();
+   // Again, we take 1 point on 4 to draw the object
+   plot3d1(1:4:size(puw,'r'),1:4:size(puw,'c'),puw(1:4:$,1:4:$));
+   xtitle("unwrapped phase in 3D");
+   ]]></EXAMPLE>
+
+
+<!-- ================================= -->
+<BIBLIO>
+<P>
+An easy introduction to these problems can be found in
+"Methods for 2-D phase unwrapping in Matlab" by Jiri Novak.
+</P>
+<P>
+A more complete one:
+"Phase unwrapping algorithms for radar interferometry: residue-cut,
+least-squares, and synthesis algorithms"
+by Zebker and Lu (Journal of Optical Society America, vol 15, n3, march 98)
+</P>
+</BIBLIO>
+
+<!-- ================================= -->
+   <AUTHORS>
+      <AUTHORS_ITEM name="Jocelyn"> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>unwrapp</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imvariance</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imphase</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

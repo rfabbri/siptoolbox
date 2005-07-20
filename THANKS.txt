@@ -1,0 +1,56 @@
+SIP - Scilab Image Processing toolbox THANKS file
+
+SIP has originally been written by Ricardo Fabbri <rfabbri@if.sc.usp.br>
+Many people further contributed to SIP by reporting problems,
+suggesting various improvements or submitting actual code. Here is a
+list of these people. Help me complete it and exempt of errors.
+
+Jocelyn Druel
+   Contributed with function for interactive image profile analysis.
+      ADDRESS: Labo Photonique, Lycee Gustave Eiffel
+               59280 Armentieres, France
+       E-MAIL: jocelyn.druel1@libertysurf.fr
+
+Leandro Farias Estrozi
+   Contributed with min/max curvature-based image denoising and
+   his invaluable friendship.
+   HOME PAGE: http://cyvision.if.sc.usp.br/~lfestroz/
+      E-MAIL: lfestrozi@if.sc.usp.br
+
+Edson Tadeu Monteiro Manoel
+   Compiled the SIP 0.1.1 toolbox for W1nd*wz, using Borland's free
+   C/C++ compiler. He also wrote the file getsfn.c, to help in the
+   installation process under Windows.
+   HOME PAGE: http://cyvision.if.sc.usp.br/~tadeu/
+      E-MAIL: emanoel@grad.icmc.sc.usp.br
+
+Alexandre Falcão and Ricardo da Silva Torres
+   Provided sample code that helped the implementation of the fast
+   skeletonization algorithm based on the Image Foresting Transform.
+   HOME PAGE: http://www.ic.unicamp.br/~ra963127/
+      E-MAIL: rtorres@dcc.unicamp.br
+
+Scilab Group
+   Provided parts of files fftshift.sci and imconv.sci, 
+   as well as valuable help
+   HOME PAGE: http://www-rocq.inria.fr/scilab/scilab.html 
+      E-MAIL: Scilab@inria.fr
+
+Jean-Philippe Chancelier 
+   To us, a very special member of Scilab Group.  He Provided help in
+   compiling the toolbox for both linux and w1nd*ws. He also made the
+   necessary fixes to scilab CVS version for SIP to work. Without him,
+   this toolbox (and Scilab) would not exist. 
+      E-MAIL: jpc@cermics.enpc.fr
+
+Vitor Vasconcelos Araujo Silva
+   Assisted with translation of the help pages from old TROFF format
+   to XML.
+      E-MAIL: vitors@cnen.gov.br
+   HOME PAGE: www.lcg.ufrj.br
+
+Eduardo Justiniano 
+   Provided the following photographs: ararauna.jpg, etc.
+   HOME PAGE: www.brazilnature.com
+      E-MAIL: e.justiniano@uol.com.br
+

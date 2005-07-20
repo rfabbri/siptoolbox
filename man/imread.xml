@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+<LANGUAGE>eng</LANGUAGE>
+<TITLE>imread</TITLE>
+<TYPE>SIP Toolbox</TYPE>
+<DATE>February 2004</DATE>
+<SHORT_DESCRIPTION name="imread">Reads image file in ANY format</SHORT_DESCRIPTION>
+<CALLING_SEQUENCE>
+   <CALLING_SEQUENCE_ITEM>Image = imread(filename)</CALLING_SEQUENCE_ITEM>
+   <CALLING_SEQUENCE_ITEM>[Index, Map] = imread(filename)</CALLING_SEQUENCE_ITEM>
+</CALLING_SEQUENCE>
+<PARAM>
+<PARAM_INDENT>
+   <PARAM_ITEM>
+   <PARAM_NAME>filename</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   A string, the image filename to be read. The extension determines the type of the image.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Image</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   For truecolor images, this is a MxNx3 matrix in range 0-1 (double precision); For binary images, image is a MxNx1 matrix (0=black and 1=white).
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Index</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   MxN matrix containing the indexes to the image colormap (for indexed images). Indices start at 1.
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+   <PARAM_ITEM>
+   <PARAM_NAME>Map</PARAM_NAME>
+   <PARAM_DESCRIPTION>
+   Mx3 matrix containing the image colormap. Entries range from 0 to 1 (double precision).
+   </PARAM_DESCRIPTION>
+   </PARAM_ITEM>
+</PARAM_INDENT>
+</PARAM>
+<DESCRIPTION>
+<P>
+   <TT>imread</TT> reads BMP, GIF, JPEG, PNG, PCX, TIFF, XPM, and even  more types of image files into Scilab. The format of the  file is inferred from the extension in the filename parameter. </P>
+   <DESCRIPTION_INDENT>
+   <DESCRIPTION_ITEM label="Img = imread(filename)">
+      reads image in filename into <TT>Img</TT>
+      matrix. If filename contains a truecolor image, <TT>Img</TT> is a
+   MxNx3 hypermatrix, so for example <TT>Img(:,:,1)</TT> stands for  the
+   red channel. For binary images, Img is a MxNx1 matrix.
+   </DESCRIPTION_ITEM>
+   <DESCRIPTION_ITEM label="[Index,Map] = imread(filename)">
+      reads the indexed image in  filename into <TT>Index</TT> (MxN)
+      and <TT>Map</TT>
+   (Mx3), its colormap.  Grayscale and Paletted images are read in this way.
+   </DESCRIPTION_ITEM>
+   </DESCRIPTION_INDENT>
+<P>
+   To know if the image stored in <TT>filename</TT> is truecolor or
+   indexed, you can use the <TT>imfinfo</TT> command, and then call
+   <TT>imread</TT> accordingly. </P>
+</DESCRIPTION>
+<EXAMPLE><![CDATA[
+    initial_dir = PWD;
+    chdir (SIPDIR + 'images');
+
+    imfinfo('example.png','verbose');
+    // the image is indexed
+    [im,i] = imread('example.png');
+    xbasc();
+    imshow(im,i);
+
+    chdir(initial_dir);
+]]></EXAMPLE>
+<!-- ================================= -->
+<SECTION label="File Formats">
+<P>
+SIP should work with the following formats, 
+but there is no warranty (unless you pay something :-).
+Please contact us in case of any problems.
+</P>
+<VERBATIM>
+    Name      Mode   Description
+
+ o  8BIM      *rw Photoshop resource format
+ o  AFM       *r- TrueType font
+ o  APP1      *rw Photoshop resource format
+ o  ART       *r- PF1: 1st Publisher
+ o  AVI       *r- Audio/Visual Interleaved
+ o  AVS       *rw AVS X image
+ o  BIE       *rw Joint Bi-level Image experts Group
+                  interchange format
+ o  BMP       *rw Microsoft Windows bitmap image
+ o  CAPTION   *r+ Caption (requires separate size info)
+ o  CMYK      *rw Raw cyan, magenta, yellow, and black
+                  samples (8 or 16 bits, depending on
+                  the image depth)
+ o  CMYKA     *rw Raw cyan, magenta, yellow, black, and
+                  matte samples (8 or 16 bits, depending
+                  on the image depth)
+ o  CUT       *r- DR Halo
+ o  DCM       *r- Digital Imaging and Communications in
+                   Medicine image
+ o  DCX       *rw ZSoft IBM PC multi-page Paintbrush
+ o  DIB       *rw Microsoft Windows bitmap image
+ o  DPS       *r- Display PostScript
+ o  DPX       *r- Digital Moving Picture Exchange
+ o  EPDF      *rw Encapsulated Portable Document Format
+ o  EPI       *rw Adobe Encapsulated PostScript
+                  Interchange format
+ o  EPS       *rw Adobe Encapsulated PostScript
+ o  EPS2      *-w Adobe Level II Encapsulated PostScript
+ o  EPS3      *-w Adobe Level III Encapsulated PostScript
+ o  EPSF      *rw Adobe Encapsulated PostScript
+ o  EPSI      *rw Adobe Encapsulated PostScript
+                  Interchange format
+ o  EPT       *rw Adobe Encapsulated PostScript with TIFF
+                  preview
+ o  FAX       *rw Group 3 FAX
+ o  FILE      *r- Uniform Resource Locator
+ o  FITS      *rw Flexible Image Transport System
+ o  FPX       *rw FlashPix Format
+ o  FTP       *r- Uniform Resource Locator
+ o  G3        *rw Group 3 FAX
+ o  GIF       *rw CompuServe graphics interchange format
+ o  GIF87     *rw CompuServe graphics interchange format
+                  (version 87a)
+ o  GRADIENT  *r- Gradual passing from one shade to
+                  another
+ o  GRANITE   *r- Granite texture
+ o  GRAY      *rw Raw gray samples (8 or 16 bits,
+                  depending on the image depth)
+ o  H         *rw Internal format
+ o  HDF       -rw Hierarchical Data Format
+ o  HISTOGRAM *-w Histogram of the image
+ o  HTM       *-w Hypertext Markup Language and a
+                  client-side image map
+ o  HTML      *-w Hypertext Markup Language and a
+                  client-side image map
+ o  HTTP      *r- Uniform Resource Locator
+ o  ICB       *rw Truevision Targa image
+ o  ICM       *rw ICC Color Profile
+ o  ICO       *r- Microsoft icon
+ o  ICON      *r- Microsoft icon
+ o  IMPLICIT  *-- 
+ o  IPTC      *rw IPTC Newsphoto
+ o  JBG       *rw Joint Bi-level Image experts Group
+                  interchange format
+ o  JBIG      *rw Joint Bi-level Image experts Group
+                  interchange format
+ o  JP2       *rw JPEG-2000 JP2 File Format Syntax
+ o  JPC       *rw JPEG-2000 Code Stream Syntax
+ o  JPEG      *rw Joint Photographic Experts Group
+                  JFIF format
+ o  JPG       *rw Joint Photographic Experts Group
+                  JFIF format
+ o  LABEL     *r- Text image format
+ o  LOGO      *rw ImageMagick Logo
+ o  M2V       *rw MPEG-2 Video Stream
+ o  MAP       *rw Colormap intensities (8 or 16 bits,
+                  depending on the image depth) and
+                  indices (8 or 16 bits, depending
+                  on whether colors exceeds 256).
+ o  MAT       *-w MATLAB image format
+ o  MATTE     *-w MATTE format
+ o  MIFF      *rw Magick image format
+ o  MNG       *rw Multiple-image Network Graphics
+ o  MONO      *rw Bi-level bitmap in least-significant-
+                  -byte-first order
+ o  MPC       -rw Magick Persistent Cache image format
+ o  MPEG      *rw MPEG-1 Video Stream
+ o  MPG       *rw MPEG-1 Video Stream
+ o  MPR       *r- Magick Persistent Registry
+ o  MSL       *r- Magick Scripting Language
+ o  MTV       *rw MTV Raytracing image format
+ o  MVG       *rw Magick Vector Graphics
+ o  NETSCAPE  *r- Netscape 216 color cube
+ o  NULL      *r- Constant image of uniform color
+ o  OTB       *rw On-the-air bitmap
+ o  P7        *rw Xv thumbnail format
+ o  PAL       *rw 16bit/pixel interleaved YUV
+ o  PALM      *rw Palm Pixmap format
+ o  PBM       *rw Portable bitmap format (black and white)
+ o  PCD       *rw Photo CD
+ o  PCDS      *rw Photo CD
+ o  PCL       *-w Page Control Language
+ o  PCT       *rw Apple Macintosh QuickDraw/PICT
+ o  PCX       *rw ZSoft IBM PC Paintbrush
+ o  PDB       *r- Pilot Image Format
+ o  PDF       *rw Portable Document Format
+ o  PFA       *r- TrueType font
+ o  PFB       *r- TrueType font
+ o  PFM       *r- TrueType font
+ o  PGM       *rw Portable graymap format (gray scale)
+ o  PICON     *rw Personal Icon
+ o  PICT      *rw Apple Macintosh QuickDraw/PICT
+ o  PIX       *r- Alias/Wavefront RLE image format
+ o  PLASMA    *r- Plasma fractal image
+ o  PM        *rw X Windows system pixmap (color)
+ o  PNG       *rw Portable Network Graphics
+ o  PNM       *rw Portable anymap
+ o  PPM       *rw Portable pixmap format (color)
+ o  PREVIEW   *-w Show a preview an image enhancement,
+                  effect, or f/x
+ o  PS        *rw Adobe PostScript
+ o  PS2       *-w Adobe Level II PostScript
+ o  PS3       *-w Adobe Level III PostScript
+ o  PSD       *rw Adobe Photoshop bitmap
+ o  PTIF      *rw Pyramid encoded TIFF
+ o  PWP       *r- Seattle Film Works
+ o  RAS       *rw SUN Rasterfile
+ o  RGB       *rw Raw red, green, and blue samples (8 or
+                  16 bits, depending on the image depth)
+ o  RGBA      *rw Raw red, green, blue, and matte samples
+                  (8 or 16 bits, depending on the image
+                  depth)
+ o  RLA       *r- Alias/Wavefront image
+ o  RLE       *r- Utah Run length encoded image
+ o  ROSE      *rw 70x46 Truecolor test image
+ o  SCT       *r- Scitex HandShake
+ o  SFW       *r- Seattle Film Works
+ o  SGI       *rw Irix RGB image
+ o  SHTML     *-w Hypertext Markup Language and a
+                  client-side image map
+ o  STEGANO   *r- Steganographic image
+ o  SUN       *rw SUN Rasterfile
+ o  SVG       *rw Scalable Vector Gaphics
+ o  TEXT      *rw Raw text
+ o  TGA       *rw Truevision Targa image
+ o  TIF       *rw Tagged Image File Format
+ o  TIFF      *rw Tagged Image File Format
+ o  TILE      *r- Tile image with a texture
+ o  TIM       *r- PSX TIM
+ o  TTF       *r- TrueType font
+ o  TXT       *rw Raw text
+ o  UIL       *-w X-Motif UIL table
+ o  UYVY      *rw 16bit/pixel interleaved YUV
+ o  VDA       *rw Truevision Targa image
+ o  VICAR     *rw VICAR rasterfile format
+ o  VID       *rw Visual Image Directory
+ o  VIFF      *rw Khoros Visualization image
+ o  VST       *rw Truevision Targa image
+ o  WBMP      *rw Wireless Bitmap (level 0) image
+ o  WMF       *r- Windows Metafile
+ o  WPG       *r- Word Perfect Graphics
+ o  X         *rw X Image
+ o  XBM       *rw X Windows system bitmap (black
+                  and white)
+ o  XC        *r- Constant image uniform color
+ o  XCF       *r- GIMP image
+ o  XML       *r- Scalable Vector Gaphics
+ o  XPM       *rw X Windows system pixmap (color)
+ o  XV        *rw Khoros Visualization image
+ o  XWD       *rw X Windows system window dump (color)
+ o  YUV       *rw CCIR 601 4:1:1
+                   
+    Modes:         
+              *    Native support (no call to external utility)
+              r    Read
+              w    Write
+</VERBATIM>
+</SECTION>
+
+<!-- ================================= -->
+<AUTHORS>
+   <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+</AUTHORS>
+<!-- ================================= -->
+<REMARKS>
+   The new imshow is incompatible with the same function from
+sip-0.2.0 and previous versions.  Its  behavior  has  been
+made more similar to that of comercial packages similar to
+Scilab.
+</REMARKS>
+<!-- ================================= -->
+<SECTION label="Bugs and Shortcomings">
+<P>
+   Images are stored in double precision matrices. Hopefully,
+   the next release will make usage of integer types.
+</P>
+</SECTION>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>imwrite</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gray_imread</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>im2gray</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imfinfo</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>imshow</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

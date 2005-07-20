@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE MAN SYSTEM "mansip.dtd">
+<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<MAN>
+   <LANGUAGE>eng</LANGUAGE>
+   <TITLE>xor</TITLE>
+   <TYPE>SIP Toolbox</TYPE>
+   <DATE>February 2004</DATE>
+   <SHORT_DESCRIPTION name="xor">Exclusive or</SHORT_DESCRIPTION>
+   <CALLING_SEQUENCE>
+      <CALLING_SEQUENCE_ITEM>C = xor(A,B)</CALLING_SEQUENCE_ITEM>
+   </CALLING_SEQUENCE>
+   <PARAM target="in">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+         <PARAM_NAME>A</PARAM_NAME>,
+         <PARAM_NAME>B</PARAM_NAME>,
+         <PARAM_DESCRIPTION>
+            Input arrays
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <PARAM target="out">
+   <PARAM_INDENT>
+      <PARAM_ITEM>
+         <PARAM_NAME>C</PARAM_NAME>
+         <PARAM_DESCRIPTION>
+            resulting boolean array
+         </PARAM_DESCRIPTION>
+      </PARAM_ITEM>
+   </PARAM_INDENT>
+   </PARAM>
+   <DESCRIPTION>
+   <P>
+ "xor" is a simple convenience function to calculate the  exclusive OR logical operator on the corresponding elements of the input arrays. The resulting element is %f if  either the corresponding elements in A or in B are  nonzero, but not both. </P>
+   </DESCRIPTION>
+   <EXAMPLE><![CDATA[
+      A = [0   0  %pi %eps] 
+      B = [0 -6.9  0   1  ]
+
+      C = xor(A,B)
+      C =
+      |  F  T   T  F  |
+   ]]></EXAMPLE>
+   <AUTHORS>
+      <AUTHORS_ITEM name="Ricardo"> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </AUTHORS_ITEM>
+   </AUTHORS>
+<!-- ================================= -->
+<SECTION label="Availability">
+The latest version of the Scilab Image Processing toolbox can be found at
+<P><A href="http://siptoolbox.sourceforge.net">http://siptoolbox.sourceforge.net</A></P>
+</SECTION>
+<!-- ================================= -->
+   <SEE_ALSO>
+      <SEE_ALSO_ITEM> <LINK>and</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>or</LINK> </SEE_ALSO_ITEM>
+   </SEE_ALSO>
+</MAN>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->
