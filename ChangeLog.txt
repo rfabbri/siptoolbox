@@ -3,6 +3,8 @@ Copyright (C) 2002-2004 Ricardo Fabbri
 __________________________________________________________________
 
 
+	+ SIP now works with new ImageMagick versions (tested with 6.2.3)
+	+ CVS repository at Source Forge started by Angus Errington 
 	+ new DCT function by Angus Errington
 	+ new features in interferometry_gui by jocelyn
 

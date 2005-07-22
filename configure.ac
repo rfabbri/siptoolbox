@@ -285,27 +285,48 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
    AC_MSG_RESULT([no]))
 
 
-magick_major_version=`echo $IMAGEMAGICK_VERSION | cut -d .  -f 1`
-AC_MSG_NOTICE([MagickMajorVersion is: $magick_major_version])
+# ------------------------------------
 AC_MSG_CHECKING([name of the default compression quality in IM])
-if test x$magick_major_version = x5; then
-   AC_DEFINE([MAGICK_DEFAULT_COMPRESSION_QUALITY],
-             [DefaultCompressionQuality],
-             [The name of the default compression quality in this \
-particular ImageMagick setup])
-   AC_MSG_RESULT([DefaultCompressionQuality])
-else
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
+                                    #include <time.h>
+                                    #include <sys/types.h>
+                                    #include <magick/api.h>]],
+                  [[unsigned a=UndefinedCompressionQuality;]]),
+   AC_MSG_RESULT([UndefinedCompressionQuality])
    AC_DEFINE([MAGICK_DEFAULT_COMPRESSION_QUALITY],
              [UndefinedCompressionQuality],
              [The name of the default compression quality in this \
-particular ImageMagick setup])
-   AC_MSG_RESULT([UndefinedCompressionQuality])
-fi
+particular ImageMagick setup]),
+   #----- Not UndefinedCompression. Test for UndefinedCompressionQuality
+    AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
+                                        #include <time.h>
+                                        #include <sys/types.h>
+                                        #include <magick/api.h>]],
+                      [[unsigned a=UndefinedCompression;]]),
+       AC_MSG_RESULT([UndefinedCompression])
+       AC_DEFINE([MAGICK_DEFAULT_COMPRESSION_QUALITY],
+                 [UndefinedCompression],
+                 [The name of the default compression quality in this \
+    particular ImageMagick setup]),
+   #----- Not UndefinedCompression. Test for UndefinedCompressionQuality
+        AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
+                                            #include <time.h>
+                                            #include <sys/types.h>
+                                            #include <magick/api.h>]],
+                          [[unsigned a=DefaultCompressionQuality;]]),
+           AC_MSG_RESULT([DefaultCompressionQuality])
+           AC_DEFINE([MAGICK_DEFAULT_COMPRESSION_QUALITY],
+                     [DefaultCompressionQuality],
+                     [The name of the default compression quality in this \
+        particular ImageMagick setup]),
+       AC_MSG_ERROR([No compression quality name detected. Please report your
+         ImageMagick version to email lists at http://siptoolbox.sf.net
+         ])
+          )
+     )
+   
+   )
 
-AC_CHECK_LIB([$MAGICK_LIBNAME],[GetLocaleExceptionMessage],[
-   AC_DEFINE([HAVE_GetLocaleExceptionMessage],[], [Define if \
-ImageMagick has locale error messages.])],
-[])
 
 # END OF IMAGEMAGICK TESTS
 ##############################################
