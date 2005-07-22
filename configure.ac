@@ -328,8 +328,7 @@ particular ImageMagick setup]),
                      [DefaultCompressionQuality],
                      [The name of the default compression quality in this \
         particular ImageMagick setup]),
-       AC_MSG_ERROR([No compression quality name detected. Please report your
-         ImageMagick version to email lists at http://siptoolbox.sf.net
+       AC_MSG_ERROR([No compression quality name detected. Please report your ImageMagick version in the bugtracker at http://siptoolbox.sf.net
          ])
           )
      )
