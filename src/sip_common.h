@@ -58,6 +58,7 @@
 #include <sys/types.h>
 #include <magick/api.h>
 
+
 #include <animal/img.h>
 #include <animal/util.h>
 

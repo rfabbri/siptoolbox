@@ -239,6 +239,7 @@ AC_MSG_RESULT([no])
 AC_MSG_ERROR([could not link to ImageMagick. Check the file 
    config.log and/or send it to the SIP developers.]))
 
+# ------------------------------------
 AC_MSG_CHECKING([for HWBColorspace in ImageMagick])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
                                     #include <time.h>
@@ -250,6 +251,7 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
              [Defines if ImageMagick has HWBColorspace]),
    AC_MSG_RESULT([no]))
 
+# ------------------------------------
 AC_MSG_CHECKING([for HSLColorspace in ImageMagick])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
                                     #include <time.h>
@@ -261,6 +263,7 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
              [Defines if ImageMagick has HSLColorspace]),
    AC_MSG_RESULT([no]))
 
+# ------------------------------------
 AC_MSG_CHECKING([for Virtual Pixel in ImageMagick])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
                                     #include <time.h>
@@ -272,6 +275,7 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
              [Defines if ImageMagick has Virtual Pixel specifications]),
    AC_MSG_RESULT([no]))
 
+# ------------------------------------
 AC_MSG_CHECKING([whether QueryColorDatabase has 3rd parameter in IM])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
                                     #include <time.h>
@@ -284,6 +288,11 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
       [Defines if ImageMagick has QueryColorDatabase with a 3rd parameter]),
    AC_MSG_RESULT([no]))
 
+# ------------------------------------
+AC_CHECK_LIB([$MAGICK_LIBNAME],[GetLocaleExceptionMessage],[
+   AC_DEFINE([HAVE_GetLocaleExceptionMessage],[], [Define if \
+ImageMagick has locale error messages.])],
+[])
 
 # ------------------------------------
 AC_MSG_CHECKING([name of the default compression quality in IM])
