@@ -32,7 +32,7 @@ function [imO]=erode(imI, se, center1)
 //    - confusion is made in the code about x/y r/c
 //
 //
-// $Revision: 1.1 $  $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $  $Date: 2005-09-01 19:10:55 $
    
 
 select argn(2)
@@ -48,14 +48,13 @@ select argn(2)
       center1 = [ceil(rse/2),ceil(cse/2)];
 end   
 
-// the origin of the SE does not matter 
-se(center1(1),center1(2)) = 0; 
-
 // determine the SE coordinates.
 [xse, yse] = find(se==1)
-xse = xse - center1(1)
-yse = yse - center1(2)
 nse = size(xse,'c')   
+if nse > 0
+  xse = xse - center1(1)
+  yse = yse - center1(2)
+end
 
 // pad image
 [rse,cse] = size(se)
