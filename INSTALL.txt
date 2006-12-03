@@ -6,21 +6,11 @@ the siptoolbox-users mailing list, at:
 
 You can also read the file FAQ.txt if things go wrong.
 
-MINIMUM HARDWARE REQUIREMENTS
-=============================
-   An Intel Pentium III with 256 MB RAM or equivalent is the minimum
-   system on which SIP will have a reasonable performance. We really
-   recommend a Pentium IV or a processor with equivalent power, and 1Gb 
-   of RAM. Images are memory intensive.
-
-
 Installation From Source
 ========================
-   Sourcecode compilation is intended for developers and advanced
-   users.  Please use the binary version if you want an easier
-   procedure for installing SIP. The SIP toolbox sourcecode is
-   very portable. It can be compiled under any Unix/Linux and 
-   Windows, using any popular ANSI-C compiler, preferably GCC.
+   Sourcecode compilation is intended for developers and advanced users.
+   Please use the binary version if you want an easier procedure for
+   installing SIP.  However, the SIP toolbox sourcecode is very portable. 
 
 
 UNIX/LINUX systems
@@ -31,36 +21,29 @@ UNIX/LINUX systems
    install its requirements.
 
    The requirements for installing SIP from source are:
-      - Scilab 2.6, 2.7 or CVS (no restrictions!)
+      - Scilab 4.0 (SIP seems to work even for Scilab 2.6).
       - AnImaL (An Imaging Library), latest version. You can
         download it at http://animal.sourceforge.net
+      - ImageMagick
       - GCC compiler
-      - groff text formatter (for help pages)
 
    1) AnImaL library
       This is SIP's internal image processing library. It has the core C
-      routines to which SIP is just an interface with Scilab. Please
-      read AnImaL's INSTALL.txt file that comes with the package
-      before proceeding with SIP. Basically, you will have to download
-      ImageMagick (www.imagemagick.org), and Gandalf library
-      (http://gandalf-library.sourceforge.net), and install each of
-      them in the traditional way:
+      routines to which SIP is just an interface with Scilab. Please read
+      AnImaL's INSTALL.txt file that comes with the package before proceeding
+      with SIP. 
 
             ./configure
             make
             make install
 
-   2) Type export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig. 
+   2) You might have to type "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig". 
       Read man pkg-config for details
 
    3) Compile and Install SIP. Type:
 
             ./configure
             make 
-
-      Compilation is very slow with GCC 2.9x, even more on a slow
-      machine (e.g. pentium II), But it's much faster with GCC 3.
-
             make install
 
       This will install SIP in the default directory (SCI/contrib/sip).

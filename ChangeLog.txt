@@ -3,6 +3,8 @@ Copyright (C) 2002-2004 Ricardo Fabbri
 __________________________________________________________________
 
 
+	+ Meijster's EDT algorithm included in bwdist. It is faster than all the
+	others in most cases.
 	+ New installer for Windows by Zhang Cheng
 	+ Fixed bug in erode
 	+ SIP now works with new ImageMagick versions (tested with 6.2.5)

@@ -249,7 +249,7 @@ bwdist_int(char *fname)
          i, nv=1,
          minlhs=1, maxlhs=1, minrhs=1, maxrhs=2;
 
-   dt_algorithm alg=DT_CUISENAIRE_PMN_1999;
+   dt_algorithm alg=DT_MAURER2003;
    double *pt;
    char *str;
    bool noexec=false, stat, is1const;
@@ -272,6 +272,8 @@ bwdist_int(char *fname)
          alg=DT_IFT;
       else if ( strncasecmp("IFT 4",str,5) == 0)
          alg=DT_IFT_4;
+      else if ( strncasecmp("meijster",str,3) == 0)
+         alg=DT_MEIJSTER_2000;
       else if ( strncasecmp("maurer",str,3) == 0)
          alg=DT_MAURER2003;
       else if ( strncasecmp("euclidean",str,6) == 0 || 

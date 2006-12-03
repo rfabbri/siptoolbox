@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE MAN SYSTEM "mansip.dtd">
-<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<!-- $Revision: 1.2 $ $Date: 2006-12-03 21:37:29 $ -->
 <MAN>
 <LANGUAGE>eng</LANGUAGE>
 <TITLE>bwdist</TITLE>
@@ -32,9 +32,25 @@
          <PARAM_NAME>&apos;euclidean&apos; or &apos;euclid&apos;</PARAM_NAME>
          <PARAM_DESCRIPTION>the default fast exact euclidean
          algorithm. Currently, it is the same as the
-         &apos;cuisenaire pmn&apos;
-         bellow. (DEFAULT)
+         &apos;maurer&apos; bellow. (DEFAULT)
          </PARAM_DESCRIPTION>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;maurer&apos; or &apos;mau&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>very fast (and
+            recent) exact euclidean algorithm, based on certain dimensionality
+            properties of Voronoi diagrams. It is the best method together with
+            Meijster, in general.
+           </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
+         <PARAM_ITEM>
+            <PARAM_NAME>&apos;meijster&apos; or &apos;mau&apos;</PARAM_NAME>
+            <PARAM_DESCRIPTION>very fast (and
+            recent) exact euclidean algorithm, based on certain dimensionality
+            properties of Voronoi diagrams. It is the best method together with
+            Maurer, in general. For most cases it is slightly faster than
+            Maurer, but uses a little more memory.
+         </PARAM_DESCRIPTION>
+         </PARAM_ITEM>
          </PARAM_ITEM>
          <PARAM_ITEM>
             <PARAM_NAME>&apos;cuisenaire pmn&apos;</PARAM_NAME>
@@ -66,15 +82,6 @@
             precise. It is a little slower than psn4 but considerably more
             precise.
          </PARAM_DESCRIPTION>
-         </PARAM_ITEM>
-         <PARAM_ITEM>
-            <PARAM_NAME>&apos;maurer&apos; or &apos;mau&apos;</PARAM_NAME>
-            <PARAM_DESCRIPTION>very fast (and
-            recent) exact euclidean algorithm, based on certain dimensionality
-            properties of Voronoi diagrams. Seems to be slightly slower
-            than &apos;cuisenaire pmn&apos;, but can be faster for some
-            (unknown) cases.
-            </PARAM_DESCRIPTION>
          </PARAM_ITEM>
          <PARAM_ITEM>
             <PARAM_NAME>&apos;lotufo-zampirolli&apos; or &apos;lotufo-z&apos;</PARAM_NAME>
@@ -149,7 +156,7 @@
    A = gray_imread(SIPDIR + 'images/escher.png');
    imshow(A,2);
 
-   D = bwdist(A);       // method=='cuisenaire pmn'
+   D = bwdist(A);
    imshow(log(1+D),[]); // normalizes image to enhance visualization
 
    D = bwdist(A,'exact dilations');
@@ -188,6 +195,20 @@
 <!-- ================================= --> 
 <BIBLIO>
    <ITEMIZE>
+   <ITEM label="Maurer">  
+   <P>
+   Maurer, C.R. and  R. Qi and  V. Raghavan,
+   "A Linear Time Algorithm for Computing the Euclidean Distance Transform in Arbitrary Dimensions",
+   IEEE Transactions on Pattern Analysis and Machine Intelligence,
+   vol. 25, no. 2, pp. 265-270, february 2003.
+   </P></ITEM>
+   <ITEM label="Meijster">  
+   <P>
+   A. Meijster, J.B.T.M. Roerdink, and W.H. Hesselink "A General Algorithm
+   for Computing Distance Transforms in Linear Time",
+   proc. of 5th Int. Conf. Mathematical Morphology and its Applications to
+   Image and Signal Processing, 2000
+   </P></ITEM>
    <ITEM label="Cuisenaire">
    <P>
    Cuisenaire, O and  Macq, B,
@@ -201,13 +222,6 @@
    1999, Université catholique de Louvain, Belgium.
    </P>
    </ITEM>
-   <ITEM label="Maurer">  
-   <P>
-   Maurer, C.R. and  R. Qi and  V. Raghavan,
-   "A Linear Time Algorithm for Computing the Euclidean Distance Transform in Arbitrary Dimensions",
-   IEEE Transactions on Pattern Analysis and Machine Intelligence,
-   vol. 25, no. 2, pp. 265-270, february 2003.
-   </P></ITEM>
    <ITEM label="IFT">  
    <P>
    "Multiscale Skeletons by Image Foresting Transform

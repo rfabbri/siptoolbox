@@ -38,6 +38,11 @@ distclean-local:
 
 autoload:
 	@echo "Appending code to $(HOME)/.scilab"
-	@echo "//-- BEGIN CODE TO LOAD TOOLBOX -------" >> $(HOME)/.scilab
-	@echo "exec('@TOOLBOXDIR@/loader.sce');"        >> $(HOME)/.scilab
-	@echo "//-------------------------------------" >> $(HOME)/.scilab
+	@echo
+	@echo "//-- BEGIN CODE TO LOAD TOOLBOX -------"|tee -a $(HOME)/.scilab
+	@echo "exec('@TOOLBOXDIR@/loader.sce');"       |tee -a $(HOME)/.scilab
+	@echo "//-------------------------------------"|tee -a $(HOME)/.scilab
+	@echo
+	@echo "You should edit the $(HOME)/.scilab file and see if it looks good"
+	@echo "It might be necessary to appending code to $(HOME)/.Scilab/*/.scilab"
+	@echo "for newer versions of Scilab."
