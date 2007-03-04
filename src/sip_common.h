@@ -57,6 +57,7 @@
 #include <time.h>
 #include <sys/types.h>
 #include <magick/api.h>
+#include <wand/MagickWand.h>
 
 
 #include <animal/img.h>

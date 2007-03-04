@@ -40,7 +40,7 @@ check_argv_validity(ImageInfo *image_info, char **argv, int *argc, ExceptionInfo
  *    many output variables there are? ImageMagick always returns 
  *    DirectClass after its operations??
  *    
- * $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $
+ * $Revision: 1.2 $ $Date: 2007-03-04 05:56:09 $
  *-----------------------------------------------------------------*/
 
 
@@ -74,9 +74,10 @@ mogrify_int(char *fname)
    
    InitializeMagick(NULL);
    GetExceptionInfo(&exception);
-   image_info=CloneImageInfo((ImageInfo *) NULL);
+/* XXX  image_info=CloneImageInfo((ImageInfo *) NULL);*/
+   image_info=AcquireImageInfo();
    image=AllocateImage(image_info);
-
+  
    nv = 1;
    switch (argtype) {
       case ARG_2D:
@@ -143,8 +144,8 @@ mogrify_int(char *fname)
       return false;
    }
 
-   stat = MogrifyImage(image_info, argc, argv, &image);
-   GetImageException(image,&exception);
+   stat = MogrifyImage(image_info, argc, argv, &image,&exception);
+/*   GetImageException(image,&exception);*/
    if(!stat || exception.severity != UndefinedException) 
       SIP_MAGICK_ERROR;
 

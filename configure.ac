@@ -21,7 +21,7 @@
 AC_PREREQ(2.59)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.4.0-rc3-cvs], [ricardofabbri@users.sf.net],[sip])
+AC_INIT([sip], [0.4.0-rc4-cvs], [ricardofabbri@users.sf.net],[sip])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
