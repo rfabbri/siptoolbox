@@ -18,6 +18,12 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Defines if ImageMagick has MagickWand API */
+#undef HAVE_MagickWand
+
+/* Defines if ImageMagick has MogrifyImage with a 5th parameter */
+#undef HAVE_MogrifyImage_5args
+
 /* Defines if ImageMagick has QueryColorDatabase with a 3rd parameter */
 #undef HAVE_QueryColorDatabase_3args
 

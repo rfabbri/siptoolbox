@@ -287,6 +287,30 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
    AC_DEFINE([HAVE_QueryColorDatabase_3args],[],
       [Defines if ImageMagick has QueryColorDatabase with a 3rd parameter]),
    AC_MSG_RESULT([no]))
+# ------------------------------------
+AC_MSG_CHECKING([whether MagickWand.h in IM])
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
+                                    #include <time.h>
+                                    #include <sys/types.h>
+                                    #include <wand/MagickWand.h>]],
+                  [[ ]]),
+   AC_MSG_RESULT([yes])
+   AC_DEFINE([HAVE_MagickWand],[],
+      [Defines if ImageMagick has MagickWand API]),
+   AC_MSG_RESULT([no]))
+# ------------------------------------
+AC_MSG_CHECKING([whether MogrifyImage has 5th parameter in IM])
+AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
+                                    #include <time.h>
+                                    #include <sys/types.h>
+                                    #include <wand/MagickWand.h>]],
+                  [[ ImageInfo *image_info; Image *image; char **argv;\
+                  ExceptionInfo exception;
+                  MogrifyImage(image_info, 1, argv, &image, &exception);]]),
+   AC_MSG_RESULT([yes])
+   AC_DEFINE([HAVE_MogrifyImage_5args],[],
+      [Defines if ImageMagick has MogrifyImage with a 5th parameter]),
+   AC_MSG_RESULT([no]))
 
 # ------------------------------------
 AC_CHECK_LIB([$MAGICK_LIBNAME],[GetLocaleExceptionMessage],[
