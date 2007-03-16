@@ -26,6 +26,9 @@ UNIX/LINUX systems
         download it at http://animal.sourceforge.net
       - ImageMagick
       - GCC compiler
+      - groff text formatter (for help pages)
+      - For the SIP CVS version, you need to have recent autoconf, 
+        automake, and libtool packages installed.
 
    1) AnImaL library
       This is SIP's internal image processing library. It has the core C
@@ -37,6 +40,9 @@ UNIX/LINUX systems
             make
             make install
 
+            (NOTE: if Animal was downloaded from CVS, run `./autogen.sh' before the
+            above commands)
+
    2) You might have to type "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig". 
       Read man pkg-config for details
 
@@ -45,6 +51,9 @@ UNIX/LINUX systems
             ./configure
             make 
             make install
+
+      (NOTE: for the SIP CVS version, type `./autogen.sh' before the above
+      commands)
 
       This will install SIP in the default directory (SCI/contrib/sip).
       Maybe you will need to be root to issue "make install".
