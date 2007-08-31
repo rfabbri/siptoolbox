@@ -21,7 +21,7 @@
 AC_PREREQ(2.59)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.4.0-rc4-cvs], [ricardofabbri@users.sf.net],[sip])
+AC_INIT([sip], [0.4.0-rc5-cvs], [ricardofabbri@users.sf.net],[sip])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -303,7 +303,7 @@ AC_MSG_CHECKING([whether MogrifyImage has 5th parameter in IM])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
                                     #include <time.h>
                                     #include <sys/types.h>
-                                    #include <wand/MagickWand.h>]],
+                                    #include <magick/api.h>]],
                   [[ ImageInfo *image_info; Image *image; char **argv;\
                   ExceptionInfo exception;
                   MogrifyImage(image_info, 1, argv, &image, &exception);]]),

@@ -1,8 +1,9 @@
 SIP - Scilab Image Processing Toolbox
-Copyright (C) 2002-2004 Ricardo Fabbri
+Copyright (C) 2002-2007 Ricardo Fabbri
 __________________________________________________________________
 
 
+	+ 20070831 Added backward support for ImageMagick 6.2.4 
 	+ Mogrify now works with ImageMagick 6.3.3
 	+ Meijster's EDT algorithm included in bwdist. It is faster than all the
 	others in most cases.
