@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE MAN SYSTEM "mansip.dtd">
-<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<!-- $Revision: 1.2 $ $Date: 2007-10-01 17:35:07 $ -->
 <MAN>
    <LANGUAGE>eng</LANGUAGE>
    <TITLE>gsm2d</TITLE>
@@ -8,7 +8,7 @@
    <DATE>February 2004</DATE>
    <SHORT_DESCRIPTION name="gsm2d">2D gaussian smoothing</SHORT_DESCRIPTION>
    <CALLING_SEQUENCE>
-      <CALLING_SEQUENCE_ITEM>MG = gsm(M [,sigma])</CALLING_SEQUENCE_ITEM>
+      <CALLING_SEQUENCE_ITEM>MG = gsm2d(M [,sigma])</CALLING_SEQUENCE_ITEM>
    </CALLING_SEQUENCE>
    <PARAM>
    <PARAM_INDENT>
