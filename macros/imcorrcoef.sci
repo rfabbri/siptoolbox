@@ -3,10 +3,10 @@ function C = imcorrcoef(img,template)
 // Template matching by normalized correlation coefficient
 //
 // AUTHOR
-//    Ricardo Fabbri  <rfabbri@if.sc.usp.br>
+//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
 //    Cybernetic Vision Research Group
 //    Luciano da Fontoura Costa, supervisor.
-//    http://cyvision.if.sc.usp.br
+//    http://siptoolbox.sf.net
 //
 // TODO
 //    - improve imconv speed, e.g. by passing it to C language.
@@ -24,12 +24,12 @@ function C = imcorrcoef(img,template)
    C = imconv(img-F, template-T) ./ (denominator + %eps);
    // The %eps was added to avoid division by zero.
    // Please tell me a better way to avoid this, if it exists
-   // <rfabbri@if.sc.usp.br>  @@@
+   // <rfabbri@(not this part) gmail d0t com>  @@@
 endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

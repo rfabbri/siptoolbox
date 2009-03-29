@@ -38,7 +38,7 @@ criticism, suggestions, and collaborations.
 AUTHORS
 =======
 
-Principal author: Ricardo Fabbri <rfabbri@if.sc.usp.br>    
+Principal author: Ricardo Fabbri <rfabbri@(not this part) gmail d0t com>    
 Supervisor: Luciano da Fontoura Costa <luciano@if.sc.usp.br>
 
 Cybernetic Vision Research Group <http://cyvision.if.sc.usp.br>
@@ -78,4 +78,5 @@ win_bin            : pre-compiled binary of C routines for W1nd*ws
 win_util           : some files to aid the installation under Wlnd0wz
 
 
-Please send any comments and suggestions to <rfabbri@if.sc.usp.br>.
+Please send any comments and suggestions to rfabbri@(not this part) gmail d0t com
+

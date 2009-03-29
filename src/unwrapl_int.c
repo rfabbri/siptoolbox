@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  * SIP - Scilab Image Processing toolbox
- * Copyright (C) 2002-2004  Ricardo Fabbri
+ * Copyright (C) 2002-2009  Ricardo Fabbri
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by

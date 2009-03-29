@@ -4,10 +4,10 @@ function mask = mkfilter(name, opt1, opt2)
 // sobel, prewitt, mean, etc.
 // 
 // ORIGINAL AUTHOR
-//    Ricardo Fabbri  <rfabbri@if.sc.usp.br>
+//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
 //    Cybernetic Vision Research Group
 //    Luciano da Fontoura Costa, supervisor.
-//    http://cyvision.if.sc.usp.br
+//    http://siptoolbox.sf.net
 //
 //    Laplace, sharp enhancers, low-pass, and mean by
 //    Jocelyn DRUEL
@@ -19,7 +19,7 @@ function mask = mkfilter(name, opt1, opt2)
 //    "Algorithms for Image Processing and Computer Vision", 
 //    J.R. Parker, Wiley, chapter 1.
 //    "Cyclope's user manual" (Digital Vision).
-// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
 //
 // Changelog:
 // An error message if the number of arguments is not correct
@@ -101,7 +101,7 @@ endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

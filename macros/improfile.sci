@@ -30,7 +30,7 @@
 //    Labo Photonique, Lycee Gustave Eiffel
 //    59280 ARMENTIERES (FRANCE)
 //
-// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
 //
 // Changelog:
 // Adapted to the new conventions in SIP: all images are in 0-1 range
@@ -80,7 +80,7 @@ function [R0,w]=gaussprofile(line)
 //      If a graphicalwindow is already present, I see the image, 
 //      but I don't have this title (I have no title in fact).
 //
-// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
 //
 
 Inorm=line/sum(line) ;
@@ -215,7 +215,7 @@ endfunction;//improfile
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

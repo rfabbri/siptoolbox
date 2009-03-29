@@ -7,7 +7,7 @@ function [R]=radon(M,Theta)
 //    Leandro F. Estrozi  <estrozi at vms.cnrs-gif.fr>
 //    http://www.hotreference.com/estrozi/
 //
-// $Revision: 1.1 $  $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $  $Date: 2009-03-29 21:34:48 $
 
 if ~exists('Theta','local')
    Theta=0:179
@@ -38,7 +38,7 @@ endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

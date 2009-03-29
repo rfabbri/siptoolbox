@@ -3,12 +3,12 @@ function p = perim(img)
 // Simple routine to measure the perimeter of a binary shape.
 //
 // AUTHOR
-//    Ricardo Fabbri  <rfabbri@if.sc.usp.br>
+//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
 //    Cybernetic Vision Research Group
 //    Luciano da Fontoura Costa, supervisor.
-//    http://cyvision.if.sc.usp.br
+//    http://siptoolbox.sf.net
 //
-// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
 
 [x,y] = follow(img);
 v = x + y*%i;

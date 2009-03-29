@@ -1,5 +1,5 @@
 SIP - Scilab Image Processing Toolbox
-Copyright (C) 2002-2007 Ricardo Fabbri
+Copyright (C) 2002-2009 Ricardo Fabbri
 __________________________________________________________________
 
 

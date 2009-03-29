@@ -57,7 +57,7 @@ COMMON LINUX/UNlX PROBLEMS & SOLUTIONS
         you learn how to install most free software from source.
       - Linux has nice windows-like features, but it is good
         for you to learn it's much nicer UNlX features!
-      - Ask me questions by e-mail <rfabbri@if.sc.usp.br>
+      - Ask me questions by e-mail <rfabbri@(not this part) gmail d0t com>
 
 
 2) RedHat 7.x  and other common Linux problems
@@ -106,6 +106,6 @@ COMMON LINUX/UNlX PROBLEMS & SOLUTIONS
 
 -----------------------------------------------------------------
 SIP - Scilab Image Processing toolbox
-Copyright (C) 2002-2004, 2003  Ricardo Fabbri
+Copyright (C) 2002-2009  Ricardo Fabbri
 
 See the file COPYING for license-related issues

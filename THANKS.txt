@@ -1,6 +1,6 @@
 SIP - Scilab Image Processing toolbox THANKS file
 
-SIP has originally been written by Ricardo Fabbri <rfabbri@if.sc.usp.br>
+SIP has originally been written by Ricardo Fabbri <rfabbri@(not this part) gmail d0t com>
 Many people further contributed to SIP by reporting problems,
 suggesting various improvements or submitting actual code. Here is a
 list of these people. Help me complete it and exempt of errors.

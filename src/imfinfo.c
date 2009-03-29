@@ -1,7 +1,7 @@
 /*
  * -------------------------------------------------------------------------
  * SIP - Scilab Image Processing toolbox
- * Copyright (C) 2002-2004  Ricardo Fabbri
+ * Copyright (C) 2002-2009  Ricardo Fabbri
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
  * int_imfinfo: 
  *     interface for imfinfo function.
  *     should provide  type=imfinfo(name)  at Scilab level 
- * $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $
+ * $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
  *----------------------------------------------------------*/
 SipExport int 
 int_imfinfo(char *fname)

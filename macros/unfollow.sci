@@ -5,13 +5,13 @@ function [Image]=unfollow(x,y,dims);
 // "follow" function.
 // 
 // AUTHOR
-//    Ricardo Fabbri  <rfabbri@if.sc.usp.br>
+//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
 //    Cybernetic Vision Research Group
 //    Luciano da Fontoura Costa, supervisor.
-//    http://cyvision.if.sc.usp.br
+//    http://siptoolbox.sf.net
 //
 //
-// $Revision: 1.1 $  $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $  $Date: 2009-03-29 21:34:48 $
 
 if argn(2) < 3 then
    error('Invalid number of arguments.')
@@ -30,7 +30,7 @@ endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

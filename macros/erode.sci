@@ -12,10 +12,10 @@ function [imO]=erode(imI, se, center1)
 //          Defaults to the center of the SE array. 
 //
 // AUTHOR
-//    Ricardo Fabbri  <rfabbri@if.sc.usp.br>
+//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
 //    Cybernetic Vision Research Group
 //    Luciano da Fontoura Costa, supervisor.
-//    http://cyvision.if.sc.usp.br
+//    http://siptoolbox.sf.net
 //
 // REMARKS
 //    The algorithm is fully functional, but there
@@ -32,7 +32,7 @@ function [imO]=erode(imI, se, center1)
 //    - confusion is made in the code about x/y r/c
 //
 //
-// $Revision: 1.2 $  $Date: 2005-09-01 19:10:55 $
+// $Revision: 1.3 $  $Date: 2009-03-29 21:34:48 $
    
 
 select argn(2)
@@ -85,7 +85,7 @@ endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

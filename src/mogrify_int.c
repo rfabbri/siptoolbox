@@ -1,7 +1,7 @@
 /*
  * -------------------------------------------------------------------------
  * SIP - Scilab Image Processing toolbox
- * Copyright (C) 2002-2004  Ricardo Fabbri
+ * Copyright (C) 2002-2009  Ricardo Fabbri
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ check_argv_validity(ImageInfo *image_info, char **argv, int *argc, ExceptionInfo
  *    many output variables there are? ImageMagick always returns 
  *    DirectClass after its operations??
  *    
- * $Revision: 1.3 $ $Date: 2007-03-06 03:24:50 $
+ * $Revision: 1.4 $ $Date: 2009-03-29 21:34:48 $
  *-----------------------------------------------------------------*/
 
 

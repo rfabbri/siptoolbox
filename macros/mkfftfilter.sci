@@ -19,7 +19,7 @@ function h=mkfftfilter(image,name,rc1,rc2)
 //     6e edition, Dunod
 //     chap34: introduction au traitement numerique des images et a la couleur
 //
-// $Revision: 1.1 $ $Date: 2005-07-20 01:33:35 $
+// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
 //
 
 
@@ -88,7 +88,7 @@ endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
-// Copyright (C) 2002-2004  Ricardo Fabbri
+// Copyright (C) 2002-2009  Ricardo Fabbri
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
