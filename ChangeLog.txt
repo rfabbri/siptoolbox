@@ -8,7 +8,7 @@ __________________________________________________________________
    This list highlights the main changes from 0.3.1 to 0.4.0. Read the
    previous changelogs for minor improvements and details.
    
-   + Compiles with Scilab 5.1
+   + Compiles with Scilab <= 5.1
    + new DCT function by Angus Errington
    + new features in interferometry_gui by jocelyn
    + NEW hsv2rgb and rgb2hsv functions to convert between RGB images 
