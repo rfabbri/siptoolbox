@@ -129,21 +129,21 @@ fi
 # This works for the binary version: SCIDIR=/usr/local/scilab-5.1
 
 if test $SCIVERSION -le 4; then
-  CPPFLAGS="$CPPFLAGS -I{SCIDIR}/routines"
+  CPPFLAGS="$CPPFLAGS -I$SCIDIR/routines"
 else
   if test -d "$SCIDIR/../../include/scilab/core"; then
     # Binary version
     SCI_INCL="$SCIDIR/../../";
-    CPPFLAGS="$CPPFLAGS  -I${SCI_INCL}/include/scilab/routines/ -I${SCI_INCL}/include/scilab/core/ -I${SCI_INCL}/include/scilab/mexlib/"
+    CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/include/scilab/routines/ -I$SCI_INCL/include/scilab/core/ -I$SCI_INCL/include/scilab/mexlib/"
   else 
     if test -d "$SCIDIR/modules/core/includes"; then
       SCI_INCL="$SCIDIR/modules";
       # Source tree version
-      CPPFLAGS="$CPPFLAGS -I${SCI_INCL}/routines/includes/ -I${SCI_INCL}/core/includes/ -I${SCI_INCL}/mexlib/includes/"
+      CPPFLAGS="$CPPFLAGS -I$SCI_INCL/routines/includes/ -I$SCI_INCL/core/includes/ -I$SCI_INCL/mexlib/includes/"
     else
       if test -d "/usr/include/scilab"; then
         SCI_INCL="/usr/include/scilab"
-        CPPFLAGS="$CPPFLAGS  -I${SCI_INCL}/routines/ -I${SCI_INCL}/core/ -I${SCI_INCL}/mexlib/"
+        CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/routines/ -I$SCI_INCL/core/ -I$SCI_INCL/mexlib/"
       # System version
       else
         AC_MSG_ERROR([[Cannot locate the include files from Scilab. Please report this.]])
