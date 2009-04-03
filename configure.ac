@@ -1,8 +1,9 @@
 # Process this file with autoconf to produce a configure script.
 #
-# Copyright (C) 2003 Ricardo Fabbri
+# Copyright (C) 2003-2009 Ricardo Fabbri
 # Some inspiration came from ImageMagick's configure.ac (thx Bob F.)
-# and examples from the Autobook (http://sources.redhat.com/autobook)
+# and examples from the Autobook (http://sources.redhat.com/autobook),
+# and some changes were re-incorporated from SIVP.
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,10 +19,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-AC_PREREQ(2.59)
+AC_PREREQ(2.61)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.4.0-rc5-cvs], [ricardofabbri@users.sf.net],[sip])
+AC_INIT([sip], [0.4.0], [https://sourceforge.net/tracker/?group_id=68055&atid=519890])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -35,8 +36,6 @@ AC_PROG_CC
 if test x"$ac_cv_prog_cc_stdc" = x'no'; then
    AC_MSG_WARN([[found the $CC compiler but it is not ANSI-C compliant.]])
 fi
-
-
 
 AC_LIBTOOL_WIN32_DLL
 AC_DISABLE_STATIC
@@ -65,64 +64,107 @@ case $host_os in
 esac
 
 
-# checks for xsltproc (to buld HTML help pages)
-AC_CHECK_PROG([has_xsltproc],[xsltproc],[yes],[no], , )
-if test x$has_xsltproc = xno; then
-   # checks for sabcmd as an alternative
-   AC_CHECK_PROG([has_sablotron],[sabcmd],[yes],[no], , )
-   if test x$has_sablotron = xno; then
-      # Only warn in Windows.
-      # On unix I will halt.
-      if test "${native_win32_build}" = 'yes'; then
-         AC_MSG_WARN([[manpages are not going to be built: xsltproc or
-sabcmd programs were not found and at least one of them is required to 
-build the SIP manual pages.
-Download xslproc (from libxml) at:
-   http://http://www.xmlsoft.org 
-or sabcmd (from sablotron) at:
-   http://www.gingerall.com/charlie/ga/xml/p_sab.xml]])
-      else
-      AC_MSG_ERROR([[xsltproc or sabcmd programs were not found but \
-at least one of them is required to build the SIP manual pages.
-Download xslproc (from libxml) at:
-   http://http://www.xmlsoft.org 
-or sabcmd (from sablotron) at:
-   http://www.gingerall.com/charlie/ga/xml/p_sab.xml]])
-      fi
-   fi
+AC_CHECK_PROG([has_scilab],[scilab],[yes],[no], , )
+if test x$has_scilab = xno; then
+    AC_MSG_ERROR([[Scilab was not found in your PATH], your PATH is $PATH])
 fi
 
-# test if SCI is defined. If not,
-# test if scilab is in path, then get SCI from scilab -nw.
+SCIEXE="scilab"
+# test if SCI is defined. If not, test if scilab is in path,
+# then get SCI from scilab -nwni.
 if test -z "$SCI"; then
-   if test $native_win32_build = yes; then
-      dnl TODO take SCIDIR from the registry ??
-      AC_MSG_WARN([[hardcoding SCI to /c/scilab]])
-      SCIDIR="/c/scilab"
-   else
-      AC_CHECK_PROG([has_scilab],[scilab],[yes],[no], , )
-      if test x$has_scilab = xno; then
-         AC_MSG_ERROR([[neither Scilab was found in your PATH nor a SCI variable has been defined]])
-      else
-         cmd='F=mopen("path.incl","w");
-              mfprintf(F,SCI);
-              mclose(F);'
-         echo "$cmd" | scilab -nw >/dev/null
-         SCIDIR=`cat path.incl`
-      fi
-   fi
+      cmd='F=mopen("getpath.incl","w");
+           mfprintf(F,SCI);
+           mclose(F);exit;'
+      echo "$cmd" > getpath.sci
+      scilab -nw -f getpath.sci >/dev/null
+      SCIDIR=`cat getpath.incl`
+      rm -f getpath.sci getpath.incl 
 else
    SCIDIR="$SCI"
 fi
-CPPFLAGS="$CPPFLAGS -I${SCIDIR}/routines"
 
-AC_PREFIX_DEFAULT([SCI/contrib/sip])
-if test "x$prefix"  = xNONE; then 
-   prefix="${SCIDIR}/contrib/sip"
+#get scilab version
+cmd='F=mopen("version.incl","w");
+     ver=getversion();
+     ver=part(ver, 8);
+     mfprintf(F,ver);
+     mclose(F);exit;'
+echo "$cmd" > version.sci
+scilab -nwni -f version.sci >/dev/null
+SCIVERSION=`cat version.incl`
+rm -f version.sci version.incl 
+
+echo "Scilab version is $SCIVERSION"
+
+
+HELPDIR=""
+if test $SCIVERSION -le 4; then
+   # checks for xsltproc (to buld HTML help pages)
+   AC_CHECK_PROG([has_xsltproc],[xsltproc],[yes],[no], , )
+   if test x$has_xsltproc = xno; then
+      # checks for sabcmd as an alternative
+      AC_CHECK_PROG([has_sablotron],[sabcmd],[yes],[no], , )
+      if test x$has_sablotron = xno; then
+        AC_MSG_ERROR([[xsltproc or sabcmd programs were not found but \
+                   at least one of them is required to build the SIP manual pages.
+                   Download xslproc (from libxml) at:
+                     http://www.xmlsoft.org 
+                   or sabcmd (from sablotron) at:
+                     http://www.gingerall.com/charlie/ga/xml/p_sab.xml]])
+         fi
+    fi
+    HELPDIR="man"
+else
+    HELPDIR="help"  
 fi
+
+
+
+# Determine the include path for the scilab headers.
+# 
+# The following tests were partly based off ilib_compile from scilab v. 5.1 in
+# modules/dynamic_link/macros
+
+# This works for the binary version: SCIDIR=/usr/local/scilab-5.1
+
+if test $SCIVERSION -le 4; then
+  CPPFLAGS="$CPPFLAGS -I{SCIDIR}/routines"
+else
+  if test -d "$SCIDIR/../../include/scilab/core"; then
+    # Binary version
+    SCI_INCL="$SCIDIR/../../";
+    CPPFLAGS="$CPPFLAGS  -I${SCI_INCL}/include/scilab/routines/ -I${SCI_INCL}/include/scilab/core/ -I${SCI_INCL}/include/scilab/mexlib/"
+  else 
+    if test -d "$SCIDIR/modules/core/includes"; then
+      SCI_INCL="$SCIDIR/modules";
+      # Source tree version
+      CPPFLAGS="$CPPFLAGS -I${SCI_INCL}/routines/includes/ -I${SCI_INCL}/core/includes/ -I${SCI_INCL}/mexlib/includes/"
+    else
+      if test -d "/usr/include/scilab"; then
+        SCI_INCL="/usr/include/scilab"
+        CPPFLAGS="$CPPFLAGS  -I${SCI_INCL}/routines/ -I${SCI_INCL}/core/ -I${SCI_INCL}/mexlib/"
+      # System version
+      else
+        AC_MSG_ERROR([[Cannot locate the include files from Scilab. Please report this.]])
+      fi
+    fi
+  fi
+fi
+
+if test "x$prefix"  = xNONE; then 
+   prefix="${SCIDIR}/contrib/${PACKAGE_NAME}-${PACKAGE_VERSION}"
+else
+   prefix="${prefix}/${PACKAGE_NAME}-${PACKAGE_VERSION}"
+fi
+
 TOOLBOXDIR=$prefix
-AC_SUBST(TOOLBOXDIR)dnl
-AC_SUBST(SCIDIR)dnl 
+
+AC_PREFIX_DEFAULT([$TOOLBOXDIR])
+AC_SUBST(TOOLBOXDIR)
+AC_SUBST(SCIDIR)
+AC_SUBST(SCIEXE)
+AC_SUBST(HELPDIR)
 
 
 
@@ -363,6 +405,17 @@ particular ImageMagick setup]),
 # END OF IMAGEMAGICK TESTS
 ##############################################
 
+# OpenCV tests (just for the future.)
+have_opencv=no
+PKG_CHECK_MODULES(OPENCV, 
+		[opencv >= 0.9.6],
+		[CFLAGS="$CFLAGS $OPENCV_CFLAGS"
+		 LDFLAGS="$LDFLAGS $OPENCV_LIBS"
+		 have_opencv=yes
+		 AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
+		[AC_MSG_WARN([[ OpenCV version >= 0.9.6 was not found. ]])])
+
+
 # Checks for header files.
 AC_HEADER_STDC
 if test x"$ac_cv_header_stdc" = x'no'; then
@@ -379,6 +432,7 @@ AC_HEADER_STDBOOL
 # Checks for library functions.
 
 AC_CHECK_FUNC([strcasecmp],[],[AC_MSG_ERROR([[this package needs the strcasecmp function.]])])
+AC_CHECK_FUNCS([malloc])
 
 AC_CONFIG_FILES([Makefile src/Makefile macros/Makefile
                  images/Makefile images/photonics/Makefile
@@ -386,19 +440,16 @@ AC_CONFIG_FILES([Makefile src/Makefile macros/Makefile
                  config/loader_include.sce])
 AC_OUTPUT
 
-echo 
-echo "Final Compilation Flags:"
-echo "  CC       = $CC"
-echo "  CFLAGS   = $CFLAGS"
-echo "  CPPFLAGS = $CPPFLAGS"
-echo "  LDFLAGS  = $LDFLAGS"
-echo "  LIBS     = $LIBS"
-echo 
-echo ===========================================================================
-echo "This toolbox will be installed in $TOOLBOXDIR."
-echo 'Now type "make" then "make install".'
-echo "After that, if you want the toolbox to be automatically loaded, type"
-echo '"make autoload" (as normal user). This will append the proper command'
-echo "to your .scilab file."
-echo ===========================================================================
-echo 
+AC_MSG_RESULT([
+=====================================================
+Configuration:
+  CC       = $CC
+  CFLAGS   = $CFLAGS
+  CPPFLAGS = $CPPFLAGS
+  LDFLAGS  = $LDFLAGS
+  LIBS     = $LIBS
+=====================================================
+This toolbox will be installed in $TOOLBOXDIR
+Please run 'make' and 'make install' to compile and install the toolbox. 
+]) 
+

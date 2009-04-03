@@ -24,4 +24,4 @@ functions=[ 'imread';
             'sip_get_verbose';
             'hello_sip';
 ];
-addinter(libsip_path+'/libsip.so','libsip',functions);
+addinter(libsip_path+'/libsip.@SHARED_LIB_SUFFIX@','libsip',functions);

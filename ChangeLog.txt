@@ -3,22 +3,14 @@ Copyright (C) 2002-2009 Ricardo Fabbri
 __________________________________________________________________
 
 
-	+ 20070831 Added backward support for ImageMagick 6.2.4 
-	+ Mogrify now works with ImageMagick 6.3.3
-	+ Meijster's EDT algorithm included in bwdist. It is faster than all the
-	others in most cases.
-	+ New installer for Windows by Zhang Cheng
-	+ Fixed bug in erode
-	+ SIP now works with new ImageMagick versions (tested with 6.2.5)
-	+ CVS repository at Source Forge started by Angus Errington 
-	+ new DCT function by Angus Errington
-	+ new features in interferometry_gui by jocelyn
 
 0.4.0 Major new features!
    This list highlights the main changes from 0.3.1 to 0.4.0. Read the
    previous changelogs for minor improvements and details.
    
-   + Help files moved to XML/HTML format and were totally revised;
+   + Compiles with Scilab 5.1
+   + new DCT function by Angus Errington
+   + new features in interferometry_gui by jocelyn
    + NEW hsv2rgb and rgb2hsv functions to convert between RGB images 
      and HSV (Hue Saturation Intensity) images.
    + NEW radon and iradon functions
@@ -39,21 +31,35 @@ __________________________________________________________________
      functions, by using scilab's new hypermatrix structure.
    + imwrite now supports the "depth" optional argument to set image 
      depth. It defaults to 16bpp, but one can now set it to 8bpp.
+   + Help files moved to XML/HTML format and were totally revised;
+   + CVS repository at Source Forge started by Angus Errington 
    + GANDALF is NOT needed anymore for the a source build
-   + Animal 0.14.0 or later is required for a source build
+   + Animal 0.15.0 or later is required for a source build
    + Virtually any version of ImageMagick is now supported for 
      compiling from source (all  versions down to 5.4.2)
+   + New beta installer for Windows by Zhang Cheng
    + Both sabcmd and xsltproc are supported to build the help pages; 
      SIP will use whichever is available.
+   + Meijster's exact Euclidean distance tranform algorithm included in bwdist.
+   It is faster than all the others in most cases.
+   + Fixed bug in erode
    + NEW preliminary imxprofile, wich has some improvements to 
      improfile but is not fully functional.
    + INCOMPATIBLE: function angle changed to "getangle"
    + Many other bugfixes and minor improvements
 
-   Main Developers: Ricardo Fabbri and Jocelyn Druel.
+   Main Developers: Ricardo Fabbri, Zhang Cheng, and Jocelyn Druel.
    Special Thanks to: Sandro da Silva, Leandro Estrozi, Edson 
    Nakamura, Dean Messing, Enrico Segre, Torsten Werner
 
+
+0.4.0 RC5
+   + 20070831 Added backward support for ImageMagick 6.2.4 
+   + Mogrify now works with ImageMagick 6.3.3
+   + Meijster's exact Euclidean distance tranform algorithm included in bwdist.
+   It is faster than all the others in most cases.
+   + New beta installer for Windows by Zhang Cheng
+   + Fixed bug in erode
 
 0.4.0 RC2
    + Fix to poledetection.xml help page
@@ -379,8 +385,8 @@ __________________________________________________________________
    + Imshow is now faster for truecolor images. 
    + Adaptive thresholding though the mogrify parameter "-lat". This 
      requires ImageMagick 5.5.2 or later.
-	+ New edge-detection by FFT gradient estimation; this
-	  is available in the 'edge' routine, by giving an 'fftderiv' value 
+   + New edge-detection by FFT gradient estimation; this
+     is available in the 'edge' routine, by giving an 'fftderiv' value 
      for the method argument. 
    + New masks for mkfilter - laplacian masks, low-pass masks, sharp
      masks, mean, and circular.
@@ -450,14 +456,14 @@ __________________________________________________________________
    + New perim function
 
 20021203
-	+ New edge-detection by FFT gradient estimation; this
-	  is available in the 'edge' routine, by giving an 'fftderiv'
-	  value for the method argument. The manpage was updated to
-	  contain more info on this.
+   + New edge-detection by FFT gradient estimation; this
+     is available in the 'edge' routine, by giving an 'fftderiv'
+     value for the method argument. The manpage was updated to
+     contain more info on this.
    + New hough transform (early working implementation)
-   + Adaptive thresholding though the mogrify parameter "-lat".	
+   + Adaptive thresholding though the mogrify parameter "-lat".   
      This needs the new ImageMagick 5.5.2.
-	+ Gsm2d rewrite; about 5 to 10% speedup.
+   + Gsm2d rewrite; about 5 to 10% speedup.
    + bwborder was broken; fixed.
    + Drawline manpage
 

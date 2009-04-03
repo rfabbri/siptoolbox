@@ -40,8 +40,8 @@ UNIX/LINUX systems
             make
             make install
 
-            (NOTE: if Animal was downloaded from CVS, run `./autogen.sh' before the
-            above commands)
+      (NOTE: if Animal was downloaded from CVS, run `./autogen.sh' before the 
+      above commands)
 
    2) You might have to type "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig". 
       Read man pkg-config for details
@@ -183,6 +183,6 @@ UNIX/LINUX systems
 
 -----------------------------------------------------------------
 SIP - Scilab Image Processing toolbox
-Copyright (C) 2002-2004,2003  Ricardo Fabbri
+Copyright (C) 2002-2009  Ricardo Fabbri
 
 See the file COPYING for license-related issues

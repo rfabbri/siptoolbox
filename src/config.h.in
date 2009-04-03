@@ -15,6 +15,9 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #undef HAVE_INTTYPES_H
 
+/* Define to 1 if you have the `malloc' function. */
+#undef HAVE_MALLOC
+
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
@@ -23,6 +26,9 @@
 
 /* Defines if ImageMagick has MogrifyImage with a 5th parameter */
 #undef HAVE_MogrifyImage_5args
+
+/* define HAVE_OPENCV if you have opencv */
+#undef HAVE_OPENCV
 
 /* Defines if ImageMagick has QueryColorDatabase with a 3rd parameter */
 #undef HAVE_QueryColorDatabase_3args
