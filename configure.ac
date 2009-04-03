@@ -246,6 +246,9 @@ then
    MAGICK_LIBNAME="CORE_RL_magick_"
 else
    MAGICK_LIBNAME="Magick"
+   # TODO change this is not going to be true for newer versions of imagemagick,
+   # so we must figure this out by testing if the version is greater than
+   # 6.3.8-5. Right now, I repeat some tests for both Magick and MagickCore
 #
 # ImageMagick tests to assure compatibility across MANY ImageMagick
 # versions, from 5.4.x to 6.x.x
@@ -355,10 +358,19 @@ AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
    AC_MSG_RESULT([no]))
 
 # ------------------------------------
-AC_CHECK_LIB([$MAGICK_LIBNAME],[GetLocaleExceptionMessage],[
-   AC_DEFINE([HAVE_GetLocaleExceptionMessage],[], [Define if \
-ImageMagick has locale error messages.])],
-[])
+# TODO: set MAGICK_LIBNAME appropriately and change this test to use
+# MAGICK_LIBNAME. 
+AC_CHECK_LIB([Magick],[GetLocaleExceptionMessage],[
+  # if found
+  AC_DEFINE([HAVE_GetLocaleExceptionMessage],[], [Define if \
+ImageMagick has locale error messages.])
+   ]
+, [
+  # if not found, try MagickCore
+  AC_CHECK_LIB([MagickCore],[GetLocaleExceptionMessage],[
+    AC_DEFINE([HAVE_GetLocaleExceptionMessage],[], [Define if \
+  ImageMagick has locale error messages.])] , [])
+])
 
 # ------------------------------------
 AC_MSG_CHECKING([name of the default compression quality in IM])
