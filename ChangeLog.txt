@@ -36,7 +36,7 @@ __________________________________________________________________
    + GANDALF is NOT needed anymore for the a source build
    + Animal 0.15.0 or later is required for a source build
    + Virtually any version of ImageMagick is now supported for 
-     compiling from source (all  versions down to 5.4.2)
+     compiling from source (all versions from current 6.5.x down to 5.4.2)
    + New beta installer for Windows by Zhang Cheng
    + Both sabcmd and xsltproc are supported to build the help pages; 
      SIP will use whichever is available.
