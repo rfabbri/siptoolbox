@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imnoise">
+<info>
+  <pubdate>February 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>imnoise</refname>
+  <refpurpose>Add noise (Gaussian, etc.) to an image</refpurpose>
+</refnamediv>
+
+
+<refsynopsisdiv><title>Calling Sequence</title><synopsis>imn = imnoise(im, type [,parameters])</synopsis></refsynopsisdiv>
+<refsection><title>Parameters</title>
+<variablelist>
+   <varlistentry>
+     <term>im</term>
+     <listitem>
+       Input image (grayscale).
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term>type</term>
+     <listitem>
+       String having one of these values:
+       <variablelist>
+	 <varlistentry>
+	   <term>'salt &amp; pepper'</term>
+	   <listitem>
+	     drop-out/On-off noise
+	   </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	   <term>'speckle'</term>
+	   <listitem>
+	     multiplicative noise
+	   </listitem>
+	 </varlistentry>
+	 <varlistentry>
+	   <term>'gaussian'</term>
+	   <listitem>
+	     Gaussian white/additive noise
+	   </listitem>
+	 </varlistentry>
+	 <varlistentry>
+           <term>'localvar'</term>
+           <listitem>
+             Pixel-specific  variance  (Zero-mean Gaussian)
+           </listitem>
+	 </varlistentry>
+	 <varlistentry>
+           <term>'poisson'</term>
+           <listitem>
+             Not yet implemented
+           </listitem>
+	 </varlistentry>
+       </variablelist>
+
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term>parameters</term>
+     <listitem>
+       A sequence of parameters to control the noise distribution, depending on the chosen type. If omitted, default values are used (see below).
+     </listitem>
+   </varlistentry>
+   <varlistentry>
+     <term>imn</term>
+     <listitem>
+       Noisy image, which has the same size and type as input image <literal>im</literal>.
+     </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection><title>Description</title>
+   <para>
+<literal>imnoise(im, type [, parameters])</literal> adds a type of noise 
+to the intensity image <literal>im</literal>. 
+Optionally, you can control the noise parameters starting at the 3rd. Argument to imnoise. 
+Here are  examples of noise types and their parameters: </para>
+
+   <para>
+<literal>imn = imnoise(im, 'salt &amp; pepper', d)</literal> adds drop-out noise, 
+where <literal>d</literal> is the noise density (probability of swapping a  pixel). (default: d=0.05). </para>
+
+   <para>
+<literal>imn = imnoise(im, 'gaussian', m, v)</literal> adds Gaussian additive noise  of mean m and variance v. (default: m=0 and v=0.01) </para>
+
+   <para>
+<literal>im = imnoise(im, 'localvar', V)</literal> additive zero-mean Gaussian 
+noise where the variance at im(i,j) is V(i,j). </para>
+
+   <para>
+<literal>imn = imnoise(im,'localvar', intensity, V)</literal> 
+additive zero-mean Gaussian noise,
+and the local variance of the noise, var, 
+is a function of the image intensity values in <literal>im</literal>. 
+The variance is <literal>matrix( interp1(intensity(:),V(:),im(:)), size(im) )</literal></para>
+
+   <para>
+<literal>imn = imnoise(im,'speckle',v)</literal> adds multiplicative noise, 
+using <literal>imn = im + noise*im</literal>, 
+where noise is uniformly distributed  with mean 0 and variance v. (default: v=0.04) </para>
+
+   <para>
+ The mean and variance parameters are specified as if image  intensities went from 0 to 1. By default, we consider that  "1" corresponds to the maximum intensity value of the  image. If you want to change this for &apos;gaussian&apos; and  &apos;speckle&apos;, pass an extra parameter at the end of the argument list. For instance, your image may have maximum  intensity 180 even though the grayscale range is 0-1:
+</para>
+ <para>
+ J = imnoise(I,&apos;gaussian&apos;, m, v, val) </para>
+   <para>
+ J = imnoise(I,&apos;speckle&apos;, v, val) </para>
+ 
+</refsection>
+
+
+<refsection><title>Examples</title><programlisting role="example"><![CDATA[
+
+   xset('auto clear', 'on');
+   A = gray_imread(SIPDIR + 'images/gra.jpg');
+   imshow(A);
+
+   N = imnoise(A,'salt & pepper');
+   imshow(N,[]);
+
+   N = imnoise(A,'salt & pepper',0.3);
+   imshow(N,[]);
+
+
+   // Replace pixel by independent random value:
+   N = imnoise(A,'salt & pepper',0.3,0);
+   imshow(N,[]);
+
+   // Replace pixel by *dependent* random value:
+   N = imnoise(A,'speckle');
+   imshow(N,[]);
+
+   xset('auto clear', 'off');
+
+]]></programlisting></refsection>
+
+
+<refsection><title>Bugs and Shortcomings</title>
+<para>
+'poisson' noise is not yet implemented.
+</para>
+</refsection>
+
+<refsection><title>Authors</title>
+<para>
+"Noise Generation", The Hypermedia Image Processing Reference
+(HIPR), R. Fisher, S. Perkins, A. Walker and E. Wolfart,
+University of Edinburgh:
+</para>
+<para>
+<a href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/">http://homepages.inf.ed.ac.uk/rbf/HIPR2</a>
+</para>
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member> Ricardo Fabbri &lt;ricardofabbri [at] users.sf.net&gt; </member>
+   <member> Shiqi Yu &lt;shiqi.yu[at]gmail.com&gt; </member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://sip.sf.net </para>
+</refsection>
+
+   <refsection><title>See Also</title><simplelist type="inline">
+      <SEE_ALSO_ITEM> <LINK>mogrify</LINK>&apos;-noise&apos;flag</SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
+      <SEE_ALSO_ITEM> <LINK>gsm2d</LINK> </SEE_ALSO_ITEM>
+      <member> <link linkend="mogrify">mogrify</link> </member>
+      <member> <link linkend="mkfilter">mkfilter</link> </member>
+      <member> <link linkend="gsm2d">gsm2d</link> </member>
+   </simplelist></refsection>
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+xmlns:svg="http://www.w3.org/2000/svg"
+xmlns:mml="http://www.w3.org/1998/Math/MathML"
+xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab"
+xml:lang="en" xml:id="imwrite">
+<info><pubdate>February 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>mogrify</refname>
+  <refpurpose>
+   Filter, rotate, zoom, equalize, and much more image manipulation.
+  </refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+  <synopsis>[imout (,map)] = mogrify(im, argv)</synopsis>
+  <synopsis>[imout (,map)] = mogrify(imRGB, argv)</synopsis>
+  <synopsis>[imout (,map)] = mogrify(index, colormap, argv)</synopsis>
+</refsynopsisdiv>
+
+<refsection><title>Input Parameters</title>
+<variablelist>
+   <varlistentry>
+     <term>im</term>
+     <listitem>
+        binary or grayscale image in the 0-1 range
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>imRGB</term>
+     <listitem>
+        truecolor image represented as a 3D array, in the 0-1 range.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>index</term>
+     <listitem>
+    MxN matrix containing the indexes to a colormap (for indexed images). Indices start at 1.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>colormap</term>
+     <listitem>
+    <para>
+      an (NCx3) matrix in the 0-1 range.
+    </para>
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>argv</term>
+     <listitem>
+      <para>
+       (argument vector), a string vector, row or column, containing image processing commands. See the section "Argv Argument" bellow for a listing of the available options. The "Example" bellow demonstrates how to use this argument.
+       </para>
+     </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection><title>Output Parameters</title>
+<variablelist>
+   <varlistentry>
+     <term>imout</term>
+     <listitem>
+      For truecolor images, this is a MxNx3 matrix in the 0-1 range. For binary
+      images, image is a MxNx1 matrix (0=black and 1=white). For grayscale images,
+      this is an MxN matrix in the 0-1 range. For indexed images, this is an MxN
+      matrix in the 1-NC range, where NC is the number of colors.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>map</term>
+     <listitem>
+      NCx3 matrix containing the image colormap, where Nc is the number of colors. Entries range from 0 to 1.
+     </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+<refsection>
+
+<title>Description</title>
+
+<para> 
+   <literal>mogrify</literal> does many image processing operations. It  is a
+   direct C-language interface to ImageMagick, providing  the same
+   functinality as the commandline "mogrify" utilty. The difference
+   is that SIP&apos;s mogrify acts upon scilab  matrices instead of
+   image files, and, therefore, is considerably faster. Please
+   see the section "ARGV ARGUMENT"  bellow for details on how the
+   parameter argv is built.
+</para>
+</refsection>
+
+<refsection>
+  <title>Examples</title>
+  <programlisting role="example"><![CDATA[
+Please follow the TransMogrify demo using the following command:
+     exec(SIPDEMO);
+]]></programlisting>
+</refsection>
+
+<refsection>
+  <title>The ARGV parameter</title>
+   <para>
+     In this section, angle brackets ("&lt;&gt;") enclose variables and
+  curly brackets ("{}") enclose optional parameters. For example,
+  <literal>"-fuzz &lt;distance&gt;{%}"</literal> means you can use the option
+  <literal>['-fuzz','10']</literal> or <literal>['-fuzz', '2%']</literal>.
+  </para>
+<variablelist>
+<varlistentry>
+   <term>-affine &lt;matrix&gt;</term>
+   <listitem>
+      drawing transform matrix.
+      This option provides a transform matrix {sx,rx,ry,sy,tx,ty} for
+      use by subsequent 
+      <emphasis>-draw</emphasis> or 
+      <emphasis>-transform</emphasis> option.
+   </listitem>
+</varlistentry>
+      <varlistentry>
+<term>-antialias</term>
+   <listitem>
+      remove pixel aliasing
+      By default antialiasing algorithms are used when drawing objects (e.g. lines)
+      or rendering vector formats (e.g. WMF and Postscript). Use +antialias to
+      disable use of antialiasing algorithms. Reasons to disable antialiasing
+      include avoiding increasing colors in the image, or improving rendering speed.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-background &lt;color&gt;</term>
+   <listitem>
+      the background color
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-blur &lt;radius&gt;x&lt;sigma&gt;</term>
+   <listitem>
+      blur the image with a Gaussian operator
+
+      Blur with the given radius and standard deviation (sigma). It is
+      better if the radius be greater than sigma, but the larger it is,
+      the slower is the processing.  If a radius equal to 0 is passed,
+      then mogrify uses the optimal radius.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-border &lt;width&gt;x&lt;height&gt;</term>
+   <listitem>
+      surround the image with a border of color
+
+      See <emphasis>-geometry</emphasis> for details
+      about the geometry specification.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-bordercolor &lt;color&gt;</term>
+   <listitem>
+      the border color
+
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-channel &lt;type&gt;</term>
+   <listitem><para>
+      the type of channel
+
+      Choose from: <emphasis>Red</emphasis>, <emphasis>Green</emphasis>, <emphasis>Blue</emphasis>, 
+      <emphasis>Cyan</emphasis>, <emphasis>Magenta</emphasis>, <emphasis>Yellow</emphasis>, or <emphasis>Black</emphasis>.
+   </para><para>
+      Use this option to extract a particular channel from the image.
+      </para>
+   </listitem>
+   </varlistentry>
+
+      <varlistentry>
+<term>-charcoal &lt;factor&gt;</term>
+      <listitem>
+      simulate a charcoal drawing
+      </listitem>
+   </varlistentry>
+
+      <varlistentry>
+<term>-colorize &lt;value&gt;</term>
+   <listitem>
+      colorize the image with the pen color
+
+      Specify the amount of colorization as a percentage. You can apply separate
+      colorization values to the red, green, and blue channels of the image with
+      a colorization value list delineated with slashes (e.g. 0/0/50).
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-colorspace &lt;value&gt;</term>
+   <listitem><para>
+      the type of colorspace
+
+      Choices are: <emphasis>GRAY</emphasis>, <emphasis>OHTA</emphasis>, <emphasis>RGB</emphasis>,
+      <emphasis>Transparent</emphasis>,
+      <emphasis>XYZ</emphasis>,
+      <emphasis>YCbCr</emphasis>, <emphasis>YIQ</emphasis>, <emphasis>YPbPr</emphasis>,
+      <emphasis>YUV</emphasis>, or <emphasis>CMYK</emphasis>.
+   </para><para>
+      Color reduction, by default, takes place in the RGB color space. Empirical
+      evidence suggests that distances in color spaces such as YUV or YIQ correspond
+      to perceptual color differences more closely than do distances in RGB space.
+      These color spaces may give better results when color reducing an image.
+      Refer to quantize for more details.
+   </para><para>
+      The <emphasis>Transparent</emphasis> color space behaves uniquely in that it preserves
+      the matte channel of the image if it exists.
+   </para><para>
+      The <emphasis>-colors</emphasis> or <emphasis>-monochrome</emphasis> option is required for this
+      option to take effect.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-contrast</term>
+   <listitem>
+      enhance or reduce the image contrast
+
+      This option enhances the intensity differences between the lighter and
+      darker elements of the image. Use <emphasis>-contrast</emphasis> to enhance
+      the image
+      or <emphasis>+contrast</emphasis> to reduce the image contrast.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-crop &lt;width&gt;x&lt;height&gt;{+-}&lt;x&gt;{+-}&lt;y&gt;{%}</term>
+   <listitem>
+      <para>
+      preferred size and location of the cropped image
+
+      See <emphasis>-geometry</emphasis> for details
+      about the geometry specification.
+   </para><para>
+      The width and height give the size of the image that remains after cropping,
+      and x and y are offsets that give the location of the top left
+      corner of the cropped
+      image with respect to the original image.  To specify the amount to be
+      removed, use <emphasis>-shave</emphasis> instead.
+   </para><para>
+      To specify a percentage width or height to be removed instead, append
+      <emphasis>%</emphasis>. For example
+      to crop the image by ten percent (five percent on each side of the image),
+      use <emphasis>-crop 10%</emphasis>.
+   </para><para>
+      If the x and y offsets are present, a single image is
+      generated, consisting of the pixels from the cropping region.
+      The offsets specify the location of the upper left corner of
+      the cropping region measured downward and rightward with respect to the
+      upper left corner of the image.
+      If the <emphasis>-gravity</emphasis> option is present with NorthEast, East,
+      or SouthEast
+      gravity, it gives the distance leftward from the right edge
+      of the image to the right edge of the cropping region.  Similarly, if
+      the <emphasis>-gravity</emphasis> option is present with SouthWest, South,
+      or SouthEast
+      gravity, the distance is measured upward between the bottom
+      edges.
+   </para><para>
+      If the x and y offsets are omitted, a set of tiles of the
+      specified geometry, covering the entire input image, is generated.  The
+      rightmost tiles and the bottom tiles are smaller if the
+      specified geometry extends beyond the dimensions of the input image.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-cycle &lt;amount&gt;</term>
+   <listitem>
+      displace image colormap by amount
+
+      Amount defines the number of positions each colormap entry is
+      shifted.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-debug</term>
+      enable debug printout
+      </varlistentry>
+      <varlistentry>
+<term>-despeckle</term>
+      reduce the speckles within an image
+      </varlistentry>
+      <varlistentry>
+<term>-dither</term>
+   <listitem><para>
+      apply Floyd/Steinberg error diffusion to the image
+
+      The basic strategy of dithering is to trade intensity resolution for spatial
+      resolution by averaging the intensities of several neighboring pixels.
+      Images which suffer from severe contouring when reducing colors can be
+      improved with this option.
+   </para><para>
+      The <emphasis>-colors</emphasis> or <emphasis>-monochrome</emphasis> option is required for this option
+      to take effect.
+   </para><para>
+      Use <emphasis>+dither</emphasis> to turn off dithering and to render PostScript without
+      text or graphic aliasing.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-draw &lt;string&gt;</term>
+   <listitem><para>
+      annotate an image with one or more graphic primitives
+
+      Use this option to annotate an image with one or more graphic primitives.
+      The primitives include shapes, text, transformations,
+      and pixel operations.  The shape primitives are
+   </para><literal>
+           point           x,y
+           line            x0,y0 x1,y1
+           rectangle       x0,y0 x1,y1
+           roundRectangle  x0,y0 x1,y1 wc,hc
+           arc             x0,y0 x1,y1 a0,a1
+           ellipse         x0,y0 rx,ry a0,a1
+           circle          x0,y0 x1,y1
+           polyline        x0,y0  ...  xn,yn
+           polygon         x0,y0  ...  xn,yn
+           Bezier          x0,y0  ...  xn,yn
+           path            path specification
+           image           operator x0,y0 w,h filename
+   </literal><para>
+      The text primitive is
+   </para><literal>
+           text            x0,y0 string
+   </literal><para>
+      The transformation primitives are
+   </para><literal>
+           rotate          degrees
+           translate       dx,dy
+           scale           sx,sy
+           skewX           degrees
+           skewY           degrees
+   </literal><para>
+      The pixel operation primitives are
+   </para><para>
+           color           x0,y0 method
+   </para><para>
+      The shape primitives are drawn in the color specified in the preceding
+      <emphasis>-stroke</emphasis> option. Except for the <emphasis>line</emphasis> and <emphasis>point</emphasis>
+      primitives, they are filled with the color specified in the preceding
+      <emphasis>-fill</emphasis> option.  For unfilled shapes, use -fill none.
+   </para><para>
+      <emphasis>Point</emphasis> requires a single coordinate.
+   </para><para>
+      <emphasis>Line</emphasis> requires a start and end coordinate.
+   </para><para>
+      <emphasis>Rectangle</emphasis>
+      expects an upper left and lower right coordinate.
+   </para><para>
+      <emphasis>RoundRectangle</emphasis> has the upper left and lower right coordinates
+      and the width and height of the corners.
+   </para><para>
+      <emphasis>Circle</emphasis> has a center coordinate and a coordinate for
+      the outer edge.
+   </para><para>
+      Use <emphasis>Arc</emphasis> to circumscribe an arc within
+      a rectangle.  Arcs require a start and end point as well as the degree
+      of rotation (e.g. 130,30 200,100 45,90).
+   </para><para>
+      Use <emphasis>Ellipse</emphasis> to draw a partial ellipse
+      centered at the given point with the x-axis and y-axis radius
+      and start and end of arc in degrees (e.g. 100,100 100,150 0,360).
+   </para><para>
+      Finally, <emphasis>polyline</emphasis> and <emphasis>polygon</emphasis> require
+      three or more coordinates to define its boundaries.
+      Coordinates are integers separated by an optional comma.  For example,
+      to define a circle centered at 100,100
+      that extends to 150,150 use:
+   </para><para>
+           ['-draw'; 'circle 100,100 150,150']
+   </para><para>
+      <emphasis>Paths</emphasis>
+      (See Paths)
+      represent an outline of an object which is defined in terms of
+      moveto (set a new current point), lineto (draw a straight line),
+      curveto (draw a curve using a cubic Bezier), arc (elliptical or
+      circular arc) and closepath (close the current shape by drawing a line
+      to the last moveto) elements. Compound paths (i.e., a path with
+      subpaths, each consisting of a single moveto followed by one or more
+      line or curve operations) are possible to allow effects such as
+      "donut holes" in objects.
+   </para><para>
+      Use <emphasis>image</emphasis> to composite an image with another image. Follow the
+      image keyword with the composite operator, image location, image size,
+      and filename:
+   </para><para>
+           ['-draw'; 'image Over 100,100 225,225 image.jpg']
+   </para><para>
+      You can use 0,0 for the image size, which means to use the actual
+      dimensions found in the image header. Otherwise, it will
+      be scaled to the given dimensions.
+   </para><para>
+      Use <emphasis>text</emphasis> to annotate an image with text. Follow the text coordinates
+      with a string. If the string has embedded spaces, enclose it in double
+      quotes. Optionally you can include the image filename, type, width, height,
+      or other image attribute by embedding special format character.
+      See <emphasis>-comment</emphasis> for details.
+   </para><para>
+      For example,
+   </para><para>
+           ['-draw'; 'text 100,100 ""%wx%h""']
+   </para><para>
+      annotates the image with 512x480 for an image whose width
+      is 512 and height is 480.
+   </para><para>
+      If the first character of string is @, the text is read from
+      a file titled by the remaining characters in the string.
+   </para><para>
+      <emphasis>Rotate</emphasis> rotates subsequent shape primitives and text primitives about
+      the origin of the main image. If the <emphasis>-region</emphasis> option precedes the
+      <emphasis>-draw</emphasis> option, the origen for transformations is the upper left
+      corner of the region.
+   </para><para>
+      <emphasis>Translate</emphasis> translates them.
+   </para><para>
+      <emphasis>Scale</emphasis> scales them.
+   </para><para>
+      <emphasis>SkewX</emphasis> and <emphasis>SkewY</emphasis> skew them with respect to the origen of
+      the main image or the region.
+   </para><para>
+      The transformations modify the current affine matrix, which is initialized
+      from the initial affine matrix defined by the <emphasis>-affine</emphasis> option.
+      Transformations are cumulative within the <emphasis>-draw</emphasis> option.
+      The initial affine matrix is not affected; that matrix is only changed by the
+      appearance of another <emphasis>-affine</emphasis> option.  If another <emphasis>-draw</emphasis>
+      option appears, the current affine matrix is reinitialized from
+      the initial affine matrix.
+   </para><para>
+      Use <emphasis>color</emphasis> to change the color of a pixel to the fill color (see
+      <emphasis>-fill</emphasis>). Follow the pixel coordinate
+      with a method:
+   </para><literal>
+           point
+           replace
+           floodfill
+           filltoborder
+           reset
+   </literal><para>
+      Consider the target pixel as that specified by your coordinate. The
+      <emphasis>point</emphasis>
+      method recolors the target pixel. The <emphasis>replace</emphasis> method recolors any
+      pixel that matches the color of the target pixel.
+      <emphasis>Floodfill</emphasis> recolors
+      any pixel that matches the color of the target pixel and is a neighbor,
+      whereas <emphasis>filltoborder</emphasis> recolors any neighbor pixel that is not the
+      border color. Finally, <emphasis>reset</emphasis> recolors all pixels.
+   </para><para>
+   </para><para>
+      You can set the primitive color, font, and font bounding box
+      color with
+      <emphasis>-fill</emphasis>, <emphasis>-font</emphasis>, and <emphasis>-box</emphasis> respectively. Options
+      are processed in the <emphasis>argv</emphasis> order so be sure to use these
+      options before the <emphasis>-draw</emphasis> option.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-edge &lt;radius&gt;</term>
+      detect edges within an image
+      </varlistentry>
+      <varlistentry>
+<term>-emboss</term>
+      emboss an image
+      </varlistentry>
+      <varlistentry>
+<term>-encoding &lt;type&gt;</term>
+   <listitem>
+      specify the text encoding
+
+      Choose from AdobeCustom, AdobeExpert, AdobeStandard, AppleRoman,
+      BIG5, GB2312, Latin 2, None, SJIScode, Symbol, Unicode, Wansung.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-enhance</term>
+      apply a digital filter to enhance a noisy image
+      </varlistentry>
+      <varlistentry>
+<term>-equalize</term>
+      perform histogram equalization to the image
+      </varlistentry>
+      <varlistentry>
+<term>-fill &lt;color&gt;</term>
+   <listitem><para>
+      color to use when filling a graphic primitive
+
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </para><para>
+      See <emphasis>-draw</emphasis> for further
+      details.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-filter &lt;type&gt;</term>
+   <listitem>
+      <para>
+      use this type of filter when resizing an image
+
+      Use this option to affect the resizing operation of an image (see
+      <emphasis>-geometry</emphasis>).
+      Choose from these filters:
+      </para><literal>
+           Point
+           Box
+           Triangle
+           Hermite
+           Hanning
+           Hamming
+           Blackman
+           Gaussian
+           Quadratic
+           Cubic
+           Catrom
+           Mitchell
+           Lanczos
+           Bessel
+           Sinc
+   </literal><para>
+      The default filter is <emphasis>Lanczos</emphasis>
+      </para>
+
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-flip</term>
+   <listitem>
+      create a "mirror image"
+
+      reflect the scanlines in the vertical direction.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-flop</term>
+   <listitem>
+      create a "mirror image"
+
+      reflect the scanlines in the horizontal direction.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-font &lt;name&gt;</term>
+   <listitem>
+      use this font when annotating the image with text
+
+      You can tag a font to specify whether it is a PostScript, TrueType, or OPTION1
+      font.  For example, Arial.ttf is a TrueType font, ps:helvetica
+      is PostScript, and x:fixed is OPTION1.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-foreground &lt;color&gt;</term>
+   <listitem>
+      define the foreground color
+
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-frame &lt;width&gt;x&lt;height&gt;+&lt;outer bevel width&gt;+&lt;inner bevel width&gt;</term>
+   <listitem><para>
+      surround the image with an ornamental border
+
+      See <emphasis>-geometry</emphasis> for details
+      about the geometry specification.
+      The <emphasis>-frame</emphasis> option is not affected by the <emphasis>-gravity</emphasis> option.
+   </para><para>
+      The color of the border is specified with the
+      <emphasis>-mattecolor</emphasis> command
+      line option.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-frame</term>
+      include the X window frame in the imported image
+      </varlistentry>
+      <varlistentry>
+<term>-fuzz &lt;distance&gt;{%}</term>
+   <listitem><para>
+      colors within this distance are considered equal
+
+      A number of algorithms search for a target color. By default the color
+      must be exact. Use this option to match colors that are close to the target
+      color in RGB space. For example, if you want to automatically trim the
+      edges of an image with <emphasis>-trim</emphasis> but the image was scanned and the
+      target background color may differ by a small amount. This option can account
+      for these differences.
+   </para><para>
+      The distance can be in absolute intensity units or, by appending
+      "%", as a percentage of the maximum possible intensity.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-gamma &lt;value&gt;</term>
+   <listitem><para>
+      level of gamma correction
+
+      The same color image displayed on two different workstations may look different
+      due to differences in the display monitor. Use gamma correction to adjust
+      for this color difference. Reasonable values extend from <emphasis>0.8</emphasis> to
+      <emphasis>2.3</emphasis>.
+   </para><para>
+      You can apply separate gamma values to the red, green, and blue channels
+      of the image with a gamma value list delineated with slashes
+      (e.g., <emphasis>1.7</emphasis>/<emphasis>2.3</emphasis>/<emphasis>1.2</emphasis>).
+  </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-Gaussian &lt;radius&gt;x&lt;sigma&gt;</term>
+   <listitem>
+      blur the image with a Gaussian operator
+
+      Use the given radius and standard deviation (sigma).
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-geometry &lt;width&gt;x&lt;height&gt;{+-}&lt;x&gt;{+-}&lt;y&gt;{%}{@} {!}{&lt;}{&gt;}</term>
+   <listitem><para>
+      preferred size and location of the Image window.
+
+      By default, the window size is the image
+      size and the location is chosen by you when it is mapped.
+   </para><para>
+      By default, the width and height are maximum values. That is, the image
+      is expanded or contracted to fit the width and height value while maintaining
+      the aspect ratio of the image. Append an exclamation point to the geometry
+      to force the image size to exactly the size you specify. For example,
+      if you specify 640x480! the image width is set to 640 pixels and
+      height to 480.
+   </para><para>
+      If only the width is specified, the width assumes the
+      value and the height is chosen to maintain the aspect ratio of the image.
+      Similarly, if only the height is specified (e.g., -geometry x256),
+      the width is chosen to maintain the aspect ratio.
+   </para><para>
+      To specify a percentage width or height instead, append %. The image size
+      is multiplied by the width and height percentages to obtain the final image
+      dimensions. To increase the size of an image, use a value greater than
+      100 (e.g. 125%). To decrease an image's size, use a percentage less than
+      100.
+   </para><para>
+      Use @ to specify the maximum area in pixels of an image.
+   </para><para>
+      Use &gt; to change the dimensions of the image only if
+      its width or height exceeds the geometry specification. &lt; resizes
+      the image only if both of its dimensions are less than the geometry
+      specification. For Example,
+      if you specify '640x480&gt;' and the image size is 256x256, the image
+      size does not change. However, if the image is 512x512 or 1024x1024, it is
+      resized to 480x480.  Enclose the geometry specification in quotation marks to
+      prevent the &lt; or &gt; from being interpreted by your shell
+      as a file redirection.
+   </para><para>
+      <emphasis>-geometry</emphasis> is synonymous with <emphasis>-resize</emphasis> and
+      specifies the size of the output image.  The offsets, if present, are ignored.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-gravity &lt;type&gt;</term>
+   <listitem><para>
+      direction primitive  gravitates to when annotating the image.
+
+      Choices are: NorthWest, North,
+      NorthEast, West, Center, East, SouthWest, South, SouthEast.
+   </para><para>
+      The direction you choose specifies where to position the text or other
+      graphic primitive when annotating
+      the image. For example Center gravity forces the text to be centered
+      within the image. By default, the image gravity is NorthWest.
+      See <emphasis>-draw</emphasis> for more details about graphic primitives.
+   </para><para>
+      The <emphasis>-gravity</emphasis> option is also used in concert with the <emphasis>-geometry</emphasis>
+      option and other options that take <emphasis>&lt;geometry&gt;</emphasis> as a parameter, such
+      as the <emphasis>-crop</emphasis> option.  See <emphasis>-geometry</emphasis> for details of how the
+      <emphasis>-gravity</emphasis> option interacts with the
+      <emphasis>&lt;x&gt;</emphasis> and <emphasis>&lt;y&gt;</emphasis> parameters of a geometry
+      specification.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-implode &lt;factor&gt;</term>
+      <listitem>
+      implode image pixels about the center. It is a real number.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+<term>-lat &lt;radius&gt;x&lt;sigma&gt;{+-}&lt;offset&gt;{%}</term>
+   <listitem>
+      perform local adaptive thresholding
+
+      Perform local adaptive thresholding using the specified radius, sigma,
+      and offset.  The offset is a distance in sample space from the mean,
+      as an absolute integer ranging from 0 to the maximum sample value or
+      as a percentage.
+      For reasonable results, radius should be larger than sigma.  Use a radius
+      of 0 to have the method select a suitable radius.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-level &lt;value&gt;</term>
+   <listitem>
+      adjust the level of image contrast
+
+      Give three point values delineated with commas: black, mid, and white
+      (e.g. 10,1.0,65000).  The white and black points range from 0 to MaxRGB
+      and mid ranges from 0 to 10.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-linewidth</term>
+      <listitem>
+      the line width for subsequent draw operations
+      </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-map &lt;filename&gt;</term>
+      </varlistentry>
+      <varlistentry>
+<term>-mask &lt;filename&gt;</term>
+   <listitem><para>
+      Specify a clipping mask
+
+      The image read from the file is used as a clipping mask.  It must have
+      the same dimensions as the image being masked.
+   </para><para>
+      If the mask image contains an opacity channel, the opacity of each pixel is
+      used to define the mask.  Otherwise, the intensity (gray level) of each
+      pixel is used.
+   </para><para>
+      Use <emphasis>+mask</emphasis> to remove the clipping mask.
+   </para><para>
+      It is not necessary to use <emphasis>-clip</emphasis> to activate the mask; <emphasis>-clip</emphasis>
+      is implied by <emphasis>-mask</emphasis>.
+   </para>
+   </listitem>
+   </varlistentry>   
+
+      <varlistentry>
+<term>-matte</term>
+   </varlistentry>
+      <varlistentry>
+<term>-mattecolor &lt;color&gt;</term>
+      </varlistentry>
+      <varlistentry>
+<term>-median &lt;radius&gt;</term>
+      <listitem>
+      apply a median filter to the image
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+<term>-monochrome</term>
+      <listitem>
+      transform the image to black and white
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+<term>-negate</term>
+   <listitem>
+      replace every pixel with its complementary color
+
+      The red, green, and blue intensities of an image are negated.
+      White becomes black,
+      yellow becomes blue, etc.
+      Use <emphasis>+negate</emphasis>
+      to only negate the grayscale pixels of the image.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-noise &lt;radius|type&gt;</term>
+   <listitem><para>
+      add or reduce noise in an image
+
+      The principal function of noise peak elimination filter is to smooth the
+      objects within an image without losing edge information and without creating
+      undesired structures. The central idea of the algorithm is to replace a
+      pixel with its next neighbor in value within a pixel window, if this pixel
+      has been found to be noise. A pixel is defined as noise if and only if
+      this pixel is a maximum or minimum within the pixel window.
+   </para><para>
+      Use <emphasis>radius</emphasis> to specify the width of the neighborhood.
+   </para><para>
+      Use <emphasis>+noise</emphasis> followed by a noise type to add noise to an image. Choose
+      from these noise types:
+   </para><literal>
+           Uniform
+           Gaussian
+           Multiplicative
+           Impulse
+           Laplacian
+           Poisson
+   </literal>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-normalize</term>
+   <listitem>
+      transform image to span the full range of color values
+
+      This is a contrast enhancement technique.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-opaque &lt;color&gt;</term>
+   <listitem>
+      change this color to the pen color within the image
+
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+
+
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-paint &lt;radius&gt;</term>
+   <listitem>
+      simulate an oil painting
+
+      Each pixel is replaced by the most frequent color in a circular neighborhood
+      whose width is specified with radius.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-raise &lt;width&gt;x&lt;height&gt;</term>
+   <listitem><para>
+      lighten or darken image edges
+
+      This will create a 3-D effect.
+      See <emphasis>-geometry</emphasis> for details
+      details about the geometry specification.
+      Offsets are not used.
+   </para><para>
+      Use <emphasis>-raise</emphasis> to create a raised effect, otherwise use <emphasis>+raise</emphasis>.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-region &lt;width&gt;x&lt;height&gt;{+-}&lt;x&gt;{+-}&lt;y&gt;</term>
+   <listitem>
+      apply options to a portion of the image
+
+      The x and y offsets are treated in the same manner as in <emphasis>-crop</emphasis>.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-resize &lt;width&gt;x&lt;height&gt;{%}{@}{!}{&lt;}{&gt;}</term>
+   <listitem><para>
+      resize an image
+
+      This is an alias for the <emphasis>-geometry</emphasis> option and it behaves in the
+      same manner. If the <emphasis>-filter</emphasis> option precedes the <emphasis>-resize</emphasis>
+      option, the specified filter is used.
+   </para><para>
+      There are some exceptions:
+   </para><para>
+      When used as a composite option, <emphasis>-resize</emphasis> conveys the preferred
+      size of the output image, while <emphasis>-geometry</emphasis> conveys
+      the size and placement of the composite image within the main
+      image.
+   </para><para>
+      When used as a montage option, <emphasis>-resize</emphasis> conveys the preferred
+      size of the montage, while <emphasis>-geometry</emphasis> conveys
+      information about the tiles.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-roll {+-}&lt;x&gt;{+-}&lt;y&gt;</term>
+   <listitem><para>
+      roll an image vertically or horizontally
+
+      See <emphasis>-geometry</emphasis> for details
+      the geometry specification.
+      The x and y offsets are not affected
+      by the <emphasis>-gravity</emphasis> option.
+   </para><para>
+      A negative x  offset rolls the image left-to-right. A negative y
+      offset rolls the image top-to-bottom.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-rotate &lt;degrees&gt;{&lt;}{&gt;}</term>
+   <listitem><para>
+      apply Paeth image rotation to the image
+
+      Use &gt; to rotate the image only if its width exceeds the height.
+      &lt; rotates the image only if its width is less than the
+      height. For example, if you specify -rotate "-90&gt;" and the image
+      size is 480x640, the image is not rotated.  However, if the
+      image is 640x480, it is rotated by -90 degrees.  If you use &gt; or
+      &lt;, enclose it in quotation marks to prevent it from being
+      misinterpreted as a file redirection.
+   </para><para>
+
+      Empty triangles left over from rotating the image are filled with the color
+      defined as <emphasis>background</emphasis> (class <emphasis>backgroundColor</emphasis>). See X(1)
+      for details.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-sample &lt;geometry&gt;</term>
+   <listitem>
+      scale image with pixel sampling
+
+      See <emphasis>-geometry</emphasis> for details about
+      the geometry specification.
+      <emphasis>-sample</emphasis> ignores the <emphasis>-filter</emphasis> selection if the <emphasis>-filter</emphasis> option
+      is present.  Offsets, if present in the geometry string, are ignored, and
+      the <emphasis>-gravity</emphasis> option has no effect.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-sampling_factor &lt;horizontal_factor&gt;x&lt;vertical_factor&gt;</term>
+   <listitem>
+      sampling factors used by JPEG or MPEG-2 encoder and YUV decoder/encoder.
+
+      This option specifies the sampling factors to be used by the JPEG encoder for
+      chroma downsampling.  If this option is omitted, the JPEG library
+      will use its own default values.  When reading or writing the YUV format
+      and when writing the M2V (MPEG-2) format, use
+      <emphasis>-sampling_factor 2x1</emphasis> to specify the 4:2:2 downsampling method.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-scale &lt;geometry&gt;</term>
+   <listitem>
+      scale the image.
+
+      See <emphasis>-geometry</emphasis> for details about
+      the geometry specification.  <emphasis>-scale</emphasis> uses a simpler, faster algorithm,
+      and it ignores the <emphasis>-filter</emphasis> selection if the <emphasis>-filter</emphasis> option
+      is present.  Offsets, if present in the geometry string, are ignored, and
+      the <emphasis>-gravity</emphasis> option has no effect.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-seed &lt;value&gt;</term>
+      pseudo-random number generator seed value
+      </varlistentry>
+      <varlistentry>
+<term>-segment &lt;cluster threshold&gt;x&lt;smoothing threshold&gt;</term>
+   <listitem><para>
+      segment an image
+
+      Segment an image by analyzing the histograms of the color components and
+      identifying units that are homogeneous with the fuzzy c-means technique.
+   </para><para>
+      Specify cluster threshold as the number of pixels in each cluster
+      must exceed the the cluster threshold to be considered valid. Smoothing
+      threshold eliminates noise in the second derivative of the histogram.
+      As the value is increased, you can expect a smoother second derivative.
+      The default is 1.5. See
+      "Image Segmentation", below,
+      for details.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-shade &lt;azimuth&gt;x&lt;elevation&gt;</term>
+   <listitem>
+      shade the image using a distant light source
+
+      Specify azimuth and elevation as the position of the light
+      source. Use <emphasis>+shade</emphasis> to return the shading results as a grayscale
+      image.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-sharpen &lt;radius&gt;x&lt;sigma&gt;</term>
+   <listitem>
+      sharpen the image
+
+      Use a Gaussian operator of the given radius and
+      standard deviation (sigma).
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-shave &lt;width&gt;x&lt;height&gt;</term>
+   <listitem>
+      shave pixels from the image edges
+
+      Specify the width of the region to be removed from both
+      sides of the image and the height of the regions to be removed from
+      top and bottom.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-shear &lt;x degrees&gt;x&lt;y degrees&gt;</term>
+   <listitem><para>
+      shear the image along the X or Y axis
+
+      Use the specified positive or negative shear angle.
+   </para><para>
+      Shearing slides one edge of an image along the X or Y axis, creating a
+      parallelogram. An X direction shear slides an edge along the X axis, while
+      a Y direction shear slides an edge along the Y axis. The amount of the
+      shear is controlled by a shear angle. For X direction shears, x degrees
+      is measured relative to the Y axis, and similarly, for Y direction shears
+      y
+      degrees is measured relative to the X axis.
+   </para><para>
+      Empty triangles left over from shearing the image are filled with the color
+      defined as <emphasis>background</emphasis> (class <emphasis>backgroundColor</emphasis>). See X(1)
+      for details.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-solarize &lt;factor&gt;</term>
+   <listitem><para>
+      negate all pixels above the threshold level
+
+      Specify factor as the
+      percent threshold of the intensity (0 - 99.9%).
+   </para><para>
+      This option produces a solarization effect seen when exposing a
+      photographic film to light during the development process.
+      </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-spread &lt;amount&gt;</term>
+   <listitem>
+      displace image pixels by a random amount
+
+      Amount defines the size of the neighborhood around each pixel to
+      choose a candidate pixel to swap.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-stroke &lt;color&gt;</term>
+   <listitem><para>
+      color to use when stroking a graphic primitive
+
+      The color is specified using the format described in the "Color Names"
+      section of X(1).
+   </para><para>
+      See <emphasis>-draw</emphasis> for further
+      details.
+    </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-strokewidth &lt;value&gt;</term>
+   <listitem>
+      set the stroke width
+
+      See <emphasis>-draw</emphasis> for further details.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-swirl &lt;degrees&gt;</term>
+   <listitem><para>
+      swirl image pixels about the center
+
+      Degrees defines the tightness of the swirl.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-texture &lt;filename&gt;</term>
+      </varlistentry>
+      <varlistentry>
+<term>-threshold &lt;value&gt;</term>
+      <listitem><para>
+      threshold the image
+
+      Create a bi-level image such that any pixel intensity that is equal or
+      exceeds the threshold is reassigned the maximum intensity otherwise the
+      minimum intensity.
+      </para>
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+<term>-tile &lt;filename&gt;</term>
+      </varlistentry>
+      <varlistentry>
+<term>-tile &lt;geometry&gt;</term>
+      <listitem>layout of images [montage]</listitem>
+      </varlistentry>
+      <varlistentry>
+<term>-transform</term>
+   <listitem><para>
+      transform the image
+
+      This option applies the transformation matrix from a previous
+      <emphasis>-affine</emphasis> option.
+   </para><para>
+          mogrify(img, '-affine 2,2,-2,2,0,0 -transform bird.ppm');
+      </para>
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+<term>-transparent &lt;color&gt;</term>
+      </varlistentry>
+      <varlistentry>
+<term>-treedepth &lt;value&gt;</term>
+   <listitem><para>
+      tree depth for the color reduction algorithm
+
+      Normally, this integer value is zero or one. A zero or one tells display
+      to choose an optimal tree depth for the color reduction algorithm
+   </para><para>
+      An optimal depth generally allows the best representation of the source
+      image with the fastest computational speed and the least amount of memory.
+      However, the default depth is inappropriate for some images. To assure
+      the best representation, try values between 2 and 8 for this parameter.
+      Refer to
+      quantize for more details.
+   </para><para>
+      The <emphasis>-colors</emphasis> or <emphasis>-monochrome</emphasis> option is required for this option
+      to take effect.
+   </para>
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-trim</term>
+   <listitem>
+      trim an image
+
+      This option removes any edges that are exactly the same color as the
+      corner pixels.  Use <emphasis>-fuzz</emphasis> to make <emphasis>-trim</emphasis> remove edges that
+      are nearly the same color as the corner pixels.
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-type &lt;type&gt;</term>
+      </varlistentry>
+      <varlistentry>
+<term>-unsharp &lt;radius&gt;x&lt;sigma&gt;</term>
+   <listitem>
+      sharpen the image with an unsharp mask operator
+
+      Use the given radius and standard deviation (sigma).
+
+   </listitem>
+   </varlistentry>
+      <varlistentry>
+<term>-wave &lt;amplitude&gt;x&lt;wavelength&gt;</term>
+   <listitem>
+      alter an image along a sine wave
+
+      Specify amplitude and wavelength
+      of the wave.
+   </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+
+<refsection>
+<title>Image Segmentation</title>
+<para>
+Use <emphasis>-segment</emphasis> to segment an image by analyzing the histograms of
+the color components and identifying units that are homogeneous with the
+fuzzy c-means technique. The scale-space filter analyzes the histograms
+of the three color components of the image and identifies a set of classes.
+The extents of each class is used to coarsely segment the image with thresholding.
+The color associated with each class is determined by the mean color of
+all pixels within the extents of a particular class. Finally, any unclassified
+pixels are assigned to the closest class with the fuzzy c-means technique.
+</para><para>   
+The fuzzy c-Means algorithm can be summarized as follows:
+</para><para>   
+Build a histogram, one for each color component of the image.
+</para><para>   
+For each histogram, successively apply the scale-space filter and build
+an interval tree of zero crossings in the second derivative at each scale.
+Analyze this scale-space "fingerprint" to determine which peaks or valleys
+in the histogram are most predominant.
+</para><para>   
+The fingerprint defines intervals on the axis of the histogram. Each interval
+contains either a minima or a maxima in the original signal. If each color
+component lies within the maxima interval, that pixel is considered "classified"
+and is assigned an unique class number.
+</para><para>   
+Any pixel that fails to be classified in the above thresholding pass is
+classified using the fuzzy c-Means technique. It is assigned to one of
+the classes discovered in the histogram analysis phase.
+</para><para>   
+The fuzzy c-Means technique attempts to cluster a pixel by finding the
+local minima of the generalized within group sum of squared error objective
+function. A pixel is assigned to the closest class of which the fuzzy membership
+has a maximum value.
+</para><para>   
+For additional information see:
+Young Won Lim, Sang Uk Lee, "On The Color Image Segmentation
+Algorithm Based on the Thresholding and the Fuzzy c-Means Techniques",
+Pattern Recognition, Volume 23, Number 9, pages 935-952, 1990.
+</para>
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+   <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="imread">imread</link> </member>
+      <member> <link linkend="imshow">imshow</link> </member>
+      <member> <link linkend="imfinfo">imfinfo</link> </member>
+   </simplelist></refsection>
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

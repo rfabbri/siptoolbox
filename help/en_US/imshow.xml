@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imshow">
+
+<info> <pubdate>February 2004</pubdate> </info>
+<refnamediv>
+  <refname>imshow</refname>
+  <refpurpose>Displays images in the Scilab graphic window</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+  <synopsis>imshow(Img)</synopsis>
+  <synopsis>imshow(Img,n)</synopsis>
+  <synopsis>imshow(Img,[low high])</synopsis>
+  <synopsis>imshow(Img,Map)</synopsis>
+  <synopsis>imshow(RGBImg)</synopsis>
+  <synopsis>imshow filename</synopsis>
+  <synopsis>imshow(Img, arg2 [, strf])</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+
+<variablelist>
+   <varlistentry>
+     <term>filename</term>
+     <listitem>
+     A string, the image filename to be created. The extension determines the type of the image.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>Img</term>
+     <listitem>
+     MxN matrix, a grayscale (0-1 range) or pseudo-color/indexed (1-Ncolors range) image.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>n</term>
+     <listitem>
+     A scalar, the number of levels of gray to display Img. 1x2 array
+     corresponding to the grayscale range to be considered.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>[low high]</term>
+     <listitem>
+     1x2 array corresponding to the grayscale  range  to be considered.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>Map</term>
+     <listitem>
+     Mx3 matrix containing the image colormap (for indexed images). Entries may range from 0 to 1
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>RGBImg</term>
+     <listitem>
+     MxNx3 hypermatrix in 0-1 range.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>strf</term>
+     <listitem>
+   this is used to e.g. put axes around your image. See the plot2d help page.
+   You may use this optional parameter in the assignment style, as in <programlisting role="example"><![CDATA[
+
+      imshow(img,strf='041')  // same as imshow but draw axes
+
+]]></programlisting>
+     </listitem>
+   </varlistentry>
+
+</variablelist>
+</refsection>
+
+<refsection>
+  <title>Description</title>
+
+   <variablelist>
+
+     <varlistentry>
+       <term>imshow(Img, n)</term>
+       <listitem>
+       displays Img using n gray levels. Img is an  MxN matrix in 0 -
+       (n-1) range. If n is omitted, it will  be assumed to be 256.
+       </listitem>
+     </varlistentry>
+
+     <varlistentry>
+       <term>imshow(Img, [low high])</term>
+       <listitem>
+       displays Img using a grayscale  within the
+       specified range. Elements &lt;= low will map onto  black, Elements
+       &gt;= high will map onto white, and elements  in between will map
+       as a shade of gray. If an empty matrix  <literal>&apos;[]&apos;</literal> is used,
+       <literal>[low,high]</literal> will be assumed to be <literal>[mini(Img),  maxi(Img)]</literal>. 
+       </listitem>
+     </varlistentry>
+
+     <varlistentry>
+       <term>imshow(Img, Map)</term>
+       <listitem>
+        displays Img using the specified colormap. 
+       </listitem>
+     </varlistentry>
+
+     <varlistentry>
+       <term>imshow(RGBImg)</term>
+       <listitem>
+       displays the RGBImg MxNx3 (0-1) truecolor  image. 
+       </listitem>
+     </varlistentry>
+
+     <varlistentry>
+       <term>imshow(&apos;filename&apos;)</term>
+       <listitem>
+       displays the image <literal>filename</literal> in the scilab  graphical
+       window. Any raster image format is accepted (see Remarks section). 
+       </listitem>
+     </varlistentry>
+
+   </variablelist>
+
+</refsection>
+
+<refsection><title>Examples</title><programlisting role="example"><![CDATA[
+
+    initial_dir = PWD;
+    chdir (SIPDIR + 'images');
+
+    a = rand(100,100);   // create random image
+    xbasc();
+    imshow(a);
+
+    imshow(a*255 + 1,hotcolormap(256));
+    imshow(a,[0.3 0.6]);
+    imshow(a,[]);
+    xbasc();
+    imshow('example.png');
+
+    chdir(initial_dir);
+
+]]></programlisting></refsection>
+
+<refsection><title>Remarks</title>
+In  theory,  <literal>imshow(filename)</literal>  will  work  with any raster
+image format.  In practice, it has been  tested  only for BMP,
+GIF, JPEG, PNG, PCX, TIFF, XPM, and MIFF. Displaying other file
+formats will probably work, but this case  have not been tested by
+the developers of the SIP toolbox.
+</refsection>
+<refsection><title>Bugs and Shortcomings</title>
+<para>
+   The display of truecolor images is somewhat inefficient.
+</para>
+<para>
+   Images are stored in double precision matrices. Hopefully,
+   the next release will make usage of integer types.
+</para>
+
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+   <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="imread">imread</link> </member>
+      <member> <link linkend="imwrite">imwrite</link> </member>
+      <member> <link linkend="imfinfo">imfinfo</link> </member>
+      <member> <link linkend="Matplot">Matplot</link> </member>
+      <member> <link linkend="xgetpixel">xgetpixel</link> </member>
+   </simplelist></refsection>
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

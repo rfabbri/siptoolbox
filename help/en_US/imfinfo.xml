@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imfinfo">
+<info><pubdate>February, 2004</pubdate></info>
+<refnamediv>
+  <refname>imfinfo</refname>
+  <refpurpose>Gets image file information</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+  <synopsis>info = imfinfo(filename)</synopsis>
+  <synopsis>info = imfinfo(filename, &apos;verbose&apos;)</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+<variablelist>
+
+   <varlistentry>
+     <term>filename</term>
+     <listitem>
+      A string, the image file name to be described.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>'verbose'</term>
+     <listitem>
+         Causes <literal>imfinfo</literal> to print image
+            description on the screen.
+     </listitem>
+     </varlistentry>
+
+   <varlistentry>
+     <term>info</term>
+     <listitem>
+     A structure or Scilab typed list, also known as mlist, whose fields are:
+      <informaltable border="1">
+      <tr>
+        <td>Field Name</td>
+        <td>Description</td>
+      </tr>
+      <tr>
+        <td>Filename</td>
+        <td>String containing the image file name.</td>
+      </tr>
+      <tr>
+        <td>FileSize</td>
+        <td>Integer indicating the size of the image file in bytes.</td>
+      </tr>
+      <tr>
+        <td>Format</td>
+        <td> "JPEG", "TIFF", "GIF", "BMP", etc. </td>
+      </tr>
+      <tr>
+        <td>Width</td>
+        <td>Integer indicating the number of image columns in pixels.</td>
+      </tr>
+      <tr>
+        <td>Height</td>
+        <td>Integer indicating the number of image rows in pixels.</td>
+      </tr>
+      <tr>
+        <td>Depth</td>
+        <td>Integer indicating the number of bits per pixel.</td>
+      </tr>
+      <tr>
+        <td>StorageType</td>
+        <td>String containing the type of color storage in the image file, 
+        which can be 'truecolor' or 'indexed'.</td>
+      </tr>
+      <tr>
+        <td>NumberOfColors</td>
+        <td>
+              Size of the colormap.  Equals  to  zero  for
+              truecolor images
+        </td>
+      </tr>
+      <tr>
+        <td>ResolutionUnit</td>
+        <td>
+              "inch" or "centimeters"
+        </td>
+      </tr>
+      <tr>
+        <td>XResolution</td>
+        <td>
+              number  of  pixels  per  <literal>ResolutionUnit</literal> in the X direction
+        </td>
+      </tr>
+      <tr>
+        <td>YResolution</td>
+        <td>
+              number  of  pixels  per  <literal>ResolutionUnit</literal> in the Y direction
+        </td>
+      </tr>
+      </informaltable>
+     </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+<para>
+ <literal>imfinfo</literal> is used to get a description from image files,  without
+ reading the pixels into memory. A structure  (Scilab typed list) is returned
+ with the information,  which can be accessed by their names (e.g. info.Depth,
+ info.FileSize, ...). The &apos;verbose&apos; option causes the  description to
+ be printed in an organized manner.</para>
+</refsection>
+
+<refsection>
+<title>Examples</title>
+<programlisting role="example"><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   info = imfinfo('example.png');     // reads information into a tlist
+   info.Depth                         // members are accessed by name
+   info.StorageType
+   imfinfo('example.png','verbose');  // pretty-print description
+
+   chdir(initial_dir);
+]]></programlisting></refsection>
+
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+  <member> <link linkend="imread">imread</link> </member>
+  <member> <link linkend="imwrite">imwrite</link> </member>
+  <member> <link linkend="imshow">imshow</link> </member>
+</simplelist></refsection>
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2004  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

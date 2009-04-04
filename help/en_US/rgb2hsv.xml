@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="rgb2hsv">
+<info> <pubdate>July, 2004</pubdate> </info>
+<refnamediv>
+  <refname>rgb2hsv</refname>
+  <refpurpose>Converts from RGB to HSV colorspace.</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv><title>Calling Sequence</title>
+  <synopsis>HSV = rgb2hsv(RGB)</synopsis>
+  <synopsis>HSVMAP = rgb2hsv(RGBMAP)</synopsis>
+</refsynopsisdiv>
+<refsection><title>Parameters</title>
+<variablelist>
+   <varlistentry>
+   <term>RGB</term>
+   <listitem>
+       A RGB image (M x N x 3) in 0-1 range or a RGB colormap (M x 3) in 0-1 range
+   </listitem>
+   </varlistentry>
+   <varlistentry>
+   <term>HSV</term>
+   <listitem>
+       A HSV image (M x N x 3) in 0-1 range or a HSV colormap (M x 3) 
+       in 0-1 range
+   </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+<refsection><title>Description</title>
+<para>
+      <literal>rgb2hsv(RGB)</literal> converts an RGB image or colormap to 
+      the HSV colorspace. The HSV model separates Hue (color)
+      Saturation (ammount of color) and Value (intensity). It is 
+      much more useful for manipulation than the RGB space and also 
+      for segmenting images by color.
+</para>
+ 
+</refsection>
+<refsection><title>Examples</title><programlisting role="example"><![CDATA[
+
+      rgb = imread(SIPDIR + 'images/tru.jpg'):
+      xbasc();
+      imshow(rgb);
+
+      hsv = rgb2hsv(rgb);
+      xbasc();
+      imshow(hsv(:,:,3))  // intensity
+      imshow(hsv(:,:,1))  // hue (color component)
+
+      hsv(:,:,2) = 1      // saturate the image
+
+      rgb = hsv2rgb(hsv);
+      xbasc();
+      imshow(rgb);
+
+      // You may also convert a single triplet:
+
+      rgb2hsv([1 1 0])
+
+]]></programlisting></refsection>
+
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+   <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="im2gray">im2gray</link> </member>
+      <member> <link linkend="hsv2rgb">hsv2rgb</link> </member>
+      <member> <link linkend="rgb2ntsc">rgb2ntsc</link> </member>
+      <member> <link linkend="ntsc2rgb">ntsc2rgb</link> </member>
+   </simplelist></refsection>
+</refentry>

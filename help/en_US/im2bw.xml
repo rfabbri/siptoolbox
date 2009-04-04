@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="im2bw">
+<info>
+  <pubdate>April, 2005</pubdate>
+</info>
+<refnamediv>
+  <refname>im2bw</refname>
+  <refpurpose>Convert an image to binary by thresholding</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+      <synopsis>BW = im2bw(Img, threshold [, maxvalue])</synopsis>
+      <synopsis>BW = im2bw(Index, map, threshold [, maxvalue])</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+<variablelist>
+   <varlistentry>
+     <term>Img</term>
+     <listitem>
+         M x N x 3 truecolor image or M x N grayscale intensity image.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>Index</term>
+     <term>map</term>
+     <listitem>
+       M x N indexed image and its M x 3 colormap.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>maxvalue</term>
+     <listitem>
+        the maximum value to assume <literal>Img</literal> can take. (Optional, defaults to 1)
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>threshold</term>
+     <listitem>
+ the threshold level, between 0 to 1 (a ratio, like percentage). Pixels of the
+ image that are higher or equal than the threshold are mapped to 1, while pixels
+ that are strictly lower than the threshold are mapped to zero.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+   <term>BW</term>
+   <listitem>
+    Resultant black and white binary image.
+   </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+<para>
+ Function <literal>im2bw</literal> converts RGB images, indexed images and grayscale intensity images to binary, by thresholding.
+</para>
+   <programlisting><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       [Img,map] = imread('indian.bmp');
+       xbasc()
+       imshow(Img, map);
+       bw = im2bw(Img, map,0.5);
+       imshow(bw,2);
+       bw = im2bw(Img, map,0.2);
+       imshow(bw,2);
+
+       chdir(initial_dir);
+   ]]></programlisting>
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+  <member> <link linkend="im2gray">im2gray</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2009  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

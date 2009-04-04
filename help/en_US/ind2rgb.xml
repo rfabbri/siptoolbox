@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="ind2rgb">
+<info>
+  <pubdate>February, 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>ind2rgb</refname>
+  <refpurpose>Converts indexed images to true color</refpurpose>
+</refnamediv>
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>rgb = ind2rgb(ind, cmap)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>rgb</term>
+  <listitem>
+    M x N x 3 true color image in the 0-1 range
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>ind  </term>
+  <listitem>
+    M x N indexed image, integer matrix
+  </listitem> 
+  </varlistentry>
+ <varlistentry>
+  <term>cmap  </term>
+  <listitem>
+    M x 3 color map
+  </listitem> 
+  </varlistentry>
+   </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+  <literal>ind2rgb</literal> converts an indexed image storage to RGB (direct)
+  truecolor storage.
+  </para>
+  </refsection>
+  <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+     initial_dir = PWD;
+     chdir (SIPDIR + 'images');
+
+     [Img,map] = imread('indian.bmp');
+     xbasc()
+     imshow(Img, map);
+     RGB = ind2rgb(Img, map);
+     imshow(RGB);
+
+     chdir(initial_dir);
+ ]]></programlisting></refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="im2gray">im2gray</link> </member>
+      <member> <link linkend="im2bw">im2bw</link> </member>
+</simplelist></refsection>
+</refentry>
