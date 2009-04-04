@@ -192,7 +192,7 @@ then
       CPPFLAGS="$CPPFLAGS -D_LIB"
    fi
 else
-      SHARED_LIB_SUFFIX=dll
+      SHARED_LIB_SUFFIX=so
 fi
 AC_SUBST(SHARED_LIB_SUFFIX)
 AC_SUBST(LIBRARY_EXTRA_CPPFLAGS)
@@ -446,10 +446,17 @@ AC_HEADER_STDBOOL
 AC_CHECK_FUNC([strcasecmp],[],[AC_MSG_ERROR([[this package needs the strcasecmp function.]])])
 AC_CHECK_FUNCS([malloc])
 
-AC_CONFIG_FILES([Makefile src/Makefile macros/Makefile
-                 images/Makefile images/photonics/Makefile
-                 man/Makefile config/loader.sce config/sip_xmltohtml.sci
-                 config/loader_include.sce])
+AC_CONFIG_FILES([Makefile 
+  src/Makefile 
+  macros/Makefile
+  images/Makefile 
+  images/photonics/Makefile
+  man/Makefile 
+  help/Makefile 
+  config/loader.sce 
+  config/sip_xmltohtml.sci
+  config/loader_include.sce])
+
 AC_OUTPUT
 
 AC_MSG_RESULT([

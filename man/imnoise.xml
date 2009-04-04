@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE MAN SYSTEM "mansip.dtd">
-<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<!-- $Revision: 1.2 $ $Date: 2009-04-04 21:31:21 $ -->
 <MAN>
    <LANGUAGE>eng</LANGUAGE>
    <TITLE>imnoise</TITLE>
@@ -50,7 +50,7 @@
       <PARAM_ITEM>
          <PARAM_NAME>'localvar'</PARAM_NAME>
          <PARAM_DESCRIPTION>
-            Pixel-specific  variance  (Zero-mean Gaussian
+            Pixel-specific  variance  (Zero-mean Gaussian)
          </PARAM_DESCRIPTION>
       </PARAM_ITEM>
        </PARAM_INDENT>

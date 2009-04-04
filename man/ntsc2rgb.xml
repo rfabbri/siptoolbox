@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE MAN SYSTEM "mansip.dtd">
-<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<!-- $Revision: 1.2 $ $Date: 2009-04-04 21:31:21 $ -->
 <MAN>
    <LANGUAGE>eng</LANGUAGE>
    <TITLE>ntsc2rgb</TITLE>
@@ -28,7 +28,11 @@
    </PARAM>
    <DESCRIPTION>
    <P>
- ntsc2rgb(YIQ) converts an YIQ image or colormap from YIQ  to RGB colorspace. The YIQ model is used in NTSC and European TV&apos;s. It is useful for b&amp;w and color compatibility,  since the cromaticity (I and Q) and luminance (Y) are conveniently isolated. ntsc2rgb(YIQ) uses the following operation to convert each YIQ triplet: </P>
+ ntsc2rgb(YIQ) converts an YIQ image or colormap from YIQ  to RGB colorspace.
+ The YIQ model is used in NTSC and European TV&apos;s. It is useful for b&amp;w
+ and color compatibility,  since the cromaticity (I and Q) and luminance (Y) are
+ conveniently isolated. ntsc2rgb(YIQ) uses the following operation to convert
+ each YIQ triplet: </P>
    <VERBATIM>
         ! R !   !  1.000  0.956    0.621   !   ! Y !
         ! G ! = !  1.000  -0.272   -0.647  ! * ! I !

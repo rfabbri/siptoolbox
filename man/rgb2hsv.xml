@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE MAN SYSTEM "mansip.dtd">
-<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:34 $ -->
+<!-- $Revision: 1.2 $ $Date: 2009-04-04 21:31:21 $ -->
 <MAN>
    <LANGUAGE>eng</LANGUAGE>
    <TITLE>rgb2hsv</TITLE>
@@ -33,7 +33,7 @@
    </PARAM>
    <DESCRIPTION>
    <P>
-      <TT>rgb2hsv(RGB)</TT> converts an RGB image or colormap from to 
+      <TT>rgb2hsv(RGB)</TT> converts an RGB image or colormap to 
       the HSV colorspace. The HSV model separates Hue (color)
       Saturation (ammount of color) and Value (intensity). It is 
       much more useful for manipulation than the RGB space and also 

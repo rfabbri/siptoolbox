@@ -9,6 +9,7 @@ __________________________________________________________________
    previous changelogs for minor improvements and details.
    
    + Compiles with Scilab <= 5.1
+	 + Translated most help files to Scilab 5. Help us translate more!
    + new DCT function by Angus Errington
    + new features in interferometry_gui by jocelyn
    + NEW hsv2rgb and rgb2hsv functions to convert between RGB images 

@@ -32,3 +32,14 @@ SUBDIRS = src macros images @HELPDIR@
 
 toolboxdir=@TOOLBOXDIR@
 toolbox_DATA = config/loader.sce config/loader_include.sce config/builder.sce
+
+autoload:
+	@echo "Appending code to $(HOME)/.scilab"
+	@echo
+	@echo "//-- BEGIN CODE TO LOAD TOOLBOX -------"|tee -a $(HOME)/.scilab
+	@echo "exec('@TOOLBOXDIR@/loader.sce');"       |tee -a $(HOME)/.scilab
+	@echo "//-------------------------------------"|tee -a $(HOME)/.scilab
+	@echo
+	@echo "You should edit the $(HOME)/.scilab file and see if it looks good"
+	@echo "It might be necessary to append code to $(HOME)/.Scilab/*/.scilab"
+	@echo "for newer versions of Scilab."

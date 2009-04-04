@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
 <!DOCTYPE MAN SYSTEM "mansip.dtd">
-<!-- $Revision: 1.1 $ $Date: 2005-07-20 01:33:33 $ -->
+<!-- $Revision: 1.2 $ $Date: 2009-04-04 21:31:21 $ -->
 <MAN>
 <LANGUAGE>eng</LANGUAGE>
 <TITLE>imread</TITLE>
@@ -75,7 +75,7 @@
 <!-- ================================= -->
 <SECTION label="File Formats">
 <P>
-SIP should work with the following formats, 
+SIP should work with at least the following formats, 
 but there is no warranty (unless you pay something :-).
 Please contact us in case of any problems.
 </P>
@@ -269,7 +269,7 @@ Please contact us in case of any problems.
 <REMARKS>
    The new imshow is incompatible with the same function from
 sip-0.2.0 and previous versions.  Its  behavior  has  been
-made more similar to that of comercial packages similar to
+made more similar to that of commercial packages similar to
 Scilab.
 </REMARKS>
 <!-- ================================= -->
