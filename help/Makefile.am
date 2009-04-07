@@ -19,7 +19,7 @@
 ## -------------------------------------------------------------------------
 ##
 
-helppages_xml = en_US/hsv2rgb.xml en_US/im2bw.xml en_US/imfinfo.xml en_US/imnoise.xml en_US/imread.xml en_US/imshow.xml en_US/imwrite.xml en_US/ind2rgb.xml en_US/mogrify.xml en_US/ntsc2rgb.xml en_US/rgb2hsv.xml
+helppages_xml = en_US/hsv2rgb.xml en_US/im2bw.xml en_US/imfinfo.xml en_US/imnoise.xml en_US/imread.xml en_US/imshow.xml en_US/imwrite.xml en_US/ind2rgb.xml en_US/mogrify.xml en_US/ntsc2rgb.xml en_US/rgb2hsv.xml en_US/follow.xml
 
 
 helpdir=@TOOLBOXDIR@/jar
