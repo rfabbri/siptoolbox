@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="im2bw">
+<info>
+  <pubdate>February, 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>gsm</refname>
+  <refpurpose>
+  1D gaussian smoothing
+  </refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+      <synopsis>[xsm, Xsm] = gsm(x [, sigma, delta, in, out])</synopsis>
+      <synopsis>[xsm, Xsm] = gsm(x, &lt;named_args&gt;)</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Input Parameters</title>
+<variablelist>
+
+   <varlistentry>
+     <term>x</term>
+     <listitem>
+       the vector to be smoothed (row or column vector), real or complex.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>sigma</term>
+     <listitem>
+       the standard deviation of the gaussian kernel. If sigma is zero, gsm returns the input vector unaltered in xsm. (Defaults to 5)
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>delta</term>
+     <listitem>
+       a double number. If the input is in the time domain, this is the time between samples (delta t), and defaults to 1. If the input is in the frequency domain, this is the frequency increment between samples (delta f), and defaults to 1/N, where N is the number of samples.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>in</term>
+     <listitem>
+       indicates if the input, x, is a function of time (no FFT has been applied) or frequency (FFT has already been applied). Can be &apos;time&apos; or &apos;frequency&apos;. (Defaults to &apos;time&apos;)
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>out</term>
+     <listitem>
+       indicates if the output, xsm, is a function of time (inverse FFT will be
+       applied) or frequency (inverse FFT will not be applied). Can be
+       &apos;time&apos; or &apos;frequency&apos;. (Defaults to &apos;time&apos;)
+       This is a sequence of statements key1=value1, key2=value2,... where key1,
+       key2,... can be any of the optional arguments above (sigma, in, out), in
+       any order.
+     </listitem>
+   </varlistentry>
+</variablelist>
+
+</refsection>
+
+<refsection>
+<title>Output Parameters</title>
+<variablelist>
+
+   <varlistentry>
+     <term>xsm</term>
+     <listitem>
+       the smoothed vector in "time" or "frequency" domain.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>Xsm</term>
+     <listitem>
+       the smoothed vector in "frequency" domain.
+     </listitem>
+   </varlistentry>
+
+</variablelist>
+
+</refsection>
+
+<refsection>
+<title>Description</title>
+<para>
+ Function <literal>gsm</literal> 
+ performs gaussian smoothing of the vector x,  with
+ standard deviation sigma, using FFT. The optional  arguments in
+ and out enables the user to reuse previously  done FFTs. Here are
+ some possible uses of gsm: 
+ </para>
+
+ <variablelist>
+   <varlistentry>
+     <term>xsm = gsm(x)</term>
+     <listitem>
+      <literal>sigma</literal> defaults to 5, <literal>in</literal> and <literal>out</literal> both defaults
+      to 'time'.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>xsm = gsm(x,15)</term>
+     <listitem>
+     <literal>sigma</literal> equals 15, <literal>in</literal> and <literal>out</literal> both defaults to 'time'.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>xsm = gsm(x,15, out=&apos;frequency&apos;)</term>
+     <listitem>
+      <literal>x</literal> in time domain.
+      <literal>xsm</literal> in frequency domain (inverse fft is NOT done by gsm)
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>xsm = gsm(x,15,in=&apos;frequency&apos;, out=&apos;frequency&apos;)</term>
+     <listitem>
+      xsm = gsm(x,15,in='frequency', out='frequency')
+      <literal>x</literal> in frequency domain (fft has already been done).
+      <literal>xsm</literal> in frequency domain (inverse fft is NOT done by gsm)
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>xsm = gsm(x, &apos;frequency&apos;, delta=0.1)</term>
+     <listitem>
+        <literal>delta f</literal> is 0.1
+        <literal>sigma</literal> defaults to 5
+        <literal>x</literal> in frequency domain.
+        <literal>xsm</literal> in time domain (inverse fft is done by gsm)
+     </listitem>
+   </varlistentry>
+ </variablelist>
+
+ <para>
+ In all above examples, Xsm is in the frequency domain. It  is the second output parameter, and thus it was discarded  in the above examples. </para>
+
+</refsection>
+<refsection>
+<title>Examples</title>
+ <programlisting><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xset('window',0);
+       xbasc()
+       imshow(Img,2);
+
+       [x,y] = follow(Img);  // get the parametric contour
+       t=1:size(x,'*');
+       xset('window',1)
+       xbasc()
+       subplot(121)
+       plot2d(t,x,2);
+       subplot(122)
+       plot2d(t,y,1);
+
+       xsm = gsm(x,15);    // gaussian-smooth the contour
+       ysm = gsm(y,15);
+       subplot(121)
+       plot2d(t,xsm,2);
+       subplot(122)
+       plot2d(t,ysm,1);
+
+       // builds an image from parametric contour:
+       Img2=unfollow(xsm,ysm,size(Img));
+       xset('window',0);
+       xbasc()
+       imshow(Img2,2);
+
+       chdir(initial_dir);
+   ]]></programlisting>
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+  <member> <link linkend="gsm2d">gsm2d</link> </member>
+  <member> <link linkend="fft">fft</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2009  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

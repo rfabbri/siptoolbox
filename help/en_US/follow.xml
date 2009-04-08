@@ -62,6 +62,9 @@
    <para>
  follow(Img) equals follow(Img, 8). </para>
  
+</refsection>
+<refsection>
+<title>Examples</title>
  <programlisting><![CDATA[
        initial_dir = PWD;
        chdir (SIPDIR + 'images');

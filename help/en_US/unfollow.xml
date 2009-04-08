@@ -42,6 +42,9 @@
  Function unfollow plots a contour from its parametric representation into a binary image. This operation is the  reverse of the follow function. </para>
 
 
+</refsection>
+<refsection>
+<title>Examples</title>
  <programlisting><![CDATA[
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
