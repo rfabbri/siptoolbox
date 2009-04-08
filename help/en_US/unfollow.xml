@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="im2bw">
+<info>
+  <pubdate>February, 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>unfollow</refname>
+  <refpurpose>Converts  a    parametric
+      contour into a binary image</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+      <synopsis> Img = unfollow(x, y, dims)</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+<variablelist>
+
+   <varlistentry>
+     <term>x</term>
+     <term>y</term>
+     <listitem>
+      vectors, storing the parametrized contour.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>Img</term>
+     <listitem>
+       binary 2D array, 1 for object and 0 for background (class double)
+     </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+<para>
+ Function <literal>unfollow</literal> e 
+ Function unfollow plots a contour from its parametric representation into a binary image. This operation is the  reverse of the follow function. </para>
+
+
+ <programlisting><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xset('window',0);
+       xbasc()
+       imshow(Img,2);
+       [x,y] = follow(Img);
+       xbasc()
+       xsm = gsm(x,15);
+       ysm = gsm(y,15);
+       Img2=unfollow(xsm,ysm,size(Img));
+       xbasc()
+
+       chdir(initial_dir);
+   ]]></programlisting>
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+  <member> <link linkend="unfollow">follow</link> </member>
+  <member> <link linkend="bwborder">bwborder</link> </member>
+  <member> <link linkend="gsm">gsm</link> </member>
+  <member> <link linkend="curvature">curvature</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2009  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->
