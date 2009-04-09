@@ -20,35 +20,18 @@
 #     TOOBOXDIR, SCIDIR
 
 macros_sci = bwborder.sci curvature2d.sci curvature.sci dilate.sci edge.sci erode.sci fftderiv.sci follow.sci fractal.sci getangle.sci gray_imread.sci gsm2d_old.sci gsm2d.sci gsm.sci hough.sci ihough.sci im2bw.sci im2gray.sci imconv.sci imcorrcoef.sci imnoise.sci imphase.sci improfile.sci imroi.sci imshow.sci imxprofile.sci ind2rgb.sci iradon.sci minmax.sci mkfftfilter.sci mkfilter.sci normal.sci ntsc2rgb.sci perim.sci pifilter.sci poledetection.sci radon.sci rgb2ntsc.sci rgbplot.sci sip_approx_true_cmap.sci sip_colormap.sci sipdemo.sci sip_fftshift.sci sip_index_true_cmap.sci sip_quiet.sci sip_wordy.sci unfollow.sci unwrapl.sci unwrapp.sci xgetpixel.sci xor.sci
-macros_bin = bwborder.bin curvature2d.bin curvature.bin dilate.bin edge.bin erode.bin fftderiv.bin follow.bin fractal.bin getangle.bin gray_imread.bin gsm2d_old.bin gsm2d.bin gsm.bin hough.bin ihough.bin im2bw.bin im2gray.bin imconv.bin imcorrcoef.bin imnoise.bin imphase.bin improfile.bin imroi.bin imshow.bin imxprofile.bin ind2rgb.bin iradon.bin minmax.bin mkfftfilter.bin mkfilter.bin normal.bin ntsc2rgb.bin perim.bin pifilter.bin poledetection.bin radon.bin rgb2ntsc.bin rgbplot.bin sip_approx_true_cmap.bin sip_colormap.bin sipdemo.bin sip_fftshift.bin sip_index_true_cmap.bin sip_quiet.bin sip_wordy.bin unfollow.bin unwrapl.bin unwrapp.bin xgetpixel.bin xor.bin
+macros_bin = $(macros_sci:.sci=.bin)
+
 macrodir=@TOOLBOXDIR@/macros
-macro_DATA = $(macros_bin) genlib names lib
+macro_DATA = $(macros_bin) names lib
 
-dist_macro_DATA = $(macros_sci) sip-intro.dem sipdemo_gui.dem interferometry_gui.dem mogrify.dem
+dist_macro_DATA = $(macros_sci) sip-intro.dem sipdemo_gui.dem interferometry_gui.dem mogrify.dem 
 
+EXTRA_DIST = buildmacros.sce
 
-#
-# The following code is an adaptation to Automake from @SCIDIR@/macros/Make.lib
-#
-.sci.bin:
-	@SCI=$(SCIDIR);export SCI;$(SCIDIR)/bin/scilab -comp  $*.sci
-
-lib: $(macros_sci)
-	@echo $? > tmp_comp ;$(SCIDIR)/macros/Lib Xtmp_comp; rm -f tmp_comp
-	@rm -f `cat tmp_Bin`
-	@echo Starting Compilation 
-	@if ( $(SCIDIR)/util/scibatch $(SCIDIR) tmp_Macros ) ;\
-	then echo generating lib and names;\
-	     $(SCIDIR)/util/scibatch $(SCIDIR) genlib;\
-	else echo "Compilation failed"; rm -f `cat tmp_Bin` ;exit 1; \
-	fi
-	@echo End of compilation
-
-names genlib: 	$(macros_sci) Makefile 
-	@echo $(PWD) > tmp_comp ;
-	@echo $(PACKAGE_NAME) >> tmp_comp ;
-	@echo $(macros_sci) >> tmp_comp ;
-	@$(SCIDIR)/macros/Name Xtmp_comp; rm -f tmp_comp
+$(macros_bin) names lib: 	$(macros_sci) 
+	$(SCIEXE) -nw -nb -f buildmacros.sce ;
 
 clean-local:
-	rm -f tmp_* *.bin lib names Lib.mak Macros.mak genlib
+	rm -f tmp_* *.bin lib names Lib.mak Macros.mak genlib Sci_Name Sci_Lib
+
