@@ -25,7 +25,6 @@
 
       <varlistentry>
       <term>YIQ</term>
-<listitem>
       <listitem>
        A YIQ image (M x N x 3) in 0-1 range or a YIQ colormap (M x 3) in 0-1 range
       </listitem>

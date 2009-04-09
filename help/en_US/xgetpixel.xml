@@ -18,21 +18,18 @@
 <variablelist>
       <varlistentry>
       <term>arg</term>
-<listitem>
       <listitem>
        the number of rows in the considered image, or the image itself, depending on what&apos;s more convenient to the user.
       </listitem>
       </varlistentry>
       <varlistentry>
       <term>winno</term>
-<listitem>
       <listitem>
        the number of the scilab graphical window. Defaults to the current active window.
       </listitem>
       </varlistentry>
       <varlistentry>
       <term>p</term>
-<listitem>
       <listitem>
        the (row,col) coordinate of the pixel that have been clicked on the image.
       </listitem>

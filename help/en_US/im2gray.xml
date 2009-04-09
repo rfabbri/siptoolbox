@@ -20,21 +20,18 @@
 <variablelist>
       <varlistentry>
       <term>RGBImg</term>
-<listitem>
       <listitem>
        M x N x 3 truecolor image in any range.
       </listitem>
       </varlistentry>
       <varlistentry>
       <term>RGBColormap</term>
-<listitem>
       <listitem>
         M x 3 colormap in RGB colorspace.
       </listitem>
       </varlistentry>
       <varlistentry>
       <term>index</term>
-<listitem>
       <listitem>
        and map M x N indexed image and its M x 3 colormap.
       </listitem>
@@ -42,14 +39,12 @@
 
       <varlistentry>
       <term>GrayImg</term>
-<listitem>
       <listitem>
         M x N intensity image.
       </listitem>
       </varlistentry>
       <varlistentry>
       <term>GrayMap</term>
-<listitem>
       <listitem>
         M x 3 colormap.
       </listitem>
@@ -61,7 +56,6 @@
 <title>Description</title>
    <para>
  Function <literal>im2gray</literal> converts RGB images, indexed images and RGB colormaps to grayscale. This is accomplished by converting these objects to YIQ colorspace, make the I and Q channels equal to zero, and finally converting back to RGB colorspace. </para>
-   </DESCRIPTION>
    <programlisting><![CDATA[
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
@@ -73,6 +67,7 @@
 
        chdir(initial_dir);
    ]]></programlisting>
+</refsection>
 
 
 <refsection><title>Authors</title><simplelist type="vert">

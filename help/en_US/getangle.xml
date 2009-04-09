@@ -18,9 +18,7 @@
 <variablelist>
       <varlistentry>
       <term>DeltaX</term>
-<listitem> and
       <term>DeltaY</term>
-<listitem>
       <listitem>
          <literal>M x N</literal> intensity images, resulting from convolution
          with gradient masks in two orthogonal directions
@@ -29,7 +27,6 @@
 
       <varlistentry>
       <term>theta</term>
-<listitem>
       <listitem>
        Intensity image. Each pixel has the getangle of the approximated
        gradient, in radians. Where <literal>DeltaX</literal> is zero,
