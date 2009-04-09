@@ -166,8 +166,6 @@ AC_SUBST(SCIDIR)
 AC_SUBST(SCIEXE)
 AC_SUBST(HELPDIR)
 
-
-
 #
 # Set defines required to build DLLs and modules using MinGW
 # thx to Bob F.

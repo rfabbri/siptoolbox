@@ -28,6 +28,7 @@ EXTRA_DIST = autogen.sh src/Makefile.am.input config/subst_input_files.sh \
 				     DEVEL_README.txt FAQ.txt INSTALL.txt INSTALL_UNIX_DETAILED.txt \
 				     INSTALL-MinGW.txt
 
+DIST_SUBDIRS = src macros images man help
 SUBDIRS = src macros images @HELPDIR@
 
 toolboxdir=@TOOLBOXDIR@
