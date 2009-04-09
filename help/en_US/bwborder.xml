@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="im2bw">
+<info>
+  <pubdate>February 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>bwborder</refname>
+  <refpurpose>Border detection for binary images</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+    <synopsis>B = bwborder(Img)</synopsis>
+    <synopsis>B = bwborder(Img, 4)</synopsis>
+    <synopsis>B = bwborder(Img, 8)</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+<variablelist>
+   <varlistentry>
+     <term>Img</term>
+     <listitem>
+       binary array, 1 for object and 0 for background (double precision)
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>B</term>
+     <listitem>
+      binary(0-1) array (double), same size as <literal>Img</literal>
+     </listitem>
+   </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+   <para>
+ Extracts contours from binary images, by detecting which pixel valued 1 has at least one neighbor valued 0. The second argument is 4 or 8 depending if the detection is to be made in 4- or 8-neighborhood. The final border will be 8-connected if 4-neighbors are used, and 4-connected if 8-neighbors are used. </para>
+
+ <variablelist>
+   <varlistentry>
+     <term>bwborder(Img)</term>
+     <listitem>
+ equals <literal>bwborder(Img, 8)</literal>.
+     </listitem>
+   </varlistentry>
+ </variablelist>
+
+</refsection>
+<refsection>
+<title>Examples</title>
+   <programlisting><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   Img = imread('bin2.pbm')
+   xbasc()
+   imshow(Img,2);
+   B = bwborder(Img)
+   imshow(B,2);
+
+   chdir(initial_dir);
+   ]]></programlisting>
+
+</refsection>
+
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="edge">edge</link> </member>
+      <member> <link linkend="follow">follow</link> </member>
+      <member> <link linkend="im2bw">im2bw</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2009  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

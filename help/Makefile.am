@@ -19,8 +19,7 @@
 ## -------------------------------------------------------------------------
 ##
 
-helppages_xml = en_US/hsv2rgb.xml en_US/im2bw.xml en_US/imfinfo.xml en_US/imnoise.xml en_US/imread.xml en_US/imshow.xml en_US/imwrite.xml en_US/ind2rgb.xml en_US/mogrify.xml en_US/ntsc2rgb.xml en_US/rgb2hsv.xml en_US/follow.xml en_US/unfollow.xml en_US/gsm.xml
-
+helppages_xml = en_US/bwborder.xml en_US/curvature.xml en_US/edge.xml en_US/follow.xml en_US/getangle.xml en_US/gsm.xml en_US/hsv2rgb.xml en_US/im2bw.xml en_US/im2gray.xml en_US/imfinfo.xml en_US/imnoise.xml en_US/imread.xml en_US/imshow.xml en_US/imwrite.xml en_US/ind2rgb.xml en_US/mogrify.xml en_US/ntsc2rgb.xml en_US/rgb2hsv.xml en_US/rgb2ntsc.xml en_US/unfollow.xml en_US/xgetpixel.xml
 
 helpdir=@TOOLBOXDIR@/jar
 help_DATA = ../jar/scilab_en_US_help.jar

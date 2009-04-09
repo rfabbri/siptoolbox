@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="im2bw">
+<info>
+  <pubdate>February 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>edge</refname>
+  <refpurpose>Edge detection</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+      <synopsis>E = edge(Img)</synopsis>
+      <synopsis>E = edge(Img, &lt;named_args&gt;)</synopsis>
+      <synopsis>E = edge(Img, method)</synopsis>
+      <synopsis>E = edge(Img, method, thresh)</synopsis>
+      <synopsis>E = edge(Img, method, thresh, direction)</synopsis>
+      <synopsis>E = edge(Img, method, thresh, direction, sigma)</synopsis>
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+<variablelist>
+      <varlistentry>
+      <term>Img</term>
+      <listitem>
+       M x N Grayscale (intensity) image in any range.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>method</term>
+      <listitem>
+       may be &apos;sobel&apos;(default), &apos;prewitt&apos; or &apos;fftderiv&apos;. Other methods will appear in the future.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>thresh</term>
+      <listitem>
+       sets the threshold level, from 0 to 1. Defaults to 0.5. If negative, then the output image, <literal>E</literal>, will have the un-thresholded gradient image.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>direction</term>
+      <listitem>
+        may be &apos;horizontal&apos;, &apos;vertical&apos; or &apos;both&apos;(default). This determines the direction to compute the image gradient.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>sigma</term>
+      <listitem>
+       Controls the ammount of high-frequency attenuation in some
+       methods (only the &apos;fftderiv&apos; method uses this
+       parameter). This can be used to obtain different levels of
+       detail and to filter out high-frequency noise. Defaults
+       to 1. 
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+         <term>&lt;named_args&gt;</term>
+      <listitem>
+       This is a sequence of statements key1=value1,
+       key2=value2,... where key1, key2,... can be any of the
+       optional arguments above, in any order.
+      </listitem>
+      </varlistentry>
+      <variablelist>
+        <varlistentry>
+        <term>E</term>
+        <listitem>
+        Resulting image.
+        </listitem>
+        </varlistentry>
+      </variablelist>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+   <para>
+ The function edge performs edge detection on a grayscale intensity image. The user may set the method, the threshold level and the direction of the edge detection. </para>
+
+   <variablelist>
+   <varlistentry><term>edge(Img)</term>
+<listitem>
+ Detects edges in <literal>Img</literal>, using the sobel gradient estimator, 0.5 threshold level and in both horizontal and vertical directions.
+   </listitem></varlistentry>
+   </variablelist>
+   <para>
+ The other parameters are optional and non-positional. That is, they may be passed to the function by their name. The following example illustrates this. </para>
+</refsection>
+<refsection>
+<title>Examples</title>
+   <programlisting><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   Img = imread('tru.jpg');
+   Img = im2gray(Img);
+   xbasc()
+   imshow(Img);
+
+   e = edge(Img);  // sobel, thresh = 0.5
+   xbasc()
+   imshow(e,2)
+
+   e = edge(Img,'prewitt'); // thresh = 0.5
+   xbasc()
+   imshow(e,2)
+
+   e = edge(Img,'fftderiv', 0.4);  // FFT gradient method; 0.4 threshold
+   xbasc()
+   imshow(e,[])
+
+   // It is useful to thin the edges, eliminating redundant pixels:
+   e = thin(e);
+   xbasc()
+   imshow(e,[])
+
+   e = edge(Img,'fftderiv',sigma=3,thresh=-1); // thicker edges, no threshold
+   xbasc()
+   imshow(e,[])
+
+   e = edge(Img,thresh=-1);
+   xbasc()
+   imshow(e,[])
+
+   chdir(initial_dir);
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+<title>References</title>
+   <para>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press, section 3.3.
+   </para>
+</refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="bwborder">bwborder</link> </member>
+      <member> <link linkend="mogrify">mogrify</link> </member>
+      <member> <link linkend="getangle">getangle</link> </member>
+      <member> <link linkend="imconv">imconv</link> </member>
+      <member> <link linkend="im2gray">im2gray</link> </member>
+      <member> <link linkend="mkfilter">mkfilter</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2009  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

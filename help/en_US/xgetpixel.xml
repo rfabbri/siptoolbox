@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="im2bw">
+<info>
+  <pubdate>February, 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>xgetpixel</refname>
+  <refpurpose>Gets the clicked-on pixel coordinates from an image</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+
+</refsynopsisdiv>
+
+<refsection>
+<title>Parameters</title>
+<variablelist>
+      <varlistentry>
+      <term>arg</term>
+<listitem>
+      <listitem>
+       the number of rows in the considered image, or the image itself, depending on what&apos;s more convenient to the user.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>winno</term>
+<listitem>
+      <listitem>
+       the number of the scilab graphical window. Defaults to the current active window.
+      </listitem>
+      </varlistentry>
+      <varlistentry>
+      <term>p</term>
+<listitem>
+      <listitem>
+       the (row,col) coordinate of the pixel that have been clicked on the image.
+      </listitem>
+      </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+   <para>
+ Function xgetpixel interactively shows the (row,col) position of the mouse cursor over an image ploted into scilab  graphic. </para>
+</refsection>
+<refsection>
+<title>Examples</title>
+   <programlisting><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       [im,map] = imread('example.bmp');
+       xbasc()
+       imshow(im,map);
+       p = xgetpixel(im)
+
+       chdir(initial_dir);
+   ]]></programlisting>
+</refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+  <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="xgetmouse">xgetmouse</link> </member>
+      <member> <link linkend="xclick">xclick</link> </member>
+      <member> <link linkend="locate">locate</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2009  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->

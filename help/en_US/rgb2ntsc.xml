@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="hsv2rgb">
+<info>
+  <pubdate>February, 2004</pubdate>
+</info>
+<refnamediv>
+  <refname>hsv2ntsc</refname>
+  <refpurpose>Converts from RGB to YIQ colorspace</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+  <synopsis>YIQ = rgb2ntsc(RGB)</synopsis>
+</refsynopsisdiv>
+
+<refsection><title>Parameters</title>
+
+<variablelist>
+   <varlistentry>
+     <term>RGB</term>
+     <listitem>
+         A RGB image (M x N x 3) in 0-1 range or a RGB colormap (M x 3) in 0-1 range
+     </listitem>
+   </varlistentry>
+
+      <varlistentry>
+      <term>YIQ</term>
+<listitem>
+      <listitem>
+       A YIQ image (M x N x 3) in 0-1 range or a YIQ colormap (M x 3) in 0-1 range
+      </listitem>
+      </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection><title>Description</title>
+   <para>
+ rgb2ntsc(RGB) converts an RGB image or colormap from RGB  to YIQ colorspace. The YIQ model is used in NTSC and European TV&apos;s. It is useful for b&amp;w and color compatibility,  since the cromaticity (I and Q) and luminance (Y) are conveniently isolated. rgb2ntsc(RGB) uses the following operation to convert each RGB triplet: </para>
+   <programlisting><![CDATA[
+        ! Y !   !  0.299 0.587  0.114   !   ! R !
+        ! I ! = !  0.596 -0.274 -0.322  ! * ! G !
+        ! Q !   !  0.212 -0.523 0.311   !   ! B !
+   ]]></programlisting>
+
+</refsection>
+
+<refsection><title>Examples</title>
+   <programlisting><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       rgb = imread('tru.jpg');     // RGB colorspace, 0-1 range
+       imshow(rgb);
+       yiq = rgb2ntsc(rgb);      // YIQ colorspace, 0-1 range
+       yiq(:,:,2) = yiq(:,:,2) /4; // Decrease chromaticity
+       yiq(:,:,3) = yiq(:,:,3) /4;
+       rgb = ntsc2rgb(yiq);
+       imshow(rgb);
+
+       chdir(initial_dir);
+   ]]></programlisting>
+</refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+   <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="ntsc2rgb">ntsc2rgb</link> </member>
+      <member> <link linkend="im2gray">im2gray</link> </member>
+   </simplelist></refsection>
+</refentry>
