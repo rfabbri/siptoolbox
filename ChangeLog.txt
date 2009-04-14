@@ -3,6 +3,11 @@ Copyright (C) 2002-2009 Ricardo Fabbri
 __________________________________________________________________
 
 
+0.4.1
+	+ more help pages are available
+	+ imfinfo now exits gracefully when input image is not available (thx to Dean
+	Messing for reporting)
+	+ Improved linking with newer Image Magick
 
 0.4.0 Major new features!
    This list highlights the main changes from 0.3.1 to 0.4.0. Read the
