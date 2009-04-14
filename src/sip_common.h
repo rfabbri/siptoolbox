@@ -97,7 +97,7 @@
    fprintf(stderr,"%s: ",fname); \
    Scierror(999,""); \
    sciprint("%s: ",fname); \
-   if (image != NULL) { \
+   if (image != (Image *) NULL) { \
      GetImageException(image,&exception);                                  \
    } \
    if( (exception.reason != NULL)  ) {\

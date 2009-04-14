@@ -29,7 +29,7 @@
  * int_imfinfo: 
  *     interface for imfinfo function.
  *     should provide  type=imfinfo(name)  at Scilab level 
- * $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
+ * $Revision: 1.3 $ $Date: 2009-04-14 14:02:45 $
  *----------------------------------------------------------*/
 SipExport int 
 int_imfinfo(char *fname)
@@ -51,7 +51,7 @@ int_imfinfo(char *fname)
          mXResolution=1, nXResolution=1, 
          mYResolution=1, nYResolution=1, 
          pos,
-         minlhs=1, maxlhs=1, minrhs=1, maxrhs=2;
+         minlhs=1, maxlhs=1, minrhs=1, maxrhs=2, i;
    unsigned long int *lWidth, *lHeight, *lDepth, *lNumberOfColors,
                      *lFileSize, fsize;
    char *lFileName, *lStorageType, *lFormat, *lResolutionUnit, *arg2;
@@ -67,8 +67,8 @@ int_imfinfo(char *fname)
    Image          *image;
    ImageInfo      *image_info;
 
-   CheckRhs(minrhs,maxrhs) ;
-   CheckLhs(minlhs,maxlhs) ;
+   CheckRhs(minrhs, maxrhs);
+   CheckLhs(minlhs, maxlhs);
 
 
    /* Get name (#1) and "verbose" optional arg (#2)*/
@@ -87,9 +87,26 @@ int_imfinfo(char *fname)
    (void) strcpy(image_info->filename,cstk(lC));
 
    image = PingImage(image_info, &exception);
-   if (image == (Image *) NULL)
-      SIP_MAGICK_ERROR;
-
+   if (image == (Image *) NULL) {
+      /* clean up */
+      if (Rhs==2)
+        free(arg2);
+      if(exception.reason != NULL) {
+         char errmsg[50];
+         for (i=0; i<49; i++)
+            errmsg[i]=' ';
+         errmsg[49]='\0';
+         strncpy(errmsg,GetLocaleExceptionMessage(exception.severity,exception.reason),50);
+         DestroyImageInfo(image_info);
+         DestroyExceptionInfo(&exception);
+         DestroyMagick();
+         sip_error(errmsg);
+      }
+      DestroyImageInfo(image_info);
+      DestroyExceptionInfo(&exception);
+      DestroyMagick();
+      sip_error("unknown reason");
+   }
 
    pos =1;
    CreateVar(1, "t", &mL, &nL, &lL);
