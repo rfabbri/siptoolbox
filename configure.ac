@@ -252,7 +252,22 @@ else
 # versions, from 5.4.x to 6.x.x
 #
 AC_PATH_LIB_LIBCONFIG
-AC_PATH_LIB([ImageMagick], [[5.4.2 -nocheck]], [Magick-config], ,[
+
+
+AC_CHECK_PROG([has_magickwand_config],[MagickWand-config],[yes],[no], , )
+
+MAGICK_CONFIG="Magick-config"
+if test x$has_magickwand_config = xyes; then
+  # This is necessary because MogrifyImage is in MagickWand
+  # TODO: this can be reconciled with a test for version 6.3.8-5 (when unix
+  # refactoring occurred)
+  MAGICK_CONFIG="MagickWand-config"
+fi
+
+
+
+
+AC_PATH_LIB([ImageMagick], [[5.4.2 -nocheck]], [$MAGICK_CONFIG], ,[
    # if found:
    if test x$IMAGEMAGICK_VERSION = "x5.5.5"; then
       AC_MSG_ERROR([[ImageMagick 5.5.5 has a bug which make it unusable with
@@ -267,6 +282,14 @@ system please download and install another version from \
 www.imagemagick.org
 ****************]])
    fi
+
+   AC_SUBST(IMAGEMAGICK_LIBS)
+   AC_SUBST(IMAGEMAGICK_LDFLAGS)
+   AC_SUBST(IMAGEMAGICK_CPPFLAGS)
+
+   LIBS="$IMAGEMAGICK_LIBS $LIBS"
+   LDFLAGS="$IMAGEMAGICK_LDFLAGS $LDFLAGS"
+   CPPFLAGS="$IMAGEMAGICK_CPPFLAGS $CPPFLAGS"
 ], [AC_MSG_ERROR([[ImageMagick version >= 5.4.2 was not found.]])],
 [--cppflags --cflags], [--ldflags --libs])
 fi
