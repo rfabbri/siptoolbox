@@ -97,7 +97,9 @@
    fprintf(stderr,"%s: ",fname); \
    Scierror(999,""); \
    sciprint("%s: ",fname); \
-   GetImageException(image,&exception);                                  \
+   if (image != NULL) { \
+     GetImageException(image,&exception);                                  \
+   } \
    if( (exception.reason != NULL)  ) {\
       fprintf(stderr,"%s ", \
          GetLocaleExceptionMessage(exception.severity,exception.reason)); \
