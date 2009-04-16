@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="sip_setenv"><info><pubdate>July 2004</pubdate></info><refnamediv><refname>sip_setenv</refname><refpurpose>sets environment variables
+     </refpurpose></refnamediv>
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>mode = sip_setenv(varname, value)</synopsis></refsynopsisdiv>
+  
+   <refsection><title>Parameters</title>
+    
+      <variablelist>
+      
+         <varlistentry>
+   
+            <term>varname</term>
+   
+            <listitem>
+      string. The name of the environment variable
+   </listitem> 
+      
+         </varlistentry>
+      
+         <varlistentry>
+         
+            <term>value</term>
+   
+            <listitem>
+      string. The value of the variable 
+   </listitem> 
+      
+         </varlistentry>
+   
+      </variablelist>
+  
+   </refsection>
+  
+   <refsection><title>Description</title>
+    
+      <para>
+       
+         <literal>sip_setenv</literal> is an interface to the C
+       <literal>setenv</literal> function. It sets environment variables
+       seen by any commands spawned within scilab.
+    </para>
+  
+   </refsection>
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   sip_setenv('MY_VARIABLE','this is a content');
+   getenv('MY_VARIABLE')
+]]></programlisting></refsection>
+
+
+   
+
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+
+   </simplelist></refsection>
+
+  
+   <refsection><title>See Also</title><simplelist type="inline">
+   
+      <member> 
+         <link linkend="getenv">getenv</link> 
+      </member>
+  
+   </simplelist></refsection>
+
+</refentry>

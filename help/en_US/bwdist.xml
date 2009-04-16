@@ -1,0 +1,379 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="bwdist"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>bwdist</refname><refpurpose>distance transforms</refpurpose></refnamediv>
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>dt = bwdist(img [,algorithm])</synopsis></refsynopsisdiv>
+
+   <refsection><title>Parameters</title>
+
+      <variablelist>
+   
+         <varlistentry>
+   
+            <term>img</term>
+   
+            <listitem>
+      Binary image. If every pixel is different than 0, the output is
+      undefined and may contain arbitrary values.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>algorithm</term>
+   
+            <listitem>
+      Listed below are various algorithms that are available in SIP,
+      together with the shortest string form accepted (for speed
+      of use). This argument is CASE-INSENSITIVE, for convenience. Some of the
+      algorithms are faster than others, but this depends heavily
+      on the size and content of the input.
+      <variablelist>
+         
+                  <varlistentry>
+         
+                     <term>'euclidean' or 'euclid'</term>
+         
+                     <listitem>the default fast exact euclidean
+         algorithm. Currently, it is the same as the
+         'maurer' bellow. (DEFAULT)
+         </listitem>
+         
+                     <varlistentry>
+            
+                        <term>'maurer' or 'mau'</term>
+            
+                        <listitem>very fast (and
+            recent) exact euclidean algorithm, based on certain dimensionality
+            properties of Voronoi diagrams. It is the best method together with
+            Meijster, in general.
+           </listitem>
+         
+                     </varlistentry>
+         
+                     <varlistentry>
+            
+                        <term>'meijster' or 'mau'</term>
+            
+                        <listitem>very fast (and
+            recent) exact euclidean algorithm, based on certain dimensionality
+            properties of Voronoi diagrams. It is the best method together with
+            Maurer, in general. For most cases it is slightly faster than
+            Maurer, but uses a little more memory.
+         </listitem>
+         
+                     </varlistentry>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'cuisenaire pmn'</term>
+            
+                     <listitem>very fast exact euclidean
+            algorithm. It is based on propagation of multiple
+            neighborhoods to build up an exact EDT.
+            </listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'cuisenaire pmon'</term>
+            
+                     <listitem>a variation of the latter that uses
+            multiple oriented neighborhoods It seems to be slightly
+            slower, in general, but can be faster for some cases (we
+            don't know exactly which)
+            </listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'cuisenaire psn4'</term>
+            
+                     <listitem>a variation
+            of the latter that uses only 4-neighborhood. This is
+            faster but less precise</listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'cuisenaire psn8'</term>
+            
+                     <listitem>a variation of the latter that uses
+            diagonal neighborhood
+            after 4-neighborhood to improve the precision. This is
+            faster than the full 'pmn' algorithm, but less
+            precise. It is a little slower than psn4 but considerably more
+            precise.
+         </listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'lotufo-zampirolli' or 'lotufo-z'</term>
+            
+                     <listitem>very fast exact euclidean
+            algorithm. Seems to be slightly slower than maurer and
+            cuisenaire, in general, but can be faster for some
+            cases.
+            </listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'IFT 8' or 'IFT'</term>
+            
+                     <listitem>a fast algorithm using the euclidean
+            metric. For large and thick shapes, there may be a few
+            small errors, which are dispensable for most practical
+            applications.</listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'IFT 4'</term>
+            
+                     <listitem>the same algorithm but with
+            4-neighborhood propagation. This means that this method
+            is about 2x faster but less precise</listitem>
+         
+                  </varlistentry>
+         
+                  <varlistentry>
+            
+                     <term>'exact dilations' or 'exact dil'</term>
+            
+                     <listitem>will perform an exact euclidean
+            algorithm that is slow for medium shapes, but
+            it is always exact and reasonably fast for thin
+            shapes.</listitem>
+         
+                  </varlistentry>
+      
+               </variablelist>
+   
+            </listitem> 
+         </varlistentry> 
+         <varlistentry>
+   
+            <term>dt</term> 
+            <listitem>
+      The distance transform of the image. It is undefined if the
+      input is an image without any pixels equal to 0.
+</listitem> 
+         </varlistentry>
+   
+      </variablelist> 
+   </refsection> 
+   
+
+   <refsection><title>Description</title> 
+      <para>
+ Function bwdist computes the distance transform. For each
+ foreground pixel (i.e. value '1') in the input image, the
+ distance transform assigns a value that is the smallest  distance
+ between that pixel and the all the 0-pixels (you can also think of
+ the distance to the outer boundary of the object). 
+ </para>
+ 
+      <para>
+ Many different methods are provided for comparison purposes. If you
+ are going to use bwdist extensively, you may test all the algorithms
+ to find the best one for your particular type of image. 
+ </para>
+
+   </refsection> 
+ 
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   xset('auto clear', 'on');
+
+   // First, a simple example to illustrate the concept
+   A = zeros(15,10);
+   A(4:12,3:7)=1;
+   A(4:5,3:4)=0
+
+   D = bwdist(A)
+   D = sqrt(D)
+   // Note how the values in D were calculated.
+   // For each pixel p such that A(p)=1, D(p) is the minimum euclidean 
+   // distance of p and the 0-pixels (background).
+
+
+   // -----------------------------------
+   //  Now to a more interesting example
+   // -----------------------------------
+
+
+   A = gray_imread(SIPDIR + 'images/escher.png');
+   imshow(A,2);
+
+   D = bwdist(A);
+   imshow(log(1+D),[]); // normalizes image to enhance visualization
+
+   D = bwdist(A,'exact dilations');
+   imshow(log(1+D),[]);
+
+   // To obtain an external EDT, simply invert the shape:
+   B = 1-A;
+   D = bwdist(B,'maurer');
+   imshow(log(1+D),[]);
+
+   // To obtain an external+internal EDT, simply compute
+   // the binary border of the shape and pass its negative
+   // to bwdist:
+   A = bwborder(A);
+   A = 1-A;
+   D = bwdist(A,'lotufo-zampirolli');
+   imshow(log(1+D),[]);
+
+   // ---------------------------------
+   //  Other forms to visualize the DT
+   // ---------------------------------
+
+   // Wrapping (note the wavefronts of iso-distance)
+   imshow(modulo(sqrt(D),10),[])
+
+   // Usual:
+   D = bwdist(A);
+   D = normal(sqrt(D),1000,1);
+   imshow(D,hotcolormap(1000));
+
+   // There is also of DT application in the example for the "watershed"
+   // function.
+
+   xset('auto clear', 'off');
+]]></programlisting></refsection> 
+ 
+
+   <refsection><title>Bibliography</title>
+   
+      <variablelist>
+   
+         <varlistentry><term>Maurer</term><listitem>  
+   
+            <para>
+   Maurer, C.R. and  R. Qi and  V. Raghavan,
+   "A Linear Time Algorithm for Computing the Euclidean Distance Transform in Arbitrary Dimensions",
+   IEEE Transactions on Pattern Analysis and Machine Intelligence,
+   vol. 25, no. 2, pp. 265-270, february 2003.
+   </para>
+         </listitem></varlistentry>
+   
+         <varlistentry><term>Meijster</term><listitem>  
+   
+            <para>
+   A. Meijster, J.B.T.M. Roerdink, and W.H. Hesselink "A General Algorithm
+   for Computing Distance Transforms in Linear Time",
+   proc. of 5th Int. Conf. Mathematical Morphology and its Applications to
+   Image and Signal Processing, 2000
+   </para>
+         </listitem></varlistentry>
+   
+         <varlistentry><term>Cuisenaire</term><listitem>
+   
+            <para>
+   Cuisenaire, O and  Macq, B,
+   "Fast Euclidean Distance Transformation by Propagation Using
+   Multiple Neighborhoods", Computer Vision and Image Understanding, no. 2,
+   vol 76, 163--172, 76, 1999.
+   </para>
+   
+            <para>
+   Chapter 3 of "Distance transformations: fast algorithms and applications 
+   to medical image processing", Olivier Cuisenaire's Ph.D. Thesis, October 
+   1999, Université catholique de Louvain, Belgium.
+   </para>
+   
+         </listitem></varlistentry>
+   
+         <varlistentry><term>IFT</term><listitem>  
+   
+            <para>
+   "Multiscale Skeletons by Image Foresting Transform
+   and its Application to Neuromorphometry", 
+   A.X. Falcao, L. da F. Costa, B.S. da Cunha,
+   Pattern Recognition, 2002. 
+   </para>
+   
+         </listitem></varlistentry>
+
+   
+         <varlistentry><term>Lotufo-Zampirolli</term><listitem>
+   
+            <para>
+   R. Lotufo and F. Zampirolli, Fastmultidimensional parallel
+   euclidean distance
+   transform based on mathematical morphology, in T. Wu and D. Borges, editors,
+   Proccedings of SIBGRAPI 2001, XIV Brazilian Symposium on Computer Graphics 
+   and Image Processing, pages 100-105. IEEE Computer Society, 2001.
+   </para>
+   
+         </listitem></varlistentry>
+
+   
+         <varlistentry><term>Exact Dilations</term><listitem>
+   
+            <para>
+   "Multiresolution shape representation without border shifting",
+   L. da F. Costa, and L. F. Estrozi, Electronics Letters, no. 21, vol. 35, 
+   pp. 1829-1830, 1999.
+   </para>
+   
+            <para>
+   "Shape Analysis and Classification", 
+   L. da F. Costa and R.M. Cesar Jr., CRC Press. 
+   </para>
+   
+         </listitem></varlistentry>
+   
+      </variablelist>
+
+   </refsection>
+ 
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member> Ricardo Fabbri &lt;ricardofabbri
+   (AT) users DOT sf DOT net&gt; </member>
+
+   </simplelist></refsection> 
+ 
+
+   <refsection><title>Availability</title> The latest version
+of the Scilab Image Processing toolbox can be found at <para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection> 
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="skel">skel</link> 
+      </member>
+      
+      <member> 
+         <link linkend="thin">thin</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

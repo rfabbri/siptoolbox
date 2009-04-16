@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="sip_fftshift"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>sip_fftshift</refname><refpurpose>Swap arrays (used with fft)</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>Y = sip_fftshift(X)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>X and Y</term>
+      
+            <listitem>
+      double vectors
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ sip_fftshift(X) swaps the left and right halves of X. </para>
+   
+      <para>
+      sip_fftshift is a substitute for mtlb_fftshift, a Scilab function which is in FRACLAB contribution. We provide it here,  since its necessary for many image processing tasks. </para>
+   
+   </refsection>
+   
+   
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+      
+      <member> Scilab Group &lt;Scilab@inria.fr&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="fft">fft</link> 
+      </member>
+      
+      <member>FRACLAB toolbox</member>
+   
+   </simplelist></refsection>
+
+</refentry>

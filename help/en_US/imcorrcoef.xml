@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imcorrcoef"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>imcorrcoef</refname><refpurpose>Template matching by normalized correlation</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>C = imcorrcoef(Img, template)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>Img</term>
+      
+            <listitem>
+       M x N Grayscale image in any range.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>template</term>
+      
+            <listitem>
+        n x n matrix, n odd. A small object to be found in the image.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>C</term>
+      
+            <listitem>
+       The correlation coefficient image. Its highest value occurs where the template matches exactly.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function imcorrcoef performs template matching by 2D correlation of a grayscale image and a template. This means  the template is compared to the image pixel-by-pixel, for  every possible translation of the template. The result is  normalized to range from -1 to +1. You may also use the  absolute value of this measure. </para>
+   
+      <para>
+ This is an expensive calculation, and should be used only  for small templates. The object to be detected must appear  in the image with very little variation of rotation and  scale. This is useful if you can restrict the image capture to avoid those problems. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   //
+   // Let's detect the letter "B" in a license plate
+   //
+   img = gray_imread(SIPDIR+'images/plate.gif');
+   xbasc(); imshow(img);
+   template = gray_imread(SIPDIR+'images/template.jpg');
+   xbasc(); imshow(template);
+
+   C = imcorrcoef(img, template);
+
+   xbasc();
+   imshow(img+2*(C==maxi(C)),[]);  // letter is detected!!
+   ]]></programlisting></refsection>
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="imconv">imconv</link> 
+      </member>
+      
+      <member> 
+         <link linkend="mkfilter">mkfilter</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

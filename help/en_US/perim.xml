@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="perim">
+<info>
+  <pubdate>February 2004</pubdate>
+</info>
+
+<refnamediv>
+  <refname>perim</refname>
+  <refpurpose>Perimeter of binary shape</refpurpose>
+</refnamediv>
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>p = perim(Img)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>Img</term>
+      
+            <listitem>
+       binary array, 1 for object and 0 for background (double precision)
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>p</term>
+      
+            <listitem>
+       approximate perimeter of the shape inside Img
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ This is a simple routine to measure the perimeter of a 2D  shape. It assumes border pixels as a polygonal line:  adjacent border pixels has measure size 1 or sqrt(2). </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       xbasc()
+       imshow(Img,2);
+       p = perim(Img)
+
+       chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="follow">follow</link> 
+      </member>
+      
+      <member> 
+         <link linkend="bwborder">bwborder</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+      
+      <member> 
+         <link linkend="im2bw">im2bw</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

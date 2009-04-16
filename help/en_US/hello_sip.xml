@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="hello_sip"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>hello_sip</refname><refpurpose>Learn to add your own C routine to SIP</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>sum = hello_sip(a,b)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>a</term>
+      
+            <listitem>
+       double-precision scalar
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>b</term>
+      
+            <listitem>
+       double-precision scalar
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>c</term>
+      
+            <listitem>
+       double-precision scalar
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ "hello_sip" is a very simple example routine. The aim is that new developers know quickly how to add a new C-language implemented function to SIP. </para>
+   
+      <variablelist>
+   
+         <varlistentry><term>hello_sip(a,b)</term><listitem>
+ simply returns <literal>a</literal> + <literal>b</literal> through a C routine.
+   </listitem></varlistentry>
+   
+      </variablelist>
+   
+      <para>
+ The following files in the SIP sourcecode tree are related to the implementation of hello_sip: </para>
+
+
+
+      <programlisting><![CDATA[
+    src/hello_int.c -- 
+        interfaces C to Scilab
+    config/libsip_build.sce -- 
+        specifies the interface source files and scilab name; this
+        script is ran by Scilab to compile the interface C routines
+        into a shared library.
+
+From AnImaL (aminal.sourceforge.net), 
+    animal/hello.c -- 
+        routine that returns a+b
+    animal/hello.h -- 
+        header with the prototype of hello
+    animal/animal.h 
+        general header for the internal C library
+
+]]></programlisting>
+   
+   </refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+
+   
+
+</refentry>

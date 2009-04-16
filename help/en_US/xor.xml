@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="xor"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>xor</refname><refpurpose>Exclusive or</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>C = xor(A,B)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+         
+            <term>A</term>,
+         <term>B</term>,
+         <listitem>
+            Input arrays
+         </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+         
+            <term>C</term>
+         
+            <listitem>
+            resulting boolean array
+         </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ "xor" is a simple convenience function to calculate the  exclusive OR logical operator on the corresponding elements of the input arrays. The resulting element is %f if  either the corresponding elements in A or in B are  nonzero, but not both. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+      A = [0   0  %pi %eps] 
+      B = [0 -6.9  0   1  ]
+
+      C = xor(A,B)
+      C =
+      |  F  T   T  F  |
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="and">and</link> 
+      </member>
+      
+      <member> 
+         <link linkend="or">or</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

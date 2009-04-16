@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="mkfilter"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>mkfilter</refname><refpurpose>Returns popular 2D convolution kernels</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>K = mkfilter(name)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>name</term>
+      
+            <listitem>
+       a string, the name of the filter mask. May be 'sobel', 'prewitt', 'laplace1', 'laplace2', 'laplace3','sh1' (or 'sharp1'), 'sh2' (or 'sharp2'), 'low-pass', 'mean', 'circular', 'circular-mean'. In the future there will be more options.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>K</term>
+      
+            <listitem>
+       a 2D array containing the convolution kernel.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ mkfilter builds well-known 2D filter "masks" (kernels),  such as sobel, prewitt, mean, etc. to be used together  with a function such as imconv. </para>
+   
+      <para>
+ K = mkfilter('sobel') returns a 3x3 edge-finding and yderivative approximation filter. To find vertical edges,  use -K'. </para>
+   
+      <para>
+ K = mkfilter('prewitt') returns another 3x3 edge-finding  and y-derivative approximation filter. To find vertical  edges, use -K'. </para>
+   
+      <para>
+ K = mkfilter('laplace1') returns a 3x3 kernel which shows  points of an image where intensity is varying quickly.  The "laplacien" of an image is the two-dimensionnal second  derivative. Because images are discrete (and not continuous), the "laplacien" can only be approximated. The 3  different kernels often used to estimate it are given by  "laplace1", "laplace2" and "laplace3". These kernels can  be used to detect edges of an image. </para>
+   
+      <para>
+ K = mkfilter('sh1'): "sharp enhancer". Returns a 3x3 kernel which renforce high frequencies of the image: it  accentuates the variations of a pixel compared to its  neighbours. Problem: it enhances the noise too (it may be  useful to denoise the image before). </para>
+   
+      <para>
+ K = mkfilter('sh2') has the same effect than "sh1" but its  coefficients are more powerfull. </para>
+   
+      <para>
+ K = mkfilter('low-pass') : this is a low-pass filter. The  goal is inverse of sharp enhancer filters - the image is  smoothed. This kernel is only one of the possible kernels. </para>
+   
+      <para>
+ K = mkfilter('mean') : this is another low-pass filter.  The mean value of the central pixel and its neighbours is  affected at the central pixel. </para>
+   
+      <para>
+ K = mkfilter('circular',rad) is an euclidean circular mask  with radius "rad" pixels, whose elements are all 1. </para>
+   
+      <para>
+ K = mkfilter('circular-mean',rad) is a low pass filter,  the same as 'circular', but the matrix K is divided by the  number of 1-elements. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('tru.jpg');
+       Img = im2gray(Img);
+       xbasc()
+       imshow(Img);
+       sob = mkfilter('sobel');    // stamp effect
+       A = imconv(Img, sob);
+       xbasc()
+       imshow(A, [])
+
+       chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+      
+      <member> Jocelyn Druel &lt;jdruel (AT) users DOT sf DOT net&gt; </member>
+      
+      <member> Leandro Estrozi &lt;lfestrozi@if.sc.usp.br&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="imconv">imconv</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

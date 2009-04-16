@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="percol"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>percol</refname><refpurpose>Test if binary image is percolated</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>p = percol(img [,direction])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>img</term>
+      
+            <listitem>
+       an image in which 0 is considered background, while positive values are considered object (also called site).
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>direction</term>
+      
+            <listitem>
+        1 if percolation is to be tested horizontally; 0 if it is to be tested vertically
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>p</term>
+      
+            <listitem>
+       1 if image is percolated; 0 otherwise.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function percol tests if an image is 4-connected from side  to side. This is useful for analysing images comming from  site percolation simulations. The percol routine has the  advantage to be implemented in the C language. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       p=0.02;
+       a = 1*(rand(10,10) <= p)
+       while (~percol(a))   // test the image if one side connects to the other
+       end
+       // now, surely, the image is connected side-to-side (i.e., it has percolated)
+       xbasc();
+       imshow(1-a,2); // 1 is displayed as black
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="xgetmouse">xgetmouse</link> 
+      </member>
+      
+      <member> 
+         <link linkend="xclick">xclick</link> 
+      </member>
+      
+      <member> 
+         <link linkend="locate">locate</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

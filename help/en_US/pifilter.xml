@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="pifilter"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>pifilter</refname><refpurpose>Pi filter for phased images</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>filtered_image = pifilter(image[,filter_name])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>image</term>
+      
+            <listitem>
+       A gray image (normally a phased image).
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>filter_name</term>
+      
+            <listitem>
+        A low-pass filter. It can be 'mean' or 'low-pass' (see mkfilter). Default is 'mean'.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Filters a phased image before unwrapping it. 
+The purpose  is to keep the phase jumps sharp: 
+a convolution by a lowpass kernel would be catastrophic, because it would 
+smooth  these jumps, causing the demodulation algorithm to fail. </para>
+  
+ Principle:
+      
+
+   
+      <para>
+ This function uses the mkfilter and imconv functions.  
+Reasonable kernels are: 'low-pass' and 'mean'. A high-pass  filter would make no sense as it would burst noise ! </para>
+   
+      <para>
+ You can use pifilter for ordinary grayscale images to  smooth them 
+without loosing the edges. 
+This filter is similar to the median filter, but will leave edges even 
+stronger. 
+However, the noise will more often not be  removed; just attenuated. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       a=gray_imread(SIPDIR+'images/photonics/pyramide_noisy.jpg');
+       xset("window",0);xbasc();
+       imshow(a);
+       improfile(a);//to visualise profiles
+       b=pifilter(a);
+       xset("window",1);xbasc();
+       imshow(b);
+       improfile(b);//jumps are still well visible and other parts are smoothed
+   ]]></programlisting></refsection>
+
+
+
+   
+
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="unwrapl">unwrapl</link> 
+      </member>
+      
+      <member> 
+         <link linkend="unwrapp">unwrapp</link> 
+      </member>
+      
+      <member> 
+         <link linkend="mkfilter">mkfilter</link> 
+      </member>
+      
+      <member> 
+         <link linkend="imconv">imconv</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

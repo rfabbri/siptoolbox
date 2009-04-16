@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imxprofile"><info><pubdate>June 2004</pubdate></info><refnamediv><refname>imxprofile</refname><refpurpose>Draws intensity profiles of an already displayed image</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>[x,y,hprofile,vprofile]=imxprofile(matrix[,option,xscale,yscale,zscale,maximal_luminance])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>matrix</term>
+      
+            <listitem>
+	  is an image. It can be either a gray level or an indexed image.
+<para>
+If a color image is displayed, it's internally converted to a gray one to display
+intensity profiles.
+</para>
+
+               <para>
+This image should be displayed before invoquing imxprofile.
+</para>
+
+      
+            </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>option</term>
+      
+            <listitem>
+       0 to draw the profiles on the image, 1 to draw the profiles in separated windows,
+2 to draw the profiles on the image and the gaussian interpolation (used with laser beam images).
+<para>
+Default=0.
+</para>
+      
+            </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>xscale, yscale</term>
+      
+            <listitem>
+	  A multiplication factor on one of the axis.
+It allows to display coordinates directly in mm (after a calibration
+to determine the conversion pixels - mm).
+<para>
+Default=1.
+</para>
+      
+            </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>zscale</term>
+      
+            <listitem>
+	  A multiplication factor on the z axis.
+It can be used to display gray levels in the 0-255 range instead of in the
+0-1 range (for example).
+<para>
+Default=1.
+</para>
+      
+            </listitem>
+      
+         </varlistentry>
+
+      
+         <varlistentry>
+      
+            <term>maximal_luminance</term>
+      
+            <listitem>
+is useful to choose the scale at which hprofile and vprofile will 
+be displayed.
+<para>
+The default setting is to calculate a value such that the maximal value of the image
+will be displayed
+at a quarter of the image.
+</para>
+      
+            </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+         
+            <term>x</term> or
+      <term>y</term>
+      
+            <listitem>
+      are the corresponding column and row in the image matrix.
+      </listitem>
+      
+         </varlistentry>
+
+      
+         <varlistentry>
+         
+            <term>hprofile</term> or
+      <term>vprofile</term>
+      
+            <listitem>
+      Matrix containing the horizontal (or vertical) profile selected.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+    
+      <para>
+This is an improved version of improfile: it's supposed to be more intuitive
+and pleasant.
+</para>
+   
+      <para>
+The function draws the values of pixels on a line and a row. 
+It can  draw
+ profiles on the image and in separate windows. 
+</para>
+
+      <para>
+People interested in determining the radius w of a laser beam
+(in order to calculate its beam waist for example)
+can try option=2.
+</para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   a=gray_imread(SIPDIR+'images/tru.jpg');
+   imshow(a); 
+   imxprofile(a);
+
+   //profiles in separate windows
+   xbasc();
+   imshow(a); 
+   imxprofile(a,1)
+
+   //laser beam visualisation
+   b=imread(SIPDIR+'images/photonics/laser1.jpg');
+   xbasc();imshow(b,[]);
+   imxprofile(b,2);
+   ]]></programlisting></refsection>
+
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Jocelyn DRUEL &lt;jocelyn DOT druel1 AT libertysurf DOT fr&gt;
+</member>
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri AT users DOTsf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="xgetpixel">xgetpixel</link> 
+      </member>
+      
+      <member> 
+         <link linkend="improfile">improfile</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

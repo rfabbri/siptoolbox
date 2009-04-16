@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="gsm2d"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>gsm2d</refname><refpurpose>2D gaussian smoothing</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>MG = gsm2d(M [,sigma])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>M</term>
+      
+            <listitem>
+       the matrix (intensity image) to be smoothed
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>sigma</term>
+      
+            <listitem>
+       the standard deviation of the gaussian kernel. Defaults to 5.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>MG</term>
+      
+            <listitem>
+       the smoothed image.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function gsm performs 2D gaussian smoothing of the image  M, with standard deviation sigma, using FFT. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       [Img,map] = imread('onca.gif');
+       xbasc()
+       imshow(Img,map);
+       Img = im2gray(Img, map);     // Img is now 0-1 range
+       xbasc()
+       imshow(Img);
+       Img = gsm2d(Img,2);
+       xbasc()
+       imshow(Img);
+
+       chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="gsm">gsm</link> 
+      </member>
+      
+      <member> 
+         <link linkend="imconv">imconv</link> 
+      </member>
+      
+      <member> 
+         <link linkend="fft">fft</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

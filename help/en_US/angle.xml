@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="angle"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>angle</refname><refpurpose>gradient direction of edges</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>theta = angle(DeltaX, DeltaY)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>DeltaX</term> and
+      <term>DeltaY</term>
+      
+            <listitem>
+         
+               <literal>M x N</literal> intensity images, resulting from convolution
+         with gradient masks in two orthogonal directions
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>theta</term>
+      
+            <listitem>
+       Intensity image. Each pixel has the angle of the approximated
+       gradient, in radians. Where <literal>DeltaX</literal> is zero,
+       <literal>theta</literal> is taken as PI/2.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ The function <literal>angle</literal> obtains the gradient direction <literal>theta</literal> from images yielded from convolution with gradient masks in direction x and y (<literal>DeltaX</literal> and <literal>DeltaY</literal>, respectively). </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('disks.bmp');
+       xbasc()
+       imshow(Img,2);
+       Dx = edge(Img,thresh=-1, direction='horizontal');
+       Dy = edge(Img,thresh=-1, direction='vertical');
+       t = angle(Dx,Dy);
+       imshow(t,[])
+
+       chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

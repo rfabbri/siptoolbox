@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="hough"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>hough</refname><refpurpose>Hough transform for line detection</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>[ht, rho_range] = hough(imbin)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>imbin</term>
+      
+            <listitem>
+       binary image array (foreground equals 1)
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>ht</term>
+      
+            <listitem>
+ Hough transform accumulation matrix. <literal>Rho</literal> varies along rows; <literal>theta</literal> varies along columns. <literal>Theta</literal> range is 0-179 degrees w/ 180 samples.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>rho_range</term>
+      
+            <listitem>
+ Vector containing the range of radius values. Equals -rmax:rmax, where <literal>rmax</literal> is the maximum radius possibly found in the input image.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function hough calculates the hough transform of a binary  image. The coordinate system is centered in the image, and the Y axis points downwards. <literal>Theta</literal> grows from X axis to Y axis. Negative <literal>rhos</literal> point to the upper half of the image. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   initial_dir = PWD;
+   chdir (SIPDIR + 'images');
+
+   // ======= Example 1
+
+   im = imread('star.bmp');
+   im = bwborder(im);
+   xbasc()
+   imshow(im,2);
+
+   h = hough(im);
+   xbasc()
+   imshow(h,[]);  // theta varies horizontally from 0 to 180
+
+   ht = 1*(h>= 40); // threshold the hough space
+   lim = ihough(ht,size(im)); // draw the detected lines
+   xbasc()
+   imshow(lim + 2*im +1, hotcolormap(4)) // detected lines shown in yellow
+
+
+   // ======= Example 2: how to obtain the parameters
+   //
+   // creating a empty picture with a line at y = -90
+   e = zeros(200,200);
+   e(10,:) = 1;
+
+   // (remember that the Y axis points downwards and is centered in the
+   // middle of the image)
+
+   // getting its hough transform, and finding the points 
+   // corresponding to y=10
+   [h, rrange] = hough(e);
+   [r,c] = find(h == max(h))
+
+   // Gets the parameters of the line
+   theta = c - 1       // 90 degrees
+   rho   = rrange(r)   // -90 rho (upper half of image)
+
+   // thx to Herve Lombaert for inspiring example #2 !
+
+   chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Bibliography</title>
+   
+      <para>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press. 
+   </para>
+   
+      <para>
+"Practical Computer Vision using C", J. R. 
+Parker, Wiley.
+   </para>
+
+   </refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="ihough">ihough</link> 
+      </member>
+      
+      <member> 
+         <link linkend="radon">radon</link> 
+      </member>
+      
+      <member> 
+         <link linkend="drawline">drawline</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

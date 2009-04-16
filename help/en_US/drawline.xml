@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="drawline"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>drawline</refname><refpurpose>Draws line in a binary image</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>imo = drawline(img, points)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>img</term>
+      
+            <listitem>
+       Intensity image
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>points</term>
+      
+            <listitem>
+          n rows x 2 columns vector of n 2D (row,col) coordinates
+         <para>
+         
+                  <literal>[ row1 col1; row2 col2; ... ; rowN colN ]</literal>
+         
+               </para>
+      
+            </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+      Function <emphasis role="bold">drawline</emphasis> is used to draw a digital straight line  or polyline into an image. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       I = zeros(100,100);
+       J = drawline(I, [1 1; 20 50; 100 100]);
+       xbasc();
+       imshow(J,2);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="mogrify">mogrify</link> (-draw parameter)</member>
+   
+   </simplelist></refsection>
+
+</refentry>

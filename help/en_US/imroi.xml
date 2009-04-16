@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imroi"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>imroi</refname><refpurpose>Roi (region of interest) of an image</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>mask=imroi(image[,type_of_mask,option])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>image</term>
+      
+            <listitem>
+       A gray, color or binary image.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>type_of_mask</term>
+      
+            <listitem>
+        'rect' rectangular or 'ellipse' are the only available selections by now.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>option</term>
+      
+            <listitem>
+       0 displays no coordinates (default) 1 displays coordinates
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>mask</term>
+      
+            <listitem>
+       Binary matrix (0 and 1) corresponding to the image selection. 
+It has the same size as the input image (e.g. it is 3D if the input is 3D, and 2D if the input is 2D).
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ The function allows the user to select a Region of Interest (ROI) in an image ALREADY DISPLAYED, and returns the  corresponding binary matrix. </para>
+   
+      <para>
+ The mask is working with any of binary, gray or color  images. </para>
+   
+      <para>
+ With the ellipse selection, you draw the rectangle in  which the ellipse is drawn. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       a=imread(SIPDIR+'images/ararauna.jpg');
+       xset("window",0);xbasc();
+       imshow(a);
+       mask=imroi(a);
+       //the user must then select the ROI with the mouse
+       b=a.*mask;
+       xset("window",1);xbasc();
+       imshow(b);//displays just the ROI
+   ]]></programlisting></refsection>
+
+
+   
+
+
+   <refsection><title>TIP</title>
+   
+      <para>
+To generate much more complex ROI's, you can use the Gimp (GNU Image
+Manipulation Program) [www.gimp.org],
+although of course this is not an integrated solution.
+   </para>
+
+   </refsection>
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </member>
+      
+      <member> The code to display coordinates comes directly from the 
+function xgetpixel by Ricardo Fabbri
+</member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="imread">imread</link> 
+      </member>
+      
+      <member> 
+         <link linkend="xgetpixel">xgetpixel</link> 
+      </member>
+      
+      <member>GIMP</member>
+   
+   </simplelist></refsection>
+
+</refentry>

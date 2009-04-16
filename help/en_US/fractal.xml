@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="fractal"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>fractal</refname><refpurpose>Multiscale fractal dimension curve</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ "fractal" routine is under development. It's sourcecode  has some documentation. </para>
+   
+   </refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Bibliography</title>
+   
+      <para>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press. 
+   </para>
+
+   </refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member>other toolboxes</member>
+   
+   </simplelist></refsection>
+
+</refentry>

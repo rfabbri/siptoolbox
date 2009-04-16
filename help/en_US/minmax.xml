@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="minmax"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>minmax</refname><refpurpose>Min/Max algorithm for noise removal from images</refpurpose></refnamediv>
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>Output = minmax(Input, [NSteps, StepSize, Adapt, NonAdaptThreshold,
+IntMaskSize, ExtMaskSize])</synopsis></refsynopsisdiv>
+
+   <refsection><title>Parameters</title>
+
+      <variablelist>
+   
+         <varlistentry>
+   
+            <term>Input</term>
+   
+            <listitem>
+    a matrix containing a gray-scale image to be filtered by min/max algorithm.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>NSteps</term>
+   
+            <listitem>
+    number of steps to perform. Default is 10.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>StepSize</term>
+   
+            <listitem>
+     the step increment for the iterative procedure. Default is 0.05.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>Adapt</term>
+   
+            <listitem>
+    indicates if the algorithm should adapt itself to the local image gray level or if it considers the NonAdaptThreshold value for defining light and dark regions. Default is FALSE.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>NonAdaptThreshold</term>
+   
+            <listitem>
+     If Adapt is FALSE, intensity values greater than NonAdaptThreshold will be considered as light regions.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>IntMaskSize</term>
+   
+            <listitem>
+     Size of the Internal window in which curvature values will be taken into account for deciding Min or Max curvature flow. Default is 1.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>ExtMaskSize</term>
+   
+            <listitem>
+     Size of the External window in which curvature values will be taken into account for deciding Min or Max curvature flow in the Adapt mode. Default is 0.
+   </listitem>
+   
+         </varlistentry>
+   
+         <varlistentry>
+   
+            <term>Output</term>
+   
+            <listitem>
+    a matrix containing the filtered image.
+   </listitem>
+   
+         </varlistentry>
+
+      </variablelist>
+
+   </refsection>
+
+   <refsection><title>Description</title>
+
+      <para>
+ Function minmax filters a gray-scale image using curvature-guided surface evolution. Object borders remain sharp  while low-scale noise is removed. </para>
+
+   </refsection>
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+    M = gray_imread(SIPDIR+'images/noisypoly.bmp');
+    subplot(1,2,1);
+    imshow(M);
+    new_M = minmax(M, NSteps=30);
+    subplot(1,2,2);
+    imshow(new_M);
+]]></programlisting></refsection>
+
+
+   
+
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member> Leandro Estrozi &lt;lfestrozi (AT) if DOT
+      sc DOT usp DOT br&gt; </member>
+
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="curvature">curvature</link> 
+      </member>
+      
+      <member> 
+         <link linkend="curvature2d">curvature2d</link> 
+      </member>
+      
+      <member> 
+         <link linkend="mogrify">mogrify</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

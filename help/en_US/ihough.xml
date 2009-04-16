@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="ihough"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>ihough</refname><refpurpose>Inverse hough transform</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>im = ihough(ht,dims)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>ht</term>
+      
+            <listitem>
+ binarized Hough transform accumulation matrix. <literal>Rho</literal> varies along rows; <literal>theta</literal> varies along columns. <literal>Theta</literal> range is 0-179 degrees w/ 180 samples.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>dims</term>
+      
+            <listitem>
+ vector with the size of the output image. Can be the output of the <literal>size</literal> routine.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>im</term>
+      
+            <listitem>
+       binary image with digital straight lines
+      </listitem>
+      
+         </varlistentry>
+    
+      </variablelist>
+    
+   </refsection>
+
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function ihough calculates the inverse hough transform of a binary image. It takes as input a binarized hough image, and draws the corresponding digital straight lines in the output image. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       Cf. help page for hough.
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Bibliography</title>
+   
+      <para>
+"Digital Image Processing Algorithms", I. 
+Pitas, Prentice Hall.
+   </para>
+   
+      <para>
+"Shape Analysis and Classification", L. da F. Costa and R.
+M. Cesar Jr., CRC Press.
+   </para>
+
+   </refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="hough">hough</link> 
+      </member>
+      
+      <member> 
+         <link linkend="iradon">iradon</link> 
+      </member>
+      
+      <member> 
+         <link linkend="drawline">drawline</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

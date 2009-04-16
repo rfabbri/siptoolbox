@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="erode"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>erode</refname><refpurpose>Morphological erosion of binary images</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>E = erode(Img, [SE, center])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>Img</term>
+      
+            <listitem>
+       M x N Binary image to be eroded. (0 for background, 1 for object)
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>E</term>
+      
+            <listitem>
+       M x N Binary eroded image.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>SE</term>
+      
+            <listitem>
+       Arbitrary structuring element represented as a binary array. Defaults to
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>center</term>
+      
+            <listitem>
+       origin of structuring element. Shold be within image dimensions. Defaults to the center of the SE array.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function erode performs morphological erosion of a binary  image Img using SE as the structuring element. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = gray_imread('disks2.bmp');
+       imshow(Img,2);
+       Img = 1-Img;
+       SE = ones(10,10);
+       e = erode(Img, SE);
+       xbasc()
+       imshow(e ,2);
+
+       chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="dilate">dilate</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edilate">edilate</link> 
+      </member>
+      
+      <member> 
+         <link linkend="bwdist">bwdist</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="sip_set_verbose"><info><pubdate>July 2004</pubdate></info><refnamediv><refname>sip_set_verbose</refname><refpurpose>set the messaging level for
+     SIP routines</refpurpose></refnamediv><refnamediv xml:id="sip_quiet"><refname>sip_quiet</refname><refpurpose>suppress vebose messages</refpurpose></refnamediv><refnamediv xml:id="sip_wordy"><refname>sip_wordy</refname><refpurpose>enable verbose messages</refpurpose></refnamediv><refnamediv xml:id="sip_get_verbose"><refname>sip_get_verbose</refname><refpurpose>the current verbose mode</refpurpose></refnamediv>
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>old_mode = sip_set_verbose([mode_string])
+old_mode = sip_quiet()
+old_mode = sip_wordy()
+mode = sip_get_verbose()</synopsis></refsynopsisdiv>
+  
+   <refsection><title>Parameters</title>
+    
+      <variablelist>
+      
+         <varlistentry>
+   
+            <term>mode_string</term>
+   
+            <listitem>
+      string (optional). May be <literal>'wordy'</literal> or <literal>'quiet'</literal>.
+      If omitted, defaults to the opposite of the previous mode.
+   </listitem> 
+      
+         </varlistentry>
+   
+      </variablelist>
+  
+   </refsection>
+  
+   <refsection><title>Parameters</title>
+    
+      <variablelist>
+      
+         <varlistentry>
+   
+            <term>old_mode</term>
+   
+            <listitem>
+      a string containing the messaging mode just BEFORE the function
+      was called.
+   </listitem> 
+      
+         </varlistentry>
+    
+      </variablelist>
+  
+   </refsection>
+
+  
+   <refsection><title>Description</title>
+    
+      <para>
+       
+         <literal>sip_set_verbose('quiet')</literal> or simply
+       <literal>sip_quiet()</literal> prevents helper messages
+       from being issued by SIP functions such as imread, mogrify, and
+       others. It is useful when one wants to use those functions
+       inside a loop, for example.
+    </para>
+    
+      <para>
+       
+         <literal>sip_set_verbose('wordy')</literal> or simply
+       <literal>sip_wordy()</literal> causes helper messages
+       to be issued by SIP functions such as imread, mogrify, and
+       others. It is useful for debugging and for interactive usage.
+    </para>
+
+    
+      <para>
+       
+         <literal>sip_set_verbose()</literal> toggles/inverts the current mode.
+    </para>
+    
+      <para>
+       The output is always the PREVIOUS verbose mode.
+    </para>
+  
+   </refsection>
+
+
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   sip_quiet();             // shut up!
+   [im,map] = imread(SIPDIR+'images/escher.png');
+
+   sip_wordy();             // verbose messages
+   [im,map] = imread(SIPDIR+'images/escher.png');  
+
+   //---------------------------------------------
+   // The following can be useful inside a script:
+
+   previous_mode = sip_quiet();
+   im2 = mogrify(im,map,['-rotate','30']);
+
+   // recall user's mode
+   sip_set_verbose(previous_mode);
+]]></programlisting></refsection>
+
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+
+   </simplelist></refsection>
+
+  
+   <refsection><title>See Also</title><simplelist type="inline">
+  
+   </simplelist></refsection>
+
+
+</refentry>

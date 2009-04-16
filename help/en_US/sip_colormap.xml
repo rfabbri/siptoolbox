@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="sip_colormap"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>sip_colormap</refname><refpurpose>creates a beautiful colormap</refpurpose></refnamediv>
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   
+  
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>[map,map_number] = sip_colormap(colormap_name_or_number [,number_of_colors])</synopsis></refsynopsisdiv>
+  
+   <refsection><title>Parameters</title>
+    
+      <variablelist>
+      
+         <varlistentry>
+   
+            <term>colormap_name_or_number  </term>
+   
+            <listitem>
+      can be either a string or a number
+   </listitem> 
+      
+         </varlistentry>
+      
+         <variablelist>
+   
+            <varlistentry>
+   
+               <term> string </term>
+   
+               <listitem>
+      is one of the 19 predefined colormap names (ex 'bluered').
+   </listitem> 
+      
+            </varlistentry>
+   
+            <varlistentry>
+   
+               <term> number </term>
+   
+               <listitem>
+      between 1 and 19.
+   </listitem> 
+      
+            </varlistentry>
+      
+         </variablelist>
+      
+         <varlistentry>
+   
+            <term>number_of_colors</term>
+   
+            <listitem>
+      the number of rows in the colormap. 
+     <para>
+       Default is 256 (8 bits).
+     </para>
+     
+               <para>
+If this number is negative, then the function will return the 
+complimentary colormap.
+     </para>
+   
+            </listitem> 
+      
+         </varlistentry>
+    
+      </variablelist>
+  
+   </refsection>
+  
+   <refsection><title>Parameters</title>
+    
+      <variablelist>
+      
+         <varlistentry>
+   
+            <term>map</term>
+   
+            <listitem>
+      a colormap of size number of colors.
+   </listitem> 
+      
+         </varlistentry>
+      
+         <varlistentry>
+   
+            <term>map_number</term>
+   
+            <listitem>
+      the number of the colormap (for quick access).
+   </listitem> 
+      
+         </varlistentry>
+    
+      </variablelist>
+  
+   </refsection>
+
+  
+   <refsection><title>Description</title>
+    
+      <para>
+    
+         <literal>sip_colormap(colormap_number,[number_of_colors])</literal> returns one the 
+predefined colormaps.
+    </para>
+
+    
+      <para>
+    
+         <literal>sip_colormap()</literal> shows the available names.
+    </para>
+
+    
+      <para>
+These colormaps were created by Enrico Segre and are from the ENRICO toolbox.
+Have a look at this toolbox if you want to improve Scilab displays.
+    </para>
+  
+   </refsection>
+
+
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   image=imread(SIPDIR+'images/photonics/laser1.jpg');
+   //reads an indexed image
+   map=sip_colormap(10,256); //takes the colormap number 19
+   //it's the same as: map=sip_colormap('sunrise',256);
+   xbasc();imshow(image,map);
+   //display in false colors
+
+   //For 3D plots, with the map number 16 ('prism')
+   xset("window",1);xset("colormap",sip_colormap(16,256));
+   [r,c]=size(image);
+   plot3d1(1:4:r,1:4:c,image(1:4:r,1:4:c))
+
+   //You can have the complimentary colormap with
+   comp_map=abs(1-map);
+   xbasc();imshow(image,comp_map);
+   //or simply:comp_map=sip_coloramp(16,-256)
+
+   //To reverse the color order:
+   invmap(256:-1:1,1:3)=sip_colormap(7,256);
+
+   //To display a colormap:
+   map1=ones(1:100)'*(256:-1:1);           
+   xbasc();imshow(map1',sip_colormap(4))   
+   //will display the colormap number 4 in 256 colors
+]]></programlisting></refsection>
+
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member>
+The original colormaps were created and named by Enrico Segre.
+    </member>
+   
+      <member>
+Code reorganization for the SIP toolbox by 
+ Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt;
+    </member>
+
+   </simplelist></refsection>
+
+  
+   <refsection><title>See Also</title><simplelist type="inline">
+    
+      <member>
+       
+         <link linkend="colormap">colormap</link> 
+    
+      </member>   
+    
+      <member>
+       
+         <link linkend="imshow">imshow</link> 
+    
+      </member> 
+  
+   </simplelist></refsection>
+
+
+</refentry>

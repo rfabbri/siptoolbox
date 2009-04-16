@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="improfile"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>improfile</refname><refpurpose>Draws intensity profiles of an image</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>[hprofile,vprofile]=improfile(matrix[,option,maximal_luminance])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>matrix</term>
+      
+            <listitem>
+       The gray-level matrix obtained by matrix=imread("my_picture.jpg").
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>option</term>
+      
+            <listitem>
+       0 to draw the profiles on the image 1 to draw the profiles in separated windows. 2 to draw the profiles on the image and the gaussian interpolation (used with laser beam images) Default=0.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>maximal_luminance</term>
+      
+            <listitem>
+        hprofile and vprofile will contain values in the 0-1 range. To draw the profile, you can specify a multiplication factor to these values. For example, if your initial image was 8bits, you could pass 255 as the maximal luminanace of the image. Default= 255.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+         
+            <term>hprofile</term> or
+      <term>vprofile</term>
+      
+            <listitem>
+      Matrix containing the horizontal (or vertical) profile selected.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Draws the values of pixels on a line and/or a row. Can  draw
+ profiles on the image or in separate windows. With  the option=2,
+ you can determine radius w of a laser beam,  which allows you to
+ find the beam waist. </para>
+   
+      <para>
+ This function was created (and tested) only with gray  level images. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   a=imread(SIPDIR+'images/tru.jpg');
+   g=im2gray(a);
+   improfile(g);
+
+   //profiles in separate windows
+   improfile(g,1)
+
+   //laser beam visualisation
+   b=gray_imread(SIPDIR+'images/photonics/laser1.jpg');
+   improfile(b,2);
+   ]]></programlisting></refsection>
+
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt;
+</member>
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri@users.sf.net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="xgetpixel">xgetpixel</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

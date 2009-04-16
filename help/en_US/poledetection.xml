@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="poledetection"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>poledetection</refname><refpurpose>Poles (or residues) detection in a wrapped phase image</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>poles = poledetection(image[,threshold])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>image</term>
+      
+            <listitem>
+       The gray-level image containing the wrapped phase.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>threshold</term>
+      
+            <listitem>
+        The minimum difference betwwen 2 pixels to consider that a phase jump occurs. Default=0.5
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>poles</term>
+      
+            <listitem>
+       A matrix elements with the value zero are consistent points, others (positive or negative) are residus (or poles).
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Ideally, phase unwrapping should not depend on the path  followed to unwrapp.
+ So we consider a small loop of 4  adjacents pixels. 
+We decide that there's a phase jump if  the difference between 
+2 neighbours is superior to a  threshold (=0.5 by default).
+ We count the number of jumps  when we follow the loop clockwise and anticlockwise.  
+Because of noise, we observe that these numbers are differents in certain 
+locations of the image. 
+The phase is  called "inconsistent" in these points. 
+Unwrapping process is very uncertain there. 
+These poles (or residues) can be marked so that the  unwrapping process 
+ignores them, or can be used to create  branches in residue-cut tree algorithms. 
+</para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   stacksize(4e7);
+
+   pw=gray_imread(SIPDIR+'images/photonics/pyramide_noisy.jpg'); //phase wrapped
+   xset("window",0);xbasc();imshow(pw);
+
+   poles=abs(poledetection(pw));//locate residues, no matter of the sign
+   xset("window",1);xbasc();imshow(poles,[]);//bright pixels
+   // show places where phase jumps are very uncertains
+
+   //Avoid unwrapping these points:
+   mf=imvariance(pw);//calculate a "merit function"
+   //mark bad pixels as visited (merit function=3000):
+   //you can comment this line if you want to compare results with and without
+   //poledetection
+   mf(find(poles>0))=3000;
+
+   //phase unwrapping:
+   puw=unwrapp(pw,mf);
+   xset("window",2);xbasc();imshow(puw,[]);
+   ]]></programlisting></refsection>
+
+
+   <refsection><title>References</title>
+
+      <para>
+"Phase unwrapping algorithms for radar interferometry: residue-cut,
+least-squares, and synthesis algorithms"
+by Zebker and Lu, Journal of Optical Society Am. A, vol 15, N.3, March 1998
+</para>
+
+      <para>
+"Satellite radar interferometry: two-dimensional phase unwrapping"
+by Goldstein, Zebker, Werner
+in Radio Science, vol 23, number 4, pages 713-720, july-august 1988
+</para>
+
+   </refsection>
+
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Jocelyn DRUEL &lt;jocelyn (DOT) druel1 (AT) libertysurf (DOT) fr&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="unwrapl">unwrapl</link> 
+      </member>
+      
+      <member> 
+         <link linkend="unwrapp">unwrapp</link> 
+      </member>
+      
+      <member> 
+         <link linkend="imvariance">imvariance</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

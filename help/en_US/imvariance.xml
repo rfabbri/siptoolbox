@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="imvariance"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>imvariance</refname><refpurpose>Calculates the variance of an image</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>variance_matrix = imvariance(image)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>image</term>
+      
+            <listitem>
+       A gray-level image.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ This function computes a matrix containing the variance of  each point of an image. </para>
+   
+      <para>
+ The variance is the sum of the absolute value of the differences between the central pixel and its neighbours: </para>
+   
+      <para>
+ variance=sum(|x(neighbour)-x(central)|) </para>
+   
+      <para>
+ A low variance value means a pixel is not very different  from its neigbours (in all directions). </para>
+   
+      <para>
+ This property can be used to unwrap phased images. In  case of a "path-following algorithm", the variance can be  a "merit function" used to determine which pixels should  be connected first. This "merit function" is much more  noise immune than a "merit function" based on a laplace  kernel. </para>
+   
+      <para>
+ This algorithm calculates the variance everywhere even on  the edges. In some cases, consider multiplying by a mask  like this </para>
+ 
+      <programlisting><![CDATA[
+ [8/3 8/5 8/5...;
+  8/5   1   1...;
+ ]]></programlisting>
+   
+      <para>
+ so that edge values are really significative. </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+stacksize(1e7); // images are very much memory consumming...
+
+varian=imvariance(imread(SIPDIR+'images/photonics/pyramide_wrapped.jpg'));
+
+imshow(varian/max(varian)); // high levels (blank on the image) 
+				                // represent points where intensity
+				                // changes quickly
+   ]]></programlisting></refsection>
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Jocelyn DRUEL &lt;jocelyn.druel1@libertysurf.fr&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="unwrapl">unwrapl</link> 
+      </member>
+      
+      <member> 
+         <link linkend="mkfilter">mkfilter</link>('laplace1')</member>
+   
+   </simplelist></refsection>
+
+</refentry>

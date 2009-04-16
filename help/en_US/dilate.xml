@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="dilate"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>dilate</refname><refpurpose>Morphological dilation of binary images</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>E = dilate(Img, [SE, center])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>Img</term>
+      
+            <listitem>
+       M x N Binary image to be dilated. (0 for background, 1 for object)
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>SE</term>
+      
+            <listitem>
+       Arbitrary structuring element represented as a binary array. Defaults to M x N Binary dilated image.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>center</term>
+      
+            <listitem>
+       origin of structuring element. Shold be within image dimensions. Defaults to the center of the SE array.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>E</term>
+      
+            <listitem>
+       M x N Binary dilated image.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function dilate performs morphological dilation of a binary image <literal>Img</literal> using <literal>SE</literal> as the structuring element. </para>
+   
+   </refsection>
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   Img = imread(SIPDIR+'images/tru.jpg');
+   Img = 1-im2bw(Img, 0.3);
+   Img = thin(Img);
+   xbasc()
+   imshow(Img, 2);
+
+   e = dilate(Img);
+   xbasc()
+   imshow(e, 2);
+
+   SE = eye(10,10);
+   e = dilate(Img, SE, [1,1]);
+   xbasc()
+   imshow(e, 2);
+]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   
+
+
+   <refsection><title>Bibliography</title>
+
+      <para>
+"Morphological Algorithms", Luc Vincent, in
+"Mathematical Morphology in Image Processing", 
+Ed. Marcel Dekker, 1993.
+</para>
+
+   </refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="erode">erode</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edilate">edilate</link> 
+      </member>
+      
+      <member> 
+         <link linkend="bwdist">bwdist</link> 
+      </member>
+      
+      <member> 
+         <link linkend="watershed">watershed</link>(example)</member>
+   
+   </simplelist></refsection>
+
+</refentry>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="radon"><info><pubdate>July 2004</pubdate></info><refnamediv><refname>radon</refname><refpurpose>Radon transform</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>R = radon(im,theta)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>im</term>
+      
+            <listitem>
+       2D image array
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+         
+            <term>theta</term>
+      
+            <listitem>
+         vector representing the angles, in degrees. Defaults 
+         to 0:179. If it is a scalar, then a column vector with the 
+         corresponding projection is returned.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>R</term>
+      
+            <listitem>
+         matrix in which each column contains the Radon transform
+         for an angle.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+      
+      <para>
+         The Radon transform is the projection of the image intensity
+         along a radial line oriented at a specific angle
+      </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   im = zeros(100,100);
+   im(25:75,25:75) = 1;
+   r=radon(im);
+   imshow(r,[])
+
+   im2 = iradon(r);
+   xbasc()
+   imshow(im2,[])
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Leandro Farias Estrozi &lt;estrozi (AT) vms DOT cnrs-gif DOT fr&gt;</member>
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Bibliography</title>
+   
+      <para>
+      "The Radon Transform: Theory and Implementation",  Peter Toft,
+      PhD Thesis, Technical University of Denmark, 1996:
+      http://pto.linux.dk/PhD/
+   
+      </para>
+
+   </refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="iradon">iradon</link> 
+      </member>
+      
+      <member> 
+         <link linkend="hough">hough</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

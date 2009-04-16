@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="rgbplot"><info><pubdate>April 2004</pubdate></info><refnamediv><refname>rgbplot</refname><refpurpose>displays the three components (red, green and blue)
+of a colormap</refpurpose></refnamediv>
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>rgbplot(colormap)</synopsis></refsynopsisdiv>
+
+   <refsection><title>Parameters</title>
+   
+      <varlistentry>
+   
+         <term>colormap</term>
+   
+         <listitem>
+     a correct colormap.
+   </listitem>
+   
+      </varlistentry>
+
+   </refsection>
+
+   <refsection><title>Description</title>
+
+      <para>
+rgbplot helps visualise a colormap. </para>
+
+   </refsection>
+
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+    map1=sip_colormap('bluered');      // creates a 256 colormap
+    rgbplot(map1);
+    //have another try with:
+    map2=sip_colormap('bluegreenred'); 
+    rgbplot(map2);
+]]></programlisting></refsection>
+
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member> Jocelyn Druel &lt;jocelyn.druel1@libertysurf.frt&gt; </member>
+
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+
+   <refsection><title>See Also</title><simplelist type="inline">
+   
+      <member> 
+         <link linkend="sip_colormap">sip_colormap</link> 
+      </member>
+   
+      <member> 
+         <link linkend="colormap">colormap</link> 
+      </member>
+
+   </simplelist></refsection>
+
+</refentry>

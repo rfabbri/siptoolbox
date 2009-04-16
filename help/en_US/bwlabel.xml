@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="bwlabel"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>bwlabel</refname><refpurpose>Connected component labeling</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>[L, n] = bwlabel(img [, nhood])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>img</term>
+      
+            <listitem>
+       A binary image, where 0 stands for background.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>nhood</term>
+      
+            <listitem>
+       A scalar. The connectivity to consider in the algorithm. May be 4 or 8. Defaults to 8.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>L</term>
+      
+            <listitem>
+ A matrix of the same size as <literal>img</literal>, with the pixels of each connected object having the same number. The numbers vary from 1 to <literal>N</literal>, where <literal>N</literal> is the number of connected objects. The background is numbered 0.
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>n</term>
+      
+            <listitem>
+       The number of connected components. Equals to <literal>maxi(L)</literal>.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function <literal>bwlabel</literal> numbers all the objects in a binary image. One common application is to filter out objects that have less than a certain ammount of pixels. See the examples. </para>
+   
+      <para>
+ You can use the Scilab find function in conjunction with
+ <literal>bwlabel</literal> to return vectors of indices for the pixels that
+ make up a specific object. For example, to return the coordinates
+ for the pixels in object 3: </para>
+ 
+      <programlisting><![CDATA[
+    [r,c] = find(bwlabel(BW)==3)
+ ]]></programlisting>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   //
+   // EXAMPLE 1
+   //
+
+   Img =[0     0     0     0     0     1     1
+         0     1     1     0     0     1     1
+         0     1     1     0     0     1     1
+         0     0     0     1     0     1     1
+         0     0     0     1     0     1     1
+         0     0     0     1     0     1     1
+         0     0     1     1     0     1     1
+         0     0     0     0     0     1     1];
+
+   L = bwlabel(Img,4)
+
+   // Objects 2 and 3 are connected if 8-connectivity is used:
+
+   L = bwlabel(Img) // default: 8-connectivity
+
+   [r,c] = find(L==2);
+
+   rc = [r' c']     // coordinates of object 2!
+
+
+   //
+   // EXAMPLE 2
+   //
+   xset('auto clear', 'on');
+
+   a = gray_imread(SIPDIR + 'images/disks.bmp');
+
+   // Add some noise
+   //
+   a = imnoise(a,'salt & pepper'); 
+   a = 1-a;
+   imshow(a,2);  // convention: objects are white(1)
+
+   // Label every connected component with a unique number.
+   //
+   [L, n] = bwlabel(a);
+
+   // Shows each component with a different color
+   //
+   imshow(L+1, rand(n+1,3));
+
+   // Get one specific region (probably a single noise point)
+   reg = (L == 300);
+   imshow(reg*1, 2);
+
+   // Eliminate regions smaller than 100 pixels (noise)
+   // and those larger than 1000 pixels (cluttered disks)
+   for i=1:n
+      f = find(L==i);      // linear coordinates of i-th region
+      reg_size = size(f,'*');
+      if reg_size < 100 | reg_size > 1000
+         L(f) = 0;         // merge small regions with the background
+      end
+   end
+
+   imshow(L+1, rand(n+1,3));   // note how the small regions are gone
+
+
+   // Just as a side-activity, let's fill the unwanted holes:
+
+   bw = 1*(L>0);  // binarize the image
+   imshow(bw,2)
+   bw = dilate(bw);
+   bw = erode(bw);
+   imshow(bw,2);  // every hole is now filled
+
+   xset('auto clear', 'off');
+   ]]></programlisting></refsection>
+
+
+   <refsection><title>Bibliography</title>
+   
+      <para>
+We use a simple stack-based flooding implementation written in C,
+but there exist many faster algorithms. The flood/fill region growing process may be found in most books of imaging science. For instance:
+   </para>
+   
+      <para>
+"Shape Analysis and Classification", L. da
+F. Costa and R. M. Cesar Jr., CRC Press,
+pp. 335-347.
+   </para>
+   
+      <para>
+Example of fast algorithm (not implemented):
+   </para>
+   
+      <para>
+Haralick, Robert M., and Linda G. Shapiro, Computer and Robot Vision, Volume I, Addison-Wesley, 1992, pp. 28-48. 
+   </para>
+
+   </refsection>
+
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="bwborder">bwborder</link> 
+      </member>
+      
+      <member> 
+         <link linkend="erode">erode</link> 
+      </member>
+      
+      <member> 
+         <link linkend="dilate">dilate</link> 
+      </member>
+      
+      <member> 
+         <link linkend="watershed">watershed</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="iradon"><info><pubdate>Julho 2004</pubdate></info><refnamediv><refname>iradon</refname><refpurpose>Inverse hough transform</refpurpose></refnamediv>
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>img = iradon(R [,theta, filter])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>R</term>
+      
+            <listitem>
+        radon transform 2D array, in which each each column
+        represents one projection angle uniformly spaced between
+        0 and 180 degrees
+      </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>theta</term>
+      
+            <listitem>
+         scalar or vector. As a vector, it contains the uniformly 
+         spaced angle interval corresponding to the columns of R. As a 
+         scalar, it is <literal>DeltaTheta</literal> - just the sample space 
+         between 0 and 180. If omitted or <literal>'[]'</literal>, 
+         it is treated as <literal>DeltaTheta</literal> equal to 
+         <literal>180/size(R,'c')</literal>
+      
+            </listitem>
+      
+         </varlistentry>
+      
+         <varlistentry>
+      
+            <term>filter</term>
+      
+            <listitem>
+         string, used to disable the default Ram-Lak (ramp) filtering.
+         Can be 'Ram-Lak' or anything else for no filtering.
+      </listitem>
+      
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+      
+            <term>im</term>
+      
+            <listitem>
+         reconstructed image
+      </listitem>
+      
+         </varlistentry>
+    
+      </variablelist>
+    
+   </refsection>
+
+   
+   <refsection><title>Description</title>
+   
+      <para>
+      Function iradon reconstructs an image from the Radon transform.
+      Currently, it uses the "Back Projection" algorithm.
+   </para>
+   
+      <para>
+      If <literal>theta</literal> is a scalar, it is 
+      <literal>DeltaTheta</literal>, and R's angle interval is assumed to be 
+      <literal>0:DelaTheta:180-DeltaTheta</literal>
+   
+      </para>
+   
+      <para>
+      Input parameters can be assigned in a "named" fashion, for instance:
+      <literal>I = iradon(R,filter='no')</literal>.
+   </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+      Cf. help page for ]]><link linkend="radon">radon</link><![CDATA[.
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Leandro Farias Estrozi &lt;estrozi (AT) vms DOT cnrs-gif DOT fr&gt;</member>
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Bibliography</title>
+   
+      <para>
+      "The Radon Transform: Theory and Implementation",  Peter Toft,
+      PhD Thesis, Technical University of Denmark, 1996:
+      http://pto.linux.dk/PhD/
+   
+      </para>
+   
+      <para>
+      A. C. Kak, and M. Slaney, "Principles of Computerized
+      Tomographic Imaging", IEEE Press
+   </para>
+
+   </refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="radon">radon</link> 
+      </member>
+      
+      <member> 
+         <link linkend="hough">hough</link> 
+      </member>
+      
+      <member> 
+         <link linkend="ihough">ihough</link> 
+      </member>
+   
+   </simplelist></refsection>
+
+</refentry>
