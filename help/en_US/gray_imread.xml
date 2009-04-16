@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="gray_imread"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>gray_imread</refname><refpurpose>Read any image as grayscale</refpurpose></refnamediv>
+
+   
+
+   
+
+   
+
+   
+
+   
+
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>im = gray_imread(filename)</synopsis></refsynopsisdiv>
+
+   <refsection><title>Parameters</title>
+
+      <variablelist>
+   
+         <varlistentry>
+   
+            <term>Img</term>
+   
+            <listitem>
+   2D array representing pixel intensities
+   </listitem>
+   
+         </varlistentry>
+
+      </variablelist>
+
+   </refsection>
+
+   <refsection><title>Description</title>
+
+      <para>
+ This is a simple utility routine to read any image as  grayscale. If the image is truecolor or pseudo-color, it  is converted using im2gray </para>
+
+   </refsection>
+
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+    initial_dir = PWD;
+    chdir (SIPDIR + 'images');
+
+    Img = gray_imread('ararauna.png');
+    xbasc()
+    imshow(Img,[]);
+
+    chdir(initial_dir);
+]]></programlisting></refsection>
+
+   <refsection><title>Authors</title><simplelist type="vert">
+   
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+
+   <refsection><title>See Also</title><simplelist type="inline">
+   
+      <member> 
+         <link linkend="imshow">imshow</link> 
+      </member>
+   
+      <member> 
+         <link linkend="im2gray">im2gray</link> 
+      </member>
+   
+      <member> 
+         <link linkend="im2bw">im2bw</link> 
+      </member>
+
+   </simplelist></refsection>
+
+</refentry>
