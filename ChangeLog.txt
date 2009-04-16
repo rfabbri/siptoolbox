@@ -4,7 +4,7 @@ __________________________________________________________________
 
 
 0.4.1
-	+ more help pages are available
+	+ All help pages were converted to the new DocBook format
 	+ imfinfo now exits gracefully when input image is not available (thx to Dean
 	Messing for reporting)
 	+ Improved linking with newer Image Magick
