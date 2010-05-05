@@ -4,8 +4,10 @@ __________________________________________________________________
 
 
 0.4.2
-	+ Build system works for Scilab 5.2.2 (problem regarding not finding include
-	files)
+	+ configure now works for Scilab 5.2.2: fixed problem regarding not finding include
+	files
+	+ make now works for Scilab 5.2.2: fixed problem compiling libsip.c regarding new
+	sci_gateway.h which is now separate from mex.h
 	
 0.4.1
 	+ All help pages were converted to the new DocBook format

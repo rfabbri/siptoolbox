@@ -33,6 +33,9 @@
 /* Defines if ImageMagick has QueryColorDatabase with a 3rd parameter */
 #undef HAVE_QueryColorDatabase_3args
 
+/* Defines if Scilab has a sci_gateway.h file separate from mex.h */
+#undef HAVE_SCI_GATEWAY_H
+
 /* Define to 1 if stdbool.h conforms to C99. */
 #undef HAVE_STDBOOL_H
 

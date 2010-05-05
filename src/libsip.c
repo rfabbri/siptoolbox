@@ -1,5 +1,8 @@
-#include <mex.h> 
 #include "sip_common.h"
+#include <mex.h> 
+#ifdef SIP_HAVE_SCI_GATEWAY_H
+  #include <sci_gateway.h> 
+#endif
 static int direct_gateway(char *fname,void F(void)) { F();return 0;};
 SipExport extern Gatefunc int_imread;
 SipExport extern Gatefunc int_imwrite;

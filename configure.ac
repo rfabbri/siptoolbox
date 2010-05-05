@@ -149,7 +149,9 @@ else
         if test -d "$SCIDIR/../../include/scilab"; then
           # Scilab binary version around 5.2.2
           SCI_INCL="$SCIDIR/../../";
-          CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/include/scilab/"
+          CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/include/scilab/";
+          AC_DEFINE([HAVE_SCI_GATEWAY_H],[],
+                    [Defines if Scilab has a sci_gateway.h file separate from mex.h])
         else
           AC_MSG_ERROR([[Cannot locate the include files from Scilab. Please report this.]])
         fi
