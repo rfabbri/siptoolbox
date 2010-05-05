@@ -1,8 +1,12 @@
 SIP - Scilab Image Processing Toolbox
-Copyright (C) 2002-2009 Ricardo Fabbri
+Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
 
+0.4.2
+	+ Build system works for Scilab 5.2.2 (problem regarding not finding include
+	files)
+	
 0.4.1
 	+ All help pages were converted to the new DocBook format
 	+ imfinfo now exits gracefully when input image is not available (thx to Dean

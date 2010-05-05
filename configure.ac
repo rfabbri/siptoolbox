@@ -22,7 +22,7 @@
 AC_PREREQ(2.61)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.4.1-cvs], [https://sourceforge.net/tracker/?group_id=68055&atid=519890])
+AC_INIT([sip], [0.4.2-cvs], [https://sourceforge.net/tracker/?group_id=68055&atid=519890])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -144,9 +144,15 @@ else
       if test -d "/usr/include/scilab"; then
         SCI_INCL="/usr/include/scilab"
         CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/routines/ -I$SCI_INCL/core/ -I$SCI_INCL/mexlib/"
-      # System version
+        # System version
       else
-        AC_MSG_ERROR([[Cannot locate the include files from Scilab. Please report this.]])
+        if test -d "$SCIDIR/../../include/scilab"; then
+          # Scilab binary version around 5.2.2
+          SCI_INCL="$SCIDIR/../../";
+          CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/include/scilab/"
+        else
+          AC_MSG_ERROR([[Cannot locate the include files from Scilab. Please report this.]])
+        fi
       fi
     fi
   fi
