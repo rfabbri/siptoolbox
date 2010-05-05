@@ -15,7 +15,7 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-images = laser1.jpg laser1.jpg pyramide_noisy.jpg pyramide_noisy.jpg pyramide_wrapped.jpg pyramide_wrapped.jpg speckle1.png speckle2.png
+images = laser1.jpg pyramide_noisy.jpg pyramide_wrapped.jpg speckle1.png speckle2.png
 pimagedir=@TOOLBOXDIR@/images/photonics
 pimage_DATA = $(images) ABOUT.txt
 EXTRA_DIST = $(images) ABOUT.txt

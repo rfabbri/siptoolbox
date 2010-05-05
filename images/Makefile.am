@@ -15,7 +15,7 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-images = ararauna.jpg ararauna.jpg ararauna.png bin.png bin.xpm disks2.bmp disks.bmp escher.png example.bmp example.png gra.jpg gra.jpg indian.bmp noisypoly.bmp onca.gif onca.png plate.gif r.gif sip.gif star.bmp template.jpg template.jpg tru.jpg tru.jpg
+images = ararauna.jpg ararauna.png bin.png bin.xpm disks2.bmp disks.bmp escher.png example.bmp example.png gra.jpg gra.jpg indian.bmp noisypoly.bmp onca.gif onca.png plate.gif r.gif sip.gif star.bmp template.jpg tru.jpg 
 imagedir=@TOOLBOXDIR@/images
 image_DATA = $(images) ABOUT.txt
 EXTRA_DIST = $(images) ABOUT.txt
