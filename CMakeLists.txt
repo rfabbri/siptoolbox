@@ -1,0 +1,2 @@
+PROJECT(SIP)
+SUBDIRS(src)
