@@ -24,7 +24,7 @@
 #define SIP_COMMON_H 1
 
 #ifdef HAVE_CONFIG_H
-#include <sip_config.h>
+#include "sip_config.h"
 #endif
 
 #if defined(WIN32) &&  !defined(__CYGWIN__)
