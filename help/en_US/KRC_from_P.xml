@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="KRC_from_P"><info><pubdate>October 2010</pubdate> </info><refnamediv><refname>KRC_from_P</refname> <refpurpose>Decompose a 3x4 projection matrix into K, R, and C</refpurpose></refnamediv>
+   
+   <refsynopsisdiv><title>Calling Sequence</title>
+   <synopsis>[K, R, C] = KRC_from_P(P [, noscale])</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+      <variablelist>
+         <varlistentry>
+            <term>P</term>
+            <listitem> 3x4 real matrix.  </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>K</term>
+            <listitem>
+              3x3 upper triangular real matrix of intrinsic parameters
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>R</term>
+            <listitem>
+              3x3 rotation matrix
+            </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>C</term>
+            <listitem>
+              3x1 vector indicating the camera center in world coordinates
+            </listitem>
+         </varlistentry>
+      </variablelist>
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+   <para>
+ Function <literal>KRC_from_P</literal> decomposes a 3x4 camera matrix
+ <literal>P</literal> into
+ intrinsic parameters <literal>K</literal>, rotation <literal>R</literal>, and
+ center of projection <literal>C</literal>.
+   </para>
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+   K = [1200    0.3     500  
+         0      1200    600
+         0       0       1 ];
+   R = eye(3,3);
+   T = [3; 4; 5];
+   P = K*[R T]
+   [KK,RR,CC] = KRC_from_P(P)
+   // note that CC = -R'T.
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt;</member>
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="qr">qr</link> 
+      </member>
+      <member> 
+         <link linkend="sip_rq">sip_rq</link> 
+      </member>
+   </simplelist></refsection>
+
+</refentry>

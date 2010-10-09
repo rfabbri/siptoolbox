@@ -27,6 +27,9 @@
 /* Defines if ImageMagick has MogrifyImage with a 5th parameter */
 #undef HAVE_MogrifyImage_5args
 
+/* define HAVE_OPENCV if you have opencv */
+#undef HAVE_OPENCV
+
 /* Defines if ImageMagick has QueryColorDatabase with a 3rd parameter */
 #undef HAVE_QueryColorDatabase_3args
 
@@ -82,9 +85,6 @@
 
 /* Define to the one symbol short name of this package. */
 #undef PACKAGE_TARNAME
-
-/* Define to the home page for this package. */
-#undef PACKAGE_URL
 
 /* Define to the version of this package. */
 #undef PACKAGE_VERSION

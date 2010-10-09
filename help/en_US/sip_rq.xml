@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="sip_rq"><info><pubdate>October 2010</pubdate></info><refnamediv><refname>sip_rq</refname><refpurpose>RQ decomposition</refpurpose></refnamediv>
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title>
+   <synopsis>[R, Q]= sip_rq(X)</synopsis></refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+      <variablelist>
+         <varlistentry>
+            <term>X</term>
+            <listitem> real or complex matrix.  </listitem>
+         </varlistentry>
+         <varlistentry>
+            <term>R</term>
+            <listitem>upper triangular matrix with same dimensions as <literal>X</literal></listitem>
+         </varlistentry>
+      
+         <varlistentry>
+            <term>Q</term>
+            <listitem>
+              square orthogonal or unitary matrix
+            </listitem>
+         </varlistentry>
+      </variablelist>
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+ Function <literal>sip_rq</literal> operates similarly to the qr function, but
+ in reverse. It produces an upper triangular matrix <literal>R</literal> of the
+ same dimensions as <literal>X</literal> and an orthogonal matrix
+ <literal>Q</literal> so that X = Q*R</para>
+   </refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt;</member>
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="qr">qr</link> 
+      </member>
+      <member> 
+         <link linkend="KRC_from_P">KRC_from_P</link> 
+      </member>
+      
+   
+   </simplelist></refsection>
+
+</refentry>
