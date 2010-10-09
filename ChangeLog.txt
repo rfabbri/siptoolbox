@@ -2,6 +2,13 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
+0.5.0
+	+ new function KRC_from_P for decomposing a camera matrix P into intrinsic
+	parameters K, rotation R, and camera center C.
+	+ new function sip_rq for RQ decomposition (the reverse of qr).
+	+ started CMake build system
+	+ started interface to www.leptonica.com for grayscale morphology and document
+	image analysis.
 
 0.4.2
 	+ configure now works for Scilab 5.2.2: fixed problem regarding not finding include
