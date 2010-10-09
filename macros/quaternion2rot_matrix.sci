@@ -1,25 +1,26 @@
-function [U,Q] = sip_rq(S)
-// 
-// Just like qr decomposition but in reverse.
-//
-// AUTHOR
-//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
+function R = quaternion2rot_matrix(q)
+// Generates rotation matrix from quaternion
 //
 // REFERENCE
 //    Oxford's Visual geometry group multiview matlab toolbox
-//
-// $Revision: 1.2 $ $Date: 2010-10-09 23:39:24 $
-S = S';
-[Q,U] = qr(S($:-1:1,$:-1:1));
-Q = Q';
-Q = Q($:-1:1,$:-1:1);
-U = U';
-U = U($:-1:1,$:-1:1);
+// 
+// $Revision: 1.1 $  $Date: 2010-10-09 23:39:24 $
 
-if det(Q)<0
-  U(:,1) = -U(:,1);
-  Q(1,:) = -Q(1,:);
-end
+q00 = q(1)*q(1); 
+q0x = q(1)*q(2); 
+q0y = q(1)*q(3); 
+q0z = q(1)*q(4);
+qxx = q(2)*q(2);
+qxy = q(2)*q(3);
+qxz = q(2)*q(4);
+qyy = q(3)*q(3); 
+qyz = q(3)*q(4);
+qzz = q(4)*q(4);
+
+R = [ q00 + qxx - qyy - qzz       2*(qxy - q0z)	          2*(qxz + q0y)   
+          2*(qxy + q0z)	      q00 - qxx + qyy - qzz       2*(qyz - q0x)
+          2*(qxz - q0y)	          2*(qyz + q0x)	      q00 - qxx - qyy + qzz ];
+
 endfunction
 //
 // -------------------------------------------------------------------------

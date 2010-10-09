@@ -1,25 +1,25 @@
-function [U,Q] = sip_rq(S)
-// 
-// Just like qr decomposition but in reverse.
-//
-// AUTHOR
-//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
+function R = exp2rot_matrix(r)
+// Convert from exponential to matrix rotation parameterization.
 //
 // REFERENCE
 //    Oxford's Visual geometry group multiview matlab toolbox
-//
-// $Revision: 1.2 $ $Date: 2010-10-09 23:39:24 $
-S = S';
-[Q,U] = qr(S($:-1:1,$:-1:1));
-Q = Q';
-Q = Q($:-1:1,$:-1:1);
-U = U';
-U = U($:-1:1,$:-1:1);
+// 
+// $Revision: 1.1 $  $Date: 2010-10-09 23:39:24 $
 
-if det(Q)<0
-  U(:,1) = -U(:,1);
-  Q(1,:) = -Q(1,:);
+
+H = [0, -r(3), r(2);  r(3), 0, -r(1); -r(2), r(1), 0];
+
+//  R = expm(H);
+
+angle = norm(r);
+if (angle < %eps)
+  R=eye(3,3);
+else
+  ef = sin(angle)/angle;
+  gee = (1.0 - cos(angle))/ (angle*angle);
+  R = (H*H)*gee + H*ef + eye(3,3);
 end
+
 endfunction
 //
 // -------------------------------------------------------------------------

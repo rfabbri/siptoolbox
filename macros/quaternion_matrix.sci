@@ -1,25 +1,20 @@
-function [U,Q] = sip_rq(S)
-// 
-// Just like qr decomposition but in reverse.
-//
-// AUTHOR
-//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
+function PM = quaternion_matrix(p)
+// Generates quaternion multiplication matrix
+//     PM = quaternion_matrix(q) returns PM such that
+//     PM * q = quaternion_multiply(p,q)
 //
 // REFERENCE
 //    Oxford's Visual geometry group multiview matlab toolbox
-//
-// $Revision: 1.2 $ $Date: 2010-10-09 23:39:24 $
-S = S';
-[Q,U] = qr(S($:-1:1,$:-1:1));
-Q = Q';
-Q = Q($:-1:1,$:-1:1);
-U = U';
-U = U($:-1:1,$:-1:1);
+// 
+// $Revision: 1.1 $  $Date: 2010-10-09 23:39:24 $
 
-if det(Q)<0
-  U(:,1) = -U(:,1);
-  Q(1,:) = -Q(1,:);
-end
+PM = [
+    p(1), -p(2), -p(3), -p(4)
+    p(2),  p(1), -p(4),  p(3)
+    p(3),  p(4),  p(1), -p(2)
+    p(4), -p(3),  p(2),  p(1)
+  ];
+
 endfunction
 //
 // -------------------------------------------------------------------------

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="exp2rot_matrix"> <info> <pubdate>October, 2010</pubdate> </info> <refnamediv> <refname>exp2rot_matrix</refname> <refpurpose>Converts from exponential to matrix rotation parameterization.</refpurpose> </refnamediv>
+  
+  <refsynopsisdiv><title>Calling Sequence</title>
+  <synopsis>R = exp2rot_matrix(r) </synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>r</term>
+  <listitem>
+    3-vector representing an exponential parametrization of a rotation.
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>R</term>
+  <listitem>
+    3x3 orthogonal matrix representing the underlying rotation
+  </listitem> 
+  </varlistentry>
+   </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+  <literal>exp2rot_matrix</literal> converts an exponential representation
+  of a rotation to the usual 3x3 matrix representation. This is important in robotics
+  as well as in inverse kinematic problems arising in 3D computer vision.
+  </para>
+  </refsection>
+  <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+  // Todo
+ ]]></programlisting></refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="rot_matrix2quaternion">rot_matrix2quaternion</link> </member>
+      <member> <link linkend="quaternion2rot_matrix">quaternion2rot_matrix</link> </member>
+      <member> <link linkend="quaternion_matrix">quaternion_matrix</link> </member>
+</simplelist></refsection>
+</refentry>

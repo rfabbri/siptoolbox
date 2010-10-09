@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="quaternion_multiply"> <info> <pubdate>October, 2010</pubdate> </info> <refnamediv> <refname>quaternion_multiply</refname> <refpurpose>Multiplication of two quaternions</refpurpose> </refnamediv>
+  
+  <refsynopsisdiv><title>Calling Sequence</title>
+  <synopsis>r_times_q = quaternion_multiply(r,q)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>r,q</term>
+  <listitem>
+    4 element vectors representing the quaternions to be multiplied.
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>q_times_q</term>
+  <listitem>
+    4 element vector representing the quaternion r*q
+  </listitem> 
+  </varlistentry>
+   </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+  <literal>quaternion_multiply</literal> multiplies two quaternions.
+  </para>
+  </refsection>
+  <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+      q = rand(4,1);
+      p = rand(4,1);
+      // these two routines should give the same result:
+      quaternion_multiply(p,q)
+      quaternion_matrix(p) * q
+ ]]></programlisting></refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="quaternion_matrix">quaternion_matrix</link> </member>
+      <member> <link linkend="rot_matrix2quaternion">rot_matrix2quaternion</link> </member>
+      <member> <link linkend="quaternion2rot_matrix">quaternion2rot_matrix</link> </member>
+      <member> <link linkend="exp2rot_matrix">exp2rot_matrix</link> </member>
+</simplelist></refsection>
+</refentry>

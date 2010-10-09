@@ -1,25 +1,39 @@
-function [U,Q] = sip_rq(S)
-// 
-// Just like qr decomposition but in reverse.
-//
-// AUTHOR
-//    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
+function q = rot_matrix2quaternion(R)
+// Generates quaternion from rotation matrix
 //
 // REFERENCE
 //    Oxford's Visual geometry group multiview matlab toolbox
-//
-// $Revision: 1.2 $ $Date: 2010-10-09 23:39:24 $
-S = S';
-[Q,U] = qr(S($:-1:1,$:-1:1));
-Q = Q';
-Q = Q($:-1:1,$:-1:1);
-U = U';
-U = U($:-1:1,$:-1:1);
+// 
+// $Revision: 1.1 $  $Date: 2010-10-09 23:39:24 $
 
-if det(Q)<0
-  U(:,1) = -U(:,1);
-  Q(1,:) = -Q(1,:);
+q = [	(1 + R(1,1) + R(2,2) + R(3,3))
+	(1 + R(1,1) - R(2,2) - R(3,3))
+	(1 - R(1,1) + R(2,2) - R(3,3))
+	(1 - R(1,1) - R(2,2) + R(3,3)) ];
+
+// Pivot to avoid division by small numbers
+[b I] = max(abs(q));
+
+q(I) = sqrt(q(I)) / 2 ;
+
+if I == 1 
+	q(2) = (R(3,2) - R(2,3)) / (4*q(I));
+	q(3) = (R(1,3) - R(3,1)) / (4*q(I));
+	q(4) = (R(2,1) - R(1,2)) / (4*q(I));
+elseif I==2
+	q(1) = (R(3,2) - R(2,3)) / (4*q(I));
+	q(3) = (R(2,1) + R(1,2)) / (4*q(I));
+	q(4) = (R(1,3) + R(3,1)) / (4*q(I));
+elseif I==3
+	q(1) = (R(1,3) - R(3,1)) / (4*q(I));
+	q(2) = (R(2,1) + R(1,2)) / (4*q(I));
+	q(4) = (R(3,2) + R(2,3)) / (4*q(I));
+elseif I==4
+	q(1) = (R(2,1) - R(1,2)) / (4*q(I));
+	q(2) = (R(1,3) + R(3,1)) / (4*q(I));
+	q(3) = (R(3,2) + R(2,3)) / (4*q(I));
 end
+
 endfunction
 //
 // -------------------------------------------------------------------------

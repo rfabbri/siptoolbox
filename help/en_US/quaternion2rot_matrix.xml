@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ISO-8859-1"?> <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="quaternion2rot_matrix"> <info> <pubdate>October, 2010</pubdate> </info> <refnamediv> <refname>quaternion2rot_matrix</refname> <refpurpose>Converts a quaternion to a rotation matrix</refpurpose> </refnamediv> 
+
+  <refsynopsisdiv><title>Calling Sequence</title>
+  <synopsis>R = quaternion2rot_matrix(q)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>q</term>
+  <listitem>
+    4 element vector representing the quaternion.
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>R</term>
+  <listitem>
+    3x3 orthogonal matrix representing the underlying rotation
+  </listitem> 
+  </varlistentry>
+   </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+  <literal>quaternion2rot_matrix</literal> converts a quaternion representation
+  of a rotation to the usual 3x3 matrix representation. This is important in robotics
+  as well as in inverse kinematic problems arising in 3D computer vision.
+  </para>
+  </refsection>
+  <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+      // Generate a random unit quaternion to represent a 3D rotation.
+      q = rand(4,1);
+      q = q / norm(q);
+
+      // Convert it to a rotation matrix,
+      // and convert back to verify that these routines
+      // are self-inverse
+      R = quaternion2rot_matrix(q);
+      qback = rot_matrix2quaternion(R);
+
+      // q should equal qback
+      q, qback
+ ]]></programlisting></refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="rot_matrix2quaternion">rot_matrix2quaternion</link> </member>
+      <member> <link linkend="quaternion_matrix">quaternion_matrix</link> </member>
+      <member> <link linkend="exp2rot_matrix">exp2rot_matrix</link> </member>
+</simplelist></refsection>
+</refentry>
