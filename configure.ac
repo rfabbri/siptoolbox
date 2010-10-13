@@ -144,6 +144,10 @@ else
       if test -d "/usr/include/scilab"; then
         SCI_INCL="/usr/include/scilab"
         CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/routines/ -I$SCI_INCL/core/ -I$SCI_INCL/mexlib/ -I$SCI_INCL/"
+        if test -e "$SCI_INCL/sci_gateway.h" -o -e "$SCI_INCL/routines/sci_gateway.h" -o -e "$SCI_INCL/core/sci_gateway.h" -o -e "$SCI_INCL/mexlib/sci_gateway.h"
+          AC_DEFINE([HAVE_SCI_GATEWAY_H],[],
+                    [Defines if Scilab has a sci_gateway.h file separate from mex.h])
+        fi
         # System version
       else
         if test -d "$SCIDIR/../../include/scilab"; then
