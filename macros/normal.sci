@@ -10,7 +10,7 @@ function [mnew]=normal(m,upper,lower)
 //    Luciano da Fontoura Costa, supervisor.
 //    http://siptoolbox.sf.net
 //
-// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
+// $Revision: 1.3 $ $Date: 2010-10-13 23:50:46 $
 
 select argn(2)
    case 0 then error('Invalid number of arguments.')
@@ -20,7 +20,9 @@ end
 
 mmax = maxi(m); mmin = mini(m);
 if ( mmax-mmin == 0) then
-   error('Constant images are not allowed.');
+   // Constant images are not modified.
+   mnew = m;
+   return;
 end
 
 mnew=lower + (upper-lower)*(m-mmin)./(mmax-mmin)

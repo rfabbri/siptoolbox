@@ -32,7 +32,7 @@ clrscr()
 // imread(filename)
 // reads images into Scilab matrices:
 [Im, map] = imread('example.bmp');    // a color image 
-xbasc()
+clf
 imshow(Im, map);      // plots the image in scilab
 halt()
 clrscr()
@@ -43,7 +43,7 @@ clrscr()
 //
 chdir(TMPDIR);
 imwrite(Im, map, 'Only_a_Test_Image.tif');
-xbasc()
+clf
 halt()
 imshow('Only_a_Test_Image.tif');
 halt()
@@ -55,7 +55,7 @@ clrscr()
 //
 //
 [Im] = imread('bin.xpm')   
-xbasc()
+clf
 imshow(Im,2);
 halt()
 // note the correspondence between the numerical entries 
@@ -68,7 +68,7 @@ clrscr()
 //
 //
 [Im, map] = imread('example.bmp');    // a color image 
-xbasc()
+clf
 imshow(Im, map);      // plots the image in scilab
 halt()
 clrscr()
@@ -136,7 +136,7 @@ clrscr()
 //
 //
 [Im] = imread('tru.jpg');   // 'Im' is in 0-1 range
-xbasc()
+clf
 imshow(Im);   // imshow NOW assumes 0-1 range for truecolor
 halt()
 // Truecolor images are stored as 3D hypermatrices:

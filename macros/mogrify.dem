@@ -48,32 +48,32 @@ clrscr()
 //  EXAMPLE 1 -- Basics
 
 [im,map] = imread('plate.gif');
-xbasc(),   imshow(im,map)
+clf,   imshow(im,map)
 halt()
 
 // Histogram Equalization
 // This makes the image features more visible
 [im2,map2] = mogrify(im,map, '-equalize');
-xbasc(),   imshow(im2,map2)
+clf,   imshow(im2,map2)
 halt()
 clrscr()
 //
 // Geometric Operations
 //
 im = gray_imread('onca.png');
-xbasc(),   imshow(im)
+clf,   imshow(im)
 halt()
 
 // ROTATION:
 // commands that have an associated parameter shall be
 // written in the form of a string vector, like this:
 im2 = mogrify(im, ['-rotate', '40']);
-xbasc(),   imshow(im2)
+clf,   imshow(im2)
 halt()
 
 // BLUR
 im2 = mogrify(im, ['-blur', '11']);
-xbasc(),   imshow(im2)
+clf,   imshow(im2)
 halt()
 clrscr()
 //
@@ -83,7 +83,7 @@ clrscr()
 // RESIZE image to 400 rows; maintain aspect ratio
 // and also SHARPEN the image:
 im2 = mogrify(im, ['-resize', 'x400', '-sharpen', '5']);   
-xbasc(),   imshow(im2)
+clf,   imshow(im2)
 
 halt()
 clrscr()
@@ -91,12 +91,12 @@ clrscr()
 
 // let's add some noise:
 im2 = imnoise(im,'salt & pepper');
-xbasc();   imshow(im2)
+clf;   imshow(im2)
 halt()
 
 // Now let's take it off
 im2 = mogrify(im, ['-median', '1']);
-xbasc(),   imshow(im2)
+clf,   imshow(im2)
 
 halt()
 clrscr()
@@ -108,13 +108,13 @@ clrscr()
 // see the "IMAGE SEGMENTATION" section of the help page.
 
 [im,map]   = imread('ararauna.png');
-xbasc(),   imshow(im,map);
+clf,   imshow(im,map);
 halt()
 
 // Apply a color segmentation algorithm
 //
 [im2,map2] = mogrify(im,map, ['-segment', '10000x7.8']);
-xbasc(),   imshow(im2,map2);
+clf,   imshow(im2,map2);
 
 halt()
 clrscr()
@@ -129,11 +129,11 @@ clrscr()
 //
 
 [im,map]   = imread('ararauna.png');   // a pretty Brazilian birdie
-xbasc(),   imshow(im,map);
+clf,   imshow(im,map);
 halt()
 
 im2 = mogrify(im,map, ['-draw'; 'circle 35,40 50,60']);
-xbasc(),   imshow(im2);
+clf,   imshow(im2);
 
 halt()
 clrscr()
@@ -150,7 +150,7 @@ argv = ['-stroke'     ; 'red'
 halt()
 
 im2 = mogrify(im,map, argv);
-xbasc(),   imshow(im2);
+clf,   imshow(im2);
 
 halt()
 clrscr()
@@ -160,16 +160,16 @@ clrscr()
 // 
 // EMBOSS EFFECT
 [im,map]   = imread('indian.bmp');
-xbasc(),  imshow(im,map);
+clf,  imshow(im,map);
 halt()
 
 im2 = mogrify(im,map, ['-emboss', '2']);
-xbasc(),  imshow(im2);  // im2 is was in 0-65535 range
+clf,  imshow(im2);  // im2 is was in 0-65535 range
 halt()
 
 // SWIRL EFFECT
 im2 = mogrify(im,map, ['-swirl', '200']);
-xbasc(),  imshow(im2);  // im2 is was in 0-65535 range
+clf,  imshow(im2);  // im2 is was in 0-65535 range
 halt()
 clrscr()
 

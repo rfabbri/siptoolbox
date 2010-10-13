@@ -30,7 +30,7 @@
 //    Labo Photonique, Lycee Gustave Eiffel
 //    59280 ARMENTIERES (FRANCE)
 //
-// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
+// $Revision: 1.3 $ $Date: 2010-10-13 23:50:46 $
 //
 // Changelog:
 // Adapted to the new conventions in SIP: all images are in 0-1 range
@@ -80,7 +80,7 @@ function [R0,w]=gaussprofile(line)
 //      If a graphicalwindow is already present, I see the image, 
 //      but I don't have this title (I have no title in fact).
 //
-// $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
+// $Revision: 1.3 $ $Date: 2010-10-13 23:50:46 $
 //
 
 Inorm=line/sum(line) ;
@@ -113,7 +113,7 @@ end
 
 
 
-xbasc();xselect();
+clf;xselect();
 imshow(image,strf='041'); //same as imshow but draw axes
 xtitle(["Left click to select a point";"Right click to stop"]);
 win_nb_init=xget("window");//takes the window number
@@ -131,11 +131,11 @@ while %t
   //verify if we don't click outside the image
   if position_x<1 | position_x>c | position_y<1 | position_y>r
     disp("don''t click outside image");
-    xbasc();xselect();imshow(image,strf='041');
+    clf;xselect();imshow(image,strf='041');
     xtitle(["Don''t click outside image";"Right click for stop"]);
     titlepage("Don''t click outside image");
   else
-    xbasc();xselect();imshow(image,strf='041');
+    clf;xselect();imshow(image,strf='041');
     
     //Draw a cross on mouse location
     // Horizontal line
@@ -164,12 +164,12 @@ while %t
     if option==1 then
       xtitle(["Right click to stop";"x = "+string(position_x)+"; y = "+string(position_y)]);
       xset("window",win_nb_init+1);
-      xbasc();
+      clf;
       color=5;//5=red (see xset())
       plot2d(x,lum_max*line_h,color);
       xtitle(["Horizontal Profile";"x = "+string(position_x)]);
       xset("window",win_nb_init+2);
-      xbasc();
+      clf;
       plot2d(lum_max*line2_v,y,color);
       xtitle(["Vertical Profile";"y = "+string(position_y)]);
     end;

@@ -22,7 +22,7 @@ end;
 
 T=eye(3,3);//color table with the 3 fundamental colors only
 
-xbasc();
+clf;
 xset("colormap",T);
 plot2d([colormap(:,1) colormap(:,2) colormap(:,3)]);
 
