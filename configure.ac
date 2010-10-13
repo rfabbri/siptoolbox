@@ -143,7 +143,7 @@ else
     else
       if test -d "/usr/include/scilab"; then
         SCI_INCL="/usr/include/scilab"
-        CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/routines/ -I$SCI_INCL/core/ -I$SCI_INCL/mexlib/"
+        CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/routines/ -I$SCI_INCL/core/ -I$SCI_INCL/mexlib/ -I$SCI_INCL/"
         # System version
       else
         if test -d "$SCIDIR/../../include/scilab"; then
