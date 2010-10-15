@@ -27,6 +27,13 @@
               3x1 vector indicating the camera center in world coordinates
             </listitem>
          </varlistentry>
+         <varlistentry>
+            <term>noscale</term>
+            <listitem>
+              Optional parameter. If present, then no scaling will be done in
+              order to guarantee that K(1,1) > 0 and K(3,3) = 1.
+            </listitem>
+         </varlistentry>
       </variablelist>
    </refsection>
    
@@ -36,7 +43,13 @@
  Function <literal>KRC_from_P</literal> decomposes a 3x4 camera matrix
  <literal>P</literal> into
  intrinsic parameters <literal>K</literal>, rotation <literal>R</literal>, and
- center of projection <literal>C</literal>.
+ center of projection <literal>C</literal>. A decomposition is chosen for which
+ <literal>det(R) = 1</literal> and <literal>K</literal> is scaled so that
+ <literal>K(3,3) = 1</literal> and <literal>K(1,1) > 0</literal>. The optional
+ parameter <literal>noscale</literal> prevents this scaling. Note also that you
+ might want to enforce <literal>K(2,2) > 0</literal>, and depending on your
+ convention for the camera coordinate system you might have to multiply the
+ result by certain matrices to change signs.
    </para>
    </refsection>
    
