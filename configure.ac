@@ -488,7 +488,8 @@ AC_CONFIG_FILES([Makefile
   help/Makefile 
   config/loader.sce 
   config/sip_xmltohtml.sci
-  config/loader_include.sce])
+  config/loader_include.sce
+  test/Makefile])
 
 AC_OUTPUT
 
