@@ -825,7 +825,11 @@ check_argv_validity(ImageInfo *image_info, char **argv, int *pargc, ExceptionInf
                   i++;
                   if ((i == argc) || !sscanf(argv[i],"%ld",&x))
                     ThrowMogrifyException(OptionError,"MissingDistance",option);
-                  image_info->fuzz=StringToDouble(argv[i],MaxRGB);
+                  // To make it link against Ubuntu 11.04's seemingly broken 
+                  // ImageMagick:
+                  // image_info->fuzz=StringToDouble(argv[i],MaxRGB);
+                  //image_info->fuzz=(double)((x < MaxRGB) ? x : MaxRGB);
+                  fprintf(stderr,"Option -fuzz %s temporarily hardcoded to 0.0\n", argv[i]);
                 }
               break;
             }

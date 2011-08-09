@@ -15,10 +15,11 @@
 ## along with this program; if not, write to the Free Software
 ## Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-LDADD = $(top_builddir)/src/libsip.la
-
-#AM_CPPFLAGS = @LIBRARY_EXTRA_CPPFLAGS@
+# Todo: 
+# - let configure find path to libscilab.so 
+# - need to set LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/scilab/ in order to
+#   run sip_link_test
+LDADD = $(top_builddir)/src/libsip.la /usr/lib/scilab/libscilab.so
 
 noinst_PROGRAMS = sip_link_test
 sip_link_test_SOURCES = sip_link_test.c
-#sip_link_test_LIBADD =  @LIBRARY_EXTRA_LIBS@
