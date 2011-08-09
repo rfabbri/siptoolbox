@@ -128,6 +128,7 @@ fi
 
 # This works for the binary version: SCIDIR=/usr/local/scilab-5.1
 
+SCILIBDIR="";
 if test $SCIVERSION -le 4; then
   CPPFLAGS="$CPPFLAGS -I$SCIDIR/routines"
 else
@@ -135,20 +136,29 @@ else
     # Binary version
     SCI_INCL="$SCIDIR/../../";
     CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/include/scilab/routines/ -I$SCI_INCL/include/scilab/core/ -I$SCI_INCL/include/scilab/mexlib/"
+    if test -d "$SCI_INCL/lib/scilab"; then
+      SCILIBDIR="$SCI_INCL/lib/scilab";
+    fi
   else 
     if test -d "$SCIDIR/modules/core/includes"; then
-      SCI_INCL="$SCIDIR/modules";
       # Source tree version
+      SCI_INCL="$SCIDIR/modules";
       CPPFLAGS="$CPPFLAGS -I$SCI_INCL/routines/includes/ -I$SCI_INCL/core/includes/ -I$SCI_INCL/mexlib/includes/"
+      if test -d "$SCI_INCL/core/lib"; then
+        SCILIBDIR="$SCI_INCL/core/lib";
+      fi
     else
       if test -d "/usr/include/scilab"; then
+        # System version
         SCI_INCL="/usr/include/scilab"
         CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/routines/ -I$SCI_INCL/core/ -I$SCI_INCL/mexlib/ -I$SCI_INCL/"
         if test -e "$SCI_INCL/sci_gateway.h" -o -e "$SCI_INCL/routines/sci_gateway.h" -o -e "$SCI_INCL/core/sci_gateway.h" -o -e "$SCI_INCL/mexlib/sci_gateway.h"; then
           AC_DEFINE([HAVE_SCI_GATEWAY_H],[],
                     [Defines if Scilab has a sci_gateway.h file separate from mex.h])
         fi
-        # System version
+        if test -d "/usr/lib/scilab"; then
+          SCILIBDIR="/usr/lib/scilab";
+        fi
       else
         if test -d "$SCIDIR/../../include/scilab"; then
           # Scilab binary version around 5.2.2
@@ -156,11 +166,25 @@ else
           CPPFLAGS="$CPPFLAGS  -I$SCI_INCL/include/scilab/";
           AC_DEFINE([HAVE_SCI_GATEWAY_H],[],
                     [Defines if Scilab has a sci_gateway.h file separate from mex.h])
+          if test -d "$SCI_INCL/lib/scilab"; then
+            SCILIBDIR="$SCI_INCL/lib/scilab";
+          fi
         else
           AC_MSG_ERROR([[Cannot locate the include files from Scilab. Please report this.]])
         fi
       fi
     fi
+  fi
+fi
+
+# determine location of libscilab for building test subdir
+if test -z $SCILIBDIR; then
+  if test -d "/usr/lib/scilab"; then
+    SCILIBDIR="/usr/lib/scilab"
+  else if test -d "/usr/local/lib/scilab"; then
+    SCILIBDIR="/usr/local/lib/scilab"
+  else
+    AC_MSG_WARN([[Cannot find location of Scilab libraries needed for tests subdir]])
   fi
 fi
 
@@ -175,6 +199,7 @@ TOOLBOXDIR=$prefix
 AC_PREFIX_DEFAULT([$TOOLBOXDIR])
 AC_SUBST(TOOLBOXDIR)
 AC_SUBST(SCIDIR)
+AC_SUBST(SCILIBDIR)
 AC_SUBST(SCIEXE)
 AC_SUBST(HELPDIR)
 
@@ -505,7 +530,7 @@ AC_CONFIG_FILES([Makefile
   config/loader.sce 
   config/sip_xmltohtml.sci
   config/loader_include.sce
-  test/Makefile])
+  tests/Makefile])
 
 AC_OUTPUT
 

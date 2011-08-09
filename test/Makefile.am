@@ -19,7 +19,8 @@
 # - let configure find path to libscilab.so 
 # - need to set LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/scilab/ in order to
 #   run sip_link_test
-LDADD = $(top_builddir)/src/libsip.la /usr/lib/scilab/libscilab.so
+#LDADD = $(top_builddir)/src/libsip.la @SCILIBDIR@/usr/lib/scilab/libscilab.so
+LDADD = $(top_builddir)/src/libsip.la @SCILIBDIR@/libscilab.so
 
 noinst_PROGRAMS = sip_link_test
 sip_link_test_SOURCES = sip_link_test.c
