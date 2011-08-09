@@ -22,7 +22,7 @@
 AC_PREREQ(2.61)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.5.1-git], [https://sourceforge.net/tracker/?group_id=68055&atid=519890])
+AC_INIT([sip], [0.5.2-git], [ricardofabbri@users.sourceforge.net])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -416,7 +416,9 @@ ImageMagick has StringToDouble.])
   # if not found, try MagickCore
   AC_CHECK_LIB([MagickCore],[StringToDouble],[
     AC_DEFINE([HAVE_StringToDouble],[], [Define if \
-  ImageMagick has StringToDouble.])] , [])
+  ImageMagick has StringToDouble.])] , [
+   AC_MSG_WARN([[sip mogrify -fuzz for segmentation will not work in this system.]])
+    ])
 ])
 
 # ------------------------------------

@@ -2,6 +2,12 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
+0.5.2
+	+ fixed StringToDouble symbol not defined due to seemingly boken ImageMagick
+	shared libraries in Ubuntu 11.04
+	+ added a test/ subdir to link against libsip and identify link-time errors
+	without having to load into scilab.
+
 0.5.1
 	+ migrated to Git
 
