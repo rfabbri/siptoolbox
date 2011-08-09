@@ -181,10 +181,12 @@ fi
 if test -z $SCILIBDIR; then
   if test -d "/usr/lib/scilab"; then
     SCILIBDIR="/usr/lib/scilab"
-  else if test -d "/usr/local/lib/scilab"; then
-    SCILIBDIR="/usr/local/lib/scilab"
-  else
-    AC_MSG_WARN([[Cannot find location of Scilab libraries needed for tests subdir]])
+  else 
+    if test -d "/usr/local/lib/scilab"; then
+      SCILIBDIR="/usr/local/lib/scilab"
+    else
+      AC_MSG_WARN([[Cannot find location of Scilab libraries needed for tests subdir]])
+    fi
   fi
 fi
 
