@@ -406,6 +406,20 @@ ImageMagick has locale error messages.])
 ])
 
 # ------------------------------------
+# Some distros (Ubuntu 11.04) fail to have this symbol in the shared libs
+AC_CHECK_LIB([Magick],[StringToDouble],[
+  # if found
+  AC_DEFINE([HAVE_StringToDouble],[], [Define if \
+ImageMagick has StringToDouble.])
+   ]
+, [
+  # if not found, try MagickCore
+  AC_CHECK_LIB([MagickCore],[StringToDouble],[
+    AC_DEFINE([HAVE_StringToDouble],[], [Define if \
+  ImageMagick has StringToDouble.])] , [])
+])
+
+# ------------------------------------
 AC_MSG_CHECKING([name of the default compression quality in IM])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
                                     #include <time.h>
