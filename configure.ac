@@ -451,14 +451,14 @@ particular ImageMagick setup]),
 ##############################################
 
 # OpenCV tests (just for the future.)
-have_opencv=no
-PKG_CHECK_MODULES(OPENCV, 
-		[opencv >= 0.9.6],
-		[CFLAGS="$CFLAGS $OPENCV_CFLAGS"
-		 LDFLAGS="$LDFLAGS $OPENCV_LIBS"
-		 have_opencv=yes
-		 AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
-		[AC_MSG_WARN([[ OpenCV version >= 0.9.6 was not found. ]])])
+#have_opencv=no
+#PKG_CHECK_MODULES(OPENCV, 
+#    [opencv >= 0.9.6],
+#    [CFLAGS="$CFLAGS $OPENCV_CFLAGS"
+#     LDFLAGS="$LDFLAGS $OPENCV_LIBS"
+#     have_opencv=yes
+#     AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
+#    [AC_MSG_WARN([[ OpenCV version >= 0.9.6 was not found. ]])])
 
 
 # Checks for header files.
