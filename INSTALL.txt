@@ -21,7 +21,7 @@ UNIX/LINUX systems
    install its requirements.
 
    The requirements for installing SIP from source are:
-      - Scilab 4.0 (SIP seems to work even for Scilab 2.6).
+      - Scilab >= 4.0 (SIP seems to work even for Scilab 2.6).
       - AnImaL (An Imaging Library), latest version. You can
         download it at http://animal.sourceforge.net
       - ImageMagick
