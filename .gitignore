@@ -1,1 +1,15 @@
 *.bin
+Makefile
+Makefile.in
+.libs/
+.deps/
+ltmain.sh
+libtool.m4
+aclocal.m4
+autom4te.cache
+config.log
+config.status
+libtool
+ltsugar.m4
+ltoptions.m4
+ltversion.m4
