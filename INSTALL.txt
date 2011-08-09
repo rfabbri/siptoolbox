@@ -27,7 +27,7 @@ UNIX/LINUX systems
       - ImageMagick
       - GCC compiler
       - groff text formatter (for help pages)
-      - For the SIP CVS version, you need to have recent autoconf, 
+      - For the SIP Git version, you need to have recent autoconf, 
         automake, and libtool packages installed.
 
    1) AnImaL library
@@ -40,7 +40,7 @@ UNIX/LINUX systems
             make
             make install
 
-      (NOTE: if Animal was downloaded from CVS, run `./autogen.sh' before the 
+      (NOTE: if Animal was downloaded from Git, run `./autogen.sh' before the 
       above commands)
 
    2) You might have to type "export PKG_CONFIG_PATH=/usr/local/lib/pkgconfig". 
@@ -52,7 +52,7 @@ UNIX/LINUX systems
             make 
             make install
 
-      (NOTE: for the SIP CVS version, type `./autogen.sh' before the above
+      (NOTE: for the SIP Git version, type `./autogen.sh' before the above
       commands)
 
       This will install SIP in the default directory (SCI/contrib/sip).
