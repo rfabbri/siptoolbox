@@ -13,3 +13,15 @@ libtool
 ltsugar.m4
 ltoptions.m4
 ltversion.m4
+configure
+master_help.xml
+scilab_en_US_help
+lt~obsolete.m4
+config.h.in~
+config.h
+stamp-h1
+config.guess
+config.sub
+jar/
+macros/lib
+test/sip_link_test
