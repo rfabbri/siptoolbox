@@ -1,2 +1,26 @@
 Please visist the "Pending" section at the SIP development home page:
       http://siptoolbox.sourceforge.net
+
+
+TODO
+- use double buffering the new way. see beginning comment of sip-intro.dem
+
+----------------------------------------------------------
+Current bugs (with Scilab 5.3 Ubuntu 11.04)
+- sip help section doesn't show up in the help index
+- sip help doesn't work at all:
+
+Got an IOException (JAR entry scilab_en_US_help/jhelpset.hs not found in /usr/share/scilab/contrib/sip-0.5.2-git/jar/scilab_en_US_help.jar)
+Parsing failed for null
+
+
+- interferometry gui doesn't work anymore (perhaps disable it)
+- during the demo, images get displayed but quickly blank-out
+
+----------------------------------------------------------
+Scilab bugs
+- cannot copy/paste from scilab window buffer
+- graycolormap error check is wrong; it is not letting colormaps with less than
+  3 colors (rows).
+  /home/rfabbri/src/scilab/scilab/modules/graphics/macros/graycolormap.sci
+  seems like all other colormaps suffer from the same issue.

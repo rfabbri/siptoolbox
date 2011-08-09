@@ -77,7 +77,7 @@ case 'fftderiv' // fourier gradient
       error('Invalid direction.');
    end
    if thresh >=0 then
-      border=im2bw(border,thresh,maxi(border))
+      border=im2bw(border,thresh,max(border))
    end
    // END
    return
@@ -101,7 +101,7 @@ else
 end
 
 if thresh >=0 then
-   border=im2bw(border,thresh,maxi(border))
+   border=im2bw(border,thresh,max(border))
 end
 
 endfunction

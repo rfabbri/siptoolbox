@@ -3,7 +3,7 @@ function bw = im2bw(Img, arg2, arg3, arg4)
 // Threshold an intensity, indexed or truecolor image, 
 // producing a binary image. "maxvalue" indicates
 // the maximum value to assume Img can take. 
-// By default, maxvalue is maxi(Img).
+// By default, maxvalue is max(Img).
 // 
 // AUTHOR
 //    Ricardo Fabbri  <rfabbri@(not this part) gmail d0t com>
@@ -23,7 +23,7 @@ if type(Img) == 1 then // 2D double array
    if size(arg2,'*') == 1 then   // im2bw(Img, level,???)
       level = arg2
       if (argn(2) == 2)          // im2bw(Img,level)
-         maxvalue = maxi(Img);
+         maxvalue = max(Img);
       else
          maxvalue = arg3
       end
@@ -34,7 +34,7 @@ if type(Img) == 1 then // 2D double array
       level = arg3
       Img=im2gray(Img,arg2)
       if (argn(2) == 3)
-         maxvalue = maxi(Img);
+         maxvalue = max(Img);
       else
          maxvalue = arg4
       end
@@ -42,7 +42,7 @@ if type(Img) == 1 then // 2D double array
 elseif type(Img) == 17 then  // Hypermatrix
    level = arg2
    if (argn(2) == 2)          // im2bw(RGB,level)
-      maxvalue = maxi(Img);
+      maxvalue = max(Img);
    else
       maxvalue = arg3
    end

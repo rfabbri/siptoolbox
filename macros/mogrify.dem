@@ -10,9 +10,7 @@ if (mem_usage(1) < 5000000)
 end
 clear mem_usage
 
-// turn on double-buffering:
-prev_pixmap_mode = xget('pixmap');
-xset('pixmap',1);
+// TODO turn on double-buffering?
 
 DIRINI = PWD
 chdir (SIPDIR+'images');
@@ -28,7 +26,7 @@ mode (3);
 // continue. 
 // To quit this demo, type <CTRL-C> followed by "abort" 
 // then press <ENTER>.
-// Please send feedback to Ricardo Fabbri <rfabbri@if.sc.usp.br>
+// Please send feedback to Ricardo Fabbri <rfabbri@gmail.com>
 //
 halt()
 clrscr()
@@ -181,9 +179,8 @@ clrscr()
 //   EXAMPLE sections in the manpages of SIP functions.
 //    
 //   This demo was written by:
-//   Ricardo Fabbri <rfabbri@if.sc.usp.br>
+//   Ricardo Fabbri <rfabbri@gmail.com>
 //
 halt()
-xset('pixmap',prev_pixmap_mode);
 chdir (DIRINI);
 clear im im2 map prev_pixmap_mode DIRINI

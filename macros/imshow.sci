@@ -32,7 +32,8 @@ else
 end
 
 // TODO
-// double-buffering will be default for the next release
+// double-buffering will be default for the next SIP release
+// TODO do it the modern way as in sip-intro.dem
 //
 //prev_pixmap_mode = xget('pixmap');
 //
@@ -55,7 +56,11 @@ select type(img)
             if type(arg2) ~= 1 then    // imshow(img,ncolors)
                error("2nd argument must be a scalar.")
             end
-            xset('colormap', graycolormap(arg2))
+            if (arg2 < 3)
+              xset('colormap', [0 0 0; 1 1 1])
+            else
+              xset('colormap', graycolormap(arg2))
+            end
             img = img*(arg2-1)+1;
          elseif (n2==0 | n2==2) then   // [] or [n1 n2]
             if n2~=0 then

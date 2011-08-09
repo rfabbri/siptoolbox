@@ -18,7 +18,7 @@ select argn(2)
    case 2 then lower = 0
 end
 
-mmax = maxi(m); mmin = mini(m);
+mmax = max(m); mmin = min(m);
 if ( mmax-mmin == 0) then
    // Constant images are not modified.
    mnew = m;

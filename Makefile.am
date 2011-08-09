@@ -29,7 +29,7 @@ EXTRA_DIST = autogen.sh src/Makefile.am.input config/subst_input_files.sh \
 				     INSTALL-MinGW.txt
 
 DIST_SUBDIRS = src macros images man help tests
-SUBDIRS = src macros images @HELPDIR@
+SUBDIRS = src macros images @HELPDIR@ tests
 
 toolboxdir=@TOOLBOXDIR@
 toolbox_DATA = config/loader.sce config/loader_include.sce config/builder.sce

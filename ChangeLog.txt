@@ -4,6 +4,7 @@ __________________________________________________________________
 
 0.5.2
 	+ SIP compiles and loads cleanly with Scilab 5.3 that comes with Ubuntu 11.04
+	+ SIP intro demo runs smoothly
 	+ fixed StringToDouble symbol not defined due to seemingly boken ImageMagick
 	shared libraries in Ubuntu 11.04. mogrify -fuzz parameter for image
 	segmentation will not work in these broken systems.

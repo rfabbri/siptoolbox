@@ -35,7 +35,7 @@ if noise_type == 'gaussian' | noise_type == 'Gaussian'
       v=param2
    end
    if ~exists('param3','local')
-      val=maxi(im);
+      val=max(im);
    else
       val=param3
    end
@@ -47,7 +47,7 @@ elseif noise_type == 'localvar'
    if argn(2) < 3
       error('Too few arguments.');
    end
-   im = im + sqrt(maxi(im)*param1).*rand(im,'normal');
+   im = im + sqrt(max(im)*param1).*rand(im,'normal');
 elseif noise_type == 'salt & pepper' | noise_type == 'salt and pepper'
    if ~exists('param1','local')
       d=0.05 
@@ -55,7 +55,7 @@ elseif noise_type == 'salt & pepper' | noise_type == 'salt and pepper'
       d=param1
    end
    if ~exists('param2','local')
-      val=maxi(im);
+      val=max(im);
    else
       val=param2
    end
@@ -74,7 +74,7 @@ elseif noise_type == 'salt & pepper' | noise_type == 'salt and pepper'
       salt_and_pepper = val*(prob <= d/2);
    else        
       // random gray drop-out noise
-      val = maxi(im);
+      val = max(im);
       salt_and_pepper = val*rand(im);
    end
 
@@ -87,7 +87,7 @@ elseif noise_type=='speckle'
       v=param1
    end
    if ~exists('param2','local')
-      val=maxi(im);
+      val=max(im);
    else
       val=param2
    end

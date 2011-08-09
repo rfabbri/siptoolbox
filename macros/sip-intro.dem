@@ -4,9 +4,14 @@ deff('[] = clrscr()', 'nl=lines(); lines(0); ...
                        lines(nl(1),nl(2));')
 clrscr()
 
-// turn on double-buffering:
-prev_pixmap_mode = xget('pixmap');
-xset('pixmap',1);
+// TODO turn on double-buffering:
+// Old way:
+//    prev_pixmap_mode = xget('pixmap');
+//    xset('pixmap',1);
+// New way (perhaps put it inside imshow):
+//    f = gcf();
+//    f.pixmap = 'on'; // double buffer mode
+//    show_pixmap() // send buffer to screen
 
 DIRINI = PWD
 chdir (SIPDIR+'images');
@@ -20,7 +25,7 @@ mode (3);
 // continue. 
 // To quit this demo, type <CTRL-C> followed by "abort" 
 // then press <ENTER>.
-// Please send comments to Ricardo Fabbri <rfabbri@if.sc.usp.br>
+// Please send comments to Ricardo Fabbri <rfabbri@gmail.com>
 //
 halt()
 clrscr()
@@ -162,9 +167,8 @@ clrscr()
 //   EXAMPLE sections in the manpages of SIP functions.
 //    
 //   This demo was written by:
-//   Ricardo Fabbri <rfabbri@if.sc.usp.br>
+//   Ricardo Fabbri <rfabbri@gmail.com>
 //
 halt()
 chdir (DIRINI);
-xset('pixmap',prev_pixmap_mode);
-clear Im map prev_pixmap_mode DIRINI
+clear Im map DIRINI
