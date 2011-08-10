@@ -45,7 +45,7 @@ Cybernetic Vision Research Group <http://cyvision.if.sc.usp.br>
 
 Contact Information:
                     IFSC/USP
-                    DFI - Cybernetic Vision Research Group
+                    Cybernetic Vision Research Group
                     Caixa Postal 369
                     13560-970 - Sao Carlos, SP
                     Brazil
