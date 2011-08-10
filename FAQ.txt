@@ -7,13 +7,7 @@ GENERAL PROBLEMS
    compiling from source, then you should recompile and re-install
    SIP.
 
-2) SIP compilation hangs
-
-This happens with gcc-2.9x.x, but not with gcc-3 and up.  If you wait
-a long time, you will see that gcc-2 will finaly finish compilation.
-This is a limitation of gcc-2.
-
-3) When i run mogrify and the option '-segment' on an indexed image, 
+2) When i run mogrify and the option '-segment' on an indexed image, 
 it crashes,  with a message in the console:
 memory.c:88: AcquireMemory: Assertion `size != 0' failed
 
@@ -21,13 +15,13 @@ This is a bug from ImageMagick 5.5.7. Currently there is no solution
 to this, but please report to us if you encontered this bug with another
 version of ImageMagick.
 
-4) Scilab crashes when I try to read a truecolor image with an
+3) Scilab crashes when I try to read a truecolor image with an
 accidental second output parameter.
 
 This bug has been fixed since the new SIP development version of 20040520.
 
 
-5) In Scilab-2.6 only there is a bug with color images:
+4) In Scilab-2.6 only there is a bug with color images:
    A=imread(SIPDIR+'images/ararauna.jpg');
    size(A)
       ! 161 !
