@@ -15,7 +15,7 @@ Parsing failed for null
 
 
 - interferometry gui doesn't work anymore (perhaps disable it)
-- during the demo, images get displayed but quickly blank-out
+- during the first demo, displaying with colormap 2 causes window to shrink.
 
 ----------------------------------------------------------
 Scilab bugs
@@ -24,3 +24,12 @@ Scilab bugs
   3 colors (rows).
   /home/rfabbri/src/scilab/scilab/modules/graphics/macros/graycolormap.sci
   seems like all other colormaps suffer from the same issue.
+
+----------------------------------------------------------
+Website
+- include gitweb link next to download to show recent commits + a link to the
+  most recent ChangeLog.txt file.
+
+----------------------------------------------------------
+Thoughts
+- does openjdk work well enough?

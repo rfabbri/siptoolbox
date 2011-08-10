@@ -151,7 +151,7 @@ where noise is uniformly distributed  with mean 0 and variance v. (default: v=0.
 University of Edinburgh:
 </para>
 <para>
-<a href="http://homepages.inf.ed.ac.uk/rbf/HIPR2/">http://homepages.inf.ed.ac.uk/rbf/HIPR2</a>
+<ulink url="http://homepages.inf.ed.ac.uk/rbf/HIPR2/">http://homepages.inf.ed.ac.uk/rbf/HIPR2</ulink>
 </para>
 </refsection>
 
@@ -167,9 +167,6 @@ The latest version of SIP can be found at
 </refsection>
 
    <refsection><title>See Also</title><simplelist type="inline">
-      <SEE_ALSO_ITEM> <LINK>mogrify</LINK>&apos;-noise&apos;flag</SEE_ALSO_ITEM>
-      <SEE_ALSO_ITEM> <LINK>mkfilter</LINK> </SEE_ALSO_ITEM>
-      <SEE_ALSO_ITEM> <LINK>gsm2d</LINK> </SEE_ALSO_ITEM>
       <member> <link linkend="mogrify">mogrify</link> </member>
       <member> <link linkend="mkfilter">mkfilter</link> </member>
       <member> <link linkend="gsm2d">gsm2d</link> </member>
