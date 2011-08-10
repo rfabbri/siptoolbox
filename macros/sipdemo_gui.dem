@@ -12,7 +12,7 @@ mode(-1);
 // 
 sip_demolist = ['Introduction'
             'TransMogrify'
-            'Interferometry GUI'];
+            'Interferometry GUI (beta)'];
 
 while %t
 num = x_choose(sip_demolist, 'Choose a demo');

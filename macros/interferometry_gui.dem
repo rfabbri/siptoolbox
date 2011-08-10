@@ -1,6 +1,4 @@
 mode (-1);
-//gui_0.3.9.sce
-
 // Description:
 // Graphical User Interface for a pleasant use of SIP
 // (Scilab Image Processing)
@@ -23,9 +21,9 @@ mode (-1);
 //
 //
 // LICENSE: GNU GPL
-// $Revision: 1.2 $ $Date: 2010-10-13 23:50:46 $
 //
 // CHANGELOG:
+// 0.3.10: started conversion to Scilab 5.3
 // 0.3.9: added filters + switch to Scilab old graphic style
 // 0.3.8: snap1 improved: if convert is available (from ImageMagick),
 // the snap is much faster. xawtv>=3.90 is needed
@@ -68,7 +66,7 @@ mode (-1);
 
 INTERFGUI_INI=pwd();
 
-INTERFGUI_VERSION='0.3.9';
+INTERFGUI_VERSION='0.3.10';
 
 if exists('INTERFGUI') then
   mydirtmp1=INTERFGUI;
@@ -108,7 +106,7 @@ text=["Welcome to this demo of how SIP functions can be accessed by a GUI";..
 	" ";..
 	"Version: "+INTERFGUI_VERSION;..
     	]
-x_message(text)
+messagebox(text)
 endfunction
 
 
@@ -118,8 +116,8 @@ function display1(image,name,map)
 if ~exists('map','local') then
   map=xget("colormap");
 end;
-xset("pixmap",1);
-clf;
+//xset("pixmap",1);
+delete(gca());
 global w1; global h1;
 imshow(round(image*225+1),map);
 //xset('pixmap',0);
@@ -132,16 +130,17 @@ endfunction
 
 
 function [image,name]=open1(map)
-name=xgetfile('*');
+name=uigetfile('*');
 if name<>''
    image=gray_imread(name);
    display1(image,name,map)
-   printf("\n** If the image does not appear correctly, try normalizing it.\n");
+   printf("\n** If the image does not appear correctly, try normalizing it\n");
+   printf("\n** using Operations->Normalize from the menu.\n");
  end
 endfunction
 
 function write1(image)
-NewName=xgetfile('*');
+NewName=uigetfile('*');
 imwrite(image,NewName);
 endfunction
 
@@ -153,14 +152,15 @@ text=["Image Name: ";"   "+name;..
 	"Min: ";"   "+string(min(image));..
 	"Mean: ";"   "+string(mean(image));..
 	"Standard Deviation: ";"   "+string(stdev(image))];
-x_message(text)
+messagebox(text)
 endfunction
 
 
 
 function histo1(image,name)
-xset("window",1);clf;
-xset("pixmap",0);
+xset("window",1);
+delete(gca());
+//xset("pixmap",0);
 step1=evstr(x_dialog('Nb of values ?','64'));
 histplot(step1,image);
 xtitle(name);
@@ -218,7 +218,7 @@ end;//if
 endfunction
 
 function view3d1(image,name,map)
-xset("window",1);clf;
+xset("window",1);delete(gca());
 xset("colormap",map);
 step1=evstr(x_dialog('Step to display ?','8'));
 plot3d1(1:step1:size(image,'r'),1:step1:size(image,'c'),255*image(1:step1:$,1:step1:$));
@@ -247,7 +247,7 @@ endfunction
 
 
 function image=normal1(original,name,map)//normalizing image beetween 0-1
-xset("window",1);clf;titlepage(["Normalising";"(Range 0 .. 1)"]);
+xset("window",1);delete(gca());titlepage(["Normalising";"(Range 0 .. 1)"]);
 imagetmp=normal(original,1,0);
 display1(imagetmp,name,map);
 choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -263,7 +263,7 @@ function image=threshold1(original,name,map)//thresholding
 image=original;
 cste1=x_dialog('Threshold (0-1 range) ?','0.5');
 if (cste1<>[]) then //Cancel Button ?
-  xset("window",1);clf;titlepage(['Thresholding = '+cste1+' ...']);
+  xset("window",1);delete(gca());titlepage(['Thresholding = '+cste1+' ...']);
   cste2=evstr(cste1);
   imagetmp=im2bw(original,cste2);
   display1(imagetmp,name,map);
@@ -282,7 +282,7 @@ function image=add2(original,name,map)//constant add
 cste1=evstr(x_dialog(['Constant',..
 	'(values of the image are in the 0-1 range) ?'],..
     '0.1'));
-xset("window",1);clf;titlepage(['Adding...']);
+xset("window",1);delete(gca());titlepage(['Adding...']);
 imagetmp=original+(cste1);
 //imagetmp(find(imagetmp>255))=255;
 display1(imagetmp,name,map);
@@ -298,7 +298,7 @@ endfunction
  
 function image=multiply1(original,name,map)//constant multiplication
 cste1=evstr(x_dialog('Constante ?','1.4'));
-xset("window",1);clf;titlepage(['Multiplying...']);
+xset("window",1);delete(gca());titlepage(['Multiplying...']);
 imagetmp=original*cste1;
 //imagetmp(find(imagetmp>255))=255;
 display1(imagetmp,name,map);
@@ -315,7 +315,7 @@ endfunction
 
 function image=drop1(original,name,map)//constant multiplication
 //cste1=evstr(x_dialog('Constante ?','1.4'));
-xset("window",1);clf;titlepage(['Searching for Values out of Range...']);
+xset("window",1);delete(gca());titlepage(['Searching for Values out of Range...']);
 imagetmp=original;
 imagetmp(find(imagetmp>1))=1;
 imagetmp(find(imagetmp<0))=0;
@@ -348,7 +348,7 @@ choice=x_choose(['Mean 3x3';..
 image=original;
 if (choice<>0) then //Cancel ?
   if (choice==1) then  //Mean 3x3
-    xset("window",1);clf;titlepage(['Mean 3x3 Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Mean 3x3 Filtering...']);
     imagetmp=imconv(original,mkfilter('mean'));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -357,7 +357,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Mean 3x3
   if (choice==2) then  //Mean 5x5
-    xset("window",1);clf;titlepage(['Mean 5x5 Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Mean 5x5 Filtering...']);
     imagetmp=imconv(original,(1/25)*ones(5,5));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -366,7 +366,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Mean 5x5
   if (choice==3) then  //Gaussian
-    xset("window",1);clf;titlepage(['Gaussian Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Gaussian Filtering...']);
     imagetmp=imconv(original,(1/16)*[1 2 1;2 4 2;1 2 1])
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -376,7 +376,7 @@ if (choice<>0) then //Cancel ?
   end;//Gaussian
   if (choice==4) then  //Median
     radius1=x_dialog('radius ?','1')
-    xset("window",1);clf;titlepage(['Median Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Median Filtering...']);
     imagetmp=mogrify(original,['-median',radius1])
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -385,7 +385,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Median
   if (choice==5) then  //Pi Filtering
-    xset("window",1);clf;titlepage(['Pi Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Pi Filtering...']);
     imagetmp=pifilter(original)
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -394,7 +394,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Pi Filtering
   if (choice==6) then  //sh1
-    xset("window",1);clf;titlepage(['Sharp Enhancer 1 Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Sharp Enhancer 1 Filtering...']);
     imagetmp=imconv(original,mkfilter('sh1'));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -403,7 +403,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//sh1
   if (choice==7) then  //sh2
-    xset("window",1);clf;titlepage(['Sharp Enhancer 2 Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Sharp Enhancer 2 Filtering...']);
     imagetmp=imconv(original,mkfilter('sh2'));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -412,7 +412,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//sh2
   if (choice==8) then  //Laplace1
-    xset("window",1);clf;titlepage(['Laplace1 Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Laplace1 Filtering...']);
     imagetmp=imconv(original,mkfilter('laplace1'));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -421,7 +421,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Laplace1
   if (choice==9) then  //Sobel horizontal
-    xset("window",1);clf;titlepage(['Horizontal Sobel Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Horizontal Sobel Filtering...']);
     imagetmp=imconv(original,mkfilter('sobel'));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -430,7 +430,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Sobel horizontal
   if (choice==10) then  //Sobel vertical
-    xset("window",1);clf;titlepage(['Vertical Sobel Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Vertical Sobel Filtering...']);
     imagetmp=imconv(original,mkfilter('sobel')');
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -439,7 +439,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Sobel vertical
   if (choice==11) then  //Prewitt horizontal
-    xset("window",1);clf;titlepage(['Horizontal Prewitt Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Horizontal Prewitt Filtering...']);
     imagetmp=imconv(original,mkfilter('prewitt'));
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -448,7 +448,7 @@ if (choice<>0) then //Cancel ?
     end;
   end;//Prewitt horizontal
   if (choice==12) then  //Prewitt vertical
-    xset("window",1);clf;titlepage(['Vertical Prewitt Filtering...']);
+    xset("window",1);delete(gca());titlepage(['Vertical Prewitt Filtering...']);
     imagetmp=imconv(original,mkfilter('prewitt')');
     display1(imagetmp,name,map);
     update_choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -468,7 +468,7 @@ endfunction
 
 
 function image=equalize1(original,name,map) //histogram equalization
-xset("window",1);clf;titlepage(['Histogram Equalization...']);
+xset("window",1);delete(gca());titlepage(['Histogram Equalization...']);
 imagetmp=normal(mogrify(original,'-equalize'),1);
 display1(imagetmp,name,map);
 choice=x_choose(['Yes';'No'],["Update image?"])
@@ -483,8 +483,8 @@ endfunction
 
 
 function image=subtract1(original,name,map) //subtraction absolute value
-file1=xgetfile('*',title=["Name of the file to subtract"]);
-xset("window",1);clf;titlepage(["Reading File and Calculating..."]);
+file1=uigetfile('*',title=["Name of the file to subtract"]);
+xset("window",1);delete(gca());titlepage(["Reading File and Calculating..."]);
 im1=gray_imread(file1)
 imagetmp=abs(original-im1)
 display1(imagetmp,name,map);
@@ -500,8 +500,8 @@ endfunction
 
 
 function image=subtract2(original,name,map) //subtraction modulo 256
-file1=xgetfile('*',title=["Name of the file to subtract"]);
-xset("window",1);clf;titlepage(["Reading File and Calculating..."]);
+file1=uigetfile('*',title=["Name of the file to subtract"]);
+xset("window",1);delete(gca());titlepage(["Reading File and Calculating..."]);
 im1=gray_imread(file1)
 imagetmp=uint8(normal(original,255))-uint8(255*im1);
 imagetmp=double(imagetmp)/255;
@@ -520,13 +520,13 @@ endfunction
 function image=add1(original,name,map) //add several images
 nb_images=x_dialog('Nb of images to add to the current image ?','1')
 for i=1:evstr(nb_images)
-    file1=xgetfile("*",title=["Name of the file "+string(i)+"/"+nb_images+" to add"]);
-  xset("window",1);clf;titlepage(["Reading File and Calculating..."]);
+    file1=uigetfile("*",title=["Name of the file "+string(i)+"/"+nb_images+" to add"]);
+  xset("window",1);delete(gca());titlepage(["Reading File and Calculating..."]);
   im1=gray_imread(file1)
   imagetmp=original+im1;
 end;
 
-xset("window",1);clf;titlepage(['Calculating the Average Image...']);
+xset("window",1);delete(gca());titlepage(['Calculating the Average Image...']);
 imagetmp=imagetmp/(evstr(nb_images)+1)
 display1(imagetmp,name,map);
 choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -572,7 +572,7 @@ endfunction
 
 
 function [image,puw]=invert1(original,name,map,puw)//inversion
-xset("window",1);clf;titlepage(['Inverting...']);
+xset("window",1);delete(gca());titlepage(['Inverting...']);
 imagetmp=1-original;
 display1(imagetmp,name,map);
 choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -591,7 +591,7 @@ endfunction
 
 function image=power1(original,name,map)//multiplies the image by itself
 pow1=evstr(x_dialog('Power ?','5'))
-xset("window",1);clf;titlepage(['Multiplying...']);
+xset("window",1);delete(gca());titlepage(['Multiplying...']);
 imagetmp=normal(original.^pow1,1);
 display1(imagetmp,name,map);
 choice=x_choose(['Yes';'No'],["Update Image ?"])
@@ -610,7 +610,7 @@ xset('pixmap',0);
 mask1=imroi(image,'rect');
 [br,bc]=find(mask1>0);//find boundaries
 imagetmp=image(br(1):br($),bc(1):bc($));
-xset("window",1);clf;
+xset("window",1);delete(gca());
 display1(imagetmp,name,map);
 choice=x_choose(['Update Image';'Invert Selection';'Cancel'],["Choice ?"])
 if choice==1 then  
@@ -618,7 +618,7 @@ if choice==1 then
 end;
 if choice==2 then  
   imagetmp=image.*abs(1-mask1);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update Image ?"])
   if choice==1 then  
     image=imagetmp
@@ -635,7 +635,7 @@ xset('pixmap',0);
 mask1=imroi(image,'ellipse');
 [br,bc]=find(mask1>0);//find boundaries
 imagetmp=image.*mask1;
-xset("window",1);clf;
+xset("window",1);delete(gca());
 display1(imagetmp,name,map);
 choice=x_choose(['Update Image';'Invert Selection';'Cancel'],["Choice ?"])
 if choice==1 then  
@@ -643,7 +643,7 @@ if choice==1 then
 end;
 if choice==2 then  
   imagetmp=image.*abs(1-mask1);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update Image ?"])
   if choice==1 then  
     image=imagetmp
@@ -678,16 +678,16 @@ threshold1=evstr(x_dialog(["A pixel is considered in the background";..
 
 if choice==1 then //bucket 3a
   xset("window",1)
-  file1=xgetfile('*',title=["Name of file 1/3"]);
-  file2=xgetfile('*',title=["Name of file 2/3"]);
-  file3=xgetfile('*',title=["Name of file 3/3"]);
-  clf;
+  file1=uigetfile('*',title=["Name of file 1/3"]);
+  file2=uigetfile('*',title=["Name of file 2/3"]);
+  file3=uigetfile('*',title=["Name of file 3/3"]);
+  delete(gca());
   titlepage(['Calculating the Phased Image...']);
   im1=gray_imread(file1);
   im2=gray_imread(file2);
   im3=gray_imread(file3);
   imagetmp=normal(imphase('bucket3a',threshold1,im1,im2,im3),1);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update image?"])
   if choice==1 then  
     image=imagetmp
@@ -699,16 +699,16 @@ end;//bucket 3a
 
 if choice==2 then //bucket 3b
   xset("window",1)
-  file1=xgetfile('*',title=["Name of file 1/3"]);
-  file2=xgetfile('*',title=["Name of file 2/3"]);
-  file3=xgetfile('*',title=["Name of file 3/3"]);
-  clf;
+  file1=uigetfile('*',title=["Name of file 1/3"]);
+  file2=uigetfile('*',title=["Name of file 2/3"]);
+  file3=uigetfile('*',title=["Name of file 3/3"]);
+  delete(gca());
   titlepage(['Calculating the Phased Image...']);
   im1=gray_imread(file1);
   im2=gray_imread(file2);
   im3=gray_imread(file3);
   imagetmp=normal(imphase('bucket3b',threshold1,im1,im2,im3),1,0);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update image?"])
   if choice==1 then  
     image=imagetmp
@@ -720,16 +720,16 @@ end;//bucket 3b
 
 if choice==3 then //bucket 3c
   xset("window",1)
-  file1=xgetfile('*',title=["Name of file 1/3"]);
-  file2=xgetfile('*',title=["Name of file 2/3"]);
-  file3=xgetfile('*',title=["Name of file 3/3"]);
-  clf;
+  file1=uigetfile('*',title=["Name of file 1/3"]);
+  file2=uigetfile('*',title=["Name of file 2/3"]);
+  file3=uigetfile('*',title=["Name of file 3/3"]);
+  delete(gca());
   titlepage(['Calculating the Phased Image...']);
   im1=gray_imread(file1);
   im2=gray_imread(file2);
   im3=gray_imread(file3);
   imagetmp=normal(imphase('bucket3c',threshold1,im1,im2,im3),1,0);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update image?"])
   if choice==1 then  
     image=imagetmp
@@ -741,18 +741,18 @@ end;//bucket 3c
 
 if choice==4 then //bucket 4a
   xset("window",1)
-  file1=xgetfile('*',title=["Name of file 1/4"]);
-  file2=xgetfile('*',title=["Name of file 2/4"]);
-  file3=xgetfile('*',title=["Name of file 3/4"]);
-  file4=xgetfile('*',title=["Name of file 4/4"]);
-  clf;
+  file1=uigetfile('*',title=["Name of file 1/4"]);
+  file2=uigetfile('*',title=["Name of file 2/4"]);
+  file3=uigetfile('*',title=["Name of file 3/4"]);
+  file4=uigetfile('*',title=["Name of file 4/4"]);
+  delete(gca());
   titlepage(['Calculating the Phased Image...']);
   im1=gray_imread(file1);
   im2=gray_imread(file2);
   im3=gray_imread(file3);
   im4=gray_imread(file4);
   imagetmp=normal(imphase('bucket4a',threshold1,im1,im2,im3,im4),1,0);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update image?"])
   if choice==1 then  
     image=imagetmp
@@ -764,12 +764,12 @@ end;//bucket 4a
 
 if choice==5 then //bucket 5a
   xset("window",1)
-  file1=xgetfile('*',title=["Name of file 1/5"]);
-  file2=xgetfile('*',title=["Name of file 2/5"]);
-  file3=xgetfile('*',title=["Name of file 3/5"]);
-  file4=xgetfile('*',title=["Name of file 4/5"]);
-  file5=xgetfile('*',title=["Name of file 5/5"]);
-  clf;
+  file1=uigetfile('*',title=["Name of file 1/5"]);
+  file2=uigetfile('*',title=["Name of file 2/5"]);
+  file3=uigetfile('*',title=["Name of file 3/5"]);
+  file4=uigetfile('*',title=["Name of file 4/5"]);
+  file5=uigetfile('*',title=["Name of file 5/5"]);
+  delete(gca());
   titlepage(['Calculating the Phased Image...']);
   im1=gray_imread(file1);
   im2=gray_imread(file2);
@@ -777,7 +777,7 @@ if choice==5 then //bucket 5a
   im4=gray_imread(file4);
   im5=gray_imread(file5);
   imagetmp=normal(imphase('bucket5a',threshold1,im1,im2,im3,im4,im5),1,0);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update image?"])
   if choice==1 then  
     image=imagetmp
@@ -789,12 +789,12 @@ end;//bucket 5a
 
 if choice==6 then //bucket 5b
   xset("window",1)
-  file1=xgetfile('*',title=["Name of file 1/5"]);
-  file2=xgetfile('*',title=["Name of file 2/5"]);
-  file3=xgetfile('*',title=["Name of file 3/5"]);
-  file4=xgetfile('*',title=["Name of file 4/5"]);
-  file5=xgetfile('*',title=["Name of file 5/5"]);
-  clf;
+  file1=uigetfile('*',title=["Name of file 1/5"]);
+  file2=uigetfile('*',title=["Name of file 2/5"]);
+  file3=uigetfile('*',title=["Name of file 3/5"]);
+  file4=uigetfile('*',title=["Name of file 4/5"]);
+  file5=uigetfile('*',title=["Name of file 5/5"]);
+  delete(gca());
   titlepage(['Calculating the Phased Image...']);
   im1=gray_imread(file1);
   im2=gray_imread(file2);
@@ -802,7 +802,7 @@ if choice==6 then //bucket 5b
   im4=gray_imread(file4);
   im5=gray_imread(file5);
   imagetmp=normal(imphase('bucket5b',threshold1,im1,im2,im3,im4,im5),1,0);
-  clf;display1(imagetmp,name,map);
+  delete(gca());display1(imagetmp,name,map);
   choice=x_choose(['Yes';'No'],["Update image?"])
   if choice==1 then  
     image=imagetmp
@@ -820,16 +820,16 @@ endfunction
 function image=merit1(original,name,map)//calculates a merit function
 choice=x_choose(['Variance';'Laplacien1';'Second Difference';'Discontinuity Detection'],["Choose your calculation method"])
 if choice==1 then  
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   imagetmp=normal(imvariance(original),1,0)
   end;
 if choice==2 then  
   kern=mkfilter('laplace1');//convolution kernel
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   imagetmp=normal(imconv(original,kern),1,0)
 end;
 if choice==3 then  
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   //convolution kernels
   kern1=[1 0 0;0 -2 0; 0 0 1];
   kern2=[0 1 0;0 -2 0;0 1 0];
@@ -838,7 +838,7 @@ if choice==3 then
   imagetmp=abs(imconv(original,kern1))+abs(imconv(original,kern2))+abs(imconv(original,kern3))+abs(imconv(original,kern4));
 end;
 if choice==4 then  
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   //convolution kernels
   kern1=[1 1 1 1 1;0 0 0 0 0;0 0 0 0 0;0 0 0 0 0;-1 -1 -1 -1 -1];
   kern2=[1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1];
@@ -858,10 +858,10 @@ endfunction
 
 
 function poled1(original,name,map)//poles detection
-xset("window",1);clf;titlepage(['Finding Poles...']);
+xset("window",1);delete(gca());titlepage(['Finding Poles...']);
 p1=abs(poledetection(original,0.5));
 display1(normal(p1,1,0),name,map);
-x_message('Continue ?');
+messagebox('Continue ?');
 xdel(1);
 endfunction
 
@@ -869,18 +869,18 @@ endfunction
 function [image,puw]=unwrapl1(original,name,map)//unwraps linearly
 choice=x_choose(['Horizontal','Vertical'],["Choose your direction"])
 if choice==1 then  
-  xset("window",1);clf;titlepage(['Unwrapping (row by row)...']);
+  xset("window",1);delete(gca());titlepage(['Unwrapping (row by row)...']);
   puw=unwrapl(original,0.5,0,"h")//see the unwrapl function for details on parameters
   imagetmp=normal(puw,1,0)
   end;
 if choice==2 then  
-  xset("window",1);clf;titlepage(['Unwrapping (column by column)...']);
+  xset("window",1);delete(gca());titlepage(['Unwrapping (column by column)...']);
   puw=unwrapl(original,0.5,0,"v")//see the unwrapl function for details on parameters
   imagetmp=normal(puw,1,0)
 end;
 if (choice<>0) then //Cancel button
   display1(imagetmp,name,map);
-  xset("window",2);clf;
+  xset("window",2);delete(gca());
   plot3d1(1:4:size(puw,'r'),1:4:size(puw,'c'),255*puw(1:4:$,1:4:$))
   choice=x_choose(['Yes';'No'],["Update Image ?"])
   if choice==1 then  
@@ -908,16 +908,16 @@ choice=x_choose(['Variance';..
 	'Variance + Discontinuity Detection + Poles'],..
     ["Choose Your Merit Function"])
 if (choice==1)|(choice==6) then  //Variance
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   mf1=imvariance(original);
 end;
 if (choice==2)|(choice==7) then  //Laplacien
   kern=mkfilter('laplace1');//convolution kernel
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   mf1=abs(imconv(original,kern));
 end;
 if (choice==3)|(choice==8) then  //Second difference
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   //convolution kernels
   kern1=[1 0 0;0 -2 0; 0 0 1];
   kern2=[0 1 0;0 -2 0;0 1 0];
@@ -926,7 +926,7 @@ if (choice==3)|(choice==8) then  //Second difference
   mf1=abs(imconv(original,kern1))+abs(imconv(original,kern2))+abs(imconv(original,kern3))+abs(imconv(original,kern4));
 end;
 if (choice==4)|(choice==5)|(choice==9) then  //Discontinuity detection
-  xset("window",1);clf;titlepage(['Calculating Merit Function...']);
+  xset("window",1);delete(gca());titlepage(['Calculating Merit Function...']);
   //convolution kernels
   kern1=[1 1 1 1 1;0 0 0 0 0;0 0 0 0 0;0 0 0 0 0;-1 -1 -1 -1 -1];
   kern2=[1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1;1 0 0 0 -1];
@@ -944,12 +944,12 @@ if (choice>=6)&(choice<=9) then //pole detection
 end;
 
 if (choice<>0) then //Cancel button ?
-  clf;imshow(normal(mf1,1,0));xtitle(["Unwrapping by Path Following";"Be patient"]);
+  delete(gca());imshow(normal(mf1,1,0));xtitle(["Unwrapping by Path Following";"Be patient"]);
   puw=unwrapp(original,mf1);
   imagetmp=normal(puw,1)
   display1(imagetmp,name,map);
   //3D display
-  xset("window",2);clf;
+  xset("window",2);delete(gca());
   //view3d1(imagetmp,name,map);
   xset("colormap",map);
   [r,c]=size(puw);
@@ -972,7 +972,7 @@ endfunction
 
 function [obj,xscale,yscale]=calibration1(puw,xscale1,yscale1) //restitues the real dimensions of the object
 if puw==[] then
-  x_message('You must first unwrapp a phased image');
+  messagebox('You must first unwrapp a phased image');
   obj=[];
 else
   values=x_mdialog('Enter your values',..
@@ -1000,17 +1000,17 @@ endfunction
 function anim1(original) //animation of several images
 nb_images=x_dialog('Nb of images ?','3')
 //imagetmp=zeros(original);
-  file1=xgetfile('*',title=["Name of the file 1/"+nb_images+" in the animation"]);
+  file1=uigetfile('*',title=["Name of the file 1/"+nb_images+" in the animation"]);
   imagetmp=gray_imread(file1);
   imagetmp(:,:,1)=imagetmp;
 // xset("window",1);clf;titlepage(["Reading File..."]);
 for i=2:evstr(nb_images)
-  file1=xgetfile('*',title=["Name of the file "+string(i)+"/"+nb_images+" in the animation"]);
+  file1=uigetfile('*',title=["Name of the file "+string(i)+"/"+nb_images+" in the animation"]);
   imagetmp(:,:,i)=gray_imread(file1);
-  xset("window",1);clf;titlepage(["Reading File..."]);
+  xset("window",1);delete(gca());titlepage(["Reading File..."]);
 end;
 
-xset("pixmap",1);//animation is on
+//xset("pixmap",1);//animation is on
 while %t
   for i=1:evstr(nb_images)
     if i==evstr(nb_images) then
@@ -1027,7 +1027,8 @@ while %t
   answer1=xgetmouse();
   if answer1(3)==2 then break; end//right click to stop animation
 end;//while
-xset("pixmap",0);xdel(1)
+//xset("pixmap",0);
+xdel(1)
 
 endfunction
 
@@ -1067,7 +1068,7 @@ theta_mrad=atan(w_cm/D)*1e3;
 theta_deg=atan(w_cm/D)*(180/%pi);
 w0_mu=lambda/(%pi*theta_mrad);
 
-x_message(['Results :';' ';..
+messagebox(['Results :';' ';..
     'Half-divergence';'   = '+string(theta_mrad)+' mrad';..
     '   = '+string(theta_deg)+' degres';..
 	' ';'Beam waist w0';'   = '+string(w0_mu)+' microns'])
@@ -1102,7 +1103,7 @@ N=size(datas1,'c');
 coefficient=cdft("T",N-1,1-alpha/2,alpha/2);
 dev1=coefficient*s/sqrt(N);
 
-x_message(['The entered datas are following: ',string(datas1),..
+messagebox(['The entered datas are following: ',string(datas1),..
 	'The standard devation is: ','   '+string(s),..
 	'The mean is: ','   '+string(Mean1),..
 	'The confidence level is ','   '+niv_conf+' %',..
@@ -1110,7 +1111,7 @@ x_message(['The entered datas are following: ',string(datas1),..
 	'Your measure is then :',..
 	string(Mean1-dev1)+' < '+string(Mean1)+' < '+string(Mean1+dev1)	]);
 
-xselect(); //back to graphical view
+show_window(); //back to graphical view
 endfunction
 
 
@@ -1130,14 +1131,14 @@ endfunction
 
 function video1()
 if MSDOS then 
-  x_message(['This is a Linux Feature Only';'Sorry']);
+  messagebox(['This is a Linux Feature Only';'Sorry']);
 else
   if unix('type xawtv')==0 then
     unix('xawtv&');
     xpause(1e6);//wait: xawtv must be active to use xawtv-remote
     unix('xawtv-remote setinput Composite1');
   else
-    x_message(['You need to install xawtv on your system']);
+    messagebox(['You need to install xawtv on your system']);
   end;
 end;
 endfunction
@@ -1161,7 +1162,7 @@ if unix('ps -A|grep xawtv')==0 then
   end;//test if Image Magick is available
   display1(image,name);
 else
-  x_message(['You need to launch xawtv first']);
+  messagebox(['You need to launch xawtv first']);
 end;
 endfunction
 
@@ -1197,7 +1198,7 @@ y=ones(y);
 
 z=0.5*(1+cos(n*x+phi))'*y;
 z=z';
-xset("window",1);clf;xselect();
+xset("window",1);delete(gca());show_window();
 xset("wpos",x0,y0);
 display1(z,name,map);
 xclick();
@@ -1249,7 +1250,7 @@ if unix('ps -A|grep xawtv')==0 then
     phi=a*dephi;
     z=0.5*(1+cos(n*x+phi))'*y;
     z=z';
-    xset("window",1);clf;xselect();
+    xset("window",1);delete(gca());show_window();
     xset("wpos",x0,y0);
     display1(z,name,map);
     name='Phased'+string(a+1)+'.jpg';
@@ -1267,7 +1268,7 @@ if unix('ps -A|grep xawtv')==0 then
   xclick();//clic to destroy the window
   xdel(1);  
 else
-  x_message(['You need to launch xawtv first']);
+  messagebox(['You need to launch xawtv first']);
 end;//if unix
 endfunction
 
@@ -1283,10 +1284,11 @@ endfunction
 
 
 //intialisation + menus creation
-xdel(0);xset("window",0);
+xset("window",0);
+clf;
 xset("wpos",0,20);
 xset("wdim",w1,h1);
-xselect();
+show_window();
 titlepage(["Start with menu ImageFiles"]);
 datas=[];puw=[];
 map1=graycolormap(256);//default colormap
