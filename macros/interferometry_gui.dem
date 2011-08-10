@@ -63,10 +63,10 @@ mode (-1);
 
 //1st initialisation:
 
-INIT_GRAPH=get("old_style");//memorize Scilab mode
-set("old_style","on");//needed by imxprofile functions
+//INIT_GRAPH=get("old_style");//memorize Scilab mode
+//set("old_style","on");//needed by imxprofile functions
 
-INTERFGUI_INI=getcwd();
+INTERFGUI_INI=pwd();
 
 INTERFGUI_VERSION='0.3.9';
 
@@ -227,10 +227,9 @@ xset("window",0)
 endfunction
 
 
-function quit1(INTERFGUI_INI,INIT_GRAPH);
+function quit1(INTERFGUI_INI);
 chdir(INTERFGUI_INI);
 xdel();
-set("old_style",INIT_GRAPH);
 endfunction
 
 
@@ -1370,7 +1369,7 @@ ImageFiles_0=["start1()","[image,name]=open1(map1)","write1(image)",..
 	"map1=gamma1(image,name,map1)",..
 	"display1(image,name,map1)",..
 	"view3d1(image,name,map1)",..
-	"quit1(INTERFGUI_INI,INIT_GRAPH)"];
+	"quit1(INTERFGUI_INI)"];
 
 Operations_0=["image=normal1(image,name,map1)",..
 	"image=threshold1(image,name,map1)",..
