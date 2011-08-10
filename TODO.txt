@@ -19,7 +19,7 @@ Parsing failed for null
 
 ----------------------------------------------------------
 Scilab bugs
-- cannot copy/paste from scilab window buffer
+- cannot copy/paste from scilab window buffer (true for git version).
 - graycolormap error check is wrong; it is not letting colormaps with less than
   3 colors (rows).
   /home/rfabbri/src/scilab/scilab/modules/graphics/macros/graycolormap.sci

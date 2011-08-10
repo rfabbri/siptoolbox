@@ -72,7 +72,7 @@
    C = imcorrcoef(img, template);
 
    xbasc();
-   imshow(img+2*(C==maxi(C)),[]);  // letter is detected!!
+   imshow(img+2*(C==max(C)),[]);  // letter is detected!!
    ]]></programlisting></refsection>
 
    

@@ -59,7 +59,7 @@
             <term>n</term>
       
             <listitem>
-       The number of connected components. Equals to <literal>maxi(L)</literal>.
+       The number of connected components. Equals to <literal>max(L)</literal>.
       </listitem>
       
          </varlistentry>

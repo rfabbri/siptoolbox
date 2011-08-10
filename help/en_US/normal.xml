@@ -71,11 +71,11 @@
        chdir (SIPDIR + 'images');
 
        Img = gray_imread('gra.jpg');
-       mini(Img)
-       maxi(Img)
+       min(Img)
+       max(Img)
        N = normal(Img,255);
-       mini(N)
-       maxi(N)
+       min(N)
+       max(N)
 
        chdir(initial_dir);
    ]]></programlisting></refsection>

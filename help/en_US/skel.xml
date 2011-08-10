@@ -185,7 +185,7 @@
     imshow(sqrt(dt),[]);
 
     // The Influence/Voronoi diagram of each boundary pixel
-    imshow(vor+1,rand(maxi(vor)+1,3));   // each region maps to a random color
+    imshow(vor+1,rand(max(vor)+1,3));   // each region maps to a random color
 
     // Let's see if computation is really fast
     big = mogrify(im,['-sample','1000x']);

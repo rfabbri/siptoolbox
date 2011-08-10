@@ -137,7 +137,7 @@
    // watershed, except for the hardest cases. It is extremely easy to
    // count the number of regions:
 
-   n = maxi(w) - 1     // 26 regions minus the background
+   n = max(w) - 1     // 26 regions minus the background
 
    // The computer found 25 regions, but there are 20, an error of about 20%
    // Let's improve this result. In the cases with many overlapping

@@ -99,7 +99,7 @@
        specified range. Elements &lt;= low will map onto  black, Elements
        &gt;= high will map onto white, and elements  in between will map
        as a shade of gray. If an empty matrix  <literal>&apos;[]&apos;</literal> is used,
-       <literal>[low,high]</literal> will be assumed to be <literal>[mini(Img),  maxi(Img)]</literal>. 
+       <literal>[low,high]</literal> will be assumed to be <literal>[min(Img),  max(Img)]</literal>. 
        </listitem>
      </varlistentry>
 
