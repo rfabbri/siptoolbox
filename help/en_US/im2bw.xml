@@ -67,7 +67,7 @@
        chdir (SIPDIR + 'images');
 
        [Img,map] = imread('indian.bmp');
-       xbasc()
+       clf
        imshow(Img, map);
        bw = im2bw(Img, map,0.5);
        imshow(bw,2);

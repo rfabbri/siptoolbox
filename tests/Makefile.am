@@ -17,7 +17,9 @@
 
 # Todo: 
 # - need to set LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/lib/scilab/ in order to
-#   run sip_link_test
+#   run sip_link_test. Perhaps a wrapper script to do this; scilab does the
+#   same, see:
+#   		http://wiki.scilab.org/Debugging%20and%20Profiling%20Scilab%205
 LDADD = $(top_builddir)/src/libsip.la @SCILIBDIR@/libscilab.so
 
 noinst_PROGRAMS = sip_link_test

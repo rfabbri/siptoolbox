@@ -53,7 +53,7 @@
 
        skl = thin(im);
 
-       xbasc();
+       clf;
        imshow(im+skl,[]);
 
        // Quality is definitely inferior to that of good skeletonization
@@ -61,7 +61,7 @@
 
        im=gray_imread(SIPDIR+'images/escher.png');
        skl = thin(im);      // Ordinary thinning
-       xbasc();
+       clf;
        xset('wdim',400,500);
        subplot(1,2,1);
        imshow(im+skl,[]);

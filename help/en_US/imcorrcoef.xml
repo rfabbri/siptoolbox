@@ -65,13 +65,13 @@
    // Let's detect the letter "B" in a license plate
    //
    img = gray_imread(SIPDIR+'images/plate.gif');
-   xbasc(); imshow(img);
+   clf; imshow(img);
    template = gray_imread(SIPDIR+'images/template.jpg');
-   xbasc(); imshow(template);
+   clf; imshow(template);
 
    C = imcorrcoef(img, template);
 
-   xbasc();
+   clf;
    imshow(img+2*(C==max(C)),[]);  // letter is detected!!
    ]]></programlisting></refsection>
 

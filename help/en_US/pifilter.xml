@@ -67,11 +67,11 @@ However, the noise will more often not be  removed; just attenuated. </para>
    
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        a=gray_imread(SIPDIR+'images/photonics/pyramide_noisy.jpg');
-       xset("window",0);xbasc();
+       xset("window",0);clf;
        imshow(a);
        improfile(a);//to visualise profiles
        b=pifilter(a);
-       xset("window",1);xbasc();
+       xset("window",1);clf;
        imshow(b);
        improfile(b);//jumps are still well visible and other parts are smoothed
    ]]></programlisting></refsection>

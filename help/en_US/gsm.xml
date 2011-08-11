@@ -151,13 +151,13 @@
 
        Img = imread('star.bmp');
        xset('window',0);
-       xbasc()
+       clf
        imshow(Img,2);
 
        [x,y] = follow(Img);  // get the parametric contour
        t=1:size(x,'*');
        xset('window',1)
-       xbasc()
+       clf
        subplot(121)
        plot2d(t,x,2);
        subplot(122)
@@ -173,7 +173,7 @@
        // builds an image from parametric contour:
        Img2=unfollow(xsm,ysm,size(Img));
        xset('window',0);
-       xbasc()
+       clf
        imshow(Img2,2);
 
        chdir(initial_dir);

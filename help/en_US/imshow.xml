@@ -135,13 +135,13 @@
     chdir (SIPDIR + 'images');
 
     a = rand(100,100);   // create random image
-    xbasc();
+    clf;
     imshow(a);
 
     imshow(a*255 + 1,hotcolormap(256));
     imshow(a,[0.3 0.6]);
     imshow(a,[]);
-    xbasc();
+    clf;
     imshow('example.png');
 
     chdir(initial_dir);

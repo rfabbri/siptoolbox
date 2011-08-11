@@ -40,18 +40,18 @@
 <refsection><title>Examples</title><programlisting role="example"><![CDATA[
 
       rgb = imread(SIPDIR + 'images/tru.jpg'):
-      xbasc();
+      clf;
       imshow(rgb);
 
       hsv = rgb2hsv(rgb);
-      xbasc();
+      clf;
       imshow(hsv(:,:,3))  // intensity
       imshow(hsv(:,:,1))  // hue (color component)
 
       hsv(:,:,2) = 1      // saturate the image
 
       rgb = hsv2rgb(hsv);
-      xbasc();
+      clf;
       imshow(rgb);
 
       // You may also convert a single triplet:

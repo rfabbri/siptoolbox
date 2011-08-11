@@ -72,10 +72,10 @@ ignores them, or can be used to create  branches in residue-cut tree algorithms.
    stacksize(4e7);
 
    pw=gray_imread(SIPDIR+'images/photonics/pyramide_noisy.jpg'); //phase wrapped
-   xset("window",0);xbasc();imshow(pw);
+   xset("window",0);clf;imshow(pw);
 
    poles=abs(poledetection(pw));//locate residues, no matter of the sign
-   xset("window",1);xbasc();imshow(poles,[]);//bright pixels
+   xset("window",1);clf;imshow(poles,[]);//bright pixels
    // show places where phase jumps are very uncertains
 
    //Avoid unwrapping these points:
@@ -87,7 +87,7 @@ ignores them, or can be used to create  branches in residue-cut tree algorithms.
 
    //phase unwrapping:
    puw=unwrapp(pw,mf);
-   xset("window",2);xbasc();imshow(puw,[]);
+   xset("window",2);clf;imshow(puw,[]);
    ]]></programlisting></refsection>
 
 

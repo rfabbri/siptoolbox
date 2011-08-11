@@ -51,14 +51,14 @@
 
        Img = imread('star.bmp');
        xset('window',0);
-       xbasc()
+       clf
        imshow(Img,2);
        [x,y] = follow(Img);
-       xbasc()
+       clf
        xsm = gsm(x,15);
        ysm = gsm(y,15);
        Img2=unfollow(xsm,ysm,size(Img));
-       xbasc()
+       clf
 
        chdir(initial_dir);
    ]]></programlisting>

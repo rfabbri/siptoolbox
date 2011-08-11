@@ -71,11 +71,11 @@
 
        Img = imread('star.bmp');
        xset('window',0)
-       xbasc()
+       clf
        imshow(Img,2);
        [x,y] = follow(Img);
        xset('window',1)
-       xbasc()
+       clf
        plot2d(1:size(x,'*'),x,2);
        plot2d(1:size(y,'*'),y,1);
 

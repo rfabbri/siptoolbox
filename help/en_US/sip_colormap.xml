@@ -131,7 +131,7 @@ Have a look at this toolbox if you want to improve Scilab displays.
    //reads an indexed image
    map=sip_colormap(10,256); //takes the colormap number 19
    //it's the same as: map=sip_colormap('sunrise',256);
-   xbasc();imshow(image,map);
+   clf;imshow(image,map);
    //display in false colors
 
    //For 3D plots, with the map number 16 ('prism')
@@ -141,7 +141,7 @@ Have a look at this toolbox if you want to improve Scilab displays.
 
    //You can have the complimentary colormap with
    comp_map=abs(1-map);
-   xbasc();imshow(image,comp_map);
+   clf;imshow(image,comp_map);
    //or simply:comp_map=sip_coloramp(16,-256)
 
    //To reverse the color order:
@@ -149,7 +149,7 @@ Have a look at this toolbox if you want to improve Scilab displays.
 
    //To display a colormap:
    map1=ones(1:100)'*(256:-1:1);           
-   xbasc();imshow(map1',sip_colormap(4))   
+   clf;imshow(map1',sip_colormap(4))   
    //will display the colormap number 4 in 256 colors
 ]]></programlisting></refsection>
 

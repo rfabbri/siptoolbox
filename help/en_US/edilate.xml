@@ -108,10 +108,10 @@
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        Img = gray_imread(SIPDIR+'images/tru.jpg');
        Img = 1-im2bw(Img, 0.3);
-       xbasc()
+       clf
        imshow(Img,2);
        e = edilate(Img,7);
-       xbasc()
+       clf
        imshow(e,2);
    ]]></programlisting></refsection>
    

@@ -80,11 +80,11 @@
 
        Img = imread('tru.jpg');
        Img = im2gray(Img);
-       xbasc()
+       clf
        imshow(Img);
        sob = mkfilter('sobel');    // stamp effect
        A = imconv(Img, sob);
-       xbasc()
+       clf
        imshow(A, [])
 
        chdir(initial_dir);

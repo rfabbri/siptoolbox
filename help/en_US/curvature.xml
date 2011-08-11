@@ -69,10 +69,10 @@
        chdir (SIPDIR + 'images');
 
        Img = imread('star.bmp');
-       xbasc()
+       clf
        imshow(Img,2);
        k = curvature(Img,13);  // 13 sigma (shape is smoothed so curvature exists)
-       xbasc()
+       clf
        plot(k)
        //
        // observe there are six curvature peaks,

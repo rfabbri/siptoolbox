@@ -122,10 +122,10 @@ the extension in the  filename parameter.
   <title>Examples</title>
   <programlisting role="example"><![CDATA[
     a=rand(100,150);      // create a random image
-    xbasc();
+    clf;
     imshow(a);
     imwrite(a,'SIPtmp.jpg');
-    xbasc();
+    clf;
     imshow('SIPtmp.jpg');
 ]]></programlisting>
 </refsection>

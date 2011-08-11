@@ -62,13 +62,13 @@
        chdir (SIPDIR + 'images');
 
        [Img,map] = imread('onca.gif');
-       xbasc()
+       clf
        imshow(Img,map);
        Img = im2gray(Img, map);     // Img is now 0-1 range
-       xbasc()
+       clf
        imshow(Img);
        Img = gsm2d(Img,2);
-       xbasc()
+       clf
        imshow(Img);
 
        chdir(initial_dir);

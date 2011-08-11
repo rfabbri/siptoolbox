@@ -62,7 +62,7 @@
 
        Img = imread('tru.jpg');
        Img = im2gray(Img);
-       xbasc()
+       clf
        imshow(Img);
 
        chdir(initial_dir);

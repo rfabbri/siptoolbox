@@ -173,11 +173,11 @@
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        step = 2*%pi/100;
        y = sin(step:step:2*%pi);  // from 2pi/100 to 2pi
-       xbasc()
+       clf
        plot(y);
        // 1st derivative, a sigma of 3 steps to the left and to the right
        d = fftderiv(y,1,3*step,step);
-       xbasc()
+       clf
        plot(d)   // a cosine period
    ]]></programlisting></refsection>
    

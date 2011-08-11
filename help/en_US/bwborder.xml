@@ -55,11 +55,16 @@
    initial_dir = PWD;
    chdir (SIPDIR + 'images');
 
-   Img = imread('bin2.pbm')
-   xbasc()
+   Img = imread('star.bmp')
+   clf
    imshow(Img,2);
+
    B = bwborder(Img)
    imshow(B,2);
+
+   // exercise: define a small matrix of 0's and 1's, 
+   // with the 1's forming a distinct object (like a square),
+   // then run bwborder to see what it does to the matrix.
 
    chdir(initial_dir);
    ]]></programlisting>

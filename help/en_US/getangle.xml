@@ -49,7 +49,7 @@
        chdir (SIPDIR + 'images');
 
        Img = imread('disks.bmp');
-       xbasc()
+       clf
        imshow(Img,2);
        Dx = edge(Img,thresh=-1, direction='horizontal');
        Dy = edge(Img,thresh=-1, direction='vertical');

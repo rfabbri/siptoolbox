@@ -76,7 +76,7 @@
        Img = 1-Img;
        SE = ones(10,10);
        e = erode(Img, SE);
-       xbasc()
+       clf
        imshow(e ,2);
 
        chdir(initial_dir);

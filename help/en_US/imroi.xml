@@ -76,12 +76,12 @@ It has the same size as the input image (e.g. it is 3D if the input is 3D, and 2
    
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        a=imread(SIPDIR+'images/ararauna.jpg');
-       xset("window",0);xbasc();
+       xset("window",0);clf;
        imshow(a);
        mask=imroi(a);
        //the user must then select the ROI with the mouse
        b=a.*mask;
-       xset("window",1);xbasc();
+       xset("window",1);clf;
        imshow(b);//displays just the ROI
    ]]></programlisting></refsection>
 

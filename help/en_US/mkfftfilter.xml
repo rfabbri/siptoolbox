@@ -99,7 +99,7 @@
                    // images are very much memory consumming
 
    image=gray_imread(SIPDIR+'images/ararauna.png');
-   xset("window",0);xbasc();imshow(image);
+   xset("window",0);clf;imshow(image);
    xtitle("Original Image");
 
    IM=fft(image,-1);
@@ -109,25 +109,25 @@
    //for visualisation: the low frequencies are moved to the center of the image
    //with sip_fftshift,
    //the use of log(spectrum+1) allows to observe great amplitude variations.
-   xset("window",1);xbasc();imshow(sip_fftshift(log(spectrum+1)),[]);
+   xset("window",1);clf;imshow(sip_fftshift(log(spectrum+1)),[]);
    xtitle("Power Spectrum");
 
    //transfer function
    h=mkfftfilter(image,'binary',20);
-   xset("window",2);xbasc();imshow(h);
+   xset("window",2);clf;imshow(h);
    xtitle("Transfer Function");
 
    IM2=IM.*sip_fftshift(h);//spectrum modification
 
    //reverse transform
    im2=real(fft(IM2,1));
-   xset("window",3);xbasc();xselect();imshow(im2,[]);
+   xset("window",3);clf;xselect();imshow(im2,[]);
    xtitle("Low-pass binary filtering");
 
    //High-pass filter
    IM3=IM.*sip_fftshift(1-h);//spectrum modification with (1-h)
    im3=real(fft(IM3,1));
-   xset("window",4);xbasc();xselect();imshow(im3,[]);
+   xset("window",4);clf;xselect();imshow(im3,[]);
    xtitle("High-pass binary filtering");
 
    //Combination of 2 filters
@@ -136,7 +136,7 @@
    h=h1-h2;
    IM4=IM.*sip_fftshift(h);//spectrum modification
    im4=real(fft(IM4,1));
-   xset("window",5);xbasc();xselect();imshow(im4,[]);
+   xset("window",5);clf;xselect();imshow(im4,[]);
    xtitle("Band-pass binary filtering");
    ]]></programlisting></refsection>
 

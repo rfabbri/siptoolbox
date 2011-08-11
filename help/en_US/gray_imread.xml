@@ -42,7 +42,7 @@
     chdir (SIPDIR + 'images');
 
     Img = gray_imread('ararauna.png');
-    xbasc()
+    clf
     imshow(Img,[]);
 
     chdir(initial_dir);

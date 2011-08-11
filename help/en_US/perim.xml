@@ -53,7 +53,7 @@
        chdir (SIPDIR + 'images');
 
        Img = imread('star.bmp');
-       xbasc()
+       clf
        imshow(Img,2);
        p = perim(Img)
 

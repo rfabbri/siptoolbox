@@ -85,7 +85,7 @@
     imfinfo('example.png','verbose');
     // the image is indexed
     [im,i] = imread('example.png');
-    xbasc();
+    clf;
     imshow(im,i);
 
     chdir(initial_dir);

@@ -79,16 +79,16 @@
    Img = imread(SIPDIR+'images/tru.jpg');
    Img = 1-im2bw(Img, 0.3);
    Img = thin(Img);
-   xbasc()
+   clf
    imshow(Img, 2);
 
    e = dilate(Img);
-   xbasc()
+   clf
    imshow(e, 2);
 
    SE = eye(10,10);
    e = dilate(Img, SE, [1,1]);
-   xbasc()
+   clf
    imshow(e, 2);
 ]]></programlisting></refsection>
    

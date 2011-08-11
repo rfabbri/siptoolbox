@@ -132,9 +132,9 @@ jumps needed to re-establish phase continuity: unwrapped_phase=image+jumps; </pa
 
    [puw,jumps]=unwrapp(pw,mf);
 
-   xset("window",1);xbasc();xselect();imshow(normal(puw,1,0));
+   xset("window",1);clf;xselect();imshow(normal(puw,1,0));
    xtitle("unwrapped phase");
-   xset("window",2);xbasc();plot3d1(1:8:size(puw,'r'),1:8:size(puw,'c'),puw(1:8:$,1:8:$))
+   xset("window",2);clf;plot3d1(1:8:size(puw,'r'),1:8:size(puw,'c'),puw(1:8:$,1:8:$))
    ]]></programlisting></refsection>
 
 

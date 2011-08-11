@@ -108,13 +108,13 @@ It contains positive and negative values.
    pw=gray_imread(SIPDIR+'images/photonics/pyramide_wrapped.jpg'); //phase wrapped
 
    xset("window",0); //create a 1st window to display the original image
-   xbasc();xselect();imshow(pw);
+   clf;xselect();imshow(pw);
    xtitle("original wrapped phase")
 
    //we try to show the object in 3D:
    //because of phase jumps, it's not very good
    xset("window",1);//the best of all: in a 3rd window, show the object in 3D
-   xbasc();xselect();
+   clf;xselect();
    //we take 1 point on 4 to draw the object (faster and more beautifull than
    //drawing all the points)
    plot3d1(1:4:size(pw,'r'),1:4:size(pw,'c'),pw(1:4:$,1:4:$));
@@ -129,11 +129,11 @@ It contains positive and negative values.
    //and we show the result
    xset("window",2);//show the unwrapped phase in 2D: we have to put it in the 0-1 range
    //to display it properly
-   xbasc();xselect();imshow(normal(puw));
+   clf;xselect();imshow(normal(puw));
    xtitle("unwrapped phase");
 
    xset("window",3);//we can now show the original object in 3D
-   xbasc();xselect();
+   clf;xselect();
    // Again, we take 1 point on 4 to draw the object
    plot3d1(1:4:size(puw,'r'),1:4:size(puw,'c'),puw(1:4:$,1:4:$));
    xtitle("unwrapped phase in 3D");

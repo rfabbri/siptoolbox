@@ -16,6 +16,9 @@ Parsing failed for null
 
 - interferometry gui doesn't work anymore (perhaps disable it)
 - during the first demo, displaying with colormap 2 causes window to shrink.
+- make the help subtitle be "Functions"
+- write an intro
+- 
 
 ----------------------------------------------------------
 Scilab bugs
@@ -33,3 +36,6 @@ Website
 ----------------------------------------------------------
 Thoughts
 - does openjdk work well enough?
+
+
+``

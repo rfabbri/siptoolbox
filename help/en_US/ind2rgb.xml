@@ -41,7 +41,7 @@
      chdir (SIPDIR + 'images');
 
      [Img,map] = imread('indian.bmp');
-     xbasc()
+     clf
      imshow(Img, map);
      RGB = ind2rgb(Img, map);
      imshow(RGB);

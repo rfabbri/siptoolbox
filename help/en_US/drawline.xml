@@ -56,7 +56,7 @@
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        I = zeros(100,100);
        J = drawline(I, [1 1; 20 50; 100 100]);
-       xbasc();
+       clf;
        imshow(J,2);
    ]]></programlisting></refsection>
    

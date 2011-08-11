@@ -77,7 +77,7 @@
    imshow(r,[])
 
    im2 = iradon(r);
-   xbasc()
+   clf
    imshow(im2,[])
    ]]></programlisting></refsection>
    

@@ -155,13 +155,13 @@ can try option=2.
    imxprofile(a);
 
    //profiles in separate windows
-   xbasc();
+   clf;
    imshow(a); 
    imxprofile(a,1)
 
    //laser beam visualisation
    b=imread(SIPDIR+'images/photonics/laser1.jpg');
-   xbasc();imshow(b,[]);
+   clf;imshow(b,[]);
    imxprofile(b,2);
    ]]></programlisting></refsection>
 

@@ -73,16 +73,16 @@
 
    im = imread('star.bmp');
    im = bwborder(im);
-   xbasc()
+   clf
    imshow(im,2);
 
    h = hough(im);
-   xbasc()
+   clf
    imshow(h,[]);  // theta varies horizontally from 0 to 180
 
    ht = 1*(h>= 40); // threshold the hough space
    lim = ihough(ht,size(im)); // draw the detected lines
-   xbasc()
+   clf
    imshow(lim + 2*im +1, hotcolormap(4)) // detected lines shown in yellow
 
 

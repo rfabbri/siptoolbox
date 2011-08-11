@@ -49,7 +49,7 @@
        chdir (SIPDIR + 'images');
 
        [im,map] = imread('example.bmp');
-       xbasc()
+       clf
        imshow(im,map);
        p = xgetpixel(im)
 

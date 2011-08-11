@@ -63,7 +63,7 @@
        while (~percol(a))   // test the image if one side connects to the other
        end
        // now, surely, the image is connected side-to-side (i.e., it has percolated)
-       xbasc();
+       clf;
        imshow(1-a,2); // 1 is displayed as black
    ]]></programlisting></refsection>
    

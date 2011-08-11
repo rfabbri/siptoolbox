@@ -96,32 +96,32 @@
 
    Img = imread('tru.jpg');
    Img = im2gray(Img);
-   xbasc()
+   clf
    imshow(Img);
 
    e = edge(Img);  // sobel, thresh = 0.5
-   xbasc()
+   clf
    imshow(e,2)
 
    e = edge(Img,'prewitt'); // thresh = 0.5
-   xbasc()
+   clf
    imshow(e,2)
 
    e = edge(Img,'fftderiv', 0.4);  // FFT gradient method; 0.4 threshold
-   xbasc()
+   clf
    imshow(e,[])
 
    // It is useful to thin the edges, eliminating redundant pixels:
    e = thin(e);
-   xbasc()
+   clf
    imshow(e,[])
 
    e = edge(Img,'fftderiv',sigma=3,thresh=-1); // thicker edges, no threshold
-   xbasc()
+   clf
    imshow(e,[])
 
    e = edge(Img,thresh=-1);
-   xbasc()
+   clf
    imshow(e,[])
 
    chdir(initial_dir);
