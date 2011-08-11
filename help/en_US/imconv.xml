@@ -95,12 +95,14 @@
         -1    -1 -1]
        img = imread('gra.jpg');
        res = imconv(img,h);
+       clf
        imshow(res,[]);
        // Detect diagonal lines
        d = [ -1    -1  2
         -1     2 -1
          2    -1 -1]
        res = imconv(img,d);
+       clf
        imshow(res,[]);
        chdir(initial_dir);
    ]]></programlisting></refsection>

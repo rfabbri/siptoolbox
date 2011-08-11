@@ -18,7 +18,11 @@ Parsing failed for null
 - during the first demo, displaying with colormap 2 causes window to shrink.
 - make the help subtitle be "Functions"
 - write an intro
-- 
+- in examples and demo, control the size of the window (imges too smal). This is
+  crucial for the case of bin.xpm and bin.png
+- put some pauses in the examples of the help pages since they will likely be
+  executed with "play".
+
 
 ----------------------------------------------------------
 Scilab bugs

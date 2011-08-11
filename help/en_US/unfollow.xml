@@ -54,11 +54,11 @@
        clf
        imshow(Img,2);
        [x,y] = follow(Img);
-       clf
        xsm = gsm(x,15);
        ysm = gsm(y,15);
        Img2=unfollow(xsm,ysm,size(Img));
        clf
+       imshow(Img2,2);
 
        chdir(initial_dir);
    ]]></programlisting>

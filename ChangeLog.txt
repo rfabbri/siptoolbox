@@ -2,6 +2,9 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
+	+ Help updated to build with Scilab 5.3 git. Many fixes and updates to the
+	help files. Made many examples run, updating the syntax.
+
 0.5.2
 	+ SIP compiles and loads cleanly with Scilab 5.3 that comes with Ubuntu 11.04
 	+ SIP intro and mogrify demos run smoothly in Scilab 5.3
