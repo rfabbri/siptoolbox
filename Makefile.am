@@ -26,9 +26,9 @@ EXTRA_DIST = autogen.sh src/Makefile.am.input config/subst_input_files.sh \
              config/my_unix.sci config/sip_xmltohtml.sci COPYING.txt \
 				     TODO.txt THANKS.txt NEWS.txt AUTHORS.txt ChangeLog.txt \
 				     DEVEL_README.txt FAQ.txt INSTALL.txt INSTALL_UNIX_DETAILED.txt \
-				     INSTALL-MinGW.txt
+				     INSTALL-MinGW.txt etc/siptoolbox.start etc/siptoolbox.quit
 
-DIST_SUBDIRS = src macros images man help tests
+DIST_SUBDIRS = src macros images man help tests etc
 SUBDIRS = src macros images @HELPDIR@ tests
 
 toolboxdir=@TOOLBOXDIR@
