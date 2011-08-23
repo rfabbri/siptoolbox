@@ -1,7 +1,5 @@
 mode (-1);
-deff('[] = clrscr()', 'nl=lines(); lines(0); ...
-                       for i=1:nl(2) do, printf(''\n''), end;... 
-                       lines(nl(1),nl(2));')
+deff('[] = clrscr()', 'clc()')
 clrscr()
 
 // TODO turn on double-buffering:
