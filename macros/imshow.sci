@@ -123,8 +123,6 @@ if xget('pixmap') == 1,  xset('wshow'), end
 //xset('pixmap',prev_pixmap_mode);
 //
 
-if MSDOS, xbasr(), end
-
 endfunction
 
 //

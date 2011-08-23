@@ -2,7 +2,9 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
-	+ Help updated to build with Scilab 5.3 git. Many fixes and updates to the
+0.5.3-git
+	+ improvements to work with Scilab Git master (6.0 development version)
+	+ help updated to build with Scilab 5.3 git. Many fixes and updates to the
 	help files. Made many examples run, updating the syntax.
 
 0.5.2

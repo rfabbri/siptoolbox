@@ -1130,7 +1130,7 @@ endfunction
 
 
 function video1()
-if MSDOS then 
+if getos() == "Windows" then 
   messagebox(['This is a Linux Feature Only';'Sorry']);
 else
   if unix('type xawtv')==0 then
@@ -1299,7 +1299,7 @@ yscale=15;
 zscale=255;
 
 
-if ~MSDOS then
+if getos() ~= "Windows" then
   delmenu(0,"3D Rot.");
   delmenu(0,"File");
 else
