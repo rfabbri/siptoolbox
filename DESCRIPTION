@@ -1,0 +1,36 @@
+Toolbox: siptoolbox
+
+Title: SIP - Scilab Image Processing Toolbox
+
+Summary: Image loading, Image Processing, Computer Vision
+
+Version: 0.5.3
+
+Author: Ricardo Fabbri <rfabbri@users.sourceforge.net>
+
+Maintainer: Ricardo Fabbri <rfabbri@users.sourceforge.net>
+            Lab Macambira team <labmacambira@teia.org.br>
+
+Category: Image Processing
+          Education
+
+Entity: http://labmacambira.tk
+
+WebSite: http://siptoolbox.sf.net
+
+License: GPL
+
+ScilabVersion: >= 5.3
+
+Depends: ImageMagick, AnImaL from Git 
+
+Date: 2011-08-23
+
+Description: SIP stands for Scilab Image Processing toolbox. SIP intends to do
+imaging tasks such as filtering, blurring, edge detection, thresholding,
+histogram manipulation, segmentation, mathematical morphology, color image
+processing, etc.  These operations are useful for problem solving in real-world
+applications ranging from car motion planning to automatic diagnosis of medical
+images.  SIP is meant to be a complete, useful, and FREE digital image
+processing toolbox for Scilab. 
+ 

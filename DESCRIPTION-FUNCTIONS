@@ -1,0 +1,72 @@
+KRC_from_P - Decompose a 3x4 projection matrix into K, R, and C
+angle - gradient direction of edges
+bwborder - Border detection for binary images
+bwdist - distance transforms
+bwlabel - Connected component labeling
+curvature - Curvature of a contour
+curvature2d - Curvature of a surface or image
+dilate - Morphological dilation of binary images
+drawline - Draws line in a binary image
+edge - Edge detection
+edilate - Euclidean morphological dilation of binary
+erode - Morphological erosion of binary images
+exp2rot_matrix - Converts from exponential to matrix rotation parameterization.
+fftderiv - Derivative of a vector using FFT
+follow - A binary contour follower
+fractal - Multiscale fractal dimension curve
+getangle - gradient direction of edges
+gray_imread - Read any image as grayscale
+gsm - 1D gaussian smoothing
+gsm2d - 2D gaussian smoothing
+hello_sip - Learn to add your own C routine to SIP
+hough - Hough transform for line detection
+hsv2rgb - Converts from HSV to RGB colorspace
+ihough - Inverse hough transform
+im2bw - Convert an image to binary by thresholding
+im2gray - Converts color images or colormaps to grayscale
+imconv - 2D convolution
+imcorrcoef - Template matching by normalized correlation
+imfinfo - Gets image file information
+imnoise - Add noise (Gaussian, etc.) to an image
+imphase - Image phase calculation.
+improfile - Draws intensity profiles of an image
+imread - Reads image file in any format
+imroi - Roi (region of interest) of an image
+imshow - Displays images in the Scilab graphic window
+imvariance - Calculates the variance of an image
+imwrite - Write image to file in any format
+imxprofile - Draws intensity profiles of an already displayed image
+ind2rgb - Converts indexed images to true color
+interferometry_gui - Graphical User Interface (GUI) for SIP functions
+iradon - Inverse hough transform
+minmax - Min/Max algorithm for noise removal from images
+mkfftfilter - Builds 2D frequency-domain filters
+mkfilter - Returns popular 2D convolution kernels
+mogrify - Filter, rotate, zoom, equalize, and much more image manipulation.
+normal - Normalize array to a given range
+ntsc2rgb - Convert from NTSC/YIQ to RGB colorspace
+percol - Test if binary image is percolated
+perim - Perimeter of binary shape
+pifilter - Pi filter for phased images
+poledetection - Poles (or residues) detection in a wrapped phase image
+quaternion2rot_matrix - Converts a quaternion to a rotation matrix
+quaternion_matrix - Generates quaternion multiplication matrix
+quaternion_multiply - Multiplication of two quaternions
+radon - Radon transform
+rgb2hsv - Converts from RGB to HSV colorspace.
+rgb2ntsc - Converts from RGB to YIQ colorspace
+rgbplot - displays the three components (red, green and blue) of a colormap
+rot_matrix2quaternion - Converts a rotation matrix to a quaternion representation
+sip_colormap - creates a beautiful colormap
+sip_fftshift - Swap arrays (used with fft)
+sip_rq - RQ decomposition
+sip_set_verbose - the current verbose mode
+sip_setenv - sets environment variables
+skel - skeletonization, thinning, Medial Axis Transform
+thin - thinning by border deletion
+unfollow - Converts a parametric contour into a binary image
+unwrapl - Unwraps phased images linearly
+unwrapp - Unwraps phased images by path following
+watershed - image segmentation with markers
+xgetpixel - Gets the clicked-on pixel coordinates from an image
+xor - Exclusive or
