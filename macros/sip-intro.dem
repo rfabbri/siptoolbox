@@ -60,6 +60,8 @@ clrscr()
 [Im] = imread('bin.xpm')   
 clf
 imshow(Im,2);
+f = gcf();
+f.figure_size = 60*size(Im);
 halt()
 // note the correspondence between the numerical entries 
 // and the plotted image.
