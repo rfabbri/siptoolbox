@@ -67,9 +67,9 @@ The latest version of SIP can be found at
 </refsection>
 
 <refsection><title>See Also</title><simplelist type="inline">
-      <member> <link linkend="xgetmouse">xgetmouse</link> </member>
-      <member> <link linkend="xclick">xclick</link> </member>
-      <member> <link linkend="locate">locate</link> </member>
+      <member> <link type="scilab" linkend="scilab.help/xgetmouse">xgetmouse</link> </member>
+      <member> <link type="scilab" linkend="scilab.help/xclick">xclick</link> </member>
+      <member> <link type="scilab" linkend="scilab.help/locate">locate</link> </member>
 </simplelist>
 </refsection>
 

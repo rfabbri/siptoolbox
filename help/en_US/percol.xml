@@ -86,15 +86,15 @@ The latest version of the Scilab Image Processing toolbox can be found at
    <refsection><title>See Also</title><simplelist type="inline">
       
       <member> 
-         <link linkend="xgetmouse">xgetmouse</link> 
+         <link type="scilab" linkend="scilab.help/xgetmouse">xgetmouse</link> 
       </member>
       
       <member> 
-         <link linkend="xclick">xclick</link> 
+         <link type="scilab" linkend="scilab.help/xclick">xclick</link> 
       </member>
       
       <member> 
-         <link linkend="locate">locate</link> 
+         <link type="scilab" linkend="scilab.help/locate">locate</link> 
       </member>
    
    </simplelist></refsection>

@@ -192,7 +192,7 @@ The latest version of SIP can be found at
 
 <refsection><title>See Also</title><simplelist type="inline">
   <member> <link linkend="gsm2d">gsm2d</link> </member>
-  <member> <link linkend="fft">fft</link> </member>
+  <member> <link type="scilab" linkend="scilab.help/fft">fft</link></member>
 </simplelist>
 </refsection>
 

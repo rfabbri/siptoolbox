@@ -71,7 +71,7 @@
    <refsection><title>See Also</title><simplelist type="inline">
    
       <member> 
-         <link linkend="getenv">getenv</link> 
+         <link type="scilab" linkend="scilab.help/getenv">getenv</link> 
       </member>
   
    </simplelist></refsection>

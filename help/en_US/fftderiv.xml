@@ -229,7 +229,7 @@ The latest version of the Scilab Image Processing toolbox can be found at
       </member>
       
       <member> 
-         <link linkend="fftshift">fftshift</link> 
+         <link type="scilab" linkend="scilab.help/fftshift">fftshift</link> 
       </member>
       
       <member> 

@@ -2,6 +2,12 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
+0.5.6
+
+	+ fixed help building for systems returning non-en_US in getlanguage(), 
+	bug #3393248
+	+ fixed help links to scilab functions external to SIP.
+
 0.5.4
 	+ works with Scilab Git master branch
 	+ minor improvements to demos

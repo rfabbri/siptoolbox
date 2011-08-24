@@ -180,8 +180,8 @@ The latest version of SIP can be found at
       <member> <link linkend="imread">imread</link> </member>
       <member> <link linkend="imwrite">imwrite</link> </member>
       <member> <link linkend="imfinfo">imfinfo</link> </member>
-      <member> <link linkend="Matplot">Matplot</link> </member>
-      <member> <link linkend="xgetpixel">xgetpixel</link> </member>
+      <member> <link type="scilab" linkend="scilab.help/Matplot">Matplot</link></member>
+      <member> <link type="scilab" linkend="scilab.help/xgetpixel">xgetpixel</link></member>
    </simplelist></refsection>
 </refentry>
 <!-- =================================================== 

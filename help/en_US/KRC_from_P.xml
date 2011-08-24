@@ -81,7 +81,7 @@ The latest version of the Scilab Image Processing toolbox can be found at
    <refsection role="see also"><title>See Also</title><simplelist type="inline">
       
       <member> 
-         <link linkend="qr">qr</link> 
+         <link type="scilab" linkend="scilab.help/qr">qr</link> 
       </member>
       <member> 
          <link linkend="sip_rq">sip_rq</link> 

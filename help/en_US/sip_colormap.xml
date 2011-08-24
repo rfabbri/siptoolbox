@@ -172,7 +172,7 @@ Code reorganization for the SIP toolbox by
     
       <member>
        
-         <link linkend="colormap">colormap</link> 
+         <link type="scilab" linkend="scilab.help/colormap">colormap</link> 
     
       </member>   
     

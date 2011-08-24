@@ -67,7 +67,7 @@ The latest version of the Scilab Image Processing toolbox can be found at
       </member>
    
       <member> 
-         <link linkend="colormap">colormap</link> 
+         <link type="scilab" linkend="scilab.help/colormap">colormap</link> 
       </member>
 
    </simplelist></refsection>

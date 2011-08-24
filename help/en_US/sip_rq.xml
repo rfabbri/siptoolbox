@@ -51,7 +51,7 @@ The latest version of the Scilab Image Processing toolbox can be found at
    <refsection><title>See Also</title><simplelist type="inline">
       
       <member> 
-         <link linkend="qr">qr</link> 
+         <link type="scilab" linkend="scilab.help/qr">qr</link> 
       </member>
       <member> 
          <link linkend="KRC_from_P">KRC_from_P</link> 

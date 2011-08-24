@@ -101,7 +101,7 @@ The latest version of the Scilab Image Processing toolbox can be found at
       </member>
       
       <member> 
-         <link linkend="fft">fft</link> 
+         <link type="scilab" linkend="scilab.help/fft">fft</link> 
       </member>
    
    </simplelist></refsection>
