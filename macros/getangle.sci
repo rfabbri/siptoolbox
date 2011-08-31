@@ -1,4 +1,4 @@
-function [theta]=angle(Deltax,Deltay);
+function [theta]=getangle(Deltax,Deltay);
 //
 // Obtains the gradient direction "theta"
 // from result images yielded by convolution with gradient masks
