@@ -188,6 +188,7 @@
     imshow(vor+1,rand(max(vor)+1,3));   // each region maps to a random color
 
     // Let's see if computation is really fast
+    stacksize('max');
     big = mogrify(im,['-sample','1000x']);
     size(big)
     skl = skel(big);
