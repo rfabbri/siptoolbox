@@ -1,4 +1,4 @@
-label = color_classify(RGB)
+function label = color_classify(RGB)
 //
 // Classifies an image window into Red, Green, Blue, and others.
 // Should work well under different lighting conditions and is robust to wrong white
@@ -72,6 +72,7 @@ else // disp 'unreliable color...';
   end
 end
 
+endfunction
 //
 // -------------------------------------------------------------------------
 // SIP - Scilab Image Processing toolbox
