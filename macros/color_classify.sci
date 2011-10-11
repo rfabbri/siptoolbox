@@ -9,7 +9,7 @@ label = color_classify(RGB)
 //
 // USAGE
 //
-// Input: im
+// Input: RGB
 // Dois modos de uso: 
 //
 // a) descomentar uma das linhas de imread abaixo
@@ -20,13 +20,13 @@ label = color_classify(RGB)
 
 // median is a little better:
 
-r = median(im(:,:,1));
-g = median(im(:,:,2));
-b = median(im(:,:,3));
+r = median(RGB(:,:,1));
+g = median(RGB(:,:,2));
+b = median(RGB(:,:,3));
 
-//r = mean(im(:,:,1));
-//g = mean(im(:,:,2));
-//b = mean(im(:,:,3));
+//r = mean(RGB(:,:,1));
+//g = mean(RGB(:,:,2));
+//b = mean(RGB(:,:,3));
 
 hsv = rgb2hsv([r g b]);
 
