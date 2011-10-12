@@ -1,4 +1,4 @@
-function [label, certainty_level, probability] = color_classify(RGB)
+function [label, certainty_level, probability] = color_classify(RGB, method)
 //
 // Classifies an image window into Red, Green, Blue, and others.
 // Should work well under different lighting conditions and is robust to wrong white
@@ -23,58 +23,74 @@ function [label, certainty_level, probability] = color_classify(RGB)
 //  for those algorithms that enable it; for other algorithms this is just 1.
 //   
 
-// median is a little better:
-
-r = median(RGB(:,:,1));
-g = median(RGB(:,:,2));
-b = median(RGB(:,:,3));
-
-//r = mean(RGB(:,:,1));
-//g = mean(RGB(:,:,2));
-//b = mean(RGB(:,:,3));
-
-hsv = rgb2hsv([r g b]);
-
-hue = hsv(1);
-sat = hsv(2);
-val = hsv(3);
-
-hue = hue * 360;
-
-if val < 0.2 & sat < 0.8
-  label = 'black';
-  exit;
-elseif val > 0.8 & sat < 0.1
-  label = 'white';
-  exit;
+select argn(2)
+  case 0
+    error('Invalid number of arguments.')
+  case 1
+    method = 'hsv_sip';
 end
 
-// At this point we have
-// val > 0.2 | (val < 0.8 | sat > 0.1)
 
-if hue < 30 | hue > 330
-  label = 'red';
-elseif hue > 90 & hue < 150
-  label = 'green';
-elseif hue > 185 & hue < 270
-  label = 'blue';
-else // disp 'unreliable color...';
-  if sat < 0.5
-    warning('unreliable!')
-    // in the real system you just discard this estimate and use the previous
-    // estimate (e.g. previous frame) at this point
+select name
+// -------------------------------------------------------------------------
+case 'hsv_sip'
+  // median is better:
+
+  r = median(RGB(:,:,1));
+  g = median(RGB(:,:,2));
+  b = median(RGB(:,:,3));
+
+  //r = mean(RGB(:,:,1));
+  //g = mean(RGB(:,:,2));
+  //b = mean(RGB(:,:,3));
+
+  hsv = rgb2hsv([r g b]);
+
+  hue = hsv(1);
+  sat = hsv(2);
+  val = hsv(3);
+
+  hue = hue * 360;
+
+  if val < 0.2 & sat < 0.8
+    label = 'black';
+    exit;
+  elseif val > 0.8 & sat < 0.1
+    label = 'white';
+    exit;
   end
-  if hue >= 30 & hue <= 90
-    label = 'guessing yellow';
-  elseif hue >= 150 & hue <= 185
-    if hue >= 180
-      label = 'guessing blue'
-    else
-      label = 'guessing blue-green'
+
+  // At this point we have
+  // val > 0.2 | (val < 0.8 | sat > 0.1)
+
+  if hue < 30 | hue > 330
+    label = 'red';
+  elseif hue > 90 & hue < 150
+    label = 'green';
+  elseif hue > 185 & hue < 270
+    label = 'blue';
+  else // disp 'unreliable color...';
+    if sat < 0.5
+      warning('unreliable!')
+      // in the real system you just discard this estimate and use the previous
+      // estimate (e.g. previous frame) at this point
     end
-  elseif hue >= 270 & hue <= 330
-    label = 'guessing purple-pink'
+    if hue >= 30 & hue <= 90
+      label = 'guessing yellow';
+    elseif hue >= 150 & hue <= 185
+      if hue >= 180
+        label = 'guessing blue'
+      else
+        label = 'guessing blue-green'
+      end
+    elseif hue >= 270 & hue <= 330
+      label = 'guessing purple-pink'
+    end
   end
+
+// -------------------------------------------------------------------------
+case 'distance_to_reference'
+  error('not yet implemented');
 end
 
 endfunction

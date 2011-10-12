@@ -32,8 +32,8 @@ dist_macro_DATA = $(macros_sci) sip-intro.dem sipdemo_gui.dem interferometry_gui
 EXTRA_DIST = buildmacros.sce
 
 $(macros_bin) names lib: 	$(macros_sci) 
-	$(SCIEXE) -nw -nb -nouserstartup -f buildmacros.sce ;
 	@echo Note: if this is being called many times, issue 'make clean'
+	$(SCIEXE) -nw -nb -nouserstartup -f buildmacros.sce ;
 
 clean-local:
 	rm -f tmp_* *.bin lib names Lib.mak Macros.mak genlib Sci_Name Sci_Lib
