@@ -102,7 +102,7 @@ select type(img)
       // My thanks to Bruno Pincon
       printf('This may take a while.');
       if argn(2) == 1
-         nlevels = 11  // 11^3 colors only, for speed
+         nlevels = 20  // 20^3 colors only, for speed
       else
          nlevels = arg2
       end
