@@ -30,7 +30,7 @@ EXTRA_DIST = $(helppages_xml) en_US/build_help.sce buildhelp.sce
 all: $(help_DATA)
 
 $(help_DATA): buildhelp.sce $(helppages_xml)
-	$(SCIEXE) -nw -nb -f buildhelp.sce
+	$(SCIEXE) -nw -nb -nouserstartup -f buildhelp.sce
 
 clean:
 	rm -rf en_US/scilab_en_US_help en_US/master_help.xml ../jar/scilab_en_US_help.jar
