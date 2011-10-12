@@ -57,10 +57,10 @@ case 'hsv_sip'
 
   if val < 0.2 & sat < 0.8
     label = 'black';
-    exit;
+    return;
   elseif val > 0.8 & sat < 0.1
     label = 'white';
-    exit;
+    return;
   end
 
   // At this point we have
