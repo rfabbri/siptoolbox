@@ -1,4 +1,4 @@
-function label = color_classify(RGB)
+function [label, certainty_level, probability] = color_classify(RGB)
 //
 // Classifies an image window into Red, Green, Blue, and others.
 // Should work well under different lighting conditions and is robust to wrong white
@@ -9,14 +9,19 @@ function label = color_classify(RGB)
 //
 // USAGE
 //
-// Input: RGB
-// Dois modos de uso: 
+// INPUT 
+//  RGB - truecolor image
+//  method - 'hsv_sip', 'distance_to_reference'
 //
-// a) descomentar uma das linhas de imread abaixo
-// e ler a imagem que voce quer, editando o nome 
+// OUTPUT 
 //
-// b) exec classify-run.sce pra rodar em varias imagens
-
+//  label - 'red', 'green', 'blue', 'yellow', 'black', 'white'
+//
+//  certainty_level - 'certain', 'good guess', 'unreliable'.
+//
+//  probability - a scalar from 0 to 1 indicating the confidence in the guess,
+//  for those algorithms that enable it; for other algorithms this is just 1.
+//   
 
 // median is a little better:
 
