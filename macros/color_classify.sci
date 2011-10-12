@@ -1,4 +1,4 @@
-function [label, certainty_level, probability] = color_classify(RGB, method)
+function [label, certainty_level, confidence] = color_classify(RGB, method)
 //
 // Classifies an image window into Red, Green, Blue, and others.
 // Should work well under different lighting conditions and is robust to wrong white
@@ -15,12 +15,12 @@ function [label, certainty_level, probability] = color_classify(RGB, method)
 //
 // OUTPUT 
 //
-//  label - 'red', 'green', 'blue', 'yellow', 'black', 'white'
+//  label - 'red', 'green', 'blue', 'yellow', 'black', 'white' or something else
 //
 //  certainty_level - 'certain', 'good guess', 'unreliable'.
 //
-//  probability - a scalar from 0 to 1 indicating the confidence in the guess,
-//  for those algorithms that enable it; for other algorithms this is just 1.
+//  confidence - a scalar from 0 to 1 indicating the confidence in the guess,
+//  for those algorithms that enable it; for other algorithms this is just -1.
 //   
 
 select argn(2)
@@ -30,8 +30,11 @@ select argn(2)
     method = 'hsv_sip';
 end
 
+certainty_level = 'certain';
+confidence = -1.0;
 
-select name
+
+select method
 // -------------------------------------------------------------------------
 case 'hsv_sip'
   // median is better:
@@ -71,20 +74,25 @@ case 'hsv_sip'
     label = 'blue';
   else // disp 'unreliable color...';
     if sat < 0.5
-      warning('unreliable!')
+      certainty_level = 'unreliable';
+      if sip_get_verbose() == 'wordy'
+        warning('unreliable!')
+      end
       // in the real system you just discard this estimate and use the previous
       // estimate (e.g. previous frame) at this point
+    else
+      certainty_level = 'good guess';
     end
     if hue >= 30 & hue <= 90
-      label = 'guessing yellow';
+      label = 'yellow';
     elseif hue >= 150 & hue <= 185
       if hue >= 180
-        label = 'guessing blue'
+        label = 'blue'
       else
-        label = 'guessing blue-green'
+        label = 'blue-green'
       end
     elseif hue >= 270 & hue <= 330
-      label = 'guessing purple-pink'
+      label = 'purple-pink'
     end
   end
 
