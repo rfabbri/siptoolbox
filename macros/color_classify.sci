@@ -1,4 +1,4 @@
-function [label, certainty_level, confidence] = color_classify(RGB, method)
+function [label, certainty_level, confidence, secondary_label] = color_classify(RGB, method)
 //
 // Classifies an image window into Red, Green, Blue, and others.
 // Should work well under different lighting conditions and is robust to wrong white
@@ -22,6 +22,9 @@ function [label, certainty_level, confidence] = color_classify(RGB, method)
 //  confidence - a scalar from 0 to 1 indicating the confidence in the guess,
 //  for those algorithms that enable it; for other algorithms this is just -1.
 //   
+//  secondary_label - a secondary class label for the color when ambiguity
+//  occurs. This will only be set if certainty_level <> 'certain'. Multiple
+//  labels can be present here and are separated by '-'.
 
 select argn(2)
   case 0
@@ -32,6 +35,7 @@ end
 
 certainty_level = 'certain';
 confidence = -1.0;
+secondary_label = '';
 
 
 select method
@@ -73,6 +77,7 @@ case 'hsv_sip'
       certainty_level = 'unreliable'; 
       // will proceed below to guessing colors
       label = '';
+      secondary_label = 'white';
     else
       return;
     end
@@ -83,6 +88,7 @@ case 'hsv_sip'
       return;
     else
       certainty_level = 'unreliable';
+      secondary_label = 'gray';
     end
   end
 
@@ -100,19 +106,22 @@ case 'hsv_sip'
       end
       // in the real system you just discard this estimate and use the previous
       // estimate (e.g. previous frame) at this point
-    else
-      certainty_level = 'good guess';
     end
     if hue >= 30 & hue <= 90
       label = label + 'yellow';
-    elseif hue >= 150 & hue <= 185
-      if hue >= 180
-        label = label + 'blue'
-      else
-        label = label + 'blue-green'
+    else
+      certainty_level = 'good guess';
+      if hue >= 150 & hue <= 185
+        // XXX hard test on cyan and put a secondary label.
+        if hue >= 180
+          label = label + 'blue'
+        else
+          label = label + 'blue-green'
+        end
+      elseif hue >= 270 & hue <= 330
+        // XXX hard test on magenta and put a secondary label.
+        label = label + 'purple-pink'
       end
-    elseif hue >= 270 & hue <= 330
-      label = label + 'purple-pink'
     end
   end
 
