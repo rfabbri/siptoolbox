@@ -55,16 +55,35 @@ case 'hsv_sip'
 
   hue = hue * 360;
 
-  if val < 0.2 & sat < 0.8
+  if val < 0.3 & sat < 0.8
     label = 'black';
-    return;
-  elseif val > 0.8 & sat < 0.1
-    label = 'white';
+    if val > 0.2
+      certainty_level = 'good guess'; 
+    end
     return;
   end
 
-  // At this point we have
-  // val > 0.2 | (val < 0.8 | sat > 0.1)
+  if val > 0.8 & sat < 0.2
+    label = 'white';
+    if sat > 0.1
+      // light baby colors; could be white with offset colorbalance.
+      certainty_level = 'unreliable'; 
+      // will proceed below to guessing colors
+    else
+      return;
+    end
+  end
+
+  if val < 0.65 & sat < 0.15
+    if val < 0.50
+      label = 'black'
+      certainty_level = 'good guess';
+    else
+      label = 'gray'
+      certainty_level = 'unreliable';
+    end
+    return;
+  end
 
   if hue < 30 | hue > 330
     label = 'red';
