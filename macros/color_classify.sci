@@ -1,6 +1,6 @@
-function [label, certainty_level, confidence, secondary_label] = color_classify(RGB, method)
+function [label, certainty_level, confidence, secondary_label] = color_classify(RGB, method, aggregation)
 //
-// Classifies an image window into Red, Green, Blue, and others.
+// Classifies an image window into Red, Green, Blue, Yellow, Black, and others.
 // Should work well under different lighting conditions and is robust to wrong white
 // balance. Should be simple enough for real time applications.
 //
@@ -11,7 +11,8 @@ function [label, certainty_level, confidence, secondary_label] = color_classify(
 //
 // INPUT 
 //  RGB - truecolor image
-//  method - 'hsv_sip', 'distance_to_reference'
+//  method - 'hsv_sip' (default), 'distance_to_reference'
+//  aggregation - 'median' (default), 'mean', 'histogram', 'ransac'
 //
 // OUTPUT 
 //
@@ -25,124 +26,42 @@ function [label, certainty_level, confidence, secondary_label] = color_classify(
 //  secondary_label - a secondary class label for the color when ambiguity
 //  occurs. This will only be set if certainty_level <> 'certain'. Multiple
 //  labels can be present here and are separated by '-'.
+//
+//  TODO
+//   perhaps a mask option.
 
 select argn(2)
   case 0
     error('Invalid number of arguments.')
   case 1
     method = 'hsv_sip';
+    aggregation = 'median'
+  case 2
+    aggregation = 'median'
 end
 
-certainty_level = 'certain';
-confidence = -1.0;
-secondary_label = '';
-
-
-select method
-// -------------------------------------------------------------------------
-case 'hsv_sip'
-  // median is better when the image has patches of other colors.
-  // otherwise the performance is similar.
-
+select aggregation
+case 'median'
   r = median(RGB(:,:,1));
   g = median(RGB(:,:,2));
   b = median(RGB(:,:,3));
-
-  //r = mean(RGB(:,:,1));
-  //g = mean(RGB(:,:,2));
-  //b = mean(RGB(:,:,3));
-
-  hsv = rgb2hsv([r g b]);
-
-  hue = hsv(1);
-  sat = hsv(2);
-  val = hsv(3);
-
-  hue = hue * 360;
-
-  label = '';
-  if val < 0.3 & sat < 0.8
-    label = 'black';
-    if val > 0.2
-      certainty_level = 'good guess'; 
-      //label = label + '-';
-      // will proceed below to guessing colors
-      label = '';
-    else
-      return;
-    end
-  elseif val > 0.8 & sat < 0.2
-    label = 'white';
-    if sat > 0.1
-      // light baby colors; could be white with offset colorbalance.
-      certainty_level = 'unreliable'; 
-      // will proceed below to guessing colors
-      label = '';
-      secondary_label = 'white';
-    else
-      return;
-    end
-  elseif val < 0.65 & sat < 0.15 // troublesome; looks like above
-    if val < 0.50
-      label = 'black'
-      certainty_level = 'good guess';
-      if val > 0.40
-        secondary_label = 'gray';
-      end
-      return;
-    else
-      certainty_level = 'unreliable';
-      secondary_label = 'gray';
-    end
-  end
-
-  if hue < 30 | hue > 330
-    label = label + 'red';
-  elseif hue > 90 & hue < 160
-    label = label + 'green';
-  elseif hue > 185 & hue < 270
-    label = label + 'blue';
-  else // disp 'unreliable color...';
-    if sat < 0.5
-      certainty_level = 'unreliable';
-      if sip_get_verbose() == 'wordy'
-        warning('unreliable!')
-      end
-      // in the real system you just discard this estimate and use the previous
-      // estimate (e.g. previous frame) at this point
-    end
-    if hue >= 30 & hue <= 90
-      label = label + 'yellow';
-    else
-      certainty_level = 'good guess';
-      if hue >= 150 & hue <= 185
-        // hard test near cyan and put a secondary label.
-        if hue >= 180
-          label = label + 'blue'
-        elseif hue < 160
-          label = label + 'green'
-          secondary_label = 'blue';
-        else
-          label = label + 'blue'
-          secondary_label = 'green';
-        end
-      elseif hue >= 270 & hue <= 330
-        // hard test near magenta and put a secondary label.
-        if hue < 280
-          label = label + 'blue'
-          secondary_label = 'purple-pink-lavender';
-        else
-          label = label + 'red'
-          secondary_label = 'purple-pink-magenta';
-        end
-      end
-    end
-  end
-
-// -------------------------------------------------------------------------
-case 'distance_to_reference'
+case 'mean'
+  r = mean(RGB(:,:,1));
+  g = mean(RGB(:,:,2));
+  b = mean(RGB(:,:,3));
+case 'histogram'
+case 'ransac'
   error('not yet implemented');
+else
+  error('invalid method');
 end
+
+// TODO instead of median can use a histogram-style result,
+// or, if too slow, a RANSAC-style approximation to it
+
+[label, certainty_level, confidence, secondary_label] = ...
+  color_classify_single([r g b], method);
+
 
 endfunction
 //
