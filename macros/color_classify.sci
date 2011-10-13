@@ -80,16 +80,15 @@ case 'hsv_sip'
     if val < 0.50
       label = 'black'
       certainty_level = 'good guess';
+      return;
     else
-      label = 'gray'
       certainty_level = 'unreliable';
     end
-    return;
   end
 
   if hue < 30 | hue > 330
     label = label + 'red';
-  elseif hue > 90 & hue < 150
+  elseif hue > 90 & hue < 160
     label = label + 'green';
   elseif hue > 185 & hue < 270
     label = label + 'blue';
