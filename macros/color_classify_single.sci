@@ -96,6 +96,9 @@ case 'hsv_sip'
     label = label + 'red';
   elseif hue > 90 & hue < 160
     label = label + 'green';
+    if sat < 0.2
+      certainty_level = 'good guess';
+    end
   elseif hue > 185 & hue < 270
     label = label + 'blue';
   else // disp 'unreliable color...';
