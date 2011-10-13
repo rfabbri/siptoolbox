@@ -1,6 +1,7 @@
 function [label, certainty_level, confidence, secondary_label] = color_classify(RGB, method, aggregation)
 //
-// Classifies an image window into Red, Green, Blue, Yellow, Black, and others.
+// Classifies an image window into a single color: Red, Green, Blue, Yellow,
+// Black, or others.
 // Should work well under different lighting conditions and is robust to wrong white
 // balance. Should be simple enough for real time applications.
 //
