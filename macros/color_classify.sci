@@ -112,15 +112,25 @@ case 'hsv_sip'
     else
       certainty_level = 'good guess';
       if hue >= 150 & hue <= 185
-        // XXX hard test on cyan and put a secondary label.
+        // hard test near cyan and put a secondary label.
         if hue >= 180
           label = label + 'blue'
+        elseif hue < 160
+          label = label + 'green'
+          secondary_label = 'blue';
         else
-          label = label + 'blue-green'
+          label = label + 'blue'
+          secondary_label = 'green';
         end
       elseif hue >= 270 & hue <= 330
-        // XXX hard test on magenta and put a secondary label.
-        label = label + 'purple-pink'
+        // hard test near magenta and put a secondary label.
+        if hue < 280
+          label = label + 'blue'
+          secondary_label = 'purple-pink-lavender';
+        else
+          label = label + 'red'
+          secondary_label = 'purple-pink-magenta';
+        end
       end
     end
   end
