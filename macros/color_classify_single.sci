@@ -170,7 +170,7 @@ case 'distance_to_reference'
   label = cnames(i_min);
 
   if sqrt(d_min) > 0.8*sqrt(second_d_min)
-    certainty_level = 'uncertain';    
+    certainty_level = 'unreliable';    
   end
 else
   error('not yet implemented');

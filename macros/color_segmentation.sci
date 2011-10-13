@@ -54,7 +54,7 @@ uncertainty_level = zeros(r,c);
 
 for i=1:r
   for j=1:c
-    [label, certainty_level] = color_classify_single(RGB(i,j,:), 'hsv_sip');
+    [label, certainty_level] = color_classify_single(RGB(i,j,:)(:)', method);
 
     select label
     case 'red'
