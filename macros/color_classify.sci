@@ -41,7 +41,8 @@ secondary_label = '';
 select method
 // -------------------------------------------------------------------------
 case 'hsv_sip'
-  // median is better:
+  // median is better when the image has patches of other colors.
+  // otherwise the performance is similar.
 
   r = median(RGB(:,:,1));
   g = median(RGB(:,:,2));
@@ -85,6 +86,9 @@ case 'hsv_sip'
     if val < 0.50
       label = 'black'
       certainty_level = 'good guess';
+      if val > 0.40
+        secondary_label = 'gray';
+      end
       return;
     else
       certainty_level = 'unreliable';
