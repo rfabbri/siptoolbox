@@ -140,6 +140,39 @@ case 'hsv_sip'
 
 // -------------------------------------------------------------------------
 case 'distance_to_reference'
+
+  red_ref = [1 0 0];
+  green_ref = [0 1 0];
+  blue_ref = [0 0 1];
+  black_ref = [0 0 0];
+  yellow_ref = [1 1 0];
+  white_ref = [1 1 1];
+
+  refcolors = [red_ref; green_ref; blue_ref; black_ref; yellow_ref; white_ref];
+  cnames = ['red', 'green', 'blue', 'black', 'yellow', 'white'];
+
+  d_min = %inf;
+  i_min = 0;
+
+  nrefs = size(refcolors,1);
+
+  for i=1:nrefs
+    d = RGB-refcolors(i,:);
+    d = d*d';
+    if d < d_min
+      second_d_min = d_min;
+      second_i_min = i_min;
+      d_min = d;
+      i_min = i;
+    end
+  end
+
+  label = cnames(i_min);
+
+  if sqrt(d_min) > 0.8*sqrt(second_d_min)
+    certainty_level = 'uncertain';    
+  end
+else
   error('not yet implemented');
 end
 
