@@ -71,13 +71,13 @@ fi
 
 SCIEXE="scilab"
 # test if SCI is defined. If not, test if scilab is in path,
-# then get SCI from scilab -nwni.
+# then get SCI from scilab -nw
 if test -z "$SCI"; then
       cmd='F=mopen("getpath.incl","w");
            mfprintf(F,SCI);
            mclose(F);exit;'
       echo "$cmd" > getpath.sci
-      scilab -nw -f getpath.sci >/dev/null
+      scilab -nwni -nb -nouserstartup -f getpath.sci # >/dev/null
       SCIDIR=`cat getpath.incl`
       rm -f getpath.sci getpath.incl 
 else
@@ -86,15 +86,20 @@ fi
 
 #get scilab version
 cmd='F=mopen("version.incl","w");
-     ver=getversion();
-     ver=part(ver, 8);
-     mfprintf(F,ver);
+     myver=getversion();
+     myver=part(myver, 8);
+     mfprintf(F,myver);
      mclose(F);exit;'
 echo "$cmd" > version.sci
-scilab -nwni -f version.sci >/dev/null
+scilab -nwni -nb -nouserstartup -f version.sci # >/dev/null
 SCIVERSION=`cat version.incl`
 rm -f version.sci version.incl 
 
+# scilab-branch-xx (b as in branch)
+# TODO detect scilab yasp branch
+if test $SCIVERSION = b; then
+  SCIVERSION=5
+fi
 echo "Scilab version is $SCIVERSION"
 
 
