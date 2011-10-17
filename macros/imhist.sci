@@ -8,6 +8,15 @@ function [counts, cells] = imhist(im, varargin)
 // imhist(im, 10, 'green')
 // imhist(im, 10, 0.8, 'green')
 //
+// TODO
+//  - remove the necessity of a second parameter just to get to the third,
+//    ie, remove the need for imhist(im,10,'');
+//  - enable a better x-axis labeling, perhaps adding a colorbar
+//  - accept color images as input
+//  - try plot2d3, perhaps output bars with just pure color (e.g. black),
+//  without boundaries
+//  - perhaps make axis a different color (e.g. gray)
+//
   if(size(size(im),2)>2)
     error("The input matrix im should be a 2D matrix.");
   end
