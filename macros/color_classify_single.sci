@@ -122,7 +122,7 @@ case 'hsv_sip'
       end
     end
   // GREEN
-  elseif hue > 90 & hue < 170
+  elseif hue > 80 & hue < 170
     label = label + 'green';
     if sat < 0.2
       if certainty_level == 'certain'
@@ -167,8 +167,12 @@ case 'hsv_sip'
       // in the real system you just discard this estimate and use the previous
       // estimate (e.g. previous frame) at this point
     end
-    if hue >= 30 & hue <= 90
-      label = label + 'yellow';
+    if hue >= 30 & hue <= 80
+      if hue >= 70 & val <= 70
+        label = label + 'green';
+      else
+        label = label + 'yellow';
+      end
     else
       if certainty_level == 'certain'
         certainty_level = 'good guess';
