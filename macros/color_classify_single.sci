@@ -85,7 +85,9 @@ case 'hsv_sip'
       end
       return;
     end
-  elseif val < 0.65 & sat < 0.15 | val < 0.70 & sat < 0.1// troublesome; looks like above
+  elseif val < 0.65 & sat < 0.15 |...
+         val < 0.70 & sat < 0.1  |...
+         val < 0.5  & sat < 0.3 & (hue < 40 & hue > 10) // heuristica ~ marrons
     if val < 0.50
       label = 'black'
       certainty_level = 'good guess';
@@ -106,13 +108,20 @@ case 'hsv_sip'
     end
   end
 
+  // RED
   if hue < 30 | hue > 330
     if hue > 20 & hue <= 30 & sat < 0.4
       label = label + 'yellow'
       certainty_level = 'unreliable';
     else
       label = label + 'red';
+      if (sat < 0.3 & val < 0.6) | (sat < 0.4 & val < 0.35)
+        if certainty_level == 'certain'
+          certainty_level = 'good guess';
+        end
+      end
     end
+  // GREEN
   elseif hue > 90 & hue < 170
     label = label + 'green';
     if sat < 0.2
@@ -125,6 +134,7 @@ case 'hsv_sip'
         certainty_level = 'unreliable';
         secondary_label = 'blue';
     end
+  // BLUE
   elseif hue > 185 & hue < 270
     if sat < 0.3 
       if certainty_level == 'certain'
@@ -147,7 +157,8 @@ case 'hsv_sip'
     else
       label = label + 'blue';
     end
-  else 
+  // remaining YELLOW + OTHER cases
+  else
     if sat < 0.5
       certainty_level = 'unreliable';
       if sip_get_verbose() == 'wordy'
