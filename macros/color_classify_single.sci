@@ -93,7 +93,12 @@ case 'hsv_sip'
   end
 
   if hue < 30 | hue > 330
-    label = label + 'red';
+    if hue > 20 & hue <= 30 & sat < 0.4
+      label = label + 'yellow'
+      certainty_level = 'unreliable';
+    else
+      label = label + 'red';
+    end
   elseif hue > 90 & hue < 170
     label = label + 'green';
     if sat < 0.2
@@ -104,8 +109,24 @@ case 'hsv_sip'
       secondary_label = 'blue';
     end
   elseif hue > 185 & hue < 270
-    label = label + 'blue';
-  else // disp 'unreliable color...';
+    if sat < 0.3 
+      certainty_level = 'good guess';
+      if val > 0.75
+        label = 'white';
+        secondary_label = 'blue';
+        certainty_level = 'good guess';
+      else
+        label = label + 'blue';
+        if val < 0.6
+          secondary_label = 'gray';
+        else
+          secondary_label = 'white';
+        end
+      end
+    else
+      label = label + 'blue';
+    end
+  else 
     if sat < 0.5
       certainty_level = 'unreliable';
       if sip_get_verbose() == 'wordy'
