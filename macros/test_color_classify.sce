@@ -1,4 +1,5 @@
 method = 'hsv_sip';
+//method='distance_to_reference'
 
 
 // Fundamentals =======================================
@@ -109,15 +110,9 @@ certainty == 'certain'
 //!                                                                        !
 //SHiNY!green   red     purple-pink-magenta  good guess  green-natural-06  34   !
 //!                                                                        !
-//BAD!white   green   blue                 uncertain   white-halogen-8   47   !
-//!                                                                        !
-//BAD!white   green   gray                 good guess  white-natural-1   67   !
-//!                                                                        !
 //OK GOOD EXAMPLE !green   yellow  gray                 unreliable  green-natural-09  68   !
 //!                                                                        !
 //!OK yellow  green   gray                 good guess  yellow-natural-5  81   !
-//!                                                                        !
-//SOSO !white   green   gray                 good guess  white-halogen-0   103  !
 //!                                                                        !
 //OK !green   black                        certain     green-halogen-16  107  !
 //!                                                                        !
@@ -126,10 +121,43 @@ certainty == 'certain'
 //OK!green   blue    black                good guess  green-halogen-11  112  !
 
 
-//!SHINEY green   yellow  gray                 unreliable  green-natural-09  68   !
-//!                                                                        !
-//BAD !green   white   gray                 good guess  green-halogen-12  77   !
-//!                                                                        !
-//BAD !green   white   gray                 good guess  green-halogen-13  101  !
-//!                                                                        !
-//!white   green   gray                 unreliable  white-halogen-0   103  !
+
+//!blue    green   gray                 unreliable  blue-halogen-27    11   !
+//!                                                                         !
+//!blue    green   gray                 unreliable  blue-halogen-2     14   !
+//!                                                                         !
+//HARD!red     green   gray                 unreliable  red-halogen-10     23   !
+//!                                                                         !
+//!blue    black   gray                 good guess  blue-halogen-25    30   !
+//!                                                                         !
+//!black   blue    gray                 good guess  black-halogen-4    35   !
+//!                                                                         !
+//!yellow  green   gray                 unreliable  yellow-halogen-7   46   !
+//!                                                                         !
+//!yellow  green   gray                 unreliable  yellow-halogen-3   64   !
+//!                                                                         !
+//!yellow  green   gray                 unreliable  yellow-halogen-11  76   !
+//!                                                                         !
+//!yellow  green   gray                 unreliable  yellow-natural-2   80   !
+//!                                                                         !
+//HARD!red     blue    gray                 good guess  red-natural-0      83   !
+//!                                                                         !
+//HARD!red     blue    gray                 good guess  red-natural-6      90   !
+//!                                                                         !
+//HARD!red     green   gray                 unreliable  red-halogen-6      98   !
+//!                                                                         !
+//HARD!blue    green   gray                 unreliable  blue-halogen-6     100  !
+//!                                                                         !
+//!blue    green                        good guess  blue-natural-18    110  !
+//!                                                                         !
+//!HARD red     green   gray                 unreliable  red-halogen-14     114  !
+//!                                                                         !
+//!HARD red     blue    gray                 good guess  red-natural-4      115  !
+//!                                                                         !
+//!HARD red     yellow  gray                 unreliable  red-halogen-2      116  !
+//!                                                                         !
+//!HARD red     green   blue                 uncertain   red-natural-8      117  !
+//!                                                                         !
+//VERY HARD!red     green   gray                 unreliable  red-halogen-17     124  !
+//!                                                                         !
+//HARD!blue    green   blue                 uncertain   blue-halogen-29    126  !
