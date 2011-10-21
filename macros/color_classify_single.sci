@@ -94,10 +94,14 @@ case 'hsv_sip'
 
   if hue < 30 | hue > 330
     label = label + 'red';
-  elseif hue > 90 & hue < 160
+  elseif hue > 90 & hue < 170
     label = label + 'green';
     if sat < 0.2
       certainty_level = 'good guess';
+    end
+    if hue > 160
+      certainty_level = 'uncertain';
+      secondary_label = 'blue';
     end
   elseif hue > 185 & hue < 270
     label = label + 'blue';
@@ -118,7 +122,7 @@ case 'hsv_sip'
         // hard test near cyan and put a secondary label.
         if hue >= 180
           label = label + 'blue'
-        elseif hue < 160
+        elseif hue < 170
           label = label + 'green'
           secondary_label = 'blue';
         else
