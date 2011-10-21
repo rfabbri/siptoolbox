@@ -58,19 +58,16 @@ case 'hsv_sip'
 
   label = '';
   if val < 0.3
-      
-    label = 'black';
-    if sat > 0.1 & val > 0.2
+    if sat > 0.3 & val > 0.2
       secondary_label = 'black';
       if sat > 0.8
         certainty_level = 'unreliable'; 
       else
         certainty_level = 'good guess'; 
       end
-      //label = label + '-';
       // will proceed below to guessing colors
-      label = '';
     else
+      label = 'black';
       return;
     end
   elseif (val > 0.8 & sat < 0.2) | (val > 0.7 & sat < 0.1) | (val > 0.6 & sat < 0.05)
@@ -88,7 +85,7 @@ case 'hsv_sip'
       end
       return;
     end
-  elseif val < 0.65 & sat < 0.15 // troublesome; looks like above
+  elseif val < 0.65 & sat < 0.15 | val < 0.70 & sat < 0.1// troublesome; looks like above
     if val < 0.50
       label = 'black'
       certainty_level = 'good guess';
@@ -97,8 +94,15 @@ case 'hsv_sip'
       end
       return;
     else
-      certainty_level = 'unreliable';
-      secondary_label = 'gray';
+      if sat < 0.08
+        certainty_level = 'good guess';
+        label = 'white';
+        secondary_label = 'gray';
+        return;
+      else
+        certainty_level = 'unreliable';
+        secondary_label = 'gray';
+      end
     end
   end
 
@@ -116,17 +120,22 @@ case 'hsv_sip'
         certainty_level = 'good guess';
       end
     end
-    if hue > 160
-      certainty_level = 'uncertain';
-      secondary_label = 'blue';
+
+    if hue > 160 & (sat < 0.6 | val > 0.6)
+        certainty_level = 'unreliable';
+        secondary_label = 'blue';
     end
   elseif hue > 185 & hue < 270
     if sat < 0.3 
-      certainty_level = 'good guess';
+      if certainty_level == 'certain'
+        certainty_level = 'good guess';
+      end
       if val > 0.75
         label = 'white';
         secondary_label = 'blue';
-        certainty_level = 'good guess';
+        if certainty_level == 'certain'
+          certainty_level = 'good guess';
+        end
       else
         label = label + 'blue';
         if val < 0.6
@@ -150,7 +159,9 @@ case 'hsv_sip'
     if hue >= 30 & hue <= 90
       label = label + 'yellow';
     else
-      certainty_level = 'good guess';
+      if certainty_level == 'certain'
+        certainty_level = 'good guess';
+      end
       if hue >= 150 & hue <= 185
         // hard test near cyan and put a secondary label.
         if hue >= 180
@@ -166,10 +177,14 @@ case 'hsv_sip'
         // hard test near magenta and put a secondary label.
         if hue < 280
           label = label + 'blue'
-          secondary_label = 'purple-pink-lavender';
+          if isempty(secondary_label)
+            secondary_label = 'purple-pink-lavender';
+          end
         else
           label = label + 'red'
-          secondary_label = 'purple-pink-magenta';
+          if isempty(secondary_label)
+            secondary_label = 'purple-pink-magenta';
+          end
         end
       end
     end
