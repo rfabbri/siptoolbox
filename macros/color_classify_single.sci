@@ -60,7 +60,11 @@ case 'hsv_sip'
   if val < 0.3
     if sat > 0.3 & val > 0.2
       secondary_label = 'black';
-      if sat > 0.8
+
+      if sat > 0.6 & (hue >= 65 & hue <= 170)
+        label = 'green';
+        return;
+      elseif sat > 0.8
         certainty_level = 'unreliable'; 
       else
         certainty_level = 'good guess'; 
@@ -110,9 +114,24 @@ case 'hsv_sip'
 
   // RED
   if hue < 30 | hue > 330
-    if hue > 20 & hue <= 30 & sat < 0.4
-      label = label + 'yellow'
-      certainty_level = 'unreliable';
+    // disp 'maybe red!' 
+    if hue > 10 & hue <= 30 & sat < 0.4
+      // disp 'some beige or organge-yellow or salmon!' 
+      if hue > 20
+        // disp 'dont know this color, but would guess yellow or yellow-gray, perhaps beige!' 
+        label = label + 'yellow';
+        certainty_level = 'good guess';
+        if val < 0.7
+          secondary_label = 'gray';
+        end
+      else
+        // disp 'dont know this color, but would guess orange our brown-ish!' 
+        label = label + 'red';
+        certainty_level = 'unreliable';
+        if val < 0.7
+          secondary_label = 'gray';
+        end
+      end
     else
       label = label + 'red';
       if (sat < 0.3 & val < 0.6) | (sat < 0.4 & val < 0.35)
