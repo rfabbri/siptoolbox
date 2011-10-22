@@ -70,7 +70,7 @@ for i=1:r
     case 'white'
       labeled_img(i,j) =  id_white;
     else
-      error('Invalid color class returned for ' + string(i) + ', ' + string(j));
+      error('Invalid color class ' + label + ' returned for ' + string(i) + ', ' + string(j));
     end
 
     select certainty_level
@@ -81,7 +81,7 @@ for i=1:r
     case 'unreliable'
       uncertainty_level(i,j) = id_unreliable;
     else
-      error('Unknown certainty label returned for ' + string(i) + ', ' + string(j));
+      error('Unknown certainty label ' + certainty_level + ' returned for ' + string(i) + ', ' + string(j));
     end
   end
 end
