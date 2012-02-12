@@ -68,6 +68,9 @@
 
 #ifdef SIP_HAVE_OPENCV
 #include <opencv2/imgproc/imgproc_c.h>
+
+#define SIVP_FLOAT 32
+#define SIVP_DOUBLE 64
 #endif
 
 
@@ -196,6 +199,25 @@ bool
 /* Scilab <--> OpenCV I/O */
 #ifdef SIP_HAVE_OPENCV
   IplImage * Mat2IplImg(int nPos);
+  int IplImg2Mat(IplImage * pImage, int nPos);
+  int Create2DIntMat(int nPos, int nRow, int nCol, void * pData, int nType);
+  int Create2DFloatMat(int nPos, int nRow, int nCol, float * pData);
+  int Create2DDoubleMat(int nPos, int nRow, int nCol, double * pData);
+  int Create3DIntMat(int nPos, int nRow, int nCol, int nCh, void * pData, int nType);
+  int Create3DFloatMat(int nPos, int nRow, int nCol, int nCh, float* pData);
+  int Create3DDoubleMat(int nPos, int nRow, int nCol, int nCh, double* pData);
+
+  IplImage * CreateIplImgFromHm(int nPos);
+
+  int MatData2ImgData(IplImage * pImage, void * pMatData);
+
+  int IplType2SciType(int IplType);
+  int SciType2IplType(int SciType);
+
+  int MatData2ImgData(IplImage * pImage, void * pMatData);
+  int ImgData2MatData(IplImage * pImage, void * pMatData);
+
+
 #endif
 
 

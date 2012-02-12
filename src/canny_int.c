@@ -90,10 +90,10 @@ int canny_int(char *fname)
        imgTmp = cvCreateImage(cvGetSize(img1), IPL_DEPTH_8U, img1->nChannels);
        if(imgTmp==NULL)
          {
-     cvReleaseImage( &img1 );
-     cvReleaseImage( &img2 );
-     sciprint("%s Error: can't create the output matrix\r\n", fname);
-     return 0;
+           cvReleaseImage( &img1 );
+           cvReleaseImage( &img2 );
+           sciprint("%s Error: can't create the output matrix\r\n", fname);
+           return 0;
          }
 
        cvConvert(img1, imgTmp);
@@ -108,10 +108,10 @@ int canny_int(char *fname)
        imgTmp = cvCreateImage(cvGetSize(img1), IPL_DEPTH_8U, 1);
        if(imgTmp==NULL)
          {
-     cvReleaseImage( &img1 );
-     cvReleaseImage( &img2 );
-     sciprint("%s Error: can't create the output matrix\r\n", fname);
-     return 0;
+           cvReleaseImage( &img1 );
+           cvReleaseImage( &img2 );
+           sciprint("%s Error: can't create the output matrix\r\n", fname);
+           return 0;
          }
 
        cvCvtColor(img1, imgTmp, CV_BGR2GRAY);
