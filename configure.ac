@@ -498,7 +498,7 @@ particular ImageMagick setup]),
 # END OF IMAGEMAGICK TESTS
 ##############################################
 
-# OpenCV tests (just for the future.)
+# OpenCV tests
 have_opencv=no
 PKG_CHECK_MODULES(OPENCV, 
     [opencv >= 0.26],
@@ -543,11 +543,15 @@ AC_OUTPUT
 AC_MSG_RESULT([
 =====================================================
 Configuration:
-  CC       = $CC
-  CFLAGS   = $CFLAGS
-  CPPFLAGS = $CPPFLAGS
-  LDFLAGS  = $LDFLAGS
-  LIBS     = $LIBS
+  CFLAGS         = $CFLAGS
+
+  CPPFLAGS       = $CPPFLAGS
+
+  LDFLAGS        = $LDFLAGS
+
+  LIBS           = $LIBS
+
+  OpenCV support = $have_opencv
 =====================================================
 This toolbox will be installed in $TOOLBOXDIR
 Please run 'make' and 'make install' to compile and install the toolbox. 

@@ -26,10 +26,15 @@
 
 #include "sip_common.h"
 
+#ifdef SIP_HAVE_OPENCV
 #include <opencv2/imgproc/imgproc_c.h>
+#endif
 
 int canny_int(char *fname)
 {
+#ifndef SIP_HAVE_OPENCV
+  sip_error("SIP was compiled without OpenCV support");
+#else
   static int l2, m2, n2, l3, m3, n3, l4, m4, n4;
 
   //create variable for parameters
@@ -170,6 +175,7 @@ int canny_int(char *fname)
   //let's free the memory
    cvReleaseImage( &img1 );
    cvReleaseImage( &img2 );
+#endif
 
   return 0;
 }
