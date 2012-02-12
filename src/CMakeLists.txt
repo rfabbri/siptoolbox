@@ -8,6 +8,7 @@ ADD_DEFINITIONS(-DHAVE_CONFIG_H)
 
 SET (SRC_FILES 
     analysis_int.c 
+    canny_int.c
     hello_int.c
     imfinfo.c
     img_int.c

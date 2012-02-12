@@ -22,7 +22,7 @@
 AC_PREREQ(2.61)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.5.9-git], [ricardofabbri@users.sourceforge.net])
+AC_INIT([sip], [0.6.0-git], [ricardofabbri@users.sourceforge.net])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -499,15 +499,14 @@ particular ImageMagick setup]),
 ##############################################
 
 # OpenCV tests (just for the future.)
-#have_opencv=no
-#PKG_CHECK_MODULES(OPENCV, 
-#    [opencv >= 0.9.6],
-#    [CFLAGS="$CFLAGS $OPENCV_CFLAGS"
-#     LDFLAGS="$LDFLAGS $OPENCV_LIBS"
-#     have_opencv=yes
-#     AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
-#    [AC_MSG_WARN([[ OpenCV version >= 0.9.6 was not found. ]])])
-
+have_opencv=no
+PKG_CHECK_MODULES(OPENCV, 
+    [opencv >= 0.26],
+    [CFLAGS="$CFLAGS $OPENCV_CFLAGS"
+     LDFLAGS="$LDFLAGS $OPENCV_LIBS"
+     have_opencv=yes
+     AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
+    [AC_MSG_WARN([[ OpenCV >= 0.26 was not found. ]])])
 
 # Checks for header files.
 AC_HEADER_STDC

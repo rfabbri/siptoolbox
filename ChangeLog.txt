@@ -2,6 +2,10 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
+0.6.0
+	+ opencv support - new canny edge detection function
+
+0.5.9
 
 	+ new function imhist for plotting and computing histograms taylored for
 	images

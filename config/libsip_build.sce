@@ -13,7 +13,7 @@ ilib_name  = 'libsip' 		      // interface library name
 sources = 'imread.c imwrite.c imfinfo.c mogrify_int.c img_int.c ...
            analysis_int.c morphology_int.c hello_int.c segment_int.c ...
            sip_common.c misc_int.c imvariance_int.c unwrapp_int.c ...
-           unwrapl_int.c';
+           unwrapl_int.c canny_int.c';
 
 // table of (scilab_name, interface-name) 
 table = [ 'imread',     'int_imread';
@@ -25,6 +25,7 @@ table = [ 'imread',     'int_imread';
           'mogrify',    'mogrify_int';
           'edilate',    'edilate_int';
           'percol',     'percol_int';
+          'canny',      'canny_int';
           'drawline',   'drawline_int';
           'skel',       'skel_int';
           'thin',       'thin_int';

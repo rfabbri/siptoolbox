@@ -13,6 +13,7 @@ SipExport extern Gatefunc unwrapp_c_int;
 SipExport extern Gatefunc mogrify_int;
 SipExport extern Gatefunc edilate_int;
 SipExport extern Gatefunc percol_int;
+SipExport extern Gatefunc canny_int;
 SipExport extern Gatefunc drawline_int;
 SipExport extern Gatefunc skel_int;
 SipExport extern Gatefunc thin_int;
@@ -35,6 +36,7 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,mogrify_int,"mogrify"},
   {(Myinterfun)sci_gateway,edilate_int,"edilate"},
   {(Myinterfun)sci_gateway,percol_int,"percol"},
+  {(Myinterfun)sci_gateway,canny_int,"canny"},
   {(Myinterfun)sci_gateway,drawline_int,"drawline"},
   {(Myinterfun)sci_gateway,skel_int,"skel"},
   {(Myinterfun)sci_gateway,thin_int,"thin"},

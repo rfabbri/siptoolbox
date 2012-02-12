@@ -66,6 +66,9 @@
 #include <animal/img.h>
 #include <animal/util.h>
 
+#ifdef SIP_HAVE_OPENCV
+#include <opencv2/imgproc/imgproc_c.h>
+#endif
 
 
 // sip for scilab types
@@ -189,6 +192,11 @@ bool
    for (i=0; i<(r)*(c); ++i) \
       DATA(img)[i] = PROUND(pixtype,*stk(ptr+i) * maxval); \
 }
+
+/* Scilab <--> OpenCV I/O */
+#ifdef SIP_HAVE_OPENCV
+  IplImage * Mat2IplImg(int nPos);
+#endif
 
 
 #endif

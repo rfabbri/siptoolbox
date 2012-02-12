@@ -31,8 +31,11 @@ function my_ilib_gen_gateway(name,tables)
     if nt==2 then col= "csci"; table = [table, col(ones(mt,1))];nt = 3 ; end 
     if nt<>3 then error('second argument has wrong size ');end 
     [gate,names]=new_names(table); 
-    t=[ '#include <mex.h> ';
-   '#include ""sip_common.h""';
+    t=['#include ""sip_common.h""';
+   '#include <mex.h> ';
+   '#ifdef SIP_HAVE_SCI_GATEWAY_H';
+   '  #include <sci_gateway.h> ';
+   '#endif';
 	'static int direct_gateway(char *fname,void F(void)) { F();return 0;};'
 	'SipExport extern Gatefunc ' + names(:) + ';';
 	'static GenericTable Tab[]={';
