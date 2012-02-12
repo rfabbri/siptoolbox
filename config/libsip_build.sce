@@ -25,7 +25,7 @@ table = [ 'imread',     'int_imread';
           'mogrify',    'mogrify_int';
           'edilate',    'edilate_int';
           'percol',     'percol_int';
-          'canny',      'canny_int';
+          'canny_c',      'canny_int';
           'drawline',   'drawline_int';
           'skel',       'skel_int';
           'thin',       'thin_int';

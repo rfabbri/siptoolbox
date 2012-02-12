@@ -15,7 +15,8 @@
       <synopsis>E = edge(Img, method)</synopsis>
       <synopsis>E = edge(Img, method, thresh)</synopsis>
       <synopsis>E = edge(Img, method, thresh, direction)</synopsis>
-      <synopsis>E = edge(Img, method, thresh, direction, sigma)</synopsis>
+      <synopsis>E = edge(Img, method, thresh, sigma)</synopsis>
+      <synopsis>[E, thresh] = edge(im, method, ...)</synopsis>
 </refsynopsisdiv>
 
 <refsection>
@@ -30,13 +31,13 @@
       <varlistentry>
       <term>method</term>
       <listitem>
-       may be &apos;sobel&apos;(default), &apos;prewitt&apos; or &apos;fftderiv&apos;. Other methods will appear in the future.
+       may be &apos;sobel&apos;(default), &apos;prewitt&apos; &apos;fftderiv&apos; or 'canny'. SIVP (a fork of SIP) also provides 'LoG'. Other methods will appear in the future. 
       </listitem>
       </varlistentry>
       <varlistentry>
       <term>thresh</term>
       <listitem>
-       sets the threshold level, from 0 to 1. Defaults to 0.5. If negative, then the output image, <literal>E</literal>, will have the un-thresholded gradient image.
+       sets the threshold level, from 0 to 1. Defaults to 0.5. If negative, then the output image, <literal>E</literal>, will have the un-thresholded gradient image. For the Canny method, this is a two-element vector where the first element is the low threshold and the second one is the high threshold, and if this is a scalar, the low threshold is  <literal>0.4*thresh</literal> and the high threshold is just <literal>thresh</literal>. Moreover, this cannot be a negative scalar for Canny.
       </listitem>
       </varlistentry>
       <varlistentry>
@@ -52,7 +53,7 @@
        methods (only the &apos;fftderiv&apos; method uses this
        parameter). This can be used to obtain different levels of
        detail and to filter out high-frequency noise. Defaults
-       to 1. 
+       to 1. For the Canny method, this must be 1, 3, 5 or 7.
       </listitem>
       </varlistentry>
       <varlistentry>
@@ -103,11 +104,15 @@
    clf
    imshow(e,2)
 
-   e = edge(Img,'prewitt'); // thresh = 0.5
+   e = edge(Img, 'prewitt'); // thresh = 0.5
    clf
    imshow(e,2)
 
-   e = edge(Img,'fftderiv', 0.4);  // FFT gradient method; 0.4 threshold
+   e = edge(Img, 'canny', [0.06  0.2]);
+   clf
+   imshow(e,2)
+
+   e = edge(Img, 'fftderiv', 0.4);  // FFT gradient method; 0.4 threshold
    clf
    imshow(e,[])
 

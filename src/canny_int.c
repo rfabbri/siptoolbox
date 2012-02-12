@@ -41,7 +41,7 @@ int canny_int(char *fname)
   IplImage * img2 = NULL;
   IplImage * imgTmp = NULL;
 
-  //check the number of in/out parametres
+  //check the number of in/out parameters
   Rhs=Max(Lhs,Rhs);
 
   CheckRhs(4,4);
@@ -53,7 +53,7 @@ int canny_int(char *fname)
   GetRhsVar(4, "i", &m4, &n4, &l4);
 
 
-  // check if arg are scalaire
+  // check if arg are scalar
   if (m2*n2 != 1 || m3*n3 != 1 || m4*n4 != 1) 
       {
         sciprint("%s Error: arguments must be scalars\r\n", fname);

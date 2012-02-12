@@ -11,7 +11,7 @@ functions=[ 'imread';
             'mogrify';
             'edilate';
             'percol';
-            'canny';
+            'canny_c';
             'drawline';
             'skel';
             'thin';

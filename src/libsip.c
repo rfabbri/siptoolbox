@@ -36,7 +36,7 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,mogrify_int,"mogrify"},
   {(Myinterfun)sci_gateway,edilate_int,"edilate"},
   {(Myinterfun)sci_gateway,percol_int,"percol"},
-  {(Myinterfun)sci_gateway,canny_int,"canny"},
+  {(Myinterfun)sci_gateway,canny_int,"canny_c"},
   {(Myinterfun)sci_gateway,drawline_int,"drawline"},
   {(Myinterfun)sci_gateway,skel_int,"skel"},
   {(Myinterfun)sci_gateway,thin_int,"thin"},

@@ -421,32 +421,28 @@ Mat2IplImg(int nPos)
   case 1: /*real or complex constant matrix.*/
     GetRhsVar(nPos, "d", &mR1, &nR1, &lR1);
     pImg = cvCreateImage(cvSize(nR1, mR1), IPL_DEPTH_64F, 1);
-    /*if can not create the IplImage*/
-    if(pImg == NULL)
-      {
-	sciprint("Create IplImage for %d'th argument failed.\r\n", nPos);
-	return NULL;
-      }
+    /* if cant create the IplImage */
+    if(pImg == NULL) {
+      sciprint("Create IplImage for %d'th argument failed.\r\n", nPos);
+      return NULL;
+    }
     MatData2ImgData(pImg, stk(lR1) );
     return pImg;
     break;
 
-    /*integer matrix*/
-  case 8: 
+  case 8: /*integer matrix*/
 
     GetRhsVar(nPos, "I", &mR1, &nR1, &IntMat);
     iplType = SciType2IplType(IntMat.it);
-    if(iplType==0)
-      {
-	sciprint("This integer data type is not supported by SIVP. Integer type number: %d. \r\n", IntMat.it);
-	return NULL;
-      }
+    if(iplType==0) {
+      sciprint("This integer data type is not supported by SIP. Integer type number: %d. \r\n", IntMat.it);
+      return NULL;
+    }
     pImg = cvCreateImage(cvSize(nR1, mR1),iplType , 1);
-    if(pImg == NULL)
-      {
-	sciprint("Create IplImage for %d'th argument failed.\r\n", nPos);
-	return NULL;
-      }
+    if(pImg == NULL) {
+      sciprint("Create IplImage for %d'th argument failed.\r\n", nPos);
+      return NULL;
+    }
     MatData2ImgData(pImg, IntMat.D );
     return pImg;
     break;
