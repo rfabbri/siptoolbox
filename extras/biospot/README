@@ -1,0 +1,27 @@
+= BioSpot: Biological Image Spot Processing = 
+
+== Instructions ==
+
+* Edit the parameters inside params.sce.
+* Execute ini.sce inside scilab. 
+
+
+== Credits ==
+(c) 2012 Ricardo Fabbri <rfabbri at gmail dot com>
+
+This software was developed in collaboration between two research groups:
+
+Ricardo Fabbri's Group: Rio de Janeiro Polytechnic Institute - IPRJ/UERJ
+Francisco Jose Pereira Lopes's Group: Instituto de Biofisica - UFRJ
+
+This software is under the GPL. For alternative licensing, please contact the
+copyright holders.
+
+Please contact the authors for the best way of citing this work. Please note
+that this might contain unpublished material, so we appreciate if due credit
+be given.
+
+
+== Requirements ==
+* Scilab and the SIP toolbox (siptoolbox.sf.net)
+* Tested under the GNU/Linux operating system
