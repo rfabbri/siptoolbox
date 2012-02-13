@@ -22,6 +22,7 @@ clear en;
 
 // morphological closing
 ed = edilate(e, closing_distance, 'same');
+figure
 imshow(ed);
 ed = 1-edilate(1-ed, closing_distance);
 
@@ -38,6 +39,7 @@ for i=1:n
   end
 end
 
+figure
 imshow(L+1, rand(n+1,3));   // note how the small regions are gone
 
 // embryo nucleii crust

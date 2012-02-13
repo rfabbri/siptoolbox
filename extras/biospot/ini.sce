@@ -55,6 +55,7 @@ for i=1:n
   end
 end
 
+figure
 imshow(L+1, rand(n+1,3));   // note how the small regions are gone
 
 // filtered embryo
@@ -125,4 +126,5 @@ end
 
 zimg = unfollow(x(zc_pos), y(zc_pos), size(e));
 
+figure
 imshow(5*zimg+e,[]);
