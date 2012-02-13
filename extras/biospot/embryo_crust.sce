@@ -41,7 +41,7 @@ end
 imshow(L+1, rand(n+1,3));   // note how the small regions are gone
 
 // embryo nucleii crust
-ec = im2bw(L,0.5);
+ec = 1 * (L > 0.5);
 
 //figure;
 //imshow(e,[]);

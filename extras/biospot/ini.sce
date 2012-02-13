@@ -58,7 +58,7 @@ end
 imshow(L+1, rand(n+1,3));   // note how the small regions are gone
 
 // filtered embryo
-ef = im2bw(L,0.5);
+ef = 1 * (L > 0.5);
 
 // -----------------------------------------------------------------------------
 // follow the border and read pixel values to generate a 1D signal
@@ -82,12 +82,6 @@ len=arclength([x y], %t);
 plot(len,[s;s(1)]);
 
 // -----------------------------------------------------------------------------
-// Use a RANSAC fitting to align and possibly determine a finer spacing
-// corresponding to the maximum possible number of inliers
-
-// from rn above we know a range of tangential radii rt that must be the truth, 
-// between 0.5*rn and 1.5*rn for sure
-
 // let's first give an estimate through the median spacing between edges along
 // the medial line
 
@@ -103,8 +97,32 @@ widths = zc_len(2:n_zc) - zc_len(1:(n_zc-1));
 disp('median nucleii thickness along tangential direction:')
 median_rt = median(widths)/2;
 
-disp('The initial nucleus model has diameters:' + string(median_rt*2) + ' by ' + string(rn*2) + ' pixels');
-
+disp('The nucleus prototype has diameters: ' + string(median_rt*2) + ' by ' + string(rn*2) + ' pixels');
 
 // -----------------------------------------------------------------------------
-// Plot the lengths along the normals to the central curve
+// use a RANSAC fitting to align and possibly determine a finer spacing
+// corresponding to the maximum possible number of inliers
+
+exec ransac_offset.sce;
+
+// -----------------------------------------------------------------------------
+// Plot the lengths along the normals to the central curve.
+// Perhaps even plot the prototype
+
+
+n_zc_model = floor(maxlen/rt2);
+zc_len_pos = (0:n_zc_model)*rt2 + zc_len(best_offset);
+zc_len_pos = modulo(zc_len_pos, maxlen);
+
+// now get points at arclengths zc_len_pos. 
+
+zc_pos = zeros(zc_len_pos);
+
+for i=1:length(zc_pos)
+  [m,m_i] = min(abs(len - zc_len_pos(i)));
+  zc_pos(i) = m_i;
+end
+
+zimg = unfollow(x(zc_pos), y(zc_pos), size(e));
+
+imshow(5*zimg+e,[]);
