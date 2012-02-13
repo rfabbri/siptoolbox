@@ -2,6 +2,12 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2010 Ricardo Fabbri
 __________________________________________________________________
 
+0.7.0
+	+ new extras/ directory with code for specific practical problems. the biospot
+	subdir contains some experimental code to do drosophila melanogaster embryo
+	and nucleii segmentation
+	+ new arclength function
+
 0.6.0
 	+ opencv support - new canny edge detection function
 
