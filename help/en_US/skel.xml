@@ -85,7 +85,7 @@
          
                      <listitem>
           (DEFAULT) will perform a fast O(n) algorithm using the
-          euclidean metric. For large and thick shapes, there may be
+          Euclidean metric. For large and thick shapes, there may be
           a few small errors, which are dispensible for most practical
           applications.
          </listitem>
@@ -157,7 +157,7 @@
  Function skel performs skeletonization (thinning) of a  binary object. The resulting medial axis is multi-scale,  meaning that it can be progressively pruned to eliminate  detail. This pruning is done by thresholding the output  skeleton image. </para>
    
       <para>
- The algorithm computes skeletons that are guaranteed to be  connected over all scales of simplification. The skeletons  are computed using the euclidean metric. This has the  advantage to produce high-quality, isotropic and well-centered skeletons in the shape. However the exact algorithm  is computationally intensive. </para>
+ The algorithm computes skeletons that are guaranteed to be  connected over all scales of simplification. The skeletons  are computed using the Euclidean metric. This has the  advantage to produce high-quality, isotropic and well-centered skeletons in the shape. However the exact algorithm  is computationally intensive. </para>
    
       <para>
  The radius of the maximal balls associated with the skeleton points are stored in the distance transform output  image. </para>
