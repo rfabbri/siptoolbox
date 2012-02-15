@@ -30,7 +30,16 @@
 #include <opencv2/imgproc/imgproc_c.h>
 #endif
 
-int canny_int(char *fname)
+/*-----------------------------------------------------------------
+ * border = canny_c(Img, low_th, high_th, sigma)
+ *
+ * The Canny method considers weak edge pixels only if they are
+ * connected to strong edges. Weak edges are defined by low_th, and 
+ * strong edges are defined by high_th.
+ *
+ *---------------------------------------------------------------*/
+int 
+canny_int(char *fname)
 {
 #ifndef SIP_HAVE_OPENCV
   sip_error("SIP was compiled without OpenCV support");
@@ -126,7 +135,7 @@ int canny_int(char *fname)
      }
 
 
-   cvCanny( img1, img2 ,param1[0],param2[0],param3[0]);
+   cvCanny(img1, img2 ,param1[0], param2[0], param3[0]);
 
    //transform the result of opencv canny in a matrice
    IplImg2Mat(img2,5);

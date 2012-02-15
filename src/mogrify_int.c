@@ -42,8 +42,6 @@ check_argv_validity(ImageInfo *image_info, char **argv, int *argc, ExceptionInfo
  *    
  * $Revision: 1.4 $ $Date: 2009-03-29 21:34:48 $
  *-----------------------------------------------------------------*/
-
-
 SipExport int 
 mogrify_int(char *fname)
 {
