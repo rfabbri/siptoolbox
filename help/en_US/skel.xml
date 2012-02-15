@@ -197,7 +197,16 @@
 
     xset('auto clear', 'off');
     chdir(initial_dir);
-]]></programlisting></refsection>
+]]></programlisting>
+    <para>The result of the preceding example, 'Less detail':</para>
+
+    <mediaobject>
+      <imageobject>
+        <imagedata align="center" fileref="../images/skeleton-escher-less-detail.png" />
+      </imageobject>
+    </mediaobject>
+
+</refsection>
 
 
    <refsection><title>Bibliography</title>
