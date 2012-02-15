@@ -60,17 +60,15 @@ case 'canny' then
   //set default thresh value
   //negative value is invalid here
   if thresh < 0 then
-    thresh = 0.3;
+    thresh = 0.5;
   end
   
   if(length(thresh)==1) then
     low_th=thresh*0.4;
     high_th=thresh;
-  elseif (length(thresh)==2) then
+  else
     low_th=thresh(1);
     high_th=thresh(2);
-  else
-    error('Invalid threshold for Canny method: Can not be negative.');
   end
   
   if isempty(sigma) then
@@ -80,7 +78,7 @@ case 'canny' then
     error('sigma for canny must be 1, 3, 5 or 7.');
   end
 
-  if (typeof(Img(1)) == 'constant') // todo check if consistent w/ mtlb
+  if (typeof(Img(1)) == 'constant')
     Img = Img*255;
   end
   

@@ -116,7 +116,7 @@ canny_int(char *fname)
        imgTmp = NULL;
      }
 
-   //onvert the image to 1 channel image
+   //convert the image to 1 channel image
    if(img1->nChannels != 1)
      {
        imgTmp = cvCreateImage(cvGetSize(img1), IPL_DEPTH_8U, 1);

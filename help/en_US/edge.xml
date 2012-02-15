@@ -37,7 +37,7 @@
       <varlistentry>
       <term>thresh</term>
       <listitem>
-       sets the threshold level, from 0 to 1. Defaults to 0.5. If negative, then the output image, <literal>E</literal>, will have the un-thresholded gradient image. For the Canny method, this is a two-element vector where the first element is the low threshold and the second one is the high threshold defining the weak and strong edges, respectively. If this is a scalar in Canny, the low threshold is  <literal>0.4*thresh</literal> and the high threshold is just <literal>thresh</literal>. This cannot be a negative scalar for Canny.
+       sets the threshold level, from 0 to 1, except for the Canny method. Defaults to 0.5. If negative, then the output image, <literal>E</literal>, will have the un-thresholded gradient image. For the Canny method, this is a two-element vector where the first element is the low threshold and the second one is the high threshold defining the weak and strong edges, respectively. If this is a scalar in Canny, the low threshold is  <literal>0.4*thresh</literal> and the high threshold is just <literal>thresh</literal>. For Canny, thresholds cannot be a negative scalar and are always relative to the highest internally computed gradient magnitude of the image. The best way to find a good threshold is by trial and error (e.g., binary searching). Future methods will appear in the future.
       </listitem>
       </varlistentry>
       <varlistentry>
