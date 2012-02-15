@@ -74,8 +74,8 @@ case 'canny' then
   if isempty(sigma) then
     sigma=3;
   end
-  if and(sigma <> [1,3,5,7]) then
-    error('sigma for canny must be 1, 3, 5 or 7.');
+  if and(sigma <> [3,5,7]) then
+    error('sigma for canny means kernel size (width), and must be 3, 5 or 7.');
   end
 
   if (typeof(Img(1)) == 'constant')
