@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="arclength">
+<info>
+  <pubdate>February 2012</pubdate>
+</info>
+
+<refnamediv>
+  <refname>arclength</refname>
+  <refpurpose>Arc length function of a sampled curve</refpurpose>
+</refnamediv>
+   
+   
+   
+   <refsynopsisdiv><title>Calling Sequence</title>
+    <synopsis>s = arclength(crv)</synopsis>
+    <synopsis>s = arclength(crv, circular)</synopsis>
+   </refsynopsisdiv>
+   
+   <refsection><title>Parameters</title>
+   
+      <variablelist>
+      
+         <varlistentry>
+            <term>crv</term>
+            <listitem>
+                nx2 curve vector [x y]
+            </listitem>
+         </varlistentry>
+      
+         <varlistentry>
+            <term>circular</term>
+            <listitem>
+              boolean, %t if curve is to be treated as circular. Defaults to %f. 
+            </listitem>
+         </varlistentry>
+
+         <varlistentry>
+            <term>s</term>
+            <listitem>
+            vector containing the estimated arclength at each sample point
+            x(i),y(i) from x(0),y(0). Thus s(1) == 0.
+            </listitem>
+         </varlistentry>
+   
+      </variablelist>
+   
+   </refsection>
+   
+   <refsection><title>Description</title>
+   
+      <para>
+      This function computes the numerical arclength at each sample of a curve, as
+      measured from the first sample. The method implicitly interpolates the
+      curve using line segments between each sample.
+      </para>
+   
+   </refsection>
+   
+   <refsection><title>Examples</title><programlisting role="example"><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+
+       Img = imread('star.bmp');
+       clf
+       imshow(Img,2);
+
+       [x,y] = follow(Img);
+
+       s = arclength([x y], %t);
+
+       // plot arc length vs sample id to get an idea of the difference
+       clf;
+       plot(s);
+       a = gca();
+       a.isoview = 'on';
+
+       // the last element should equal the perimeter
+       s($), perim(Img)
+
+       chdir(initial_dir);
+   ]]></programlisting></refsection>
+   
+   <refsection><title>Authors</title><simplelist type="vert">
+      
+      <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
+   
+   </simplelist></refsection>
+
+
+   <refsection><title>Availability</title>
+The latest version of the Scilab Image Processing toolbox can be found at
+<para>
+         http://siptoolbox.sourceforge.net
+      </para>
+
+   </refsection>
+
+   
+   <refsection><title>See Also</title><simplelist type="inline">
+      
+      <member> 
+         <link linkend="follow">follow</link> 
+      </member>
+
+      <member> 
+         <link linkend="perim">im2bw</link> 
+      </member>
+      
+      <member> 
+         <link linkend="edge">edge</link> 
+      </member>
+   </simplelist></refsection>
+
+</refentry>
