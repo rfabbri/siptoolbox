@@ -1,216 +1,127 @@
 <?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="skel"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>skel</refname><refpurpose>skeletonization, thinning, Medial Axis Transform</refpurpose></refnamediv>
-
-   
-
-   
-
-   
-
-   
-
-   
-
    <refsynopsisdiv><title>Calling Sequence</title><synopsis>[skl,dt,lbl] = skel(img [,side, algorithm])</synopsis></refsynopsisdiv>
-
    <refsection><title>Parameters</title>
-
       <variablelist>
-   
          <varlistentry>
-   
             <term>img</term>
-   
             <listitem>
-    Binary image containing one or more binary shapes. (foreground == 1, background == 0), One-pixel-wide regions are ignored (temporary limitation).
+    Binary image containing one or more binary shapes. (foreground == 1,
+    background == 0), One-pixel-wide regions are ignored (temporary limitation).
    </listitem>
-   
          </varlistentry>
-   
          <varlistentry>
-   
             <term>side</term>
-   
             <listitem>
-      
                <variablelist>
-         
                   <varlistentry>
-         
                      <term>'interior'</term>
-         
                      <listitem>
           if only internal skeleton is desired (DEFAULT)
          </listitem>
-         
                   </varlistentry>
-         
                   <varlistentry>
-            
                      <term>'exterior'</term>
-         
                      <listitem>
              if only external skeleton is desired
          </listitem>
-         
                   </varlistentry>
-         
                   <varlistentry>
-            
                      <term>'both'</term>
-         
                      <listitem>
         if the background and foreground skeleton must be computed
         at the same time
          </listitem>
-         
                   </varlistentry>
-      
                </variablelist>
-   
             </listitem>
-   
          </varlistentry>
-   
          <varlistentry>
-   
             <term>algorithm</term>
-   
             <listitem>
-      
                <variablelist>
-         
                   <varlistentry>
-         
                      <term>'fast euclidean'</term>
-         
                      <listitem>
           (DEFAULT) will perform a fast O(n) algorithm using the
           Euclidean metric. For large and thick shapes, there may be
           a few small errors, which are dispensible for most practical
           applications.
          </listitem>
-         
                   </varlistentry>
-         
                   <varlistentry>
-            
                      <term>'exact euclidean'</term>
-         
                      <listitem>
             will perform an exact euclidean algorithm that is very
             much slower.
          </listitem>
-         
                   </varlistentry>
-      
                </variablelist>
-   
             </listitem>
-   
          </varlistentry>
-
       </variablelist>
-
    </refsection>
-
    <refsection><title>Parameters</title>
-
       <variablelist>
-   
          <varlistentry>
-   
             <term>skl</term>
-   
             <listitem>
     The multiscale skeleton image. This is a grayscale image, which may be thresholded to yield a skeleton with varying levels of detail. The greater the threshold, the cleaner is the skeleton. A threshold level of 5 will give a usual skeleton similar to the one obtained by popular thinning methods.
    </listitem>
-   
          </varlistentry>
-   
          <varlistentry>
-   
             <term>dt</term>
-   
             <listitem>
     The euclidean distance transform of the image. It has the squared euclidean distances of any point of the image to the object.
    </listitem>
-   
          </varlistentry>
-   
          <varlistentry>
-   
             <term>lbl</term>
-   
             <listitem>
     Label image. This is the discrete Voronoi Diagram of the boundary pixels of the considered object. Is is a grayscale image indicating the region of influence of each boundary pixel.
    </listitem>
-   
          </varlistentry>
-
       </variablelist>
-
    </refsection>
-
    <refsection><title>Description</title>
-
       <para>
  Function skel performs skeletonization (thinning) of a  binary object. The resulting medial axis is multi-scale,  meaning that it can be progressively pruned to eliminate  detail. This pruning is done by thresholding the output  skeleton image. </para>
-   
       <para>
  The algorithm computes skeletons that are guaranteed to be  connected over all scales of simplification. The skeletons  are computed using the Euclidean metric. This has the  advantage to produce high-quality, isotropic and well-centered skeletons in the shape. However the exact algorithm  is computationally intensive. </para>
-   
       <para>
  The radius of the maximal balls associated with the skeleton points are stored in the distance transform output  image. </para>
-
    </refsection>
-
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
     initial_dir = PWD;
     chdir (SIPDIR + 'images');
     xset('auto clear', 'on');
-
     im=gray_imread('escher.png');
     imshow(im,2);
     [skl,dt,vor] = skel(im);
-
     // Fine detail
     sklt = (skl &gt;= 5);
     imshow(im+sklt,[]);
-
     // Less detail
     sklt = (skl &gt;= 20);
     imshow(im+sklt,[]);
-
     // The Distance Transform
     imshow(sqrt(dt),[]);
-
     // The Influence/Voronoi diagram of each boundary pixel
     imshow(vor+1,rand(max(vor)+1,3));   // each region maps to a random color
-
     // Let's see if computation is really fast
     stacksize('max');
     big = mogrify(im,['-sample','1000x']);
     size(big)
     skl = skel(big);
     imshow(big + (skl &gt;= 50),[]);
-
-
     xset('auto clear', 'off');
     chdir(initial_dir);
 ]]></programlisting>
-    <para>The result of the preceding example, 'Less detail':</para>
 
-    <mediaobject>
-      <imageobject>
-        <imagedata align="center" fileref="../images/skeleton-escher-less-detail.png" />
-      </imageobject>
-    </mediaobject>
-
+    <para><emphasis role="bold">The result of the preceding example, 'Less detail':</emphasis></para>
+    <para><imagedata fileref="../images/skeleton-escher-less-detail.png" /></para>
 </refsection>
 
-
    <refsection><title>Bibliography</title>
-   
       <para>
    For the fast euclidean algorithm:
    "Multiscale Skeletons by Image Foresting Transform
@@ -230,41 +141,25 @@
 "Shape Analysis and Classification", 
 L. da F. Costa and R.M. Cesar Jr., CRC Press. 
    </para>
-
    </refsection>
-
-
    <refsection><title>Known Bugs</title>
    This function may not work for some kinds of input that is 
    already thin in some parts; it is a good idea to apply
    morphological dilation and closing before applying <literal>skel</literal>.
 </refsection>
-
-
    <refsection><title>Authors</title><simplelist type="vert">
-   
       <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
-
    </simplelist></refsection>
-
-
    <refsection><title>Availability</title>
 The latest version of the Scilab Image Processing toolbox can be found at
 <para>
          http://siptoolbox.sourceforge.net
       </para>
-
    </refsection>
-
-   
    <refsection><title>See Also</title><simplelist type="inline">
-      
       <member> 
          <link linkend="thin">thin</link> 
       </member>
-      
       <member>reconstruction (not done yet...)</member>
-   
    </simplelist></refsection>
-
 </refentry>
