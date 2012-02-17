@@ -120,8 +120,8 @@
     <para><emphasis role="bold">The result of the preceding example, less detail (left) and more detail (right):</emphasis></para>
     <para><imagedata fileref="../images/skeleton-escher-less-detail.png" /> <imagedata fileref="../images/skeleton-escher-more-detail.png" />
     </para>
-    <para><emphasis role="bold">The Influence zones or Voronoi regions of each boundary pixel (also known as a label map):</emphasis></para>
-    <para><imagedata fileref="../images/skeleton-escher-voronoi-regions.png" /></para>
+    <para><emphasis role="bold">The Influence or Voronoi regions of each boundary pixel (a.k.a. a label map), and the distance map:</emphasis></para>
+    <para><imagedata fileref="../images/skeleton-escher-voronoi-regions.png" /> <imagedata fileref="../images/skeleton-escher-dt.png" /></para>
 </refsection>
 
    <refsection><title>Bibliography</title>
