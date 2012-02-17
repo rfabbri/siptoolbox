@@ -105,7 +105,7 @@
     imshow(im+sklt,[]);
     // The Distance Transform
     imshow(sqrt(dt),[]);
-    // The Influence/Voronoi diagram of each boundary pixel
+    // The Influence/Voronoi diagram of the boundary pixels
     imshow(vor+1,rand(max(vor)+1,3));   // each region maps to a random color
     // Let's see if computation is really fast
     stacksize('max');
@@ -119,6 +119,8 @@
 
     <para><emphasis role="bold">The result of the preceding example, 'Less detail':</emphasis></para>
     <para><imagedata fileref="../images/skeleton-escher-less-detail.png" /></para>
+    <para><emphasis role="bold">'The Influence/Voronoi regions of each boundary pixel':</emphasis></para>
+    <para><imagedata fileref="../images/skeleton-voronoi-regions.png" /></para>
 </refsection>
 
    <refsection><title>Bibliography</title>
