@@ -105,7 +105,7 @@
     imshow(im+sklt,[]);
     // The Distance Transform
     imshow(sqrt(dt),[]);
-    // The Influence/Voronoi diagram of the boundary pixels
+    // The Influence zones or Voronoi diagram of the boundary pixels
     imshow(vor+1,rand(max(vor)+1,3));   // each region maps to a random color
     // Let's see if computation is really fast
     stacksize('max');
@@ -117,22 +117,24 @@
     chdir(initial_dir);
 ]]></programlisting>
 
-    <para><emphasis role="bold">The result of the preceding example, 'Less detail':</emphasis></para>
+    <para><emphasis role="bold">The result of the preceding example, less detail:</emphasis></para>
     <para><imagedata fileref="../images/skeleton-escher-less-detail.png" /></para>
-    <para><emphasis role="bold">'The Influence/Voronoi regions of each boundary pixel':</emphasis></para>
-    <para><imagedata fileref="../images/skeleton-voronoi-regions.png" /></para>
+    <para><emphasis role="bold">'More detail':</emphasis></para>
+    <para><imagedata fileref="../images/skeleton-escher-more-detail.png" /></para>
+    <para><emphasis role="bold">The Influence zones or Voronoi regions of each boundary pixel (also known as a label map):</emphasis></para>
+    <para><imagedata fileref="../images/skeleton-escher-voronoi-regions.png" /></para>
 </refsection>
 
    <refsection><title>Bibliography</title>
       <para>
-   For the fast euclidean algorithm:
+   For the fast Euclidean algorithm:
    "Multiscale Skeletons by Image Foresting Transform
    and its Application to Neuromorphometry", 
    A.X. Falcao, L. da F. Costa, B.S. da Cunha,
    Pattern Recognition, 2002. 
    </para>
       <para>
-   For the exact euclidean algorithm:
+   For the exact Euclidean algorithm:
    </para>
       <para>
    "Multiresolution shape representation without border shifting",
