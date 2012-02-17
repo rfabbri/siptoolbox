@@ -98,7 +98,16 @@ widths = zc_len(2:n_zc) - zc_len(1:(n_zc-1));
 disp('median nucleii thickness along tangential direction:')
 median_rt = median(widths)/2;
 
+
 disp('The nucleus prototype has diameters: ' + string(median_rt*2) + ' by ' + string(rn*2) + ' pixels');
+
+if median_rt < min_possible_rt
+  warning('this edge image must have excessive ammounts of noise or has a weak signal, giving too small of an estimate for the tangential radius.');
+end
+
+if median_rt/rn < min_possible_rt_nt_ratio
+  warning('tangential radius seems too low.');
+end
 
 // -----------------------------------------------------------------------------
 // use a RANSAC fitting to align and possibly determine a finer spacing

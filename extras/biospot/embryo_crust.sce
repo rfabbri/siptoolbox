@@ -6,7 +6,9 @@
 chdir(workdir);
 im=gray_imread('normal.tif');
 
-e=gray_imread('edge.png');
+// e=gray_imread('edge.png');
+// todo automatic
+e = edge(im,'canny',[0 0.04],3);
 
 [w,h] = size(e);
 en = zeros(w+2*4*closing_distance+1,h+2*4*closing_distance+1);
