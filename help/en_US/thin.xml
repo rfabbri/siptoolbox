@@ -1,64 +1,33 @@
 <?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="thin"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>thin</refname><refpurpose>thinning by border deletion</refpurpose></refnamediv>
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
    <refsynopsisdiv><title>Calling Sequence</title><synopsis>out = thin(img)</synopsis></refsynopsisdiv>
-   
    <refsection><title>Parameters</title>
-   
       <variablelist>
-      
          <varlistentry>
-      
             <term>img</term>
-      
             <listitem>
        Binary image containing one or more binary shapes. (foreground == 1, background == 0),
       </listitem>
-      
          </varlistentry>
-      
          <varlistentry>
-      
             <term>out</term>
-      
             <listitem>
        Internal skeleton, thinned version of the shapes in the input image.
       </listitem>
-      
          </varlistentry>
-   
       </variablelist>
-   
    </refsection>
-   
    <refsection><title>Description</title>
-   
       <para>
       Function <literal>thin</literal> performs thinning of binary objects. It  uses the Zhang-Suen, a de facto standard and simple technique. The resulting image, the skeleton, is not always  connected and is very sensible to noise. It is also slower  than a good skeletonization algorithm (see skel). For thin  shapes, it should work faster and provide better quality.  You will need some pruning criterium to eliminate spurs. </para>
-   
    </refsection>
-   
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        im=gray_imread(SIPDIR+'images/r.gif');
        imshow(im,2);
-
        skl = thin(im);
-
        clf;
        imshow(im+skl,[]);
-
        // Quality is definitely inferior to that of good skeletonization
        // methods, as in the following test
-
        im=gray_imread(SIPDIR+'images/escher.png');
        skl = thin(im);      // Ordinary thinning
        clf;
@@ -66,39 +35,23 @@
        subplot(1,2,1);
        imshow(im+skl,[]);
        xset('wdim',800,400);
-
        skl = skel(im);      // multiscale euclidean skeletonization
        subplot(1,2,2);
        imshow(im+(skl &gt;= 10),[]);
        xset('wdim',800,400);
    ]]></programlisting></refsection>
-
-
-   
-
-
    <refsection><title>Authors</title><simplelist type="vert">
-   
       <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
-
    </simplelist></refsection>
-
-
    <refsection><title>Availability</title>
 The latest version of the Scilab Image Processing toolbox can be found at
 <para>
          http://siptoolbox.sourceforge.net
       </para>
-
    </refsection>
-
-   
    <refsection><title>See Also</title><simplelist type="inline">
-      
       <member> 
          <link linkend="skel">skel</link> 
       </member>
-   
    </simplelist></refsection>
-
 </refentry>
