@@ -29,7 +29,7 @@ macro_DATA = $(macros_bin) names lib
 
 dist_macro_DATA = $(macros_sci) sip-intro.dem sipdemo_gui.dem interferometry_gui.dem mogrify.dem 
 
-EXTRA_DIST = buildmacros.sce
+EXTRA_DIST = buildmacros.sce test_color_classify.sce sip_init.sce
 
 $(macros_bin) names lib: 	$(macros_sci) 
 	@echo Note: if this is being called many times, issue 'make clean'

@@ -32,7 +32,7 @@ SIPDEMO=SIPDIR+'macros/sipdemo_gui.dem';
 execstr(libname+'=lib(""'+SIPDIR+'macros/'+'"")')
 // XXX TODO PREDEF ALL???
 
-// add the help chapter
+// add the help chapter and some utilities
 scilab_version=getversion();
 if scilab_version=="scilab-2.7" then
    %helps = [%helps; SIPDIR+'man', libtitle]
@@ -40,12 +40,14 @@ else
   if (str2code( part(scilab_version, 8)) <= 4) then //version <= 4.x.x
      add_help_chapter(libtitle, SIPDIR + 'man');
   else
-     //scilab 5
+     // Scilab 5
      path_addchapter = SIPDIR + "jar/";
      if ( fileinfo(path_addchapter) <> [] ) then
         add_help_chapter(libtitle, path_addchapter, %F);
         clear add_help_chapter;
      end
+     // load utilities (aliases etc)
+     exec(SIPDIR+'macros/sip_init.sce');
   end
 end
 
