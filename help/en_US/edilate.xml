@@ -31,7 +31,7 @@
             <term>radius</term>
       
             <listitem>
-       of circular euclidean structuring element to be used. Defaults to 5.
+       of circular Euclidean structuring element to be used. Defaults to 5.
       </listitem>
       
          </varlistentry>

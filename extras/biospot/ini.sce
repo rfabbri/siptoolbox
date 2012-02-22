@@ -1,9 +1,18 @@
+//
+// TODO: option to subst imshow's to imwrites to a results dir
+//
+im = gray_imread('normal.tif');
+//im = normal(im);
+
 // default parameters
 exec params.sce;
 
 xset('auto clear', 'on')
+chdir(workdir);
 
-// This computes the region containing the nucleii, eliminating most noise
+exec myclf.sci;
+
+// this computes the region containing the nucleii, eliminating most noise
 // inside the embryo.
 exec embryo_crust.sce;
 
@@ -23,40 +32,39 @@ exec embryo_crust.sce;
 
 [skl,dt,vor] = skel(ec);
 
-// Less detail possible - loop preserving
+// Smallest ammount of detail as possible - loop preserving
 sklt = (skl >= max(skl));
 
 // max(skl) is an indicator of the maximum thickness, or we could read this from
 // DT.
 
-figure
+myclf
 imshow(ec+sklt,[]);
 
-figure
+myclf
 imshow(e+2*sklt,[]);
 
-figure
+myclf
 imshow(e.*sklt,[]);
 
 sk_dt = bwdist(1-1*sklt);
-figure
+myclf
 imshow(e.*(sk_dt<=4),[]);
 
-figure
+myclf
 imshow(im.*(sk_dt<=4),[]);
 
-// TODO: signal error if no complete loop was found. Attempt:
-
+// TODO: improve error detection if no complete loop was found. Attempt:
 if (size(find(sklt),'*') / size(find(ec==1),'*') < 0.01)
-  warning('crust may not be a closed loop, yielding failure');
+  error('embryo crust does not seem to be a closed loop');
 end
 
 // -----------------------------------------------------------------------------
-// Filter out very small connected components in the edge map
+// filter out very small connected components in the edge map
 
 [L, n] = bwlabel(e);
 
-// Eliminate edge segments smaller than min_length pixels (noise)
+// eliminate edge segments smaller than min_length pixels (noise)
 for i=1:n
   f = find(L==i);      // linear coordinates of i-th region
   reg_size = size(f,'*');
@@ -65,7 +73,7 @@ for i=1:n
   end
 end
 
-figure
+myclf
 imshow(L+1, rand(n+1,3));   // note how the small regions are gone
 
 // filtered embryo
@@ -87,7 +95,7 @@ for i=1:size(x,'*') do
    ds(i) = dt(ij(1),ij(2));
    os(i)    = im(ij(1),ij(2));
 end
-figure
+myclf
 
 disp('median nucleii thickness along normal direction:')
 rn = sqrt(median(ds))

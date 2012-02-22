@@ -24,5 +24,5 @@ end
 
 zimg = unfollow(x(zc_pos), y(zc_pos), size(e));
 
-figure
+myclf
 imshow(5*zimg+e,[]);

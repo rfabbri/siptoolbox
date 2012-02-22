@@ -28,6 +28,9 @@ libtitle='SIP - Scilab Image Processing Toolbox @PACKAGE_VERSION@';
 SIPDIR=get_absolute_file_path('loader.sce') + '/'; 
 SIPDEMO=SIPDIR+'macros/sipdemo_gui.dem';
 
+// resets the default image viewer 
+SIPVIEWER = 'sci';
+
 // load the library macros
 execstr(libname+'=lib(""'+SIPDIR+'macros/'+'"")')
 // XXX TODO PREDEF ALL???

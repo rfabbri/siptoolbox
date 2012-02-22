@@ -3,12 +3,9 @@
 
 // To be called from ini.sce or after execing params.sce
 
-chdir(workdir);
-im=gray_imread('normal.tif');
-
 // e=gray_imread('edge.png');
 // todo automatic
-e = edge(im,'canny',[0 0.04],3);
+e = edge(im,'canny',[0 0.04]/dim_ratio_normal,3);
 
 [w,h] = size(e);
 en = zeros(w+2*4*closing_distance+1,h+2*4*closing_distance+1);
@@ -23,10 +20,11 @@ im = imn;
 clear imn;
 
 // morphological closing
+// TODO: use fast algorithm here (cuisernaire?)
 ed = edilate(e, closing_distance, 'same');
-figure
-imshow(ed);
 ed = 1-edilate(1-ed, closing_distance);
+myclf
+imshow(ed);
 
 // connected components 
 
@@ -41,11 +39,11 @@ for i=1:n
   end
 end
 
-figure
+myclf
 imshow(L+1, rand(n+1,3));   // note how the small regions are gone
 
 // embryo nucleii crust
 ec = 1 * (L > 0.5);
 
-//figure;
+//myclf;
 //imshow(e,[]);
