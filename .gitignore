@@ -27,3 +27,8 @@ tests/sip_link_test
 *.tar.gz
 config/loader.sce
 config/loader_include.sce
+src/sip_config.h
+images/.directory
+macros/res.txt
+macros/names
+help/en_US/master_help.xml

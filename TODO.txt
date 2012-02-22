@@ -10,6 +10,7 @@ TODO
 - fix some help links in the see also sections
 - move the help files to new xml format (take a xml help file from the scilab
   source as a model)
+- write help for sip_exec
 
 
 Current bugs (with Scilab 5.3 Ubuntu 11.04)
