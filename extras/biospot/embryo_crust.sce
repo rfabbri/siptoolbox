@@ -18,9 +18,9 @@ en((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*clo
 e = en;
 clear en;
 
-//imn((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*closing_distance)) = im;
-//im = imn;
-//clear imn;
+imn((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*closing_distance)) = im;
+im = imn;
+clear imn;
 
 // morphological closing
 ed = edilate(e, closing_distance, 'same');

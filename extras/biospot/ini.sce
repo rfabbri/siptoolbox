@@ -35,6 +35,16 @@ imshow(ec+sklt,[]);
 figure
 imshow(e+2*sklt,[]);
 
+figure
+imshow(e.*sklt,[]);
+
+sk_dt = bwdist(1-1*sklt);
+figure
+imshow(e.*(sk_dt<=4),[]);
+
+figure
+imshow(im.*(sk_dt<=4),[]);
+
 // TODO: signal error if no complete loop was found. Attempt:
 
 if (size(find(sklt),'*') / size(find(ec==1),'*') < 0.01)
@@ -67,12 +77,15 @@ ef = 1 * (L > 0.5);
 [x,y] = follow(sklt*1);
 
 dims = size(sklt);
-s = zeros(x);
-ds = s;
+s = zeros(x); // signal from edgemap
+ds = s; // distance signal (from edgemap's dt)
+os = s; // original signal
 
 for i=1:size(x,'*') do
-   s(i) = ef(dims(1) - y(i), x(i)+1);
-   ds(i) = dt(dims(1) - y(i), x(i)+1);
+   ij = [dims(1) - y(i), x(i)+1];
+   s(i) = ef(ij(1),ij(2));
+   ds(i) = dt(ij(1),ij(2));
+   os(i)    = im(ij(1),ij(2));
 end
 figure
 
@@ -81,6 +94,9 @@ rn = sqrt(median(ds))
 
 len=arclength([x y], %t);
 plot(len,[s;s(1)]);
+
+plot(len,[os;os(1)]);
+ylabel('original signal');
 
 // -----------------------------------------------------------------------------
 // let's first give an estimate through the median spacing between edges along
@@ -109,31 +125,11 @@ if median_rt/rn < min_possible_rt_nt_ratio
   warning('tangential radius seems too low.');
 end
 
-// -----------------------------------------------------------------------------
-// use a RANSAC fitting to align and possibly determine a finer spacing
-// corresponding to the maximum possible number of inliers
 
-exec ransac_offset.sce;
+exec tangential_align_using_edges.sce;
 
-// -----------------------------------------------------------------------------
-// Plot the lengths along the normals to the central curve.
-// Perhaps even plot the prototype
+//exec tangential_align_using_original_image.sce;
 
 
-n_zc_model = floor(maxlen/rt2);
-zc_len_pos = (0:n_zc_model)*rt2 + zc_len(best_offset);
-zc_len_pos = modulo(zc_len_pos, maxlen);
 
-// now get points at arclengths zc_len_pos. 
 
-zc_pos = zeros(zc_len_pos);
-
-for i=1:length(zc_pos)
-  [m,m_i] = min(abs(len - zc_len_pos(i)));
-  zc_pos(i) = m_i;
-end
-
-zimg = unfollow(x(zc_pos), y(zc_pos), size(e));
-
-figure
-imshow(5*zimg+e,[]);
