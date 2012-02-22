@@ -1,6 +1,10 @@
 SIP - Scilab Image Processing Toolbox
-Copyright (C) 2002-2010 Ricardo Fabbri
+Copyright (C) 2002-2012 Ricardo Fabbri
 __________________________________________________________________
+
+0.7.1
+	+ new sip_exec utility to exec script anywhere on PATH
+	+ updated help files to contain illustrating figures (bwdist and skel)
 
 0.7.0
 	+ new extras/ directory with code for specific practical problems. the biospot
