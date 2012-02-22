@@ -36,13 +36,17 @@ end
 
 if ~exists('viewer','local')
   viewer=SIPVIEWER
-elseif getos() == 'Windows'
-  error('external viewer not supported on Windows');
-else
-  tmpname = tempname();
-  tmpname = tmpname + '-imshow.png';
-  // remove temp file only at the beginning
-  unix('rm -f ' + TMPDIR + '/*imshow.png');
+end
+
+if viewer <> 'sci'
+  if getos() == 'Windows'
+    error('external viewer not supported on Windows');
+  else
+    tmpname = tempname();
+    tmpname = tmpname + '-imshow.png';
+    // remove temp file only at the beginning
+    unix('rm -f ' + TMPDIR + '/*imshow.png');
+  end
 end
 
 
@@ -66,7 +70,9 @@ select type(img)
           xset('wdim',n,m)
           Matplot(img*255 + 1,strf)
         else
-          disp ('writing temporary image file ' + tmpname );
+          if sip_get_verbose() == 'wordy'
+            disp ('writing temporary image file ' + tmpname );
+          end
           imwrite(img, tmpname);
         end
       else
@@ -85,7 +91,9 @@ select type(img)
             if viewer == 'sci'
               xset('colormap', mygraycmap);
             else
-              disp ('writing temporary image file ' + tmpname );
+              if sip_get_verbose() == 'wordy'
+                disp ('writing temporary image file ' + tmpname );
+              end
               imwrite(img, mygraycmap, tmpname);
             end
          elseif (n2==0 | n2==2) then   // [] or [n1 n2]
@@ -98,7 +106,9 @@ select type(img)
               xset('colormap', graycolormap(256))
             else
               img=normal(img);
-              disp ('writing temporary image file ' + tmpname );
+              if sip_get_verbose() == 'wordy'
+                disp ('writing temporary image file ' + tmpname );
+              end
               imwrite(img, tmpname);
             end
          elseif (n2 == 3) then         // imshow(img,map)
@@ -119,7 +129,9 @@ select type(img)
               end
               xset('colormap', arg2)
             else
-              disp ('writing temporary image file ' + tmpname );
+              if sip_get_verbose() == 'wordy'
+                disp ('writing temporary image file ' + tmpname );
+              end
               imwrite(img, arg2, tmpname);
             end
          else
@@ -150,7 +162,9 @@ select type(img)
         xset('wdim',dims(2),dims(1))
         Matplot(sip_index_true_cmap(img,nlevels),strf)
       else
-        disp ('writing temporary image file ' + tmpname );
+        if sip_get_verbose() == 'wordy'
+          disp ('writing temporary image file ' + tmpname );
+        end
         imwrite(img, tmpname);
       end
    case 10 then   // filename
@@ -172,10 +186,11 @@ end
 //
 if viewer <> 'sci'
   mycmd = viewer + ' ' + tmpname + ' &';
-  disp ('running viewer command: ' + mycmd);
+  if sip_get_verbose() == 'wordy'
+    disp ('running viewer command: ' + mycmd);
+  end
   unix_w(mycmd);
 end
-
 
 endfunction
 
