@@ -14,7 +14,7 @@
   <synopsis>imshow(Img,Map)</synopsis>
   <synopsis>imshow(RGBImg)</synopsis>
   <synopsis>imshow filename</synopsis>
-  <synopsis>imshow(Img, arg2 [, strf])</synopsis>
+  <synopsis>imshow(Img, [arg2 , strf, viewer])</synopsis>
 </refsynopsisdiv>
 
 <refsection>
@@ -61,6 +61,23 @@
      <term>RGBImg</term>
      <listitem>
      MxNx3 hypermatrix in 0-1 range.
+     </listitem>
+   </varlistentry>
+
+   <varlistentry>
+     <term>viewer</term>
+     <listitem>
+     The image viewer to use: 'sci' for scilab, 'display' for imagemagick, or
+     any name of an image viewer program in your PATH (such as 'eog' or 'xv').
+     You can also set your image viewer globally by altering the SCIVIEWER
+     variable within scilab. For instance: <programlisting role="example"><![CDATA[
+
+      imshow(img, viewer='display')  // same as imshow but uses external viewer
+
+      SCIVIEWER = 'display'
+      imshow(img)                    // same as before but uses SCIVIEWER to determine the viewer
+
+]]></programlisting>
      </listitem>
    </varlistentry>
 
@@ -157,7 +174,9 @@ the developers of the SIP toolbox.
 </refsection>
 <refsection><title>Bugs and Shortcomings</title>
 <para>
-   The display of truecolor images is somewhat inefficient.
+   The display of truecolor images in Scilab is somewhat inefficient. Perhaps
+   you'd want to use an external viewer using the <literal>viewer</literal>
+   parameter.
 </para>
 <para>
    Images are stored in double precision matrices. Hopefully,

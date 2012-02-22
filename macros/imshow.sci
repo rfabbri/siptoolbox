@@ -35,7 +35,7 @@ else
 end
 
 if ~exists('viewer','local')
-  viewer='sci'
+  viewer=SIPVIEWER
 elseif getos() == 'Windows'
   error('external viewer not supported on Windows');
 else
@@ -170,7 +170,7 @@ end
 // Part of double-buffer default for next release:
 //xset('pixmap',prev_pixmap_mode);
 //
-if viewer<>'sci'
+if viewer <> 'sci'
   mycmd = viewer + ' ' + tmpname + ' &';
   disp ('running viewer command: ' + mycmd);
   unix_w(mycmd);
