@@ -51,7 +51,7 @@ edilate_int(char *fname)
          i, irad,
          nv=1,
          minlhs=1, maxlhs=1, minrhs=1, maxrhs=3;
-   Img *im, *result, *tmp;
+   ImgPuint32 *im, *result;
    double *po, radius=5;
    char opt[MAX_OPT]="same";
    bool stat;
@@ -72,28 +72,26 @@ edilate_int(char *fname)
    }
 
    /* @@@ maybe there's a better way of passing data */
-   im=new_img(c1, r1);
+   im=new_img_puint32(c1, r1);
    if (!im) sip_error("unable to alloc memory");
    sci_2D_double_matrix_to_animal(p1,r1,c1,im,pixval,1);
 
-   irad   = (int) ceil(radius);
-   result = new_img(im->rows+2*irad, im->cols+2*irad);
-   if (!result) sip_error("unable to alloc memory");
+   im->isbinary = true;
 
-   edilate_np(result,im,radius);    
-
-   if (strcmp(opt,"same") == 0) {
-      tmp = result;
-      result = imtrim (result, irad, irad);
-      imfree (&tmp);
+   if (strcmp(opt,"same") != 0) {
+     result = impad_puint32(im, irad, irad);
+     if (!result) sip_error("unable to alloc memory");
+     imfree_puint32(&im);
+     im = result;
    }
-   imfree(&im);
-   im = result;
 
-   ro=im->cols; co=im->rows;
-   stat = animal_grayscale_image_to_double_array(fname, im, &po);
-   if (!stat) return false;
+   result = distance_transform(im, alg, radius*radius);
    imfree(&im);
+
+   ro=result->cols; co=result->rows;
+   stat = animal_grayscale_imgpuint32_to_double_array(fname, result, &po);
+   if (!stat) return false;
+   imfree_puint32(&result);
 
    CreateVarFromPtr(nv, "d", &ro, &co, &po);
 
