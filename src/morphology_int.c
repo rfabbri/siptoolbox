@@ -51,7 +51,7 @@ edilate_int(char *fname)
          i, irad,
          nv=1,
          minlhs=1, maxlhs=1, minrhs=1, maxrhs=3;
-   ImgPuint32 *im, *result;
+   ImgPUInt32 *im, *tmp;
    double *po, radius=5;
    char opt[MAX_OPT]="same";
    bool stat;
@@ -72,26 +72,35 @@ edilate_int(char *fname)
    }
 
    /* @@@ maybe there's a better way of passing data */
-   im=new_img_puint32(c1, r1);
+   im = new_img_puint32(c1, r1);
    if (!im) sip_error("unable to alloc memory");
    sci_2D_double_matrix_to_animal(p1,r1,c1,im,pixval,1);
+
+   for (i=0; i<r1*c1; ++i)
+      DATA(im)[i] = (PROUND(pixval,*stk(p1+i)) == 0);
 
    im->isbinary = true;
 
    if (strcmp(opt,"same") != 0) {
-     result = impad_puint32(im, irad, irad);
-     if (!result) sip_error("unable to alloc memory");
+     irad = (int) ceil(radius);
+     tmp = impad_puint32(im, irad, irad, 0);
+     if (!tmp) sip_error("unable to alloc memory");
      imfree_puint32(&im);
-     im = result;
+     im = tmp;
    }
 
-   result = distance_transform(im, alg, radius*radius);
-   imfree(&im);
+   stat = distance_transform_ip_max_dist(im, DT_CUISENAIRE_PMN_1999, radius*radius);
+   if (!stat) return false; /* @@@ garbage collection */
 
-   ro=result->cols; co=result->rows;
-   stat = animal_grayscale_imgpuint32_to_double_array(fname, result, &po);
+   ro=im->cols; co=im->rows;
+
+   for (i = 0; i <ro*co; i++)
+     im->data[i] = (im->data[i] <= radius*radius);
+   im->isbinary = true;
+
+   stat = animal_grayscale_imgpuint32_to_double_array(fname, im, &po);
    if (!stat) return false;
-   imfree_puint32(&result);
+   imfree_puint32(&im);
 
    CreateVarFromPtr(nv, "d", &ro, &co, &po);
 
