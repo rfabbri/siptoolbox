@@ -22,7 +22,7 @@
 AC_PREREQ(2.61)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.7.1-git], [ricardofabbri@users.sourceforge.net])
+AC_INIT([sip], [0.8.0-git], [ricardofabbri@users.sourceforge.net])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -256,7 +256,7 @@ AC_SUBST(LIBRARY_EXTRA_LIBS)
 
 # animal-config method
 AC_PATH_LIB_LIBCONFIG
-AC_PATH_LIB([animal], [0.14.0 -nocheck], [animal-config], ,[
+AC_PATH_LIB([animal], [0.16.0 -nocheck], [animal-config], ,[
    # if found:
    if test "$GCC" = "yes";  then
       CFLAGS="$CFLAGS -W -Wall -Wno-implicit-int"
