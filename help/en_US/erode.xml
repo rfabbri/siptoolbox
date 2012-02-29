@@ -63,7 +63,9 @@
    <refsection><title>Description</title>
    
       <para>
- Function erode performs morphological erosion of a binary  image Img using SE as the structuring element. </para>
+ Function erode performs morphological erosion of a binary  image Img using SE as the structuring element. 
+ If your <literal>SE</literal> is a perfect circle with large radius, consider using the much faster <link linkend="edilate">edilate</link> function with an inverted <literal>Img</literal> (e.g. <literal>edilate(1-Img, radius)</literal>).
+ </para>
    
    </refsection>
    

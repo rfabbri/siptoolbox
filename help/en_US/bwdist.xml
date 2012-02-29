@@ -258,5 +258,8 @@ of the Scilab Image Processing toolbox can be found at <para>
       <member> 
          <link linkend="thin">thin</link> 
       </member>
+      <member> 
+         <link linkend="edilate">edilate</link> 
+      </member>
    </simplelist></refsection>
 </refentry>

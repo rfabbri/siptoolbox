@@ -71,7 +71,8 @@
    <refsection><title>Description</title>
    
       <para>
- Function dilate performs morphological dilation of a binary image <literal>Img</literal> using <literal>SE</literal> as the structuring element. </para>
+ Function dilate performs morphological dilation of a binary image <literal>Img</literal> using <literal>SE</literal> as the structuring element. If your <literal>SE</literal> is a perfect circle with large radius, consider using the much faster <link linkend="edilate">edilate</link> function.
+ </para>
    
    </refsection>
 

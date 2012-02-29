@@ -1,110 +1,81 @@
 <?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="edilate"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>edilate</refname><refpurpose>Euclidean  morphological  dilation  of  binary</refpurpose></refnamediv>
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   
-   <refsynopsisdiv><title>Calling Sequence</title><synopsis>Dil = edilate(Img, [radius, form])</synopsis></refsynopsisdiv>
-   
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>Dil = edilate(Img, [radius, form, algorithm])</synopsis></refsynopsisdiv>
    <refsection><title>Parameters</title>
-   
       <variablelist>
-      
          <varlistentry>
-      
             <term>Img</term>
-      
             <listitem>
        M x N Binary image to be dilated. (0 for background, 1 for object)
       </listitem>
-      
          </varlistentry>
-      
          <varlistentry>
-      
             <term>radius</term>
-      
             <listitem>
        of circular Euclidean structuring element to be used. Defaults to 5.
       </listitem>
-      
          </varlistentry>
-      
          <varlistentry>
-      
             <term>form</term>
-      
             <listitem>
        determines the size of <literal>Dil</literal>. It assumes be one of the
        following values:
        <variablelist>
-         
                   <varlistentry>
-         
                      <term>'same'</term>
-         
                      <listitem>
-            
                         <literal>Dil</literal> has the same size as the original image,
             <literal>M x N</literal>. The image is assumed to be 0 outside its
             bounds.
          </listitem>
-         
                   </varlistentry>
-         
                   <varlistentry>
-         
                      <term>'full'</term>
-         
                      <listitem>
             Dil contains the full dilation, <literal>(M+2*radius-1) x
             (N+2*radius-1)</literal>.  The image is assumed to be 0
             outside its bounds.
          </listitem>
-         
                   </varlistentry>
-      
                </variablelist>
-      
             </listitem>
-      
          </varlistentry>
-   
-      </variablelist>
-   
-   </refsection>
-   
-   <refsection><title>Parameters</title>
-   
-      <variablelist>
-      
+
          <varlistentry>
-      
+          <term>algorithm</term>
+          <listitem>
+          the method to be used:
+          <variablelist>
+              <varlistentry>
+                 <term>'cuisenaire pmn'</term>
+                 <listitem>
+                    a fast exact linear-time algorithm (default)
+                 </listitem>
+              </varlistentry>
+              <varlistentry>
+                 <term>'costa-estrozi' or 'exact dilations'</term>
+                 <listitem>
+                    a direct exact dilations algorithm
+                 </listitem>
+              </varlistentry>
+           </variablelist>
+          </listitem>
+         </varlistentry>
+      </variablelist>
+   </refsection>
+   <refsection><title>Parameters</title>
+      <variablelist>
+         <varlistentry>
             <term>Dil</term>
-      
             <listitem>
       Resultant image.
       </listitem>
-      
          </varlistentry>
-   
       </variablelist>
-   
    </refsection>
-   
    <refsection><title>Description</title>
-   
       <para>
  Function <literal>edilate</literal> performs exact euclidean dilation of a binary image <literal>Img</literal> using a circle as the structuring element. It is implemented in C to be fast. </para>
-   
    </refsection>
-   
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        Img = gray_imread(SIPDIR+'images/tru.jpg');
        Img = 1-im2bw(Img, 0.3);
@@ -114,55 +85,58 @@
        clf
        imshow(e,2);
    ]]></programlisting></refsection>
-   
    <refsection><title>Authors</title><simplelist type="vert">
-      
       <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
-   
    </simplelist></refsection>
-
-
    <refsection><title>Bibliography</title>
-   
-      <para>
-"Shape Analysis and Classification", L. da
-F. Costa and R. M. Cesar Jr., CRC Press.
+      <variablelist>
+         <varlistentry><term>Cuisenaire</term><listitem>
+            <para>
+   Cuisenaire, O and  Macq, B,
+   "Fast Euclidean Distance Transformation by Propagation Using
+   Multiple Neighborhoods", Computer Vision and Image Understanding, no. 2,
+   vol 76, 163--172, 76, 1999.
    </para>
-
+            <para>
+   Chapter 3 of "Distance transformations: fast algorithms and applications 
+   to medical image processing", Olivier Cuisenaire's Ph.D. Thesis, October 
+   1999, Université catholique de Louvain, Belgium.
+   </para>
+         </listitem></varlistentry>
+         <varlistentry><term>Exact Dilations</term><listitem>
+            <para>
+   "Multiresolution shape representation without border shifting",
+   L. da F. Costa, and L. F. Estrozi, Electronics Letters, no. 21, vol. 35, 
+   pp. 1829-1830, 1999.
+   </para>
+            <para>
+   "Shape Analysis and Classification", 
+   L. da F. Costa and R.M. Cesar Jr., CRC Press. 
+   </para>
+         </listitem></varlistentry>
+      </variablelist>
    </refsection>
-
-
    <refsection><title>Availability</title>
 The latest version of the Scilab Image Processing toolbox can be found at
 <para>
          http://siptoolbox.sourceforge.net
       </para>
-
    </refsection>
-
-   
    <refsection><title>See Also</title><simplelist type="inline">
-      
       <member> 
          <link linkend="dilate">dilate</link> 
       </member>
-      
       <member> 
          <link linkend="erode">erode</link> 
       </member>
-      
       <member> 
          <link linkend="bwdist">bwdist</link> 
       </member>
-      
       <member> 
          <link linkend="thin">thin</link> 
       </member>
-      
       <member> 
          <link linkend="skel">skel</link> 
       </member>
-   
    </simplelist></refsection>
-
 </refentry>
