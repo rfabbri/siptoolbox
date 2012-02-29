@@ -290,7 +290,7 @@ bwdist_int(char *fname)
          /* undocumented option used to see how much overhead does
           * this interface function imposes for a particular image */
       else
-			sip_error("invalid second argument -- unknown method");
+			  sip_error("invalid second argument -- unknown method");
    } else if (Rhs == 3) {
       GetRhsVar(nv++, "c", &r_side, &c_side, &l_side);
       str=cstk(l_side);

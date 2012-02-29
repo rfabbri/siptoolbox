@@ -28,7 +28,7 @@
 
 
 /*----------------------------------------------------------
- * [img]=edilate(img [, radius, opt, pad])
+ * [img]=edilate(img [, radius, opt, pad, method])
  *    radius defaults to 5
  *    opt is "full" if result is not trimmed 
  *    opt is "same" if result is trimmed to original size
@@ -47,14 +47,17 @@ edilate_int(char *fname)
    int   r1, c1, p1,  
          r2, c2, p2,  
          r3, c3, p3,  
+         r_alg, c_alg, l_alg,
          ro, co,
          i, irad,
          nv=1,
-         minlhs=1, maxlhs=1, minrhs=1, maxrhs=3;
+         minlhs=1, maxlhs=1, minrhs=1, maxrhs=4;
    ImgPUInt32 *im, *tmp;
+   Img *im_int, *result, *tmp_int;
    double *po, radius=5;
-   char opt[MAX_OPT]="same";
+   char opt[MAX_OPT]="same", *str;
    bool stat;
+   dt_algorithm alg=DT_CUISENAIRE_PMN_1999;
 
    CheckRhs(minrhs,maxrhs);
    CheckLhs(minlhs,maxlhs);
@@ -64,43 +67,82 @@ edilate_int(char *fname)
    if (Rhs == 2) {
       GetRhsVar(nv++, "d", &r2, &c2, &p2);  // radius
       radius = *stk(p2);
-   } else if (Rhs == 3) {
+   } else if (Rhs >= 3) {
       GetRhsVar(nv++, "d", &r2, &c2, &p2);  // radius
       radius = *stk(p2);
       GetRhsVar(nv++, "c", &r3, &c3, &p3);  // opt
       strncpy(opt,cstk(p3),MAX_OPT);
+      if (Rhs == 4) {
+        GetRhsVar(nv++, "c", &r_alg, &c_alg, &l_alg);
+        str = cstk(l_alg);
+        if ( strncasecmp("exact dilations",str,8) == 0 || 
+                strcmp("costa-estrozi",str) == 0)
+          alg=DT_EXACT_DILATIONS;
+        else if (strcasecmp("cuisenaire pmn",str) == 0)
+          alg=DT_CUISENAIRE_PMN_1999;
+        else
+			    sip_error("invalid second argument -- unknown method");
+      }
    }
 
-   /* @@@ maybe there's a better way of passing data */
-   im = new_img_puint32(c1, r1);
-   if (!im) sip_error("unable to alloc memory");
-   sci_2D_double_matrix_to_animal(p1,r1,c1,im,pixval,1);
+   if (alg == DT_EXACT_DILATIONS) {
+     /* @@@ maybe there's a better way of passing data */
+     im_int=new_img(c1, r1);
+     if (!im_int) sip_error("unable to alloc memory");
+     sci_2D_double_matrix_to_animal(p1,r1,c1,im_int,pixval,1);
 
-   for (i=0; i<r1*c1; ++i)
-      DATA(im)[i] = (PROUND(pixval,*stk(p1+i)) == 0);
+     irad   = (int) ceil(radius);
+     result = new_img(im_int->rows+2*irad, im_int->cols+2*irad);
+     if (!result) sip_error("unable to alloc memory");
 
-   im->isbinary = true;
+     edilate_np(result,im_int,radius);    
 
-   if (strcmp(opt,"same") != 0) {
-     irad = (int) ceil(radius);
-     tmp = impad_puint32(im, irad, irad, 0);
-     if (!tmp) sip_error("unable to alloc memory");
+     if (strcmp(opt,"same") == 0) {
+        tmp_int = result;
+        result = imtrim (result, irad, irad);
+        imfree (&tmp_int);
+     }
+     imfree(&im_int);
+     im_int = result;
+
+     ro=im_int->cols; co=im_int->rows;
+     stat = animal_grayscale_image_to_double_array(fname, im_int, &po);
+     if (!stat) return false;
+     imfree(&im_int);
+
+   } else { /* Fast exact Euclidean propagation algorithm */
+
+     /* @@@ maybe there's a better way of passing data */
+     im = new_img_puint32(c1, r1);
+     if (!im) sip_error("unable to alloc memory");
+     sci_2D_double_matrix_to_animal(p1,r1,c1,im,pixval,1);
+
+     for (i=0; i<r1*c1; ++i)
+        DATA(im)[i] = (PROUND(pixval,*stk(p1+i)) == 0);
+
+     im->isbinary = true;
+
+     if (strcmp(opt,"same") != 0) {
+       irad = (int) ceil(radius);
+       tmp = impad_puint32(im, irad, irad, 1);
+       if (!tmp) sip_error("unable to alloc memory");
+       imfree_puint32(&im);
+       im = tmp;
+     }
+
+     stat = distance_transform_ip_max_dist(im, alg, (int)ceil(radius*radius));
+     if (!stat) return false; /* @@@ garbage collection */
+
+     ro=im->cols; co=im->rows;
+
+     for (i = 0; i <ro*co; i++)
+       im->data[i] = (im->data[i] <= radius*radius);
+     im->isbinary = true;
+
+     stat = animal_grayscale_imgpuint32_to_double_array(fname, im, &po);
+     if (!stat) return false;
      imfree_puint32(&im);
-     im = tmp;
    }
-
-   stat = distance_transform_ip_max_dist(im, DT_CUISENAIRE_PMN_1999, radius*radius);
-   if (!stat) return false; /* @@@ garbage collection */
-
-   ro=im->cols; co=im->rows;
-
-   for (i = 0; i <ro*co; i++)
-     im->data[i] = (im->data[i] <= radius*radius);
-   im->isbinary = true;
-
-   stat = animal_grayscale_imgpuint32_to_double_array(fname, im, &po);
-   if (!stat) return false;
-   imfree_puint32(&im);
 
    CreateVarFromPtr(nv, "d", &ro, &co, &po);
 
