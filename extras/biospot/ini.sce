@@ -95,7 +95,8 @@ for i=1:size(x,'*') do
    ds(i) = dt(ij(1),ij(2));
    os(i)    = im(ij(1),ij(2));
 end
-myclf
+figure
+clf
 
 disp('median nucleii thickness along normal direction:')
 rn = sqrt(median(ds))
