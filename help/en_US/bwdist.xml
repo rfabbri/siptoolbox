@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="bwdist"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>bwdist</refname><refpurpose>distance transforms</refpurpose></refnamediv>
-   <refsynopsisdiv><title>Calling Sequence</title><synopsis>dt = bwdist(img [,algorithm])</synopsis></refsynopsisdiv>
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>dt = bwdist(img [,algorithm, max_dist])</synopsis></refsynopsisdiv>
    <refsection><title>Parameters</title>
       <variablelist>
          <varlistentry>
@@ -105,11 +105,23 @@
             </listitem> 
          </varlistentry> 
          <varlistentry>
+            <term>max_dist</term>
+            <listitem>
+      The maximum distance to be computed. Defaults to infinity (all distances
+      are computed). The resulting <literal>dt</literal> will be computed with a
+      specialized fast propagation algorithm (<literal>'cuisenaire pmn'</literal>) that will
+      visit only the required pixels within max_dist of the 0-pixels.  This will
+      likely be faster than thresholding a full DT (computed with the default
+      best algorithm for this) only if the number of affected pixels is
+      sufficiently smaller than the entire image.
+      </listitem>
+         </varlistentry>
+         <varlistentry>
             <term>dt</term> 
             <listitem>
       The distance transform of the image. It is undefined if the
       input is an image without any pixels equal to 0.
-</listitem> 
+            </listitem> 
          </varlistentry>
       </variablelist> 
    </refsection> 

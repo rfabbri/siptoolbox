@@ -245,12 +245,12 @@ bwdist_int(char *fname)
 {
    int   rim, cim, pim,  // img
 			r_alg, c_alg, l_alg,
-			r_side, c_side, l_side,
+			r_d, c_d, l_d,
          i, nv=1,
-         minlhs=1, maxlhs=1, minrhs=1, maxrhs=2;
+         minlhs=1, maxlhs=1, minrhs=1, maxrhs=4;
 
    dt_algorithm alg=DT_MEIJSTER_2000;
-   double *pt;
+   double *pt, max_dist = (puint32) -1;
    char *str;
    bool noexec=false, stat, is1const;
    Img *im;
@@ -259,7 +259,7 @@ bwdist_int(char *fname)
    CheckRhs(minrhs,maxrhs); CheckLhs(minlhs,maxlhs);
 
    GetRhsVar(nv++, "d", &rim, &cim, &pim);  // img 
-   if (Rhs == 2) {
+   if (Rhs >= 2) {
       GetRhsVar(nv++, "c", &r_alg, &c_alg, &l_alg);
       str=cstk(l_alg);
       if (strcasecmp("lotufo-zampirolli",str) == 0)
@@ -291,14 +291,10 @@ bwdist_int(char *fname)
           * this interface function imposes for a particular image */
       else
 			  sip_error("invalid second argument -- unknown method");
-   } else if (Rhs == 3) {
-      GetRhsVar(nv++, "c", &r_side, &c_side, &l_side);
-      str=cstk(l_side);
-      sip_warning("There is no 3d argument ('side') anymore. The EDT is now only internal.");
-      if (strncasecmp("external",str,3) == 0)
-			sip_error("To obtain an external EDT, simply negate the image before calling bwdist.")
-      else if (strncasecmp("both",str,3) == 0)
-			sip_error("To obtain an external and internal EDT, first run bwborder on the image and pass its negative to bwdist.");
+      if (Rhs >= 3) {
+        GetRhsVar(nv++, "d", &r_d, &c_d, &l_d);
+        max_dist = *stk(l_d);
+      }
    }
    // pass transposed image to internal row-wise storage
    im=new_img(cim,rim); 
@@ -321,7 +317,7 @@ bwdist_int(char *fname)
    if (noexec)
       dt = new_img_puint32(im->rows, im->cols);
    else
-      dt = distance_transform(im, alg);
+      dt = distance_transform_max_dist(im, alg, max_dist);
 
    if (!dt) sip_error("problem inside distance_transform C subroutine");
    imfree(&im);  /* FIXME: use better err treatment */
