@@ -249,7 +249,7 @@ bwdist_int(char *fname)
          i, nv=1,
          minlhs=1, maxlhs=1, minrhs=1, maxrhs=2;
 
-   dt_algorithm alg=DT_MAURER2003;
+   dt_algorithm alg=DT_MEIJSTER_2000;
    double *pt;
    char *str;
    bool noexec=false, stat, is1const;
