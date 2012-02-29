@@ -217,7 +217,7 @@ percol_int(char *fname)
 }
 
 /*----------------------------------------------------------------
- * out = bwdist(img [,method, side])
+ * out = bwdist(img [,method, max_dist])
  * Distance transforms. 
  *
  * "method" may be: 
@@ -230,11 +230,6 @@ percol_int(char *fname)
  *    - "chessboard"
  *    - "chamfer"
  *    - (...)
- *
- * "side" may be:
- *    - "interior" (default)
- *    - "exterior"
- *    - "both"
  *
  * TODO
  *    - add an output Label parameter (discrete Voronoi diagram)
@@ -250,7 +245,7 @@ bwdist_int(char *fname)
          minlhs=1, maxlhs=1, minrhs=1, maxrhs=4;
 
    dt_algorithm alg=DT_MEIJSTER_2000;
-   double *pt, max_dist = (puint32) -1;
+   double *pt, max_dist = (double)((puint32) -1);
    char *str;
    bool noexec=false, stat, is1const;
    Img *im;
@@ -317,7 +312,7 @@ bwdist_int(char *fname)
    if (noexec)
       dt = new_img_puint32(im->rows, im->cols);
    else
-      dt = distance_transform_max_dist(im, alg, max_dist);
+      dt = distance_transform_max_dist(im, alg, max_dist*max_dist);
 
    if (!dt) sip_error("problem inside distance_transform C subroutine");
    imfree(&im);  /* FIXME: use better err treatment */

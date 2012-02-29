@@ -109,7 +109,8 @@
             <listitem>
       The maximum distance to be computed. Defaults to infinity (all distances
       are computed). The resulting <literal>dt</literal> will be computed with a
-      specialized fast propagation algorithm (<literal>'cuisenaire pmn'</literal>) that will
+      specialized fast propagation algorithm (currently only
+      <literal>'cuisenaire pmn'</literal> is implemented with this option) that will
       visit only the required pixels within max_dist of the 0-pixels.  This will
       likely be faster than thresholding a full DT (computed with the default
       best algorithm for this) only if the number of affected pixels is
@@ -120,7 +121,11 @@
             <term>dt</term> 
             <listitem>
       The distance transform of the image. It is undefined if the
-      input is an image without any pixels equal to 0.
+      input is an image without any pixels equal to 0. If
+      <literal>max_dist</literal> has been specified, then only the distances up
+      to and including <literal>max_dist</literal> will be present; 1-pixels that are further than 
+      <literal>max_dist</literal> are marked with a very large number,
+      guaranteed to be larger than <literal>max_dist^2</literal>
             </listitem> 
          </varlistentry>
       </variablelist> 
@@ -170,6 +175,11 @@
    A = 1-A;
    D = bwdist(A,'lotufo-zampirolli');
    imshow(log(1+D),[]);
+   // computation only up to a given distance
+   D = bwdist(A,'cuisenaire pmn', 12);
+   // correct way to display a partial DT is to clamp high values to max_dist
+   imshow(sqrt(D),[0 12]);
+
    // ---------------------------------
    //  Other forms to visualize the DT
    // ---------------------------------
