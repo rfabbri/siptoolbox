@@ -2,6 +2,12 @@ SIP - Scilab Image Processing Toolbox
 Copyright (C) 2002-2012 Ricardo Fabbri
 __________________________________________________________________
 
+
+0.8.x 
+	+ new tangent function to compute the tangential direction at each point of a
+	sampled curve or binary contour
+
+
 0.8.0  Major new features!
    This list highlights the main changes from 0.5.0 to 0.7.1. Read the
    previous changelogs for minor improvements and details.
@@ -9,7 +15,7 @@ __________________________________________________________________
 	+ opencv support - new canny edge detection function
 	+ edilate now very fast with cutting edge exact Euclidean propagation algorithm
 	+ bwdist now has max_dist option to compute the EDT up to a maximum distance
-	using a specialized fast exact Euclidean propagation algorithm.
+	using a specialized fast exact Euclidean propagation algorithm
 	+ new imshow option to use external viewer
 	+ new sip_exec utility to exec script anywhere on PATH
 	+ updated help files to contain illustrating figures
@@ -24,7 +30,7 @@ __________________________________________________________________
 	+ new function color_classify for color recognition
 	+ new function KRC_from_P for decomposing a camera matrix P into intrinsic
 	parameters K, rotation R, and camera center C.
-	+ new function sip_rq for RQ decomposition (the reverse of qr).
+	+ new function sip_rq for RQ decomposition (the reverse of qr)
 	+ new functions to convert between rotation matrices, quaternions, and
 	exponential representations: quaternion2rot_matrix, rot_matrix2quaternion, 
 	exp2rot_matrix, quaternion_matrix, quaternion_multiply
@@ -36,8 +42,8 @@ __________________________________________________________________
 	+ new imshow option to use external viewer
 	+ edilate now very fast with cutting edge exact Euclidean propagation algorithm
 	+ bwdist now has max_dist option to compute the EDT up to a maximum distance
-	using a specialized fast exact Euclidean propagation algorithm.
-	+ various updates to help pages.
+	using a specialized fast exact Euclidean propagation algorithm
+	+ various updates to help pages
 
 0.7.0
 	+ new extras/ directory with code for specific practical problems. the biospot
@@ -58,7 +64,7 @@ __________________________________________________________________
 
 	+ fixed help building for systems returning non-en_US in getlanguage(), 
 	bug #3393248
-	+ fixed help links to scilab functions external to SIP.
+	+ fixed help links to scilab functions external to SIP
 
 0.5.4
 	+ works with Scilab Git master branch

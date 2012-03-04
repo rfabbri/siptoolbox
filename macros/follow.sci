@@ -51,9 +51,12 @@ aux(2:r+1,2:c+1)=Im;
 Im = aux;
 clear aux
 i=1;
-while( Im(i)<>1)
+while Im(i)<>1
   i=i+1;
-  end;
+  if i > r*c
+    error('Image has no 1-pixels. Perhaps you need to round it or use im2bw.');
+  end
+end
 prv=i-1;
 [i,j]=index2(i,r+2);
 

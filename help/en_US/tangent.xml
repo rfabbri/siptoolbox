@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="curvature">
 <info>
-  <pubdate>February, 2004</pubdate>
+  <pubdate>March, 2012</pubdate>
 </info>
 <refnamediv>
-  <refname>curvature</refname>
-  <refpurpose>Curvature of a contour</refpurpose>
+  <refname>tangent</refname>
+  <refpurpose>compute tangents of a sampled curve</refpurpose>
 </refnamediv>
 
 <refsynopsisdiv>
   <title>Calling Sequence</title>
-      <synopsis> K = curvature(BW [,sigma, delta])</synopsis>
-      <synopsis> K = curvature(x,y [,sigma, delta])</synopsis>
+      <synopsis> K = tangent(BW [,sigma, delta])</synopsis>
+      <synopsis> K = tangent(x,y [,sigma, delta])</synopsis>
 </refsynopsisdiv>
 
 <refsection>
@@ -19,9 +19,10 @@
 <variablelist>
 
    <varlistentry>
-     <term>K</term>
+     <term>tgt</term>
      <listitem>
-       vector containing the curvature of the contour at each point.
+       nx2 vector whose i-th line is the unit tangent vector at the i-th sample
+       of the contour.
      </listitem>
    </varlistentry>
 
@@ -59,7 +60,9 @@
 <refsection>
 <title>Description</title>
    <para>
- Function <literal>curvature</literal> calculates the curvature at each point  of a binary contour, using FFT and a formula from differential geometry. </para>
+ Function <literal>tangent</literal> calculates the tangent direction as a
+ vector at each point of a binary or sampled contour, using FFT and a formula from
+ differential geometry. </para>
 
 </refsection>
 <refsection>
@@ -68,22 +71,24 @@
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
 
-       Img = imread('star.bmp');
-       clf
-       imshow(Img,2);
-       k = curvature(Img,13);  // 13 sigma (shape is smoothed so curvature exists)
-       clf
-       plot(k)
-       //
-       // observe there are six curvature peaks,
-       // corresponding to the six peaks of the star. There
-       // is one peak half at 0 and half at about 450.
-       // That's because the parametrization of
-       // the contour started at the highest peak and
-       // terminated there. Note also that the shape had to
-       // be considerably smoothed so the curvature doesn't
-       // blow up at the very sharp peaks of the star.
-       //
+       a=gray_imread('r.gif');
+       a=im2bw(a, 0.5);
+       [x,y]=follow(a);
+
+       npts = size(x,'*');
+       tgt=tangent(x,y, 1);
+
+       // Show the results
+       fig;
+       clf;
+       plot(x,y);
+       set(gca(), "isoview","on");
+       set(gca(), "auto_clear","off");
+       
+       // todo use buffering
+       for i=1:size(x,'*')
+         champ(x(i),y(i),tgt(i,1),tgt(i,2),0.5);
+       end
 
        chdir(initial_dir);
    ]]></programlisting>

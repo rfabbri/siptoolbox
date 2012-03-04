@@ -57,13 +57,14 @@ end
 
 X=fft(x,-1);
 delta = 1/(delta*size(x,'*'))  // delta_f = 1/(dt*N)
-dx = fftderiv(X,1,sigma,in='frequency', delta=delta)
+dx = fftderiv(X,1,sigma,in='frequency', delta=delta)';
 
 Y=fft(y,-1);
-dy = fftderiv(Y,1,sigma,in='frequency', delta=delta)
+dy = fftderiv(Y,1,sigma,in='frequency', delta=delta)';
 
 tgt = [dx dy];
-tgt = tgt/norm(tgt);
+len = sum(tgt.*tgt,2);
+tgt = tgt./[len len];
 endfunction
 
 //
