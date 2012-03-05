@@ -9,11 +9,12 @@ e = edge(im,'canny',[0 0.04]/dim_ratio_normal,3);
 
 [w,h] = size(e);
 en = zeros(w+2*4*closing_distance+1,h+2*4*closing_distance+1);
-imn = en;
 
 en((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*closing_distance)) = e;
 e = en;
 clear en;
+
+imn = zeros(w+2*4*closing_distance+1,h+2*4*closing_distance+1);
 
 imn((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*closing_distance)) = im;
 im = imn;

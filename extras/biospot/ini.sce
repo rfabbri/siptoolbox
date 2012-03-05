@@ -12,14 +12,15 @@ chdir(workdir);
 
 exec myclf.sci;
 
-// this computes the region containing the nucleii, eliminating most noise
-// inside the embryo.
+// -----------------------------------------------------------------------------
+// compute the region containing the nucleii, eliminating most noise inside the
+// embryo.
 exec embryo_crust.sce;
 
 // -----------------------------------------------------------------------------
 // estimate thickness through the DT
 //
-// Idea (partially implemented)
+// Idea (partially as implemented)
 //
 // 1 - compute DT of the inverse ec
 // 2 - compute the skeleton
@@ -134,10 +135,60 @@ if median_rt/rn < min_possible_rt_nt_ratio
   warning('tangential radius seems too low.');
 end
 
+// -----------------------------------------------------------------------------
+// segment (hard) along tangential direction
 
 exec tangential_align_using_edges.sce;
 
 //exec tangential_align_using_original_image.sce;
+
+// -----------------------------------------------------------------------------
+// sliding ellipses along contour
+
+// compute tangent directions along contours so we can place the minor axes of
+// the nuclei prototypes (ellipses)
+
+npts = size(x,'*');
+crv = [x,y];
+dt = crv(1:npts-1,:)-crv(2:npts,:);
+dt = sqrt(dt(:,1).^2 + dt(:,2).^2);
+
+tgt=tangent(x,y, 1, mean(dt));
+
+fig;
+clf;
+plot(x,y);
+set(gca(), "isoview","on");
+xset("auto clear","off");
+
+f=gcf();f.pixmap='on';
+for i=1:size(x,'*')
+  champ(x(i),y(i),tgt(i,1),tgt(i,2),0.5);
+end
+show_pixmap();
+
+// -----------------------------------------------------------------------------
+// integration of the nearest pixels to each medial axis pixel
+//
+// 0- compute the filtered/reconstructed crust
+//    TODO: implement medial axis reconstruction
+
+// 1- compute the DT/voronoi diagram of the medial axis constrained to this shell
+[skl2,dt2,vor2] = skel(sklt*1);
+clear skl2 dt2;
+vor2 = vor2.*ec;
+
+myclf;
+imshow(vor2+1, rand(max(vor2)+1,3));   // note how the small regions are gone
+
+// 2- add up all pixels having the same label
+
+// FIXME strange assert(max(vor2) == npts);
+is = zeros(max(vor2),1);
+for i=1:max(vor2)
+  is(i) = sum(im(find(vor2==i)));
+end
+
 
 
 

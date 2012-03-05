@@ -10,3 +10,5 @@ doc=help;
 
 // todo: 
 //  hold on -> xset('auto clear', 'off'); 
+
+assert=assert_checktrue;

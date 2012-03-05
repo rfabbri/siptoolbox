@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="curvature">
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="tangent">
 <info>
   <pubdate>March, 2012</pubdate>
 </info>
@@ -44,7 +44,7 @@
    <varlistentry>
      <term>sigma</term>
      <listitem>
-       standard deviation of the gaussian function used to smooth the contour before computing the curvature. Defaults to 5.
+       standard deviation of the gaussian function used to smooth the contour before computing the tangents. Defaults to 5.
      </listitem>
    </varlistentry>
 
@@ -116,6 +116,7 @@ The latest version of SIP can be found at
 </refsection>
 
 <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="curvature">curvature</link> </member>
       <member> <link linkend="follow">follow</link> </member>
       <member> <link linkend="gsm">gsm</link> </member>
       <member> <link linkend="fftderiv">fftderiv</link> </member>

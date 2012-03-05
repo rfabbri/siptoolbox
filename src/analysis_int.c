@@ -311,8 +311,12 @@ bwdist_int(char *fname)
 
    if (noexec)
       dt = new_img_puint32(im->rows, im->cols);
-   else
-      dt = distance_transform_max_dist(im, alg, max_dist*max_dist);
+   else {
+     if (max_dist == (double)(puint32)-1)
+       dt = distance_transform(im, alg);
+     else
+       dt = distance_transform_max_dist(im, alg, max_dist*max_dist);
+   }
 
    if (!dt) sip_error("problem inside distance_transform C subroutine");
    imfree(&im);  /* FIXME: use better err treatment */

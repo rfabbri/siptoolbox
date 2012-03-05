@@ -111,6 +111,7 @@ The latest version of SIP can be found at
 </refsection>
 
 <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="tangent">tangent</link> </member>
       <member> <link linkend="follow">follow</link> </member>
       <member> <link linkend="gsm">gsm</link> </member>
       <member> <link linkend="fftderiv">fftderiv</link> </member>
