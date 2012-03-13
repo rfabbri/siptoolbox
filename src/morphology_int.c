@@ -130,7 +130,7 @@ edilate_int(char *fname)
        im = tmp;
      }
 
-     stat = distance_transform_ip_max_dist(im, alg, (int)ceil(radius*radius));
+     stat = distance_transform_ip_max_dist(im, alg, (int)ceil(radius*radius), false, NULL);
      if (!stat) return false; /* @@@ garbage collection */
 
      ro=im->cols; co=im->rows;

@@ -174,7 +174,7 @@ show_pixmap();
 //    TODO: implement medial axis reconstruction
 
 // 1- compute the DT/voronoi diagram of the medial axis constrained to this shell
-[skl2,dt2,vor2] = skel(sklt*1);
+[skl2,dt2,vor2] = skel(1-sklt*1);
 clear skl2 dt2;
 vor2 = vor2.*ec;
 
@@ -188,8 +188,4 @@ is = zeros(max(vor2),1);
 for i=1:max(vor2)
   is(i) = sum(im(find(vor2==i)));
 end
-
-
-
-
 

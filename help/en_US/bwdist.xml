@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="bwdist"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>bwdist</refname><refpurpose>distance transforms</refpurpose></refnamediv>
-   <refsynopsisdiv><title>Calling Sequence</title><synopsis>dt = bwdist(img [,algorithm, max_dist])</synopsis></refsynopsisdiv>
+   <refsynopsisdiv><title>Calling Sequence</title><synopsis>[dt [, label]] = bwdist(img [,algorithm, max_dist])</synopsis></refsynopsisdiv>
    <refsection><title>Parameters</title>
       <variablelist>
          <varlistentry>
@@ -29,11 +29,13 @@
                         <listitem>very fast (and
             recent) exact euclidean algorithm, based on certain dimensionality
             properties of Voronoi diagrams. It is the best method together with
-            Meijster, in general.
+            Meijster, in general. The implementation of this algorithm is able
+            to output the <literal>label</literal> array of nearest pixels
+            (col-major) id's to each 0-pixel </listitem>
            </listitem>
                      </varlistentry>
                      <varlistentry>
-                        <term>'meijster' or 'mau'</term>
+                        <term>'meijster' or 'mei'</term>
                         <listitem>very fast (and
             recent) exact euclidean algorithm, based on certain dimensionality
             properties of Voronoi diagrams. It is the best method together with
@@ -127,6 +129,16 @@
       <literal>max_dist</literal> are marked with a very large number,
       guaranteed to be larger than <literal>max_dist^2</literal>
             </listitem> 
+         </varlistentry>
+         <varlistentry>
+            <term>label</term> 
+            <listitem>
+      The label map of the image. Only certain algorithm options 
+      will be able to output this. If you don't specify the algorithm,
+      then by having this in the left hand side in the function call will cause 
+      <literal>'maurer'</literal> to run. Currently this doesn't work with
+      <literal>max_dist</literal>.
+      </listitem> 
          </varlistentry>
       </variablelist> 
    </refsection> 

@@ -242,16 +242,22 @@ bwdist_int(char *fname)
 			r_alg, c_alg, l_alg,
 			r_d, c_d, l_d,
          i, nv=1,
-         minlhs=1, maxlhs=1, minrhs=1, maxrhs=4;
+         minlhs=1, maxlhs=2, minrhs=1, maxrhs=4;
 
    dt_algorithm alg=DT_MEIJSTER_2000;
-   double *pt, max_dist = (double)((puint32) -1);
+   double *pt, *pt_lbl, max_dist = (double)((puint32) -1);
    char *str;
-   bool noexec=false, stat, is1const;
+   bool noexec=false, stat, is1const, use_label = false;
    Img *im;
-   ImgPUInt32 *dt;
+   ImgPUInt32 *dt, *imlabel=NULL;
 
    CheckRhs(minrhs,maxrhs); CheckLhs(minlhs,maxlhs);
+
+   if (Lhs >= 2) {
+     use_label = true;
+     if (Rhs == 1)
+       alg = DT_MAURER2003;
+   }
 
    GetRhsVar(nv++, "d", &rim, &cim, &pim);  // img 
    if (Rhs >= 2) {
@@ -285,14 +291,17 @@ bwdist_int(char *fname)
          /* undocumented option used to see how much overhead does
           * this interface function imposes for a particular image */
       else
-			  sip_error("invalid second argument -- unknown method");
+			  sip_error("invalid second argument -- unknown or unimplemented method");
       if (Rhs >= 3) {
         GetRhsVar(nv++, "d", &r_d, &c_d, &l_d);
         max_dist = *stk(l_d);
       }
+
+      if (use_label && alg!=DT_MAURER2003)
+        sip_error("such algorithm choice does not support label");
    }
    // pass transposed image to internal row-wise storage
-   im=new_img(cim,rim); 
+   im = new_img(cim,rim); 
 
    sci_2D_double_matrix_to_animal(pim,rim,cim,im,pixval,1);
 
@@ -309,26 +318,45 @@ bwdist_int(char *fname)
 
    im->isbinary = true;
 
-   if (noexec)
+   if (noexec) {
       dt = new_img_puint32(im->rows, im->cols);
-   else {
-     if (max_dist == (double)(puint32)-1)
-       dt = distance_transform(im, alg);
-     else
-       dt = distance_transform_max_dist(im, alg, max_dist*max_dist);
+      if (use_label)
+        imlabel = new_img_puint32(cim,rim); 
+   } else {
+     if (max_dist == (double)(puint32)-1) {
+       if (use_label) {
+         dt = distance_transform_label(im, alg, true, &imlabel);
+       } else
+         dt = distance_transform(im, alg);
+     } else {
+       if (use_label)
+         sip_error("label + max_dist not yet implemented.");
+       dt = distance_transform_max_dist(im, alg, max_dist*max_dist, false, &imlabel);
+     }
    }
 
    if (!dt) sip_error("problem inside distance_transform C subroutine");
+   if (use_label && !imlabel) sip_error("problem with label inside distance_transform C subroutine");
+   
    imfree(&im);  /* FIXME: use better err treatment */
 
    stat = animal_grayscale_imgpuint32_to_double_array(fname,dt,&pt);
    if (!stat) return false;
-
    imfree_puint32(&dt);
 
    CreateVarFromPtr(nv, "d", &rim, &cim, &pt);
-   LhsVar(1) = nv;
-
+   LhsVar(1) = nv++;
    free(pt);
+
+   if (use_label) {
+     stat = animal_grayscale_imgpuint32_to_double_array(fname,imlabel,&pt_lbl);
+     if (!stat) return false;
+
+     imfree_puint32(&imlabel);
+     CreateVarFromPtr(nv, "d", &rim, &cim, &pt_lbl);
+     LhsVar(2) = nv++;
+     free(pt_lbl);
+   }
+
    return true;
 }
