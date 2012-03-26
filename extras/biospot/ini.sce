@@ -174,12 +174,13 @@ show_pixmap();
 //    TODO: implement medial axis reconstruction
 
 // 1- compute the DT/voronoi diagram of the medial axis constrained to this shell
-[skl2,dt2,vor2] = skel(1-sklt*1);
-clear skl2 dt2;
+
+[dt2,vor2] = bwdist(1-sklt*1);
+clear dt2;
 vor2 = vor2.*ec;
 
 myclf;
-imshow(vor2+1, rand(max(vor2)+1,3));   // note how the small regions are gone
+imshow(vor2+1, rand(max(vor2)+1,3)); 
 
 // 2- add up all pixels having the same label
 
