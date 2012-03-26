@@ -32,7 +32,6 @@
             Meijster, in general. The implementation of this algorithm is able
             to output the <literal>label</literal> array of nearest pixels
             (col-major) id's to each 0-pixel </listitem>
-           </listitem>
                      </varlistentry>
                      <varlistentry>
                         <term>'meijster' or 'mei'</term>
@@ -134,7 +133,7 @@
             <term>label</term> 
             <listitem>
       The label map of the image. Only certain algorithm options 
-      will be able to output this. If you don't specify the algorithm,
+      will be able to output this (currently only 'maurer'). If you don't specify the algorithm,
       then by having this in the left hand side in the function call will cause 
       <literal>'maurer'</literal> to run. Currently this doesn't work with
       <literal>max_dist</literal>.
@@ -167,6 +166,11 @@
    // Note how the values in D were calculated.
    // For each pixel p such that A(p)=1, D(p) is the minimum euclidean 
    // distance of p and the 0-pixels (background).
+
+   // To get the column-major index of the nearest 0-pixels, use the label output
+   [D,L] = bwdist(A);
+   L
+
    // -----------------------------------
    //  Now to a more interesting example
    // -----------------------------------
@@ -176,6 +180,15 @@
    imshow(log(1+D),[]); // normalizes image to enhance visualization
    D = bwdist(A,'exact dilations');
    imshow(log(1+D),[]);
+
+   // nearest 0-pixels to any pixel (label map)
+   [D,L] = bwdist(A);
+   // each 0-pixel's zone of influence has a different id: the col-major
+   // index of the nearest 0-pixel.
+   // 
+   // Each Voronoi region is now mapped to a different color
+   imshow(L+1, rand(max(L)+1, 3)); 
+
    // To obtain an external EDT, simply invert the shape:
    B = 1-A;
    D = bwdist(B,'maurer');
@@ -207,12 +220,12 @@
 ]]></programlisting></refsection> 
 
     <para><emphasis role="bold">The original image and its distance map:</emphasis></para>
-    <para><imagedata fileref="../../images/escher.png" /> <imagedata fileref="../images/skeleton-escher-dt.png" /></para>
+    <para><imagedata fileref="../../images/escher.png" /> <imagedata fileref="../images/skeleton-escher-dt.png" /> <imagedata fileref="../images/escher-dt-label_interior.png" /></para>
 
     <para><emphasis role="bold">The distance map of the border (yielding
     non-zero distances inside and outside), and
     the propagating wavefronts:</emphasis></para>
-    <para><imagedata fileref="../images/escher-dt-in_out.png" /> <imagedata fileref="../images/escher-dt-modulo.png" /></para>
+    <para><imagedata fileref="../images/escher-dt-in_out.png" /> <imagedata fileref="../images/escher-dt-label.png" /> <imagedata fileref="../images/escher-dt-modulo.png" /></para>
 
 
    <refsection><title>Bibliography</title>
@@ -294,6 +307,9 @@ of the Scilab Image Processing toolbox can be found at <para>
       </member>
       <member> 
          <link linkend="edilate">edilate</link> 
+      </member>
+      <member> 
+         <link linkend="bwlabel">bwlabel</link> (connected component labeling)
       </member>
    </simplelist></refsection>
 </refentry>

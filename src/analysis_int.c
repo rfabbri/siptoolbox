@@ -298,7 +298,7 @@ bwdist_int(char *fname)
       }
 
       if (use_label && alg!=DT_MAURER2003)
-        sip_error("such algorithm choice does not support label");
+        sip_error("such algorithm choice does not currently support label");
    }
    // pass transposed image to internal row-wise storage
    im = new_img(cim,rim); 
