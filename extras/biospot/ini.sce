@@ -179,14 +179,39 @@ show_pixmap();
 clear dt2;
 vor2 = vor2.*ec;
 
+
+nearest_colormap = rand(max(vor2)+1,3);
+
+// shows the nearest pixels to each pixel of the medial line
 myclf;
-imshow(vor2+1, rand(max(vor2)+1,3)); 
+imshow(vor2+1, nearest_colormap); 
+
+// shows the color associated to each pixel of the medial line
+myclf;
+imshow(vor2.*(sklt*1)+1, nearest_colormap); 
 
 // 2- add up all pixels having the same label
 
-// FIXME strange assert(max(vor2) == npts);
-is = zeros(max(vor2),1);
-for i=1:max(vor2)
-  is(i) = sum(im(find(vor2==i)));
+
+// Implementation 1: Too slow!
+// TODO: this could have been faster if performed during label propagation
+//is = zeros(max(vor2),1);
+//for i=1:max(vor2)
+//  is(i) = sum(im(find(vor2==i)));
+//end
+
+
+// Implementation 2: Single pass over the image
+
+im_acc = zeros(im);
+// reimplementation
+for i=1:size(im,'*')
+  im_acc(vor2(i)+1) = im_acc(vor2(i)+1) + im(i); 
 end
 
+// signal is now obtained by tracing x,y
+is = zeros(size(x,'*'),1);
+for i=1:size(x,'*')
+  ij = [dims(1) - y(i), x(i)+1];
+  is(i) = im_acc(ij(1),ij(2));
+end
