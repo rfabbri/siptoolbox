@@ -225,7 +225,7 @@
     <para><emphasis role="bold">The distance map of the border (yielding
     non-zero distances inside and outside), and
     the propagating wavefronts:</emphasis></para>
-    <para><imagedata fileref="../images/escher-dt-in_out.png" /> <imagedata fileref="../images/escher-dt-label.png" /> <imagedata fileref="../images/escher-dt-modulo.png" /></para>
+    <para><imagedata fileref="../images/escher-dt-in_out.png" /> <imagedata fileref="../images/escher-dt-label-inout.png" /> <imagedata fileref="../images/escher-dt-modulo.png" /></para>
 
 
    <refsection><title>Bibliography</title>

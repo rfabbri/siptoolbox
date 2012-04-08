@@ -160,6 +160,10 @@
    ]]></programlisting></refsection>
 
 
+    <para><emphasis role="bold">The original image, its label map, and a filter by passing blobs with between 100 and 1000 pixel area:</emphasis></para>
+    <para><imagedata fileref="../images/disks-noisy.png" /> <imagedata fileref="../images/disks-label.png" /> <imagedata fileref="../images/disks-label-filtered.png" /></para>
+
+
    <refsection><title>Bibliography</title>
    
       <para>
