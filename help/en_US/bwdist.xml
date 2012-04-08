@@ -219,11 +219,11 @@
    xset('auto clear', 'off');
 ]]></programlisting></refsection> 
 
-    <para><emphasis role="bold">The original image and its distance map:</emphasis></para>
+    <para><emphasis role="bold">The original image, distance map and its closest feature label map:</emphasis></para>
     <para><imagedata fileref="../../images/escher.png" /> <imagedata fileref="../images/skeleton-escher-dt.png" /> <imagedata fileref="../images/escher-dt-label_interior.png" /></para>
 
     <para><emphasis role="bold">The distance map of the border (yielding
-    non-zero distances inside and outside), and
+    non-zero distances inside and outside), the associated closest feature label map, and
     the propagating wavefronts:</emphasis></para>
     <para><imagedata fileref="../images/escher-dt-in_out.png" /> <imagedata fileref="../images/escher-dt-label-inout.png" /> <imagedata fileref="../images/escher-dt-modulo.png" /></para>
 
