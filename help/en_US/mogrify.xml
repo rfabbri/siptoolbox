@@ -107,6 +107,23 @@ Please follow the TransMogrify demo using the following command:
 ]]></programlisting>
 </refsection>
 
+    <para><emphasis role="bold">An image from a plate, and an histogram-equalized image:</emphasis></para>
+    <para><imagedata fileref="../../images/plate.gif" /> <imagedata fileref="../images/plate-equalized.jpg" /></para>
+
+    <para><emphasis role="bold">A noisy image with salt-and-peper noise and the result of median-filtering:</emphasis></para>
+    <para><imagedata fileref="../images/onca-median_noisy.jpg" /> <imagedata fileref="../images/onca-median_filtered.jpg" /></para>
+    
+    <para><emphasis role="bold">Scaling and rotation(interpolated):</emphasis></para>
+    <para><imagedata fileref="../images/onca-scaled.jpg" /> <imagedata fileref="../images/onca-rotated.jpg" /> </para>
+
+    <para><emphasis role="bold">Original bird image, raster drawings, and color segmentation:</emphasis></para>
+    <para><imagedata fileref="../../images/ararauna.jpg" /> <imagedata fileref="../images/ararauna-drawings.jpg" /> 
+    <imagedata fileref="../images/ararauna-segmented.jpg" /> </para>
+
+    <para><emphasis role="bold">The original photo of various indian craft, the emboss effect, and the swril effect:</emphasis></para>
+    <para><imagedata fileref="../../images/indian.bmp" /> <imagedata fileref="../images/indian-emboss.jpg" /> 
+    <imagedata fileref="../images/indian-swirl.jpg" /> </para>
+
 <refsection>
   <title>The ARGV parameter</title>
    <para>
