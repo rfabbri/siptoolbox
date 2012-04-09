@@ -55,6 +55,7 @@ if (level < 0) | (level > 1) then
    error('The threshold level must be in range 0-1.')
 end
 
+pause
 bw = 1*(Img>=level*maxvalue)
 
 endfunction

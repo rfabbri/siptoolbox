@@ -133,6 +133,11 @@
    ]]></programlisting>
 </refsection>
 
+
+<para><emphasis role="bold">The original image, and an histogram-equalized image:</emphasis></para>
+<para><imagedata fileref="../../images/tru.jpg" /> <imagedata fileref="../images/plate-equalized.jpg" /></para>
+
+
 <refsection>
 <title>References</title>
    <para>

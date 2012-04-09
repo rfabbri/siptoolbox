@@ -89,9 +89,10 @@ case 'canny' then
   //END of CANNY
   return;
 case 'fftderiv' // fourier gradient
-  if ~exists('sigma','local') then
+  if ~exists('sigma','local') | isempty(sigma) then
      sigma=1
   end
+
   [r,c] = size(Img)
   fu = [0:c-1]*(1/c)
   fv = [0:r-1]*(1/r)
