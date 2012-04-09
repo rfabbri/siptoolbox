@@ -134,8 +134,16 @@
 </refsection>
 
 
-<para><emphasis role="bold">The original image, and an histogram-equalized image:</emphasis></para>
-<para><imagedata fileref="../../images/tru.jpg" /> <imagedata fileref="../images/plate-equalized.jpg" /></para>
+<para><emphasis role="bold">The original image, sobel edges (threshold 0.5), prewitt edges (threshold 0.5), Canny edges from OpenCV (thresholds 0.06 and 0.2), FFT approach (threshold 0.4), thinned edges from the FFT approach, un-thresholded edges from the FFT approach, and un-thresholded Sobel edges:</emphasis></para>
+<para><imagedata fileref="../../images/tru.jpg" /> 
+<imagedata fileref="../images/tru-sobel-thresh_0.5.png" />
+<imagedata fileref="../images/tru-prewitt-thresh_0.5.png" />
+<imagedata fileref="../images/tru-canny-thresh_0.06_0.2.png" />
+<imagedata fileref="../images/tru-ffttderiv-thesh_0.4.png" />
+<imagedata fileref="../images/tru-ffttderiv-thesh_0.4-thin.png" />
+<imagedata fileref="../images/tru-ffttderiv-sigma_3-nothresh.png" />
+<imagedata fileref="../images/tru-sobel-nothresh.png" />
+</para>
 
 
 <refsection>
