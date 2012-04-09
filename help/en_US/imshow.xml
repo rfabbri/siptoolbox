@@ -69,13 +69,13 @@
      <listitem>
      The image viewer to use: 'sci' for scilab, 'display' for imagemagick, or
      any name of an image viewer program in your PATH (such as 'eog' or 'xv').
-     You can also set your image viewer globally by altering the SCIVIEWER
+     You can also set your image viewer globally by altering the SIPVIEWER
      variable within scilab. For instance: <programlisting role="example"><![CDATA[
 
       imshow(img, viewer='display')  // same as imshow but uses external viewer
 
-      SCIVIEWER = 'display'
-      imshow(img)                    // same as before but uses SCIVIEWER to determine the viewer
+      SIPVIEWER = 'display'
+      imshow(img)                    // same as before but uses SIPVIEWER to determine the viewer
 
 ]]></programlisting>
      </listitem>

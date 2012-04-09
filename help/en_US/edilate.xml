@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="edilate"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>edilate</refname><refpurpose>Euclidean  morphological  dilation  of  binary</refpurpose></refnamediv>
+<?xml version="1.0" encoding="ISO-8859-1"?><refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="edilate"><info><pubdate>February 2004</pubdate></info><refnamediv><refname>edilate</refname><refpurpose>Euclidean  morphological  dilation  of  binary images</refpurpose></refnamediv>
    <refsynopsisdiv><title>Calling Sequence</title><synopsis>Dil = edilate(Img, [radius, form, algorithm])</synopsis></refsynopsisdiv>
    <refsection><title>Parameters</title>
       <variablelist>
@@ -74,7 +74,7 @@
    </refsection>
    <refsection><title>Description</title>
       <para>
- Function <literal>edilate</literal> performs exact euclidean dilation of a binary image <literal>Img</literal> using a circle as the structuring element. It is implemented in C to be fast. </para>
+ Function <literal>edilate</literal> performs exact euclidean dilation of a binary image <literal>Img</literal> using a circle as the structuring element. It is implemented in C with state-of-the-art algorithms, optimized for speed. </para>
    </refsection>
    <refsection><title>Examples</title><programlisting role="example"><![CDATA[
        Img = gray_imread(SIPDIR+'images/tru.jpg');
@@ -85,6 +85,11 @@
        clf
        imshow(e,2);
    ]]></programlisting></refsection>
+
+    <para><emphasis role="bold">The original image, its binary image obtained by thresholding (padded with a black border for ease of visualization), and its dilation by a radius of 7px:</emphasis></para>
+    <para><imagedata fileref="../../images/tru.jpg" /> <imagedata fileref="../images/edilate-bw.png" /> <imagedata fileref="../images/edilate-dilated.png" />
+    </para>
+
    <refsection><title>Authors</title><simplelist type="vert">
       <member> Ricardo Fabbri &lt;ricardofabbri (AT) users DOT sf DOT net&gt; </member>
    </simplelist></refsection>

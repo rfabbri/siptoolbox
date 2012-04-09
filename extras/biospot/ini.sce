@@ -204,14 +204,20 @@ imshow(vor2.*(sklt*1)+1, nearest_colormap);
 // Implementation 2: Single pass over the image
 
 im_acc = zeros(im);
+num_pix = zeros(im);
 // reimplementation
 for i=1:size(im,'*')
   im_acc(vor2(i)+1) = im_acc(vor2(i)+1) + im(i); 
+  num_pix(vor2(i)+1) = num_pix(vor2(i)+1) + 1;
 end
 
 // signal is now obtained by tracing x,y
 is = zeros(size(x,'*'),1);
 for i=1:size(x,'*')
   ij = [dims(1) - y(i), x(i)+1];
-  is(i) = im_acc(ij(1),ij(2));
+  is(i) = im_acc(ij(1),ij(2))/num_pix(ij(1),ij(2));
 end
+
+fig;
+clf;
+plot(len,[is;is(1)]);
