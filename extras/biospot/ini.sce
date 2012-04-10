@@ -170,7 +170,7 @@ set(gca(), "isoview","on");
 xset("auto clear","off");
 
 f=gcf();f.pixmap='on';
-for i=1:size(x,'*')
+for i=1:npts
   champ(x(i),y(i),tgt(i,1),tgt(i,2),0.5);
 end
 show_pixmap();
@@ -238,3 +238,11 @@ plot(len,[is;is(1)]);
 // right tip of the embryo: [maxx y(id_maxx)]
 
 // todo: break the curve from up and bottom
+
+
+// -----------------------------------------------------------------------------
+// integration by sliding ellipses
+
+// XXX under construction
+
+exec sliding_ellipse.sce;
