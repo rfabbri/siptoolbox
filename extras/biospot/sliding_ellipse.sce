@@ -6,7 +6,7 @@ rt_rn_s = string(rt) + ',' + string(rn);
 
 im_el = zeros(im);
 argv = [];
-for i=1:npts
+for i=1:3
   angle_ellipse = string(atan(tgt(i,2),tgt(i,1))*180/%pi);
   angle_ellipse = '0';
   x_ellipse = string(x(i));
@@ -16,7 +16,7 @@ for i=1:npts
   nrm = [-tgt(i,2), tgt(i,1)];
   xy_min = [x(i) y(i)] + rn*nrm;
   xy_max = [x(i) y(i)] - rn*nrm;
-  argv = [argv; '-stroke'     ; 'red' 
+  argv = [argv; '-stroke'     ; 'rgb:0/ffff/0' 
           '-fill'       ; 'red' 
 //          '-draw'       ; ' rotate ' + angle_ellipse ;
 //          '-draw'       ; 'ellipse ' + x_ellipse + ',' + y_ellipse +  ' ' + rt_rn_s + ' 0,360' 
