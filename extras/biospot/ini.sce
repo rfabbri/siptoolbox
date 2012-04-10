@@ -1,7 +1,15 @@
 //
 // TODO: option to subst imshow's to imwrites to a results dir
 //
+
+
+// im: pixels used to generate masks, segmentations, etc
 im = gray_imread('normal.tif');
+
+// im_signal: pixels that will be integrated
+im_signal = im;
+
+
 //im = normal(im);
 
 // default parameters
@@ -207,7 +215,7 @@ im_acc = zeros(im);
 num_pix = zeros(im);
 // reimplementation
 for i=1:size(im,'*')
-  im_acc(vor2(i)+1) = im_acc(vor2(i)+1) + im(i); 
+  im_acc(vor2(i)+1) = im_acc(vor2(i)+1) + im_signal(i); 
   num_pix(vor2(i)+1) = num_pix(vor2(i)+1) + 1;
 end
 
@@ -221,3 +229,12 @@ end
 fig;
 clf;
 plot(len,[is;is(1)]);
+
+
+[minx, id_minx] = min(x);
+[maxx, id_maxx] = max(x);
+
+// left tip of the embryo:  [minx y(id_minx)]
+// right tip of the embryo: [maxx y(id_maxx)]
+
+// todo: break the curve from up and bottom

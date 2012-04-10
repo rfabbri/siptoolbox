@@ -15,9 +15,12 @@ e = en;
 clear en;
 
 imn = zeros(w+2*4*closing_distance+1,h+2*4*closing_distance+1);
-
 imn((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*closing_distance)) = im;
 im = imn;
+
+imn = zeros(w+2*4*closing_distance+1,h+2*4*closing_distance+1);
+imn((4*closing_distance+1):(w+4*closing_distance),(4*closing_distance+1):(h+4*closing_distance)) = im_signal;
+im_signal = imn;
 clear imn;
 
 // morphological closing
