@@ -220,8 +220,8 @@ for i=1:size(im,'*')
 end
 
 // signal is now obtained by tracing x,y
-is = zeros(size(x,'*'),1);
-for i=1:size(x,'*')
+is = zeros(size(x,'*'), 1);
+for i=1:npts
   ij = [dims(1) - y(i), x(i)+1];
   is(i) = im_acc(ij(1),ij(2))/num_pix(ij(1),ij(2));
 end
@@ -245,4 +245,9 @@ plot(len,[is;is(1)]);
 
 // XXX under construction
 
-exec sliding_ellipse.sce;
+//exec sliding_ellipse.sce;
+
+// -----------------------------------------------------------------------------
+// integration by sliding normal line segments
+
+exec sliding_normal_lines.sce;

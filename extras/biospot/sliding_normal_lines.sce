@@ -4,9 +4,10 @@ rt = 0.3*rn;
 
 rt_rn_s = string(rt) + ',' + string(rn);
 
-im_el = zeros(im);
+is_line = zeros(size(x,'*'), 1);
+
 argv = [];
-for i=1:3
+for i=1:npts
   angle_ellipse = string(atan(tgt(i,2),tgt(i,1))*180/%pi);
   angle_ellipse = '0';
   x_ellipse = string(x(i));
@@ -16,19 +17,8 @@ for i=1:3
   nrm = [-tgt(i,2), tgt(i,1)];
   xy_min = [x(i) y(i)] + rn*nrm;
   xy_max = [x(i) y(i)] - rn*nrm;
-  colorstr = dec2hex(i);
-  select length(colorstr)
-  case 1
-    colorstr = '00' + colorstr;
-  case 2
-    colorstr = '0' + colorstr;
-  case 4
-    colorstr = '00' + colorstr;
-  case 5
-    colorstr = '0' + colorstr;
-  end
   
-  argv = [argv; '-stroke'     ; '#' + colorstr
+  argv = [argv; '-stroke'     ; '#fff'
           '-fill'       ; 'red' 
           '+antialias'
 //          '-draw'       ; ' rotate ' + angle_ellipse ;
@@ -36,7 +26,12 @@ for i=1:3
           '-draw'       ; 'polyline ' + string(xy_min(1)) + ',' + string(xy_min(2)) + ' ' + string(xy_max(1)) + ',' + string(xy_max(2));
           ];
 
+  im_el = zeros(im);
+  im_el = mogrify(im_el, argv);
+  im_el = im_el(:,:,1);
+  is_line(i) = sum(im(im_el <> 0));
 end
-im_el = mogrify(im_el, argv);
 
-imshow(im_el);
+fig
+clf;
+plot(len, [is_line; is_line(i)]);
