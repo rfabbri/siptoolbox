@@ -4,7 +4,7 @@ function nc = numcolors(rgb)
 //
   rgb = round(255*matrix(rgb,size(rgb,1)*size(rgb,2),size(rgb,3)));
   rgb = dec2hex(rgb);
-  rgb = rgb(:,1) + rgb(:,2);
+  rgb = rgb(:,1) + rgb(:,2) + rgb(:,3);
   nc = size(unique(hex2dec(rgb)),'*');
 endfunction
 
