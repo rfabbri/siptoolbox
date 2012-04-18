@@ -10,6 +10,8 @@ function x = sip_fftshift(x,job,fun)
 //
 // $Revision: 1.2 $ $Date: 2009-03-29 21:34:48 $
 
+  warning('This function is deprecated. Use fftshift from Scilab instead.');
+  warning('This function might be removed in future versions of SIP.');
   if argn(2)<2 then job='all',end
   if argn(2)<3 then 
     deff('sel=fun(sk)','c=ceil(sk/2);sel=[c+1:sk,1:c]')
