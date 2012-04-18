@@ -6,6 +6,7 @@ rt_rn_s = string(rt) + ',' + string(rn);
 
 is_line = zeros(size(x,'*'), 1);
 
+im_el = zeros(im);
 
 // argv = [];
 for i=1:npts
@@ -35,10 +36,11 @@ for i=1:npts
 //   im_el = im_el(:,:,1);
 
   
-  im_el = zeros(im);
   im_el = drawline(im_el,[xy_min; xy_max]);
+//xx  im_el_neq_0 = find(im_el <> 0);
 
-  is_line(i) = mean(im(im_el <> 0));
+// xx is_line(i) = mean(im(im_el_neq_0));
+// xx im_el(im_el_neq_0) = 0;
 end
 
 fig
