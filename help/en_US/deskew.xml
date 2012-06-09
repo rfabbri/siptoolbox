@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="UTF-8"?> 
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="deskew">
+<info>
+  <pubdate>May, 2012</pubdate>
+</info>
+<refnamediv>
+  <refname>deskew</refname>
+  <refpurpose>Deskew  a given image</refpurpose>
+</refnamediv>
+  
+<refsynopsisdiv>
+  <title>Calling Sequence</title>
+      <synopsis>Image = deskew(filename)</synopsis>
+      <synopsis>[d,image] = deskew('image')</synopsis>
+</refsynopsisdiv>
+  
+<refsection>
+<title>Parameters</title>
+<variablelist>
+      <varlistentry>
+      <term>image</term>
+      <listitem>
+      M x N x 3 true color image in the 0-1 range
+      </listitem> 
+      </varlistentry>
+      
+      <varlistentry>
+      <term>d</term>
+      <listitem>
+      M x 3 color map
+      </listitem> 
+      </varlistentry>
+</variablelist>
+</refsection>
+
+<refsection>
+<title>Description</title>
+   <para>
+ Function <literal>deskew</literal> Deskew function computes the skew angle of a digitized text document by using the Probabilistic Hough Transform and then deskew the given image.</para>
+   <programlisting><![CDATA[
+       initial_dir = PWD;
+       chdir (SIPDIR + 'images');
+     
+       Img = imread('tru.jpg');
+       [d,image]= deskew(Img);
+       clf;
+       imshow(d,image);
+       
+       chdir(initial_dir);
+ ]]></programlisting>
+ </refsection>
+
+<refsection><title>Authors</title><simplelist type="vert">
+   <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+</simplelist></refsection>
+
+<refsection><title>Availability</title>
+The latest version of SIP can be found at
+<para>http://siptoolbox.sf.net </para>
+</refsection>
+
+<refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="dewarp">im2gray</link> </member>
+      <member> <link linkend="im2gray">im2bw</link> </member>
+</simplelist>
+</refsection>
+
+</refentry>
+<!-- =================================================== 
+           SIP - Scilab Image Processing toolbox
+           Copyright (C) 2002-2012  Ricardo Fabbri
+
+       See the file COPYING for license-related issues
+     =================================================== -->
