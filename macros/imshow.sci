@@ -145,8 +145,8 @@ select type(img)
            xset('wdim',n,m)
          catch
            set(gcf(), 'axes_size', [n m]);
-           Matplot(img,strf)
          end
+         Matplot(img,strf)
       end
    case 17 then   // truecolor image
       dims=size(img)
