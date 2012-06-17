@@ -4,10 +4,12 @@
 
 
 // im: pixels used to generate masks, segmentations, etc
-im = gray_imread('normal.tif');
+//im = gray_imread('normal.tif');
+im = gray_imread('series042_z0_ch00.tif');
 
 // im_signal: pixels that will be integrated
-im_signal = im;
+//im_signal = im;
+im_signal = gray_imread('series042_z0_ch01.tif');
 
 
 //im = normal(im);

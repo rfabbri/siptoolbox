@@ -36,11 +36,12 @@ for i=1:npts
 //   im_el = im_el(:,:,1);
 
   
-  im_el = drawline(im_el,[xy_min; xy_max]);
-//xx  im_el_neq_0 = find(im_el <> 0);
-
-// xx is_line(i) = mean(im(im_el_neq_0));
-// xx im_el(im_el_neq_0) = 0;
+  im_el_tmp = zeros(im_el);
+  im_el_tmp = drawline(im_el_tmp,[xy_min; xy_max]);
+  im_el = im_el+im_el_tmp;
+  im_el = 1*(im_el <> 0);
+  im_el_neq_0 = find(im_el_tmp <> 0);
+  is_line(i) = mean(im_signal(im_el_neq_0));
 end
 
 fig
