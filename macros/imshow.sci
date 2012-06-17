@@ -67,7 +67,11 @@ select type(img)
         if viewer == 'sci'
           [m,n]=size(img)
           xset('colormap', graycolormap(256))
-          xset('wdim',n,m)
+          try
+            xset('wdim',n,m)
+          catch
+            set(gcf(), 'axes_size', [n m]);
+          end
           Matplot(img*255 + 1,strf)
         else
           if sip_get_verbose() == 'wordy'
@@ -137,11 +141,13 @@ select type(img)
          else
             error('Invalid size of 2nd argument.')
          end
-         if viewer == 'sci'
+         try
            xset('wdim',n,m)
+         catch
+           set(gcf(), 'axes_size', [n m]);
            Matplot(img,strf)
          end
-      end   
+      end
    case 17 then   // truecolor image
       dims=size(img)
       if dims(3) ~= 3 then
@@ -159,7 +165,11 @@ select type(img)
            nlevels = arg2
         end
         xset('colormap',sip_approx_true_cmap(nlevels))
-        xset('wdim',dims(2),dims(1))
+        try
+          xset('wdim',n,m)
+        catch
+          set(gcf(), 'axes_size', [dims(2) dims(1)]);
+        end
         Matplot(sip_index_true_cmap(img,nlevels),strf)
       else
         if sip_get_verbose() == 'wordy'
