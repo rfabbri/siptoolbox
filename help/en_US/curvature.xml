@@ -74,6 +74,8 @@
        k = curvature(Img,13);  // 13 sigma (shape is smoothed so curvature exists)
        clf
        plot(k)
+       xlabel('curve sample id')
+       ylabel('curvature')
        //
        // observe there are six curvature peaks,
        // corresponding to the six peaks of the star. There
@@ -88,6 +90,12 @@
        chdir(initial_dir);
    ]]></programlisting>
 </refsection>
+
+<para><emphasis role="bold">Original image and the curvature function of its (Gaussian-smoothed) boundary curve:</emphasis></para>
+<para><imagedata fileref="../../images/star.bmp" />  
+<imagedata fileref="../images/curvature-plot.png" />
+</para>
+
 
 <refsection>
 <title>References</title>
