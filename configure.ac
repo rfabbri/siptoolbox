@@ -227,7 +227,7 @@ then
    then
       SHARED_LIB_SUFFIX=dll
       CPPFLAGS="$CPPFLAGS -DFORDLL -D_DLL"
-      AC_MSG_WARN([[Don't forget to rename SCI/bin/LibScilab* to lowercase]])
+      AC_MSG_WARN([[Dont forget to rename SCI/bin/LibScilab* to lowercase]])
       LDFLAGS="$LDFLAGS -L${SCIDIR}/bin"
       LIBS="-lscilab"
    else
@@ -266,6 +266,39 @@ AC_PATH_LIB([animal], [0.16.0 -nocheck], [animal-config], ,[
 ], [AC_MSG_ERROR([[Either AnImaL version >= 0.13.0 was not found or a compile test failed.]])],
 [--cppflags], [--ldflags --libs])
 
+
+##################################
+#  L E P T O N I C A
+################################### 
+
+# Check location of leptonica/liblept headers.
+AC_MSG_CHECKING(for leptonica)
+AC_ARG_VAR(LIBLEPT_HEADERSDIR,[Leptonica headers directory])
+
+have_lept=no
+if test "$LIBLEPT_HEADERSDIR" = "" ; then
+  LIBLEPT_HEADERSDIR="/usr/local/include /usr/include"
+fi
+for incd in $LIBLEPT_HEADERSDIR
+do
+  for lept in . leptonica liblept
+  do
+    if test -r "$incd/$lept/allheaders.h" ; then
+      CPPFLAGS="$CPPFLAGS -I$incd/$lept"
+      have_lept=yes
+    fi
+  done
+done
+if test "$have_lept" = yes ; then
+  AC_MSG_RESULT(yes)
+  AC_CHECK_LIB(lept,pixCreate,[], AC_MSG_ERROR([leptonica library missing]))
+else
+  AC_MSG_ERROR([leptonica not found])
+fi
+
+
+# END OF LEPTONICA TEST
+##############################################
 
 ##################################
 #  I M A G E   M A G I C K
@@ -552,6 +585,8 @@ Configuration:
   LIBS           = $LIBS
 
   OpenCV support = $have_opencv
+  
+  Leptonica support = $have_lept
 =====================================================
 This toolbox will be installed in $TOOLBOXDIR
 Please run 'make' and 'make install' to compile and install the toolbox. 
