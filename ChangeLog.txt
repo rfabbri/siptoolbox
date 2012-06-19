@@ -4,6 +4,7 @@ __________________________________________________________________
 
 
 0.8.x 
+	+ imshow now works with newer scilab master branch
 	+ new tangent function to compute the tangential direction at each point of a
 	sampled curve or binary contour
 
