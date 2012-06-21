@@ -42,7 +42,11 @@ if viewer <> 'sci'
   if getos() == 'Windows'
     error('external viewer not supported on Windows');
   else
-    tmpname = tempname();
+    try
+      tmpname = tempname();
+    catch
+      tmpname = TMPDIR + '/sip-imshow' + string(round(rand()*100000));
+    end
     tmpname = tmpname + '-imshow.png';
     // remove temp file only at the beginning
     unix('rm -f ' + TMPDIR + '/*imshow.png');
