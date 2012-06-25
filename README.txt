@@ -54,29 +54,34 @@ Phone: 273.9882  Area Code: 16  International Code: 55
 
 Contents
 ========
-README.txt         : this file
-INSTALL.txt        : installation instructions
-configure          : configuration script (see INSTALL.txt)
-Makefile           : build instructions
-Makefile.am        : high level build instructions (for automake)
-*.txt              : information about SIP
-config             : some configuration files for compilation/installation
-src                : directory of C routines
-macros             : directory of Scilab functions
-     *.sci         : source versions
-     *.bin         : compiled binary versions (generated)
-     names         : table of functions (generated)
-     lib           : scilab library binary save (generated)
-man                : directory for help.
-     Makefile      : for help formatting 
-     *.man         : nroff help file
-     *.cat         : formatted files 
-     whatis        : short function description 
-
-images             : contain sample images used by examples and demos
-win_bin            : pre-compiled binary of C routines for W1nd*ws
-win_util           : some files to aid the installation under Wlnd0wz
+README.txt                : this file
+INSTALL.txt               : installation instructions
+configure                 : configuration script (see INSTALL.txt)
+install-sip.sh            : script to automate the steps in INSTALL.txt
+Makefile                  : low-level build instructions (used by 'make')
+Makefile.am               : high level build instructions (for automake)
+*.txt                     : information about SIP
+config                    : aux. config files and scripts for compiling/installing
+    install-sip.sh        : 
+src                       : folder for C routines
+macros                    : folder for Scilab functions
+     *.sci                : source versions
+     *.bin                : compiled binary versions (generated)
+     names                : table of functions (generated)
+     lib                  : scilab library binary save (generated)
+help                      : directory for help files
+     Makefile             : for generating help files (html)
+     en_US                : help files in US English (xml sources)
+        scilab_en_US_help : html help files (open in any browser)
+        images            : images/illustration for the help files
+man                       : obsolete directory for help.
+     Makefile             : for help formatting 
+     *.man                : nroff help file
+     *.cat                : formatted files 
+     whatis               : short function description 
+images                    : contains sample images used by examples and demos
+extras                    : folder for
 
 
 Please send any comments and suggestions to rfabbri@(not this part) gmail d0t com
-
+kkkkkkkkkkkkkkkkkkkkkkk
