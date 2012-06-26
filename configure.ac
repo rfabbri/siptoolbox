@@ -267,38 +267,6 @@ AC_PATH_LIB([animal], [0.16.0 -nocheck], [animal-config], ,[
 [--cppflags], [--ldflags --libs])
 
 
-##################################
-#  L E P T O N I C A
-################################### 
-
-# Check location of leptonica/liblept headers.
-AC_MSG_CHECKING(for leptonica)
-AC_ARG_VAR(LIBLEPT_HEADERSDIR,[Leptonica headers directory])
-
-have_lept=no
-if test "$LIBLEPT_HEADERSDIR" = "" ; then
-  LIBLEPT_HEADERSDIR="/usr/local/include /usr/include"
-fi
-for incd in $LIBLEPT_HEADERSDIR
-do
-  for lept in . leptonica liblept
-  do
-    if test -r "$incd/$lept/allheaders.h" ; then
-      CPPFLAGS="$CPPFLAGS -I$incd/$lept"
-      have_lept=yes
-    fi
-  done
-done
-if test "$have_lept" = yes ; then
-  AC_MSG_RESULT(yes)
-  AC_CHECK_LIB(lept,pixCreate,[], AC_MSG_ERROR([leptonica library missing]))
-else
-  AC_MSG_ERROR([leptonica not found])
-fi
-
-
-# END OF LEPTONICA TEST
-##############################################
 
 ##################################
 #  I M A G E   M A G I C K
@@ -540,6 +508,42 @@ PKG_CHECK_MODULES(OPENCV,
      have_opencv=yes
      AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
     [AC_MSG_WARN([[ OpenCV >= 0.26 was not found. ]])])
+
+# END of OpenCV tests
+##############################################
+
+##################################
+#  L E P T O N I C A
+################################### 
+
+# Check location of leptonica/liblept headers.
+AC_MSG_CHECKING(for leptonica)
+AC_ARG_VAR(LIBLEPT_HEADERSDIR,[Leptonica headers directory])
+
+have_lept=no
+if test "$LIBLEPT_HEADERSDIR" = "" ; then
+  LIBLEPT_HEADERSDIR="/usr/local/include /usr/include"
+fi
+for incd in $LIBLEPT_HEADERSDIR
+do
+  for lept in . leptonica liblept
+  do
+    if test -r "$incd/$lept/allheaders.h" ; then
+      CPPFLAGS="$CPPFLAGS -I$incd/$lept"
+      have_lept=yes
+    fi
+  done
+done
+
+if test "$have_lept" = yes ; then
+  AC_MSG_RESULT(yes)
+  AC_CHECK_LIB(lept,pixCreate,[], AC_MSG_ERROR([leptonica library missing]))
+else
+  AC_MSG_WARN([leptonica not found])
+fi
+
+# End of Leptonica Tests
+##############################################
 
 # Checks for header files.
 AC_HEADER_STDC
