@@ -57,7 +57,7 @@ Contents
 README.txt                : this file
 INSTALL.txt               : installation instructions
 configure                 : configuration script (see INSTALL.txt)
-install-sip.sh            : script to automate the steps in INSTALL.txt
+install-sip               : script to automate the steps from INSTALL.txt
 Makefile                  : low-level build instructions (used by 'make')
 Makefile.am               : high level build instructions (for automake)
 *.txt                     : information about SIP
