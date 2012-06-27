@@ -22,7 +22,7 @@
 AC_PREREQ(2.61)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.8.0-git], [ricardofabbri@users.sourceforge.net])
+AC_INIT([sip], [0.9.0-git], [ricardofabbri@users.sourceforge.net])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -499,11 +499,13 @@ particular ImageMagick setup]),
 # END OF IMAGEMAGICK TESTS
 ##############################################
 
+################
 # OpenCV tests
+################
 have_opencv=no
 
 AC_ARG_WITH([opencv], 
-   [AS_HELP_STRING([--without-opencv], [Build with the OpenCV API])],
+   [AS_HELP_STRING([--without-opencv], [disable the OpenCV API])],
    [],
    [with_opencv=yes])
 
@@ -520,15 +522,22 @@ PKG_CHECK_MODULES(OPENCV,
 # END of OpenCV tests
 ##############################################
 
-##################################
+######################
 #  L E P T O N I C A
-################################### 
+######################
 
+have_lept=no
+
+AC_ARG_WITH([leptonica], 
+   [AS_HELP_STRING([--without-leptonica], [disable the Leptonica API])],
+   [],
+   [with_leptonica=yes])
+
+AS_IF([test "x$with_leptonica" = "xyes"], [
 # Check location of leptonica/liblept headers.
 AC_MSG_CHECKING(for leptonica)
 AC_ARG_VAR(LIBLEPT_HEADERSDIR,[Leptonica headers directory])
 
-have_lept=no
 if test "$LIBLEPT_HEADERSDIR" = "" ; then
   LIBLEPT_HEADERSDIR="/usr/local/include /usr/include"
 fi
@@ -549,6 +558,8 @@ if test "$have_lept" = yes ; then
 else
   AC_MSG_WARN([leptonica not found])
 fi
+]) 
+dnl END AS_IF
 
 # End of Leptonica Tests
 ##############################################
