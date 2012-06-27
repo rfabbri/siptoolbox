@@ -501,17 +501,21 @@ particular ImageMagick setup]),
 
 # OpenCV tests
 have_opencv=no
-#
-# XXX temporary - inspecting latest OpenCV compatibility. disabling support in
-# the mean time
-#
-#PKG_CHECK_MODULES(OPENCV, 
-#    [opencv >= 0.26],
-#    [CFLAGS="$CFLAGS $OPENCV_CFLAGS"
-#     LDFLAGS="$LDFLAGS $OPENCV_LIBS"
-#     have_opencv=yes
-#     AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
-#    [AC_MSG_WARN([[ OpenCV >= 0.26 was not found. ]])])
+
+AC_ARG_WITH([opencv], 
+   [AS_HELP_STRING([--without-opencv], [Build with the OpenCV API])],
+   [],
+   [with_opencv=yes])
+
+AS_IF([test "x$with_opencv" = "xyes"], [
+PKG_CHECK_MODULES(OPENCV, 
+    [opencv >= 0.26],
+    [CFLAGS="$CFLAGS $OPENCV_CFLAGS"
+     LDFLAGS="$LDFLAGS $OPENCV_LIBS"
+     have_opencv=yes
+     AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
+    [AC_MSG_WARN([[ OpenCV >= 0.26 was not found. ]])])
+])
 
 # END of OpenCV tests
 ##############################################

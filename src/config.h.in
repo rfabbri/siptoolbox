@@ -30,6 +30,9 @@
 /* Defines if ImageMagick has MogrifyImage with a 5th parameter */
 #undef HAVE_MogrifyImage_5args
 
+/* define HAVE_OPENCV if you have opencv */
+#undef HAVE_OPENCV
+
 /* Defines if ImageMagick has QueryColorDatabase with a 3rd parameter */
 #undef HAVE_QueryColorDatabase_3args
 
