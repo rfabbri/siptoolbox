@@ -8,8 +8,6 @@ TODO
 - put some pauses in the examples of the help pages since they will likely be
   executed with "play".
 - fix some help links in the see also sections
-- move the help files to new xml format (take a xml help file from the scilab
-  source as a model)
 - write help for sip_exec
 
 
