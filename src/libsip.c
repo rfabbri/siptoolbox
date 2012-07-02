@@ -26,6 +26,8 @@ SipExport extern Gatefunc sip_setenv_int;
 SipExport extern Gatefunc sip_set_verbose_int;
 SipExport extern Gatefunc sip_get_verbose_int;
 SipExport extern Gatefunc hello_int;
+SipExport extern Gatefunc int_deskew;
+SipExport extern Gatefunc int_dewarp;
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,int_imread,"imread"},
   {(Myinterfun)sci_gateway,int_imwrite,"imwrite"},
@@ -49,6 +51,8 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,sip_set_verbose_int,"sip_set_verbose"},
   {(Myinterfun)sci_gateway,sip_get_verbose_int,"sip_get_verbose"},
   {(Myinterfun)sci_gateway,hello_int,"hello_sip"},
+  {(Myinterfun)sci_gateway,int_deskew,"deskew_c"},
+  {(Myinterfun)sci_gateway,int_dewarp,"dewarp_c"},
 };
  
 SipExport int C2F(libsip)()
