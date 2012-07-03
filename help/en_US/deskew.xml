@@ -10,24 +10,27 @@
   
 <refsynopsisdiv>
   <title>Calling Sequence</title>
-      <synopsis>Image = deskew(filename)</synopsis>
-      <synopsis>[d,image] = deskew('image')</synopsis>
+      <synopsis>Image = deskew(image)</synopsis>
 </refsynopsisdiv>
   
 <refsection>
 <title>Parameters</title>
 <variablelist>
       <varlistentry>
-      <term>image</term>
+      <term>Image</term>
       <listitem>
-      M x N x 3 true color image in the 0-1 range
+      For truecolor images, this is a MxNx3 matrix in range 0-1 (double
+         precision); For binary images, image is a MxNx1 matrix (0=black and
+         1=white).
       </listitem> 
       </varlistentry>
       
       <varlistentry>
-      <term>d</term>
+      <term>image</term>
       <listitem>
-      M x 3 color map
+      For truecolor images, this is a MxNx3 matrix in range 0-1 (double
+         precision); For binary images, image is a MxNx1 matrix (0=black and
+         1=white).
       </listitem> 
       </varlistentry>
 </variablelist>
@@ -41,17 +44,22 @@
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
      
-       Img = imread('tru.jpg');
-       [d,image]= deskew(Img);
+       img = imread('pde.jpg');
+       Img = deskew(img);
        clf;
-       imshow(d,image);
+       imshow(Img);
        
        chdir(initial_dir);
  ]]></programlisting>
- </refsection>
+
+    <para><emphasis role="bold">The result of the preceding example, Original Image (left) and Deskewed Image (right):</emphasis></para>
+    <para><imagedata fileref="../images/deskew_original.jpg" /> <imagedata fileref="../images/deskew_processed.jpg" />
+    </para>
+    </refsection>
 
 <refsection><title>Authors</title><simplelist type="vert">
    <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+   <member>Pallan Madhavan &lt;witness123[at]users.sf.net&gt;</member>
 </simplelist></refsection>
 
 <refsection><title>Availability</title>
