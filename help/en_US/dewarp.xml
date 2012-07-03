@@ -57,7 +57,7 @@
     </para>
     <para><emphasis role="bold">The contours of constant vertical disparity (left), calculated from the smoothed lines, and the dewarped result (right) on the input image after applying the vertical disparity:</emphasis></para>
     <para><imagedata fileref="../images/dewarp-vert-disparity.jpg" /> </para>
-    <para><emphasis role="bold">TThe horizontal disparity field is then applied to this image. The field (left) and the final result (right):</emphasis></para>
+    <para><emphasis role="bold">The horizontal disparity field is then applied to this image. The field (left) and the final result (right):</emphasis></para>
     <para><imagedata fileref="../images/dewarp-horiz-disparity.jpg" /> </para>
  </refsection>
 
