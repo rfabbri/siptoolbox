@@ -52,7 +52,7 @@
 
 
 #include <stack-c.h>
-
+#include <api_scilab.h>
 #include <stdio.h>
 #include <time.h>
 #include <sys/types.h>
