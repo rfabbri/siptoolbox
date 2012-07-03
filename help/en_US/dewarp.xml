@@ -10,8 +10,7 @@
   
 <refsynopsisdiv>
   <title>Calling Sequence</title>
-      <synopsis>Image = dewarp(filename)</synopsis>
-      <synopsis>[d,pageno,sampling,minlines,applyhoriz] = dewarp ('image')</synopsis>
+      <synopsis>Image = dewarp(image)</synopsis>
 </refsynopsisdiv>
   
 <refsection>
@@ -20,28 +19,20 @@
       <varlistentry>
       <term>image</term>
       <listitem>
-      M x N x 3 true color image in the 0-1 range
+      For truecolor images, this is a MxNx3 matrix in range 0-1 (double
+         precision); For binary images, image is a MxNx1 matrix (0=black and
+         1=white).
       </listitem> 
       </varlistentry>
       
       <varlistentry>
-      <term>d</term>
+      <term>Image</term>
       <listitem>
-      M x 3 color map
+      For truecolor images, this is a MxNx3 matrix in range 0-1 (double
+         precision); For binary images, image is a MxNx1 matrix (0=black and
+         1=white).
       </listitem> 
       </varlistentry>
-      <varlistentry>
-	  <term>pageno</term>
-	  <listitem>
-      refers to the pageno to be warped
-	  </listitem> 
-	  </varlistentry>
-	  <varlistentry>
-	  <term>minlines</term>
-	  <listitem>
-      minimum lines to be warped
-	  </listitem> 
-	  </varlistentry>
 </variablelist>
 </refsection>
 
@@ -53,17 +44,26 @@
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
      
-       Img = imread('tru.jpg');
-       [d,pageno,sampling,minlines,applyhoriz] = dewarp (Img);
+       img = imread('chapter.jpg');
+       Img = dewarp (img);
        clf;
-       imshow(d,image);
+       imshow(Img);
        
        chdir(initial_dir);
  ]]></programlisting>
+
+    <para><emphasis role="bold">The result of the preceding example, Original image (left) and Image after background normalisation and binarization (right):</emphasis></para>
+    <para><imagedata fileref="../images/dewarp-original.jpg" /> <imagedata fileref="../images/dewarp-initial.png" />
+    </para>
+    <para><emphasis role="bold">The contours of constant vertical disparity (left), calculated from the smoothed lines, and the dewarped result (right) on the input image after applying the vertical disparity:</emphasis></para>
+    <para><imagedata fileref="../images/dewarp-vert-disparity.jpg" /> </para>
+    <para><emphasis role="bold">TThe horizontal disparity field is then applied to this image. The field (left) and the final result (right):</emphasis></para>
+    <para><imagedata fileref="../images/dewarp-horiz-disparity.jpg" /> </para>
  </refsection>
 
 <refsection><title>Authors</title><simplelist type="vert">
    <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+   <member>Pallan Madhavan &lt;witness123[at]users.sf.net&gt;</member>
 </simplelist></refsection>
 
 <refsection><title>Availability</title>
