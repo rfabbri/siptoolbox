@@ -41,12 +41,12 @@
 #define   SEARCH_REDUCTION      2      /* 1, 2, 4 or 8 */
 #define   SEARCH_MIN_DELTA      0.01   /* degrees */
 
-
+static int check_args(char *fname, int opt_pos);
 /*----------------------------------------------------------
  * int_deskew:
  *     interface for deskew function.
- *     should provide   [RGB]=deskew(name) at Scilab level
- *
+ *     should provide    [RGB1]=deskew(RGB)
+ *                [Index1,Map1]=deskew(Index,Map) at Scilab level
  * TO-DO
  *    - return on errors, even if exception is NULL
  *
@@ -59,11 +59,21 @@ int_deskew(char *fname)
    HyperMat *Img;
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,    /* for index output argument    */
-         minlhs=1, maxlhs=2, minrhs=1, maxrhs=1, i;
+         minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
+         name_rows, name_columns, name,
+         nopt, iopos;
    double *l2;
+   static rhs_opts opts[]= {
+         {-1,"depth","d",0,0,0},
+         {-1,"quality","d",0,0,0},
+		   {-1,NULL,NULL,0,0,0}
+   };
+   unsigned nv;
+   bool stat;
 
    /* Other variables */
    unsigned long  imgsize;
+   short int argtype;
    char str1[1000];
 
    /* Leptonica variable */
@@ -74,20 +84,92 @@ int_deskew(char *fname)
    PIX         *pix, *pixs, *pixd;
 
    /* ImageMagick variables */
-   ExceptionInfo  exception;
-   Image          *image;
-   ImageInfo      *image_info;
-   PixelPacket    *pix1;
+   ExceptionInfo  exception,exception1;
+   Image          *image,*image1;
+   ImageInfo      *image_info,*image_info1;
+   PixelPacket    *pix1,*pix2;
    ImageType      imgtype;
 
-   bool stat;
+   /* -- Deal with the arguments -- */
+   nopt = NumOpt();
+   CheckRhs(minrhs,maxrhs + nopt);
+   CheckLhs(minlhs,maxlhs);
 
-   CheckRhs(minrhs,maxrhs) ;
-   CheckLhs(minlhs,maxlhs) ;
+   if ( get_optionals(fname,opts) == 0) return false;
+   if ( (argtype = check_args(fname, nopt)) == false) return false;
 
-   /* Get name (#1) */
-   GetRhsVar(1, "c", &m1, &n1, &l1);
-   filein = cstk(l1);
+   /* default values if optional arguments are not given */
+   iopos=Rhs ;
+   if ( opts[0].position  == -1 ) {
+      iopos++; opts[0].position = iopos;
+      opts[0].m = opts[0].n = 1; opts[0].type = "d";
+      CreateVar(opts[0].position,opts[0].type,&opts[0].m,&opts[0].n,&opts[0].l);
+      *stk(opts[0].l) = QuantumDepth;
+   } else if ( *stk(opts[0].l) != 8) {
+      if  (*stk(opts[0].l) == 16 && QuantumDepth < 16)
+         sip_error("depth cannot be 16 in your current setup")
+      else if (*stk(opts[0].l) != 16)
+         sip_error("depth must be 8 or 16")
+   }
+   if ( opts[1].position  == -1 ) {
+      iopos++; opts[1].position = iopos;
+      opts[1].m = opts[1].n = 1; opts[1].type = "d";
+      CreateVar(opts[1].position,opts[1].type,&opts[1].m,&opts[1].n,&opts[1].l);
+      *stk(opts[1].l)=75.0; /* Default quality/compression for jpeg/png/miff */
+   } else if ( *stk(opts[1].l) < 0 || *stk(opts[1].l) > 100)
+      sip_error("quality must be in range 0-100")
+       /* -- Pass scilab structures to IM -- */
+
+   InitializeMagick(NULL);
+   GetExceptionInfo(&exception1);
+   image_info1=CloneImageInfo((ImageInfo *) NULL);
+
+   image_info1->colorspace = RGBColorspace; // @@@ maybe to take this off
+   image_info1->monochrome = 0;
+   image_info1->dither = 0;  // Imagemagick sets this as true by default.
+                            // But this changes binary images too much.
+   image_info1->depth= (unsigned long) *stk(opts[0].l);
+   image_info1->quality= (unsigned long) *stk(opts[1].l);
+   image1=AllocateImage(image_info1);
+
+   nv = 1;
+   switch (argtype) {
+      case ARG_2D:
+            GetRhsVar(nv++, "d", &m1, &n1, &l1);
+            stat = sci_2D_double_matrix_to_magick(fname, l1, m1, n1, image1, &pix2);
+            if (!stat)
+               return false;
+            break;
+
+      case ARG_3D:
+            stat = sci_3D_double_hypermat_to_magick(fname,nv++,image1,&pix2);
+            if (!stat)
+               return false;
+            break;
+
+      case ARG_INDEX_MAP:
+            stat = sci_index_map_to_magick(fname, nv, image1, &pix2);
+            if (!stat)
+               return false;
+            nv+=2;
+            break;
+      default:
+            return false;
+   }
+
+   /* -- write the image-- */
+   filein="/tmp/help.png";
+   (void) strncpy(image1->filename,filein,MaxTextExtent);
+   if (WriteImage(image_info1,image1) == 0)
+      SIP_MAGICK_ERROR;
+   /* --/tmp/help.png will serve as the input image for
+    * leptonica's deskew function and thus to get an output image-- */
+
+   DestroyImageInfo(image_info1);
+   DestroyExceptionInfo(&exception1);
+   DestroyImage(image1);
+   DestroyMagick();
+
    fileout = filein;
    pixd = NULL;
    if ((pixs = pixRead(filein)) == NULL)
@@ -222,6 +304,27 @@ int_deskew(char *fname)
    pixDestroy(&pixs);
    pixDestroy(&pix);
    pixDestroy(&pixd);
-
    return true;
+}
+
+int
+check_args(char *fname, int nopts)
+{
+   int nargs;
+
+   nargs = Rhs - nopts;
+  /* nargs ==1 */
+   if (nargs == 1) {
+      switch (VarType(1)) {
+         case USUALMATRIX: return ARG_2D;
+         case HYPERMATRIX: return ARG_3D;
+         default:
+            sip_error("argument 1 must be matrix or hypermatrix")
+      }
+   }
+   /* nargs == 2 */
+   if((VarType(1) != USUALMATRIX) || (VarType(2) != USUALMATRIX))
+      sip_error("the first two arguments must be arrays")
+
+   return ARG_INDEX_MAP;
 }
