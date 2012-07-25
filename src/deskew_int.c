@@ -59,7 +59,7 @@ int_deskew(char *fname)
    /* Sip variables */
    HyperMat *Img;
    int   m1, n1,l1, /* for name input argument      */
-         m2, n2,    /* for index output argument    */
+         m2, n2,temp, /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
          name_rows, name_columns, name,
          nopt, iopos;
@@ -143,7 +143,9 @@ int_deskew(char *fname)
             break;
 
       case ARG_3D:
-            stat = sci_3D_double_hypermat_to_magick(fname,nv++,image1,&pix2);
+            temp = nv++;
+            stat = sci_3D_double_hypermat_to_magick(fname,temp,image1,&pix2);
+            stat = sci_3D_double_hypermat_to_pix(fname,temp);
             if (!stat)
                return false;
             break;
