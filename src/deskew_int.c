@@ -331,3 +331,27 @@ check_args(char *fname, int nopts)
 
    return ARG_INDEX_MAP;
 }
+bool
+sci_3D_double_hypermat_to_pix(char *fname, int nv)
+{
+   PIX * pixme;
+   unsigned i,j;
+   unsigned pixrow,pixcolumn;
+   HyperMat Img;
+   unsigned r,g,b;
+   sip_get_rhs_tru_img(nv,&Img,fname);
+   assert(Img.sc.n == 3 && IC_INT32(Img.sc.D)[2] == 3);
+   pixrow = IC_INT32(Img.sc.D)[0];
+   pixcolumn = IC_INT32(Img.sc.D)[1];
+   pixme=pixCreate(pixcolumn,pixrow,32);
+   for (i=0; i< pixrow; i++)
+      for (j=0; j< pixcolumn; j++) {
+         r=PROUND(Quantum, IndexImg3d1(Img.R, i,j,0)*(255));
+         g=PROUND(Quantum, IndexImg3d1(Img.R, i,j,1)*(255));
+         b=PROUND(Quantum, IndexImg3d1(Img.R, i,j,2)*(255));
+         pixSetRGBPixel1(pixme,j,i,r,g,b);
+      }
+   pixWrite("/tmp/case3d.png", pixme, IFF_PNG);
+   pixDestroy(&pixme);
+   return true;
+}
