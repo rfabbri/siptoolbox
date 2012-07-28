@@ -358,3 +358,42 @@ sci_3D_double_hypermat_to_pix(char *fname, int nv)
    pixDestroy(&pixme);
    return true;
 }
+bool
+sci_index_map_to_pix(char *fname, int nv)
+{
+   PIX *pixl;
+   unsigned i,j,imgsize,
+             pixrow,pixcolumn,pixcolors,
+             prval,pgval,pbval,a;
+   int rim, cim, pim, rmap, cmap, pmap;
+
+   GetRhsVar(nv, "d", &rim, &cim, &pim);
+   GetRhsVar(nv+1, "d", &rmap, &cmap, &pmap);
+   if(cmap != 3)
+     sip_error("colormap array must have exactly 3 columns");
+   pixrow=rim;
+   pixcolumn=cim;
+   pixcolors=rmap;
+   pixl=pixCreate(pixcolumn,pixrow,32);
+   unsigned p[pixcolors][3];
+
+   for (i=0; i<pixcolors; i++) {
+     p[i][0] = PROUND(Quantum, stk(pmap)[i] * 255);
+     p[i][1] = PROUND(Quantum, stk(pmap)[i+pixcolors] * 255);
+     p[i][2] = PROUND(Quantum, stk(pmap)[i+2*(pixcolors)] * 255);
+    }
+
+   for (i=0; i< pixrow; i++)
+      for (j=0; j< pixcolumn; j++)
+         {
+			 a = PROUND(Quantum, IndexImgByColInPix(stk(pim),i,j))-1;
+             prval=p[a][0];
+             pgval=p[a][1];
+             pbval=p[a][2];
+             pixSetRGBPixel1(pixs3,j,i,prval,pgval,pbval);
+         }
+
+   pixWrite("/tmp/newboeing.png", pixl, IFF_PNG);
+   pixDestroy(&pixsl);
+   return true;
+}
