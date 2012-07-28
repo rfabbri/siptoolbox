@@ -371,9 +371,9 @@ sci_3D_double_hypermat_to_pix(char *fname, int nv)
    pixme=pixCreate(pixcolumn,pixrow,32);
    for (i=0; i< pixrow; i++)
       for (j=0; j< pixcolumn; j++) {
-         r=PROUND(Quantum, IndexImg3d1(Img.R, i,j,0)*(255));
-         g=PROUND(Quantum, IndexImg3d1(Img.R, i,j,1)*(255));
-         b=PROUND(Quantum, IndexImg3d1(Img.R, i,j,2)*(255));
+         r=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,0)*(255));
+         g=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,1)*(255));
+         b=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,2)*(255));
          pixSetRGBPixel1(pixme,j,i,r,g,b);
       }
    pixWrite("/tmp/case3d.png", pixme, IFF_PNG);
