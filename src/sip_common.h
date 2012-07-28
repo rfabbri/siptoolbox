@@ -87,7 +87,7 @@
 #define IndexImgByCol(M, i, j) M[(i) + (j)*(image->rows)]
 #define IndexImg3d(M, i, j, k) M[(i) + (j)*(image->rows) + \
                                  (k) * (image->rows)*(image->columns)]
-
+#define IndexImgByColInPix(M, i, j) M[(i) + (j)*(pixrow)]
                                  
 // SIP error utility macros
 // - It is useful to print the fname so the source of error is
