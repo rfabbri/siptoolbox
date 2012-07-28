@@ -44,6 +44,7 @@
 static int check_args(char *fname, int opt_pos);
 static bool sci_3D_double_hypermat_to_pix(char *fname, int nv);
 static bool sci_index_map_to_pix(char *fname, int nv);
+static bool sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c);
 /*----------------------------------------------------------
  * int_deskew:
  *     interface for deskew function.
@@ -139,6 +140,7 @@ int_deskew(char *fname)
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
             stat = sci_2D_double_matrix_to_magick(fname, l1, m1, n1, image1, &pix2);
+            stat = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
             if (!stat)
                return false;
             break;
