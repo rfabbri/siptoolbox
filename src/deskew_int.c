@@ -60,7 +60,7 @@ int_deskew(char *fname)
    /* Sip variables */
    HyperMat *Img;
    int   m1, n1,l1, /* for name input argument      */
-         m2, n2,temp, /* for index output argument    */
+         m2, n2,temp, temp1,/* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
          name_rows, name_columns, name,
          nopt, iopos;
@@ -152,7 +152,9 @@ int_deskew(char *fname)
             break;
 
       case ARG_INDEX_MAP:
-            stat = sci_index_map_to_magick(fname, nv, image1, &pix2);
+            temp1 = nv;
+            stat = sci_index_map_to_magick(fname, temp1, image1, &pix2);
+            stat = sci_index_map_to_pix(fname, temp1);
             if (!stat)
                return false;
             nv+=2;
