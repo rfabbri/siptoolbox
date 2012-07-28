@@ -43,6 +43,7 @@
 
 static int check_args(char *fname, int opt_pos);
 static bool sci_3D_double_hypermat_to_pix(char *fname, int nv);
+static bool sci_index_map_to_pix(char *fname, int nv);
 /*----------------------------------------------------------
  * int_deskew:
  *     interface for deskew function.
