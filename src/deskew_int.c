@@ -45,6 +45,7 @@ static int check_args(char *fname, int opt_pos);
 static bool sci_3D_double_hypermat_to_pix(char *fname, int nv);
 static bool sci_index_map_to_pix(char *fname, int nv);
 static bool sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c);
+static bool pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols);
 /*----------------------------------------------------------
  * int_deskew:
  *     interface for deskew function.
