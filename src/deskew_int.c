@@ -280,7 +280,7 @@ int_deskew(char *fname)
    case DirectClass: {
       imgtype = GetImageType(image, &exception);
       if(imgtype == BilevelType) {
-         stat = magick_binary_image_to_double_array(fname,pix1,&l2, m2, n2);
+		 stat = pix_binary_image_to_double_array(fname,pixd,pix1,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
@@ -419,5 +419,30 @@ sci_index_map_to_pix(char *fname, int nv)
 
    pixWrite("/tmp/newboeing.png", pixl, IFF_PNG);
    pixDestroy(&pixsl);
+   return true;
+}
+
+bool
+pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols)
+{
+   int i,j;
+   double *imptr;
+   l_int32 pr,pg,pb;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Binary Image\n\r");
+
+   imptr = (double *)calloc(rows*cols, sizeof(double));
+   if (!imptr)
+     sip_error("unable to alloc memory\n");
+   for (i=0; i < rows; i++)
+      for (j=0; j < cols; j++)
+      {
+		 pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
+         RCbyC(imptr,i,j,rows) = pr/255;
+	 }
+   *dbl_array = imptr;
+   pixWrite("/tmp/pix2bin.bmp", pixme, IFF_BMP);
+   pixDestroy(&pixme);
    return true;
 }
