@@ -45,7 +45,8 @@ static int check_args(char *fname, int opt_pos);
 static bool sci_3D_double_hypermat_to_pix(char *fname, int nv);
 static bool sci_index_map_to_pix(char *fname, int nv);
 static bool sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c);
-static bool pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols);
+static bool pix_binary_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols);
+static bool pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols);
 /*----------------------------------------------------------
  * int_deskew:
  *     interface for deskew function.
@@ -280,12 +281,12 @@ int_deskew(char *fname)
    case DirectClass: {
       imgtype = GetImageType(image, &exception);
       if(imgtype == BilevelType) {
-		 stat = pix_binary_image_to_double_array(fname,pixd,pix1,&l2, m2, n2);
+		 stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
       } else {
-         stat= magick_truecolor_image_to_double_hypermat(fname,pix1,&Img,m2,n2);
+         stat= pix_truecolor_image_to_double_hypermat(fname,pixd,&Img,m2,n2);
          if (!stat) return false;
          CreateHMat(2,Img);
          free_sci_tru_img(&Img);
@@ -423,7 +424,7 @@ sci_index_map_to_pix(char *fname, int nv)
 }
 
 bool
-pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols)
+pix_binary_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols)
 {
    int i,j;
    double *imptr;
