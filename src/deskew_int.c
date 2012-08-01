@@ -415,7 +415,7 @@ sci_index_map_to_pix(char *fname, int nv)
              prval=p[a][0];
              pgval=p[a][1];
              pbval=p[a][2];
-             pixSetRGBPixel1(pixs3,j,i,prval,pgval,pbval);
+             pixSetRGBPixel1(pixs1,j,i,prval,pgval,pbval);
          }
 
    pixWrite("/tmp/newboeing.png", pixl, IFF_PNG);
