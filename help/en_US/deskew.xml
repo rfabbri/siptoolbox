@@ -39,7 +39,7 @@
 <refsection>
 <title>Description</title>
    <para>
- Function <literal>deskew</literal> Deskew function computes the skew angle of a digitized text document by using the Probabilistic Hough Transform and then deskew the given image.</para>
+ Function <literal>deskew</literal> deskews a documented image by first finding the skew angle,which could be found to sufficient accuracy in a few seconds using Postl's variance of line sums (or of differential line sums) with higher speed and Accuracy.It also maximizes, in essence, the variance of differential line sums, where the line sums are the pixel projections taken at different angles. When the angle chosen is equal to the skew angle, the difference in pixel projections on adjacent raster lines, when squared and summed over all raster lines, has a maximum value..</para>
    <programlisting><![CDATA[
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
