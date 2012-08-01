@@ -981,3 +981,26 @@ Create3DDoubleMat(int nPos, int nRow, int nCol, int nCh, double* pData)
 
 
 #endif /* SIP_HAVE_OPENCV ----------------------------------------------------------------------*/
+
+
+/************************************************************
+ * convert SCI matrix to PIX
+************************************************************/
+bool
+sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c)
+{
+   PIX *pix2d;
+   unsigned i, j, pr,
+			 pixrow,pixcolumn;
+   pixrow=r;
+   pixcolumn=c;
+   pix2d=pixCreate(pixcolumn,pixrow,32);
+   for (i=0; i < pixrow; i++)
+      for (j=0; j < pixcolumn; j++) {
+         pr= PROUND(Quantum, (IndexImgByColInPix(stk(p),i,j)-1)*255);    
+         pixSetRGBPixel(pix2d,j,i,pr,pr,pr);
+       }
+   pixWrite("/tmp/pix2d.png", pix2d, IFF_PNG);
+   pixDestroy(&pix2d);
+   return true;
+}
