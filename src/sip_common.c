@@ -984,10 +984,10 @@ Create3DDoubleMat(int nPos, int nRow, int nCol, int nCh, double* pData)
 
 
 /************************************************************
- * convert SCI matrix to PIX
+ * convert SCI 2D double matrix to PIX
 ************************************************************/
-bool
-sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c)
+PIX
+*sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c)
 {
    PIX *pix2d;
    unsigned i, j, pr,
@@ -1000,7 +1000,30 @@ sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c)
          pr= PROUND(Quantum, (IndexImgByColInPix(stk(p),i,j)-1)*255);    
          pixSetRGBPixel(pix2d,j,i,pr,pr,pr);
        }
-   pixWrite("/tmp/pix2d.png", pix2d, IFF_PNG);
-   pixDestroy(&pix2d);
-   return true;
+   return pix2d;
+}
+/************************************************************
+ * convert SCI 3D double hypermatrix to PIX
+************************************************************/
+PIX
+*sci_3D_double_hypermat_to_pix(char *fname, int nv)
+{
+   PIX * pixme;
+   unsigned i,j;
+   unsigned pixrow,pixcolumn;
+   HyperMat Img;
+   unsigned r,g,b;
+   sip_get_rhs_tru_img(nv,&Img,fname);
+   assert(Img.sc.n == 3 && IC_INT32(Img.sc.D)[2] == 3);
+   pixrow = IC_INT32(Img.sc.D)[0];
+   pixcolumn = IC_INT32(Img.sc.D)[1];
+   pixme=pixCreate(pixcolumn,pixrow,32);
+   for (i=0; i< pixrow; i++)
+      for (j=0; j< pixcolumn; j++) {
+         r=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,0)*(255));
+         g=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,1)*(255));
+         b=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,2)*(255));
+         pixSetRGBPixel1(pixme,j,i,r,g,b);
+      }
+   return pixme;
 }
