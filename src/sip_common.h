@@ -191,7 +191,17 @@ bool
 
 /* Scilab <--> Animal I/O */
    animal_grayscale_image_to_double_array(char *fname, Img *img, double **ptr),
-   animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double **ptr);
+   animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double **ptr),
+
+/* PIX <--> Scilab */
+   pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols),
+   pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols);
+
+PIX
+/* Scilab <--> PIX */
+   *sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c),
+   *sci_3D_double_hypermat_to_pix(char *fname, int nv),
+   *sci_index_map_to_pix(char *fname, int nv);
 
 #define sci_2D_double_matrix_to_animal(ptr,r,c,img,pixtype,maxval) { \
    for (i=0; i<(r)*(c); ++i) \
