@@ -1095,3 +1095,36 @@ pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, doubl
    pixDestroy(&pixme);
    return true;
 }
+/************************************************************
+ * convert PIX truecolor image to SCI 3D double hypermatrix
+************************************************************/
+bool
+pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols)
+{
+   int i,j;
+   double factor = 1.0 / MaxRGB;
+   HyperMat *h;
+   l_int32 pr,pg,pb;
+   double prval,pgval,pbval;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Truecolor Image\n\r");
+
+   h = *H = new_sci_tru_img(rows,cols);
+   if (!h)
+      sip_error("unable to alloc memory for the return image\n");
+
+   for (i=0; i < rows; i++)
+      for (j=0; j < cols; j++) {
+		pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
+		prval= (unsigned)pr;
+        pgval= (unsigned)pg;
+        pbval= (unsigned)pb;
+
+        RC3DbyC(h->R,i,j,0,rows,cols) = prval/255;
+        RC3DbyC(h->R,i,j,1,rows,cols) = pgval/255;
+        RC3DbyC(h->R,i,j,2,rows,cols) = pbval/255;
+   }
+   pixDestroy(&pixme);
+   return true;
+}
