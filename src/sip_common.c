@@ -1068,3 +1068,30 @@ PIX
 
    return pixs3;
 }
+/************************************************************
+ * convert PIX to SCI 2D double matrix
+************************************************************/
+bool
+pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols)
+{
+   int i,j;
+   double *imptr;
+   l_int32 pr,pg,pb;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Binary Image\n\r");
+
+   imptr = (double *)calloc(rows*cols, sizeof(double));
+   if (!imptr)
+     sip_error("unable to alloc memory\n");
+   for (i=0; i < rows; i++)
+      for (j=0; j < cols; j++)
+      {
+		 pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
+		 sciprint("pr = %d pg = %d pb = %d i = %d j = %d \r\n",pr,pg,pb,i,j);
+         RCbyC(imptr,i,j,rows) = pr/255;
+	 }
+   *dbl_array = imptr;
+   pixDestroy(&pixme);
+   return true;
+}
