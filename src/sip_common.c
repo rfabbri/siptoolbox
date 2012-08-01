@@ -1128,3 +1128,62 @@ pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, in
    pixDestroy(&pixme);
    return true;
 }
+/************************************************************
+ * convert SCI index map to PIX
+************************************************************/
+bool
+pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv)
+{
+   PIXCMAP *cmapl;
+   int pixrow,pixcolumn,
+       rmap, cmap, rindex,cindex;
+   unsigned i,j,prval,
+       pgval,pbval,count;
+   double ppr,ppg,ppb,*img_index, *map;
+   l_int32 pindex, ival, rval,
+           gval, bval,pr,pg,pb;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Indexed Image\n\r");
+
+   if (pixme  == NULL)
+	  return sciprint("pixs not made");
+
+   pixrow = pixGetHeight(pixme);
+   pixcolumn  = pixGetWidth(pixme);
+   rindex =(unsigned)pixrow;
+   cindex =(unsigned)pixcolumn;
+   cmapl=pixGetColormap(pixme);
+   count = pixcmapGetCount(cmapl);
+   img_index = (double *)calloc(rindex*cindex, sizeof(double));
+
+   if (!img_index)
+      sip_error("unable to alloc memory for output image indexes");
+   for (i=0; i< (unsigned)rindex; i++)
+      for (j=0; j< (unsigned)cindex; j++)
+      {
+	    pixGetPixel(pixme,j,i,&pindex);
+        IndexImgByColInPix(img_index,i,j) = (double)pindex +1;
+	  }
+
+   CreateVarFromPtr(nv++, "d",&rindex,&cindex,&img_index);
+   free(img_index);
+
+   rmap = count; cmap = 3;
+   map = (double *)calloc(rmap*3, sizeof(double));
+   if (!map)
+      sip_error("unable to alloc memory for output colormap");
+   for (i=0; i < (unsigned) rmap; i++) {
+	  pixcmapGetColor(cmapl, i, &rval, &gval, &bval);
+      ppr=(double)rval;
+      ppg=(double)gval;
+      ppb=(double)bval;
+      map[i]        = ppr/255;
+      map[i+rmap]   = ppg/255;
+      map[i+2*rmap] = ppb/255;
+   }
+   CreateVarFromPtr(nv, "d",&rmap,&cmap,&map);  /* colormap */
+
+   free(map);
+   return true;
+}
