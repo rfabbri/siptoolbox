@@ -1129,7 +1129,7 @@ pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, in
    return true;
 }
 /************************************************************
- * convert SCI index map to PIX
+ * convert PIX index map to SCI
 ************************************************************/
 bool
 pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv)
