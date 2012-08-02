@@ -57,6 +57,14 @@
     </para>
     </refsection>
 
+   <refsection><title>Bibliography</title>
+   <para>
+   See http://www.leptonica.com/skew-measurement.html for text on skew
+   measurement. A technical document is available at
+   http://www.leptonica.com/papers/docskew.pdf, and a paper is at http://www.leptonica.com/papers/skew-measurement.pdf
+   </para>
+   </refsection>
+
 <refsection><title>Authors</title><simplelist type="vert">
    <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
    <member>Pallan Madhavan &lt;witness123[at]users.sf.net&gt;</member>
