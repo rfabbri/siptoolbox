@@ -5,7 +5,7 @@
 </info>
 <refnamediv>
   <refname>dewarp</refname>
-  <refpurpose>Dewarp  a given image</refpurpose>
+  <refpurpose>Dewarps  a given image</refpurpose>
 </refnamediv>
   
 <refsynopsisdiv>
@@ -39,7 +39,7 @@
 <refsection>
 <title>Description</title>
    <para>
- Function <literal>dewarp</literal> Dewarp scanned book pages by generating a vertical disparity array based on textlines.</para>
+ Function <literal>dewarp</literal> un-distorts scanned book pages by generating a vertical disparity array based on textlines.</para>
    <programlisting><![CDATA[
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
@@ -61,6 +61,13 @@
     <para><imagedata fileref="../images/dewarp-horiz-disparity.jpg" /> </para>
  </refsection>
 
+   <refsection><title>Bibliography</title>
+   <para>
+   See http://www.leptonica.com/dewarping.html for a brief description of the
+   approach. 
+   </para>
+   </refsection>
+
 <refsection><title>Authors</title><simplelist type="vert">
    <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
    <member>Pallan Madhavan &lt;witness123[at]users.sf.net&gt;</member>
@@ -72,8 +79,8 @@ The latest version of SIP can be found at
 </refsection>
 
 <refsection><title>See Also</title><simplelist type="inline">
+      <member> <link linkend="deskew">deskew</link> </member>
       <member> <link linkend="im2gray">im2gray</link> </member>
-      <member> <link linkend="im2bw">im2bw</link> </member>
 </simplelist>
 </refsection>
 

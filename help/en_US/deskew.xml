@@ -76,7 +76,7 @@ The latest version of SIP can be found at
 </refsection>
 
 <refsection><title>See Also</title><simplelist type="inline">
-      <member> <link linkend="dewarp">im2gray</link> </member>
+      <member> <link linkend="dewarp">dewarp</link> </member>
       <member> <link linkend="im2gray">im2bw</link> </member>
 </simplelist>
 </refsection>
