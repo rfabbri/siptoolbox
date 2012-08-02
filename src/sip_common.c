@@ -1087,12 +1087,10 @@ pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, doubl
    for (i=0; i < rows; i++)
       for (j=0; j < cols; j++)
       {
-		 pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
-		 sciprint("pr = %d pg = %d pb = %d i = %d j = %d \r\n",pr,pg,pb,i,j);
-         RCbyC(imptr,i,j,rows) = pr/255;
+		 pixGetPixel(pixme,j,i,&pr);
+	     RCbyC(imptr,i,j,rows) = ((pr+1)/255)*(-1);
 	 }
    *dbl_array = imptr;
-   pixDestroy(&pixme);
    return true;
 }
 /************************************************************
