@@ -84,12 +84,13 @@
 #define ARG_INDEX_MAP 4
 
 #define IndexImgByRow(M, i, j) M[(j) + (i)*(image->columns)]
+#define IndexImgByRowInPix(M, i, j) M[(j) + (i)*(pixcolumn)]
 #define IndexImgByCol(M, i, j) M[(i) + (j)*(image->rows)]
+#define IndexImgByColInPix(M, i, j) M[(i) + (j)*(pixrow)]
 #define IndexImg3d(M, i, j, k) M[(i) + (j)*(image->rows) + \
                                  (k) * (image->rows)*(image->columns)]
 #define IndexImg3dInPix(M, i, j, k) M[(i) + (j)*(pixrow) + \
                                  (k) * (pixrow)*(pixcolumn)]
-#define IndexImgByColInPix(M, i, j) M[(i) + (j)*(pixrow)]
                                  
 // SIP error utility macros
 // - It is useful to print the fname so the source of error is
