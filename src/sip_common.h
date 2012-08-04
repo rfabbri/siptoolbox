@@ -57,7 +57,7 @@
 #include <time.h>
 #include <sys/types.h>
 #include <magick/api.h>
-
+#include <allheaders.h>
 #ifdef SIP_HAVE_MagickWand
 #include <wand/MagickWand.h>
 #endif
