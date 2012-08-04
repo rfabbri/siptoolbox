@@ -403,6 +403,209 @@ animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double
    return true;
 }
 
+/************************************************************
+ * convert SCI 2D double matrix to PIX
+************************************************************/
+PIX
+*sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c)
+{
+   PIX *pix2d;
+   unsigned i, j, pr,
+			 pixrow,pixcolumn;
+   pixrow=r;
+   pixcolumn=c;
+   pix2d=pixCreate(pixcolumn,pixrow,32);
+   for (i=0; i < pixrow; i++)
+      for (j=0; j < pixcolumn; j++) {
+         pr= PROUND(Quantum, (IndexImgByColInPix(stk(p),i,j)-1)*255);
+         pixSetRGBPixel(pix2d,j,i,pr,pr,pr);
+       }
+   return pix2d;
+}
+/************************************************************
+ * convert SCI 3D double hypermatrix to PIX
+************************************************************/
+PIX
+*sci_3D_double_hypermat_to_pix(char *fname, int nv)
+{
+   PIX * pixme;
+   unsigned i,j;
+   unsigned pixrow,pixcolumn;
+   HyperMat Img;
+   unsigned r,g,b;
+   sip_get_rhs_tru_img(nv,&Img,fname);
+   assert(Img.sc.n == 3 && IC_INT32(Img.sc.D)[2] == 3);
+   pixrow = IC_INT32(Img.sc.D)[0];
+   pixcolumn = IC_INT32(Img.sc.D)[1];
+   pixme=pixCreate(pixcolumn,pixrow,32);
+   for (i=0; i< pixrow; i++)
+      for (j=0; j< pixcolumn; j++) {
+         r=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,0)*(255));
+         g=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,1)*(255));
+         b=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,2)*(255));
+         pixSetRGBPixel1(pixme,j,i,r,g,b);
+      }
+   return pixme;
+}
+/************************************************************
+ * convert SCI index map to PIX
+************************************************************/
+PIX
+*sci_index_map_to_pix(char *fname, int nv)
+{
+   PIX *pixs3; //Pix defined
+   unsigned i,j,imgsize,
+             pixrow,pixcolumn,pixcolors,
+             prval,pgval,pbval,a;
+   int rim, cim, pim, rmap, cmap, pmap;
+
+   GetRhsVar(nv, "d", &rim, &cim, &pim);
+   GetRhsVar(nv+1, "d", &rmap, &cmap, &pmap);
+   if(cmap != 3)
+     sip_error("colormap array must have exactly 3 columns");
+   pixrow=rim;
+   pixcolumn=cim;
+   pixcolors=rmap;
+   pixs3=pixCreate(pixcolumn,pixrow,32);
+   unsigned p[pixcolors][3];
+
+   for (i=0; i<pixcolors; i++) {
+     p[i][0] = PROUND(Quantum, stk(pmap)[i] * 255);
+     p[i][1] = PROUND(Quantum, stk(pmap)[i+pixcolors] * 255);
+     p[i][2] = PROUND(Quantum, stk(pmap)[i+2*(pixcolors)] * 255);
+    }
+
+
+   for (i=0; i< pixrow; i++)
+      for (j=0; j< pixcolumn; j++)
+         {
+			 a = PROUND(Quantum, IndexImgByColInPix(stk(pim),i,j))-1;
+             prval=p[a][0];
+             pgval=p[a][1];
+             pbval=p[a][2];
+             pixSetRGBPixel1(pixs3,j,i,prval,pgval,pbval);
+         }
+
+   return pixs3;
+}
+/************************************************************
+ * convert PIX to SCI 2D double matrix
+************************************************************/
+bool
+pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols)
+{
+   int i,j;
+   double *imptr;
+   l_int32 pr,pg,pb;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Binary Image\n\r");
+
+   imptr = (double *)calloc(rows*cols, sizeof(double));
+   if (!imptr)
+     sip_error("unable to alloc memory\n");
+   for (i=0; i < rows; i++)
+      for (j=0; j < cols; j++)
+      {
+		 pixGetPixel(pixme,j,i,&pr);
+	     RCbyC(imptr,i,j,rows) = ((pr+1)/255)*(-1);
+	 }
+   *dbl_array = imptr;
+   return true;
+}
+/************************************************************
+ * convert PIX truecolor image to SCI 3D double hypermatrix
+************************************************************/
+bool
+pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols)
+{
+   int i,j;
+   double factor = 1.0 / MaxRGB;
+   HyperMat *h;
+   l_int32 pr,pg,pb;
+   double prval,pgval,pbval;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Truecolor Image\n\r");
+
+   h = *H = new_sci_tru_img(rows,cols);
+   if (!h)
+      sip_error("unable to alloc memory for the return image\n");
+
+   for (i=0; i < rows; i++)
+      for (j=0; j < cols; j++) {
+		pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
+		prval= (unsigned)pr;
+        pgval= (unsigned)pg;
+        pbval= (unsigned)pb;
+
+        RC3DbyC(h->R,i,j,0,rows,cols) = prval/255;
+        RC3DbyC(h->R,i,j,1,rows,cols) = pgval/255;
+        RC3DbyC(h->R,i,j,2,rows,cols) = pbval/255;
+   }
+   pixDestroy(&pixme);
+   return true;
+}
+/************************************************************
+ * convert PIX index map to SCI
+************************************************************/
+bool
+pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv)
+{
+   PIXCMAP *cmapl;
+   int pixrow,pixcolumn,
+       rmap, cmap, rindex,cindex;
+   unsigned i,j,prval,
+       pgval,pbval,count;
+   double ppr,ppg,ppb,*img_index, *map;
+   l_int32 pindex, ival, rval,
+           gval, bval,pr,pg,pb;
+
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Indexed Image\n\r");
+
+   if (pixme  == NULL)
+	  return sciprint("pixs not made");
+
+   pixrow = pixGetHeight(pixme);
+   pixcolumn  = pixGetWidth(pixme);
+   rindex =(unsigned)pixrow;
+   cindex =(unsigned)pixcolumn;
+   cmapl=pixGetColormap(pixme);
+   count = pixcmapGetCount(cmapl);
+   img_index = (double *)calloc(rindex*cindex, sizeof(double));
+
+   if (!img_index)
+      sip_error("unable to alloc memory for output image indexes");
+   for (i=0; i< (unsigned)rindex; i++)
+      for (j=0; j< (unsigned)cindex; j++)
+      {
+	    pixGetPixel(pixme,j,i,&pindex);
+        IndexImgByColInPix(img_index,i,j) = (double)pindex +1;
+	  }
+
+   CreateVarFromPtr(nv++, "d",&rindex,&cindex,&img_index);
+   free(img_index);
+
+   rmap = count; cmap = 3;
+   map = (double *)calloc(rmap*3, sizeof(double));
+   if (!map)
+      sip_error("unable to alloc memory for output colormap");
+   for (i=0; i < (unsigned) rmap; i++) {
+	  pixcmapGetColor(cmapl, i, &rval, &gval, &bval);
+      ppr=(double)rval;
+      ppg=(double)gval;
+      ppb=(double)bval;
+      map[i]        = ppr/255;
+      map[i+rmap]   = ppg/255;
+      map[i+2*rmap] = ppb/255;
+   }
+   CreateVarFromPtr(nv, "d",&rmap,&cmap,&map);  /* colormap */
+
+   free(map);
+   return true;
+}
+
 #ifdef SIP_HAVE_OPENCV  /* ----------------------------------------------------------------------*/
 
 /************************************************************
@@ -982,206 +1185,3 @@ Create3DDoubleMat(int nPos, int nRow, int nCol, int nCh, double* pData)
 
 #endif /* SIP_HAVE_OPENCV ----------------------------------------------------------------------*/
 
-
-/************************************************************
- * convert SCI 2D double matrix to PIX
-************************************************************/
-PIX
-*sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c)
-{
-   PIX *pix2d;
-   unsigned i, j, pr,
-			 pixrow,pixcolumn;
-   pixrow=r;
-   pixcolumn=c;
-   pix2d=pixCreate(pixcolumn,pixrow,32);
-   for (i=0; i < pixrow; i++)
-      for (j=0; j < pixcolumn; j++) {
-         pr= PROUND(Quantum, (IndexImgByColInPix(stk(p),i,j)-1)*255);    
-         pixSetRGBPixel(pix2d,j,i,pr,pr,pr);
-       }
-   return pix2d;
-}
-/************************************************************
- * convert SCI 3D double hypermatrix to PIX
-************************************************************/
-PIX
-*sci_3D_double_hypermat_to_pix(char *fname, int nv)
-{
-   PIX * pixme;
-   unsigned i,j;
-   unsigned pixrow,pixcolumn;
-   HyperMat Img;
-   unsigned r,g,b;
-   sip_get_rhs_tru_img(nv,&Img,fname);
-   assert(Img.sc.n == 3 && IC_INT32(Img.sc.D)[2] == 3);
-   pixrow = IC_INT32(Img.sc.D)[0];
-   pixcolumn = IC_INT32(Img.sc.D)[1];
-   pixme=pixCreate(pixcolumn,pixrow,32);
-   for (i=0; i< pixrow; i++)
-      for (j=0; j< pixcolumn; j++) {
-         r=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,0)*(255));
-         g=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,1)*(255));
-         b=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,2)*(255));
-         pixSetRGBPixel1(pixme,j,i,r,g,b);
-      }
-   return pixme;
-}
-/************************************************************
- * convert SCI index map to PIX
-************************************************************/
-PIX
-*sci_index_map_to_pix(char *fname, int nv)
-{
-   PIX *pixs3; //Pix defined
-   unsigned i,j,imgsize,
-             pixrow,pixcolumn,pixcolors,
-             prval,pgval,pbval,a;
-   int rim, cim, pim, rmap, cmap, pmap;
-
-   GetRhsVar(nv, "d", &rim, &cim, &pim);
-   GetRhsVar(nv+1, "d", &rmap, &cmap, &pmap);
-   if(cmap != 3)
-     sip_error("colormap array must have exactly 3 columns");
-   pixrow=rim;
-   pixcolumn=cim;
-   pixcolors=rmap;
-   pixs3=pixCreate(pixcolumn,pixrow,32);
-   unsigned p[pixcolors][3];
-
-   for (i=0; i<pixcolors; i++) {
-     p[i][0] = PROUND(Quantum, stk(pmap)[i] * 255);
-     p[i][1] = PROUND(Quantum, stk(pmap)[i+pixcolors] * 255);
-     p[i][2] = PROUND(Quantum, stk(pmap)[i+2*(pixcolors)] * 255);
-    }
-
-
-   for (i=0; i< pixrow; i++)
-      for (j=0; j< pixcolumn; j++)
-         {
-			 a = PROUND(Quantum, IndexImgByColInPix(stk(pim),i,j))-1;
-             prval=p[a][0];
-             pgval=p[a][1];
-             pbval=p[a][2];
-             pixSetRGBPixel1(pixs3,j,i,prval,pgval,pbval);
-         }
-
-   return pixs3;
-}
-/************************************************************
- * convert PIX to SCI 2D double matrix
-************************************************************/
-bool
-pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols)
-{
-   int i,j;
-   double *imptr;
-   l_int32 pr,pg,pb;
-
-   if (sip_verbose == SIP_WORDY)
-      sciprint("Binary Image\n\r");
-
-   imptr = (double *)calloc(rows*cols, sizeof(double));
-   if (!imptr)
-     sip_error("unable to alloc memory\n");
-   for (i=0; i < rows; i++)
-      for (j=0; j < cols; j++)
-      {
-		 pixGetPixel(pixme,j,i,&pr);
-	     RCbyC(imptr,i,j,rows) = ((pr+1)/255)*(-1);
-	 }
-   *dbl_array = imptr;
-   return true;
-}
-/************************************************************
- * convert PIX truecolor image to SCI 3D double hypermatrix
-************************************************************/
-bool
-pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols)
-{
-   int i,j;
-   double factor = 1.0 / MaxRGB;
-   HyperMat *h;
-   l_int32 pr,pg,pb;
-   double prval,pgval,pbval;
-
-   if (sip_verbose == SIP_WORDY)
-      sciprint("Truecolor Image\n\r");
-
-   h = *H = new_sci_tru_img(rows,cols);
-   if (!h)
-      sip_error("unable to alloc memory for the return image\n");
-
-   for (i=0; i < rows; i++)
-      for (j=0; j < cols; j++) {
-		pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
-		prval= (unsigned)pr;
-        pgval= (unsigned)pg;
-        pbval= (unsigned)pb;
-
-        RC3DbyC(h->R,i,j,0,rows,cols) = prval/255;
-        RC3DbyC(h->R,i,j,1,rows,cols) = pgval/255;
-        RC3DbyC(h->R,i,j,2,rows,cols) = pbval/255;
-   }
-   pixDestroy(&pixme);
-   return true;
-}
-/************************************************************
- * convert PIX index map to SCI
-************************************************************/
-bool
-pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv)
-{
-   PIXCMAP *cmapl;
-   int pixrow,pixcolumn,
-       rmap, cmap, rindex,cindex;
-   unsigned i,j,prval,
-       pgval,pbval,count;
-   double ppr,ppg,ppb,*img_index, *map;
-   l_int32 pindex, ival, rval,
-           gval, bval,pr,pg,pb;
-
-   if (sip_verbose == SIP_WORDY)
-      sciprint("Indexed Image\n\r");
-
-   if (pixme  == NULL)
-	  return sciprint("pixs not made");
-
-   pixrow = pixGetHeight(pixme);
-   pixcolumn  = pixGetWidth(pixme);
-   rindex =(unsigned)pixrow;
-   cindex =(unsigned)pixcolumn;
-   cmapl=pixGetColormap(pixme);
-   count = pixcmapGetCount(cmapl);
-   img_index = (double *)calloc(rindex*cindex, sizeof(double));
-
-   if (!img_index)
-      sip_error("unable to alloc memory for output image indexes");
-   for (i=0; i< (unsigned)rindex; i++)
-      for (j=0; j< (unsigned)cindex; j++)
-      {
-	    pixGetPixel(pixme,j,i,&pindex);
-        IndexImgByColInPix(img_index,i,j) = (double)pindex +1;
-	  }
-
-   CreateVarFromPtr(nv++, "d",&rindex,&cindex,&img_index);
-   free(img_index);
-
-   rmap = count; cmap = 3;
-   map = (double *)calloc(rmap*3, sizeof(double));
-   if (!map)
-      sip_error("unable to alloc memory for output colormap");
-   for (i=0; i < (unsigned) rmap; i++) {
-	  pixcmapGetColor(cmapl, i, &rval, &gval, &bval);
-      ppr=(double)rval;
-      ppg=(double)gval;
-      ppb=(double)bval;
-      map[i]        = ppr/255;
-      map[i+rmap]   = ppg/255;
-      map[i+2*rmap] = ppb/255;
-   }
-   CreateVarFromPtr(nv, "d",&rmap,&cmap,&map);  /* colormap */
-
-   free(map);
-   return true;
-}
