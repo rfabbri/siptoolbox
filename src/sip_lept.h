@@ -1,3 +1,4 @@
+/*All modified leptonica functions are defined here*/
 #include <stdio.h>
 #include <allheaders.h>
 #include <math.h>
