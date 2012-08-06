@@ -132,8 +132,10 @@ int_deskew(char *fname)
    image_info1->depth= (unsigned long) *stk(opts[0].l);
    image_info1->quality= (unsigned long) *stk(opts[1].l);
    image1=AllocateImage(image_info1);
-
+   pix_depth = (unsigned long) *stk(opts[0].l);
+   pix_quality = (unsigned long) *stk(opts[1].l);
    nv = 1;
+   let=0;
    switch (argtype) {
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
