@@ -233,33 +233,39 @@ int_deskew(char *fname)
    n2 = (unsigned)pixGetWidth(pixd);
    imgsize = m2 * n2;
 
-   switch(image->storage_class) {
-   case DirectClass: {
-      imgtype = GetImageType(image, &exception);
-      if(imgtype == BilevelType) {
-		 stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
+   switch(let) {
+   case 1: {
+	     stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
-      } else {
+         m1 = n1 = 0;
+         CreateVar(3,"d",&m1,&n1,&l1);
+         break;
+   }
+
+   case 2: {
          stat= pix_truecolor_image_to_double_hypermat(fname,pixd,&Img,m2,n2);
          if (!stat) return false;
          CreateHMat(2,Img);
          free_sci_tru_img(&Img);
-      }
-      m1 = n1 = 0;
-      CreateVar(3,"d",&m1,&n1,&l1);
-      break;
+         m1 = n1 = 0;
+         CreateVar(3,"d",&m1,&n1,&l1);
+         break;
    }
-   case PseudoClass:   {
-      stat= magick_index_map_to_sci_dbl(fname,image,2);
+
+   case 3: {
+	  pixd = pixConvertRGBToColormap(pixd,1);
+      stat= pix_index_map_to_sci_dbl(fname,pixd,2);
       if (!stat) return false;
       break;
    }
+
    default:
       sip_error("unknown color class");
       break;
    }
+
    LhsVar(1) = 2;
    LhsVar(2) = 3;
 
