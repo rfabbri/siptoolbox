@@ -26,6 +26,8 @@
 #include <math.h>
 #include "sip_common.h"
 #include <allheaders.h>
+#include <sip_lept.h>
+
     /* deskew */
 #define   DESKEW_REDUCTION      2      /* 1, 2 or 4 */
 
