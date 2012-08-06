@@ -76,21 +76,20 @@ int_deskew(char *fname)
    /* Other variables */
    unsigned long  imgsize;
    short int argtype;
-   char str1[1000];
 
    /* Leptonica variable */
-   char        *filein, *fileout;
+   char        *fileout;
    l_int32      ret;
    l_float32    deg2rad;
    l_float32    angle, conf, score;
-   PIX         *pix, *pixs, *pixd;
+   PIX         *pix, *pixs, *pixd, *pixmn;
+   l_int32      pix_depth,pix_quality;
+   fileout="/tmp/help.png";
 
    /* ImageMagick variables */
    ExceptionInfo  exception,exception1;
    Image          *image,*image1;
    ImageInfo      *image_info,*image_info1;
-   PixelPacket    *pix1,*pix2;
-   ImageType      imgtype;
 
    /* -- Deal with the arguments -- */
    nopt = NumOpt();
