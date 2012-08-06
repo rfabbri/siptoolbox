@@ -233,31 +233,6 @@ int_deskew(char *fname)
    n2 = (unsigned)pixGetWidth(pixd);
    imgsize = m2 * n2;
 
-   if (image == (Image *) NULL) {
-      /* clean up */
-      if(exception.reason != NULL) {
-         char errmsg[50];
-         for (i=0; i<49; i++)
-            errmsg[i]=' ';
-         errmsg[49]='\0';
-         strncpy(errmsg,GetLocaleExceptionMessage(exception.severity,exception.reason),50);
-         DestroyImageInfo(image_info);
-         DestroyExceptionInfo(&exception);
-         DestroyMagick();
-         sip_error(errmsg);
-      }
-      DestroyImageInfo(image_info);
-      DestroyExceptionInfo(&exception);
-      DestroyMagick();
-      sip_error("unknown reason");
-   }
-
-   m2 = image->rows; n2 = image->columns;
-   imgsize = m2 * n2;
-   pix1=GetImagePixels(image, 0, 0, n2, m2);
-   if(pix1 == (PixelPacket *) NULL)
-      SIP_MAGICK_ERROR;
-
    switch(image->storage_class) {
    case DirectClass: {
       imgtype = GetImageType(image, &exception);
