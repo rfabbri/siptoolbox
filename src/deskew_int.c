@@ -224,7 +224,7 @@ int_deskew(char *fname)
    /* Initialize the image info structure and read an image.  */
    InitializeMagick(NULL);
    GetExceptionInfo(&exception);
-   image_info=CloneImageInfo((ImageInfo *) NULL);
+   image_info=CloneImageInfo(image_info1);
    (void) strncpy(image_info->filename,fileout,MaxTextExtent);
 
    image=ReadImage(image_info,&exception);
