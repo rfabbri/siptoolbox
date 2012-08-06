@@ -270,12 +270,16 @@ int_deskew(char *fname)
    LhsVar(2) = 3;
 
    DestroyImageInfo(image_info);
+   DestroyImageInfo(image_info1);
    DestroyImage(image);
+   DestroyImage(image1);
    DestroyExceptionInfo(&exception);
+   DestroyExceptionInfo(&exception1);
    DestroyMagick();
+   pixDestroy(&pixmn);
+   pixDestroy(&pixd);
    pixDestroy(&pixs);
    pixDestroy(&pix);
-   pixDestroy(&pixd);
    return true;
 }
 
