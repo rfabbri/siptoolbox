@@ -44,6 +44,7 @@
 #define   SEARCH_MIN_DELTA      0.01   /* degrees */
 
 static int check_args(char *fname, int opt_pos);
+
 /*----------------------------------------------------------
  * int_deskew:
  *     interface for deskew function.
@@ -60,10 +61,9 @@ int_deskew(char *fname)
    /* Sip variables */
    HyperMat *Img;
    int   m1, n1,l1, /* for name input argument      */
-         m2, n2,temp, temp1,/* for index output argument    */
-         minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
-         name_rows, name_columns, name,
-         nopt, iopos;
+         m2, n2,   /* for index output argument    */
+         minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, let,
+         rindex, cindex, nopt, iopos;
    double *l2;
    static rhs_opts opts[]= {
          {-1,"depth","d",0,0,0},
