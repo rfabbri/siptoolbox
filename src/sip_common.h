@@ -92,6 +92,12 @@
                                  (k) * (image->rows)*(image->columns)]
 #define IndexImg3dInPix(M, i, j, k) M[(i) + (j)*(pixrow) + \
                                  (k) * (pixrow)*(pixcolumn)]
+
+/* (Row, Col) indexing of 1D arrays in Pix*/
+#define RCbyRInPix(a,i,j,pixcolumn) a[(j) + (i)*pixcolumn]
+#define RCbyCInPix(a,i,j,pixrow) a[(i) + (j)*pixrow]
+#define RC3DbyCInPix(a,i,j,k,pixrow,pixcolumn) a[(i) + (j)*(pixrow) + \
+                                         (k) * (pixrow)*(pixcolumn)]
                                  
 // SIP error utility macros
 // - It is useful to print the fname so the source of error is
