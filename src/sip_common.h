@@ -196,7 +196,7 @@ bool
 
 /* PIX <--> Scilab */
    pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols),
-   pix_binary_image_to_double_array(char *fname, PIX *pixme, PixelPacket *pix, double **dbl_array, int rows, int cols),
+   pix_binary_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols),
    pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv);
 PIX
 /* Scilab <--> PIX */
