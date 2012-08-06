@@ -157,33 +157,23 @@ int_deskew(char *fname)
             return false;
    }
 
-   /* -- write the image-- */
-   filein="/tmp/help.png";
-   (void) strncpy(image1->filename,filein,MaxTextExtent);
-   if (WriteImage(image_info1,image1) == 0)
-      SIP_MAGICK_ERROR;
-   /* --/tmp/help.png will serve as the input image for
-    * leptonica's deskew function and thus to get an output image-- */
-
-   DestroyImageInfo(image_info1);
-   DestroyExceptionInfo(&exception1);
-   DestroyImage(image1);
-   DestroyMagick();
-
-   fileout = filein;
+   /*Deskew Function in SIP*/
+   pixs=NULL;
    pixd = NULL;
-   if ((pixs = pixRead(filein)) == NULL)
-	return sciprint("pixs not made");
+   if ((pixs = pixCopy(pixs,pixmn)) == NULL)
+      return sciprint("pixs not made");
+
+   rindex=pixGetHeight(pixs);
+   cindex=pixGetWidth(pixs);
 
    pix = pixConvertTo1(pixs, 130);
-   pixWrite("/tmp/binarized.tif", pix, IFF_TIFF_G4);
-   pixFindSkew(pix, &angle, &conf);
+   pixSipFindSkew(pix, &angle, &conf);
 
    sciprint("     pixFindSkew()\n\r");
    sciprint("           conf: %5.3f\n\r", conf);
    sciprint("          angle: %7.3f degrees\n\r\n", angle);
 
-   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
+   pixSipFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
@@ -193,7 +183,7 @@ int_deskew(char *fname)
    sciprint("          angle: %7.3f degrees\n\r", angle);
    sciprint("          score: %f\n\r\n", score);
 
-   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
+   pixSipFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
                                         SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
@@ -205,19 +195,16 @@ int_deskew(char *fname)
    sciprint("          score: %f\n\r\n", score);
 
    /* Use top-level */
-   pixd = pixDeskew(pixs, 0);
-   pixWriteImpliedFormat(fileout, pixd, 0, 0);
-
-   #if 0
+   pixd = pixSipDeskew(pixs, 0);
+  #if 0
    /* Do it piecemeal; fails if outside the range */
    if (pixGetDepth(pixs) == 1) {
-        pixd = pixDeskew(pix, DESKEW_REDUCTION);
-        pixWrite(fileout, pixd, IFF_PNG);
+        pixd = pixSipDeskew(pix, DESKEW_REDUCTION);
    }
    else {
-        ret = pixFindSkewSweepAndSearch(pix, &angle, &conf, SWEEP_REDUCTION2,
-                                        SEARCH_REDUCTION, SWEEP_RANGE2,
-                                        SWEEP_DELTA2, SEARCH_MIN_DELTA);
+        ret = pixSipFindSkewSweepAndSearch(pix, &angle, &conf, SWEEP_REDUCTION2,
+                                           SEARCH_REDUCTION, SWEEP_RANGE2,
+                                           SWEEP_DELTA2, SEARCH_MIN_DELTA);
    if (ret)
             sciprint("skew angle not valid");
        else {
@@ -228,7 +215,6 @@ int_deskew(char *fname)
                                  L_BRING_IN_WHITE, 0, 0);
             else
             pixd = pixClone(pixs);
-            pixWrite(fileout, pixd, IFF_PNG);
             pixDestroy(&pixd);
         }
    }
