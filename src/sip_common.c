@@ -403,6 +403,8 @@ animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double
    return true;
 }
 
+/* ---------------------------Interface functions for SIP and Leptonica------------------------------------*/
+
 /************************************************************
  * convert SCI 2D double matrix to PIX
 ************************************************************/
@@ -443,7 +445,7 @@ PIX
          r=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,0)*(255));
          g=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,1)*(255));
          b=PROUND(Quantum, IndexImg3dInPix(Img.R, i,j,2)*(255));
-         pixSetRGBPixel1(pixme,j,i,r,g,b);
+         pixSetRGBPixel(pixme,j,i,r,g,b);
       }
    return pixme;
 }
@@ -483,7 +485,7 @@ PIX
              prval=p[a][0];
              pgval=p[a][1];
              pbval=p[a][2];
-             pixSetRGBPixel1(pixs3,j,i,prval,pgval,pbval);
+             pixSetRGBPixel(pixs3,j,i,prval,pgval,pbval);
          }
 
    return pixs3;
@@ -492,7 +494,7 @@ PIX
  * convert PIX to SCI 2D double matrix
 ************************************************************/
 bool
-pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, double **dbl_array, int rows, int cols)
+pix_binary_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols)
 {
    int i,j;
    double *imptr;
@@ -508,7 +510,7 @@ pix_binary_image_to_double_array(char *fname, PIX *pixme,PixelPacket *pix, doubl
       for (j=0; j < cols; j++)
       {
 		 pixGetPixel(pixme,j,i,&pr);
-	     RCbyC(imptr,i,j,rows) = ((pr+1)/255)*(-1);
+	     RCbyCInPix(imptr,i,j,rows) = ((pr+1)/255)*(-1);
 	 }
    *dbl_array = imptr;
    return true;
@@ -539,11 +541,10 @@ pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, in
         pgval= (unsigned)pg;
         pbval= (unsigned)pb;
 
-        RC3DbyC(h->R,i,j,0,rows,cols) = prval/255;
-        RC3DbyC(h->R,i,j,1,rows,cols) = pgval/255;
-        RC3DbyC(h->R,i,j,2,rows,cols) = pbval/255;
+        RC3DbyCInPix(h->R,i,j,0,rows,cols) = prval/255;
+        RC3DbyCInPix(h->R,i,j,1,rows,cols) = pgval/255;
+        RC3DbyCInPix(h->R,i,j,2,rows,cols) = pbval/255;
    }
-   pixDestroy(&pixme);
    return true;
 }
 /************************************************************
@@ -605,6 +606,8 @@ pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv)
    free(map);
    return true;
 }
+
+/* ---------------------------Interface functions for SIP and Leptonica------------------------------------*/
 
 #ifdef SIP_HAVE_OPENCV  /* ----------------------------------------------------------------------*/
 
