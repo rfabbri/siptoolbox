@@ -219,6 +219,7 @@ int_deskew(char *fname)
         }
    }
    #endif
+   pixWrite(fileout, pixd, IFF_PNG);
 
    /* Initialize the image info structure and read an image.  */
    InitializeMagick(NULL);
@@ -227,6 +228,10 @@ int_deskew(char *fname)
    (void) strncpy(image_info->filename,fileout,MaxTextExtent);
 
    image=ReadImage(image_info,&exception);
+
+   m2 = (unsigned)pixGetHeight(pixd);
+   n2 = (unsigned)pixGetWidth(pixd);
+   imgsize = m2 * n2;
 
    if (image == (Image *) NULL) {
       /* clean up */
