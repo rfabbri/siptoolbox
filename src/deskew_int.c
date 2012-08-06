@@ -139,27 +139,19 @@ int_deskew(char *fname)
    switch (argtype) {
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
-            stat = sci_2D_double_matrix_to_magick(fname, l1, m1, n1, image1, &pix2);
-            stat = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
-            if (!stat)
-               return false;
+            pixmn = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
+            let = 1;
             break;
 
       case ARG_3D:
-            temp = nv++;
-            stat = sci_3D_double_hypermat_to_magick(fname,temp,image1,&pix2);
-            stat = sci_3D_double_hypermat_to_pix(fname,temp);
-            if (!stat)
-               return false;
+            pixmn = sci_3D_double_hypermat_to_pix(fname,nv++);
+            let = 2;
             break;
 
       case ARG_INDEX_MAP:
-            temp1 = nv;
-            stat = sci_index_map_to_magick(fname, temp1, image1, &pix2);
-            stat = sci_index_map_to_pix(fname, temp1);
-            if (!stat)
-               return false;
+            pixmn = sci_index_map_to_pix(fname, nv);
             nv+=2;
+            let = 3;
             break;
       default:
             return false;
