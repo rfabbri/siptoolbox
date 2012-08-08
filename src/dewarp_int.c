@@ -109,38 +109,33 @@ int_dewarp(char *fname)
    } else if ( *stk(opts[1].l) < 0 || *stk(opts[1].l) > 100)
       sip_error("quality must be in range 0-100")
 
-
     /* -- Pass scilab structures to Leptonica -- */
-
+   let=0;
    nv = 1;
    switch (argtype) {
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
-            stat = sci_2D_double_matrix_to_magick(fname, l1, m1, n1, image1, &pix2);
-            if (!stat)
-               return false;
+            pixmn = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
+            let = 1;
             break;
 
       case ARG_3D:
-            stat = sci_3D_double_hypermat_to_magick(fname,nv++,image1,&pix2);
-            if (!stat)
-               return false;
+            pixmn = sci_3D_double_hypermat_to_pix(fname,nv++);
+            let = 2;
             break;
 
       case ARG_INDEX_MAP:
-            stat = sci_index_map_to_magick(fname, nv, image1, &pix2);
-            if (!stat)
-               return false;
-            nv+=2;
+            pixmn = sci_index_map_to_pix(fname, nv);
+            let = 3;
             break;
       default:
             return false;
    }
 
-   fileout = "/tmp/pixv.png";
-
-   pixs = pixRead(filein);
-
+   if((pixs = pixCopy(pixs,pxmn))==NULL){
+	   sciprint("pixs not made\r\n");
+	   return false;
+	   }
    /* Normalize for varying background and binarize */
    pixn = pixBackgroundNormSimple(pixs, NULL, NULL);
    pixg = pixConvertRGBToGray(pixn, 0.5, 0.3, 0.2);
