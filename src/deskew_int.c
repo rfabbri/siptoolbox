@@ -26,7 +26,6 @@
 #include <math.h>
 #include "sip_common.h"
 #include <allheaders.h>
-#include <sip_lept.h>
 
     /* deskew */
 #define   DESKEW_REDUCTION      2      /* 1, 2 or 4 */
@@ -85,11 +84,6 @@ int_deskew(char *fname)
    PIX         *pix, *pixs, *pixd, *pixmn;
    l_int32      pix_depth,pix_quality;
    fileout="/tmp/help.png";
-
-   /* ImageMagick variables */
-   ExceptionInfo  exception,exception1;
-   Image          *image,*image1;
-   ImageInfo      *image_info,*image_info1;
 
    /* -- Deal with the arguments -- */
    nopt = NumOpt();
