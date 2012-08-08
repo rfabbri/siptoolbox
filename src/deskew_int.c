@@ -150,13 +150,13 @@ int_deskew(char *fname)
    cindex=pixGetWidth(pixs);
 
    pix = pixConvertTo1(pixs, 130);
-   pixSipFindSkew(pix, &angle, &conf);
+   pixFindSkew(pix, &angle, &conf);
 
    sciprint("     pixFindSkew()\n\r");
    sciprint("           conf: %5.3f\n\r", conf);
    sciprint("          angle: %7.3f degrees\n\r\n", angle);
 
-   pixSipFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
+   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
@@ -166,7 +166,7 @@ int_deskew(char *fname)
    sciprint("          angle: %7.3f degrees\n\r", angle);
    sciprint("          score: %f\n\r\n", score);
 
-   pixSipFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
+   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
                                         SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
@@ -178,14 +178,14 @@ int_deskew(char *fname)
    sciprint("          score: %f\n\r\n", score);
 
    /* Use top-level */
-   pixd = pixSipDeskew(pixs, 0);
+   pixd = pixDeskew(pixs, 0);
   #if 0
    /* Do it piecemeal; fails if outside the range */
    if (pixGetDepth(pixs) == 1) {
-        pixd = pixSipDeskew(pix, DESKEW_REDUCTION);
+        pixd = pixDeskew(pix, DESKEW_REDUCTION);
    }
    else {
-        ret = pixSipFindSkewSweepAndSearch(pix, &angle, &conf, SWEEP_REDUCTION2,
+        ret = pixFindSkewSweepAndSearch(pix, &angle, &conf, SWEEP_REDUCTION2,
                                            SEARCH_REDUCTION, SWEEP_RANGE2,
                                            SWEEP_DELTA2, SEARCH_MIN_DELTA);
    if (ret)
