@@ -77,13 +77,8 @@ int_dewarp(char *fname)
    PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd;
    PTA       *pta, *ptad;
    PTAA      *ptaa1, *ptaa2;
-
-    /* ImageMagick variables */
-   ExceptionInfo  exception,exception1;
-   Image          *image,*image1;
-   ImageInfo      *image_info,*image_info1;
-   PixelPacket    *pix1,*pix2;
-   ImageType      imgtype;
+   
+   int stat2=0,stat1=0;
 
    /* -- Deal with the arguments -- */
    nopt = NumOpt();
@@ -115,19 +110,7 @@ int_dewarp(char *fname)
       sip_error("quality must be in range 0-100")
 
 
-    /* -- Pass scilab structures to IM -- */
-
-   InitializeMagick(NULL);
-   GetExceptionInfo(&exception1);
-   image_info1=CloneImageInfo((ImageInfo *) NULL);
-
-   image_info1->colorspace = RGBColorspace; // @@@ maybe to take this off
-   image_info1->monochrome = 0;
-   image_info1->dither = 0;  // Imagemagick sets this as true by default.
-                            // But this changes binary images too much.
-   image_info1->depth= (unsigned long) *stk(opts[0].l);
-   image_info1->quality= (unsigned long) *stk(opts[1].l);
-   image1=AllocateImage(image_info1);
+    /* -- Pass scilab structures to Leptonica -- */
 
    nv = 1;
    switch (argtype) {
@@ -154,18 +137,6 @@ int_dewarp(char *fname)
             return false;
    }
 
-   /* -- write the image-- */
-   filein="/tmp/help.png";
-   (void) strncpy(image1->filename,filein,MaxTextExtent);
-   if (WriteImage(image_info1,image1) == 0)
-      SIP_MAGICK_ERROR;
-
-   /* --/tmp/help.png will serve as the input image for
-    * leptonica's deskew function and thus to get an output image-- */
-   DestroyImageInfo(image_info1);
-   DestroyExceptionInfo(&exception1);
-   DestroyImage(image1);
-   DestroyMagick();
    fileout = "/tmp/pixv.png";
 
    pixs = pixRead(filein);
@@ -288,31 +259,6 @@ int_dewarp(char *fname)
    pixWriteImpliedFormat(fileout, pixdw, 0, 0);
 
    /* Initialize the image info structure and read an image.  */
-   InitializeMagick(NULL);
-   GetExceptionInfo(&exception);
-   image_info=CloneImageInfo((ImageInfo *) NULL);
-   (void) strncpy(image_info->filename,fileout,MaxTextExtent);
-
-   image=ReadImage(image_info,&exception);
-
-   if (image == (Image *) NULL) {
-      /* clean up */
-      if(exception.reason != NULL) {
-         char errmsg[50];
-         for (i=0; i<49; i++)
-            errmsg[i]=' ';
-         errmsg[49]='\0';
-         strncpy(errmsg,GetLocaleExceptionMessage(exception.severity,exception.reason),50);
-         DestroyImageInfo(image_info);
-         DestroyExceptionInfo(&exception);
-         DestroyMagick();
-         sip_error(errmsg);
-      }
-      DestroyImageInfo(image_info);
-      DestroyExceptionInfo(&exception);
-      DestroyMagick();
-      sip_error("unknown reason");
-   }
     m2 = image->rows; n2 = image->columns;
 
    if (sip_verbose == SIP_WORDY)
@@ -355,10 +301,6 @@ int_dewarp(char *fname)
    LhsVar(1) = 2;
    LhsVar(2) = 3;
 
-   DestroyImageInfo(image_info);
-   DestroyImage(image);
-   DestroyExceptionInfo(&exception);
-   DestroyMagick();
    pixDestroy(&pixs);
    pixDestroy(&pixn);
    pixDestroy(&pixg);
