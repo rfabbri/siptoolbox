@@ -115,17 +115,6 @@ int_deskew(char *fname)
       sip_error("quality must be in range 0-100")
        /* -- Pass scilab structures to IM -- */
 
-   InitializeMagick(NULL);
-   GetExceptionInfo(&exception1);
-   image_info1=CloneImageInfo((ImageInfo *) NULL);
-
-   image_info1->colorspace = RGBColorspace; // @@@ maybe to take this off
-   image_info1->monochrome = 0;
-   image_info1->dither = 0;  // Imagemagick sets this as true by default.
-                            // But this changes binary images too much.
-   image_info1->depth= (unsigned long) *stk(opts[0].l);
-   image_info1->quality= (unsigned long) *stk(opts[1].l);
-   image1=AllocateImage(image_info1);
    pix_depth = (unsigned long) *stk(opts[0].l);
    pix_quality = (unsigned long) *stk(opts[1].l);
    nv = 1;
@@ -215,14 +204,6 @@ int_deskew(char *fname)
    #endif
    pixWrite(fileout, pixd, IFF_PNG);
 
-   /* Initialize the image info structure and read an image.  */
-   InitializeMagick(NULL);
-   GetExceptionInfo(&exception);
-   image_info=CloneImageInfo(image_info1);
-   (void) strncpy(image_info->filename,fileout,MaxTextExtent);
-
-   image=ReadImage(image_info,&exception);
-
    m2 = (unsigned)pixGetHeight(pixd);
    n2 = (unsigned)pixGetWidth(pixd);
    imgsize = m2 * n2;
@@ -263,13 +244,6 @@ int_deskew(char *fname)
    LhsVar(1) = 2;
    LhsVar(2) = 3;
 
-   DestroyImageInfo(image_info);
-   DestroyImageInfo(image_info1);
-   DestroyImage(image);
-   DestroyImage(image1);
-   DestroyExceptionInfo(&exception);
-   DestroyExceptionInfo(&exception1);
-   DestroyMagick();
    pixDestroy(&pixmn);
    pixDestroy(&pixd);
    pixDestroy(&pixs);
