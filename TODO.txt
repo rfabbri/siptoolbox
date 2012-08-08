@@ -2,6 +2,8 @@ Please visist the "Pending" section at the SIP development home page:
       http://siptoolbox.sourceforge.net
 
 
+
+
 TODO
 - use double buffering the new way. see beginning comment of sip-intro.dem
 - write a help intro
@@ -9,6 +11,21 @@ TODO
   executed with "play".
 - fix some help links in the see also sections
 - write help for sip_exec
+
+
+Leptonica Todo's (Including Google Summer of Code 2012)
+----------------
+- unsupervised classification of connected components, characters and words;
+- digit recognition.
+- a simple jbig2-type classifier, using various distance
+      metrics between image components (correlation, rank
+      hausdorff); see prog/jbcorrelation.c, prog/jbrankhaus.c
+- a simple color segmenter, giving a smoothed image
+      with a small number of the most significant colors.
+- wordsinorder: detects words in a binary image (document understanding)
+  - cool to check out if it works in arbitrary orientations
+- 
+
 
 
 Current bugs (with Scilab 5.3 Ubuntu 11.04)
