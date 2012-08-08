@@ -52,12 +52,12 @@
 
 
 #include <stack-c.h>
-
+#include <api_scilab.h>
 #include <stdio.h>
 #include <time.h>
 #include <sys/types.h>
 #include <magick/api.h>
-
+#include <allheaders.h>
 #ifdef SIP_HAVE_MagickWand
 #include <wand/MagickWand.h>
 #endif
@@ -84,10 +84,19 @@
 #define ARG_INDEX_MAP 4
 
 #define IndexImgByRow(M, i, j) M[(j) + (i)*(image->columns)]
+#define IndexImgByRowInPix(M, i, j) M[(j) + (i)*(pixcolumn)]
 #define IndexImgByCol(M, i, j) M[(i) + (j)*(image->rows)]
+#define IndexImgByColInPix(M, i, j) M[(i) + (j)*(pixrow)]
 #define IndexImg3d(M, i, j, k) M[(i) + (j)*(image->rows) + \
                                  (k) * (image->rows)*(image->columns)]
+#define IndexImg3dInPix(M, i, j, k) M[(i) + (j)*(pixrow) + \
+                                 (k) * (pixrow)*(pixcolumn)]
 
+/* (Row, Col) indexing of 1D arrays in Pix*/
+#define RCbyRInPix(a,i,j,pixcolumn) a[(j) + (i)*pixcolumn]
+#define RCbyCInPix(a,i,j,pixrow) a[(i) + (j)*pixrow]
+#define RC3DbyCInPix(a,i,j,k,pixrow,pixcolumn) a[(i) + (j)*(pixrow) + \
+                                         (k) * (pixrow)*(pixcolumn)]
                                  
 // SIP error utility macros
 // - It is useful to print the fname so the source of error is
@@ -189,7 +198,17 @@ bool
 
 /* Scilab <--> Animal I/O */
    animal_grayscale_image_to_double_array(char *fname, Img *img, double **ptr),
-   animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double **ptr);
+   animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double **ptr),
+
+/* PIX <--> Scilab */
+   pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols),
+   pix_binary_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols),
+   pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv);
+PIX
+/* Scilab <--> PIX */
+   *sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c),
+   *sci_3D_double_hypermat_to_pix(char *fname, int nv),
+   *sci_index_map_to_pix(char *fname, int nv);
 
 #define sci_2D_double_matrix_to_animal(ptr,r,c,img,pixtype,maxval) { \
    for (i=0; i<(r)*(c); ++i) \

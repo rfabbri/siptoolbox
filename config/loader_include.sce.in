@@ -5,6 +5,8 @@ libsip_path=libsip_path + '/lib';
 functions=[ 'imread';
             'imwrite';
             'imfinfo';
+            'deskew';
+            'dewarp';
             'imvariance';
             'sip_unwrapl_c';
             'sip_unwrapp_c';

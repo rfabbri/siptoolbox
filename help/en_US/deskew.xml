@@ -10,24 +10,27 @@
   
 <refsynopsisdiv>
   <title>Calling Sequence</title>
-      <synopsis>Image = deskew(filename)</synopsis>
-      <synopsis>[d,image] = deskew('image')</synopsis>
+      <synopsis>Image = deskew(image)</synopsis>
 </refsynopsisdiv>
   
 <refsection>
 <title>Parameters</title>
 <variablelist>
       <varlistentry>
-      <term>image</term>
+      <term>Image</term>
       <listitem>
-      M x N x 3 true color image in the 0-1 range
+      For truecolor images, this is a MxNx3 matrix in range 0-1 (double
+         precision); For binary images, image is a MxNx1 matrix (0=black and
+         1=white).
       </listitem> 
       </varlistentry>
       
       <varlistentry>
-      <term>d</term>
+      <term>image</term>
       <listitem>
-      M x 3 color map
+      For truecolor images, this is a MxNx3 matrix in range 0-1 (double
+         precision); For binary images, image is a MxNx1 matrix (0=black and
+         1=white).
       </listitem> 
       </varlistentry>
 </variablelist>
@@ -36,22 +39,35 @@
 <refsection>
 <title>Description</title>
    <para>
- Function <literal>deskew</literal> Deskew function computes the skew angle of a digitized text document by using the Probabilistic Hough Transform and then deskew the given image.</para>
+ Function <literal>deskew</literal> deskews a documented image by first finding the skew angle,which could be found to sufficient accuracy in a few seconds using Postl's variance of line sums (or of differential line sums) with higher speed and Accuracy.It also maximizes, in essence, the variance of differential line sums, where the line sums are the pixel projections taken at different angles. When the angle chosen is equal to the skew angle, the difference in pixel projections on adjacent raster lines, when squared and summed over all raster lines, has a maximum value..</para>
    <programlisting><![CDATA[
        initial_dir = PWD;
        chdir (SIPDIR + 'images');
      
-       Img = imread('tru.jpg');
-       [d,image]= deskew(Img);
+       img = imread('pde.jpg');
+       Img = deskew(img);
        clf;
-       imshow(d,image);
+       imshow(Img);
        
        chdir(initial_dir);
  ]]></programlisting>
- </refsection>
+
+    <para><emphasis role="bold">The result of the preceding example, Original Image (left) and Deskewed Image (right):</emphasis></para>
+    <para><imagedata fileref="../images/deskew_original.jpg" /> <imagedata fileref="../images/deskew_processed.jpg" />
+    </para>
+    </refsection>
+
+   <refsection><title>Bibliography</title>
+   <para>
+   See http://www.leptonica.com/skew-measurement.html for text on skew
+   measurement. A technical document is available at
+   http://www.leptonica.com/papers/docskew.pdf, and a paper is at http://www.leptonica.com/papers/skew-measurement.pdf
+   </para>
+   </refsection>
 
 <refsection><title>Authors</title><simplelist type="vert">
    <member>Ricardo Fabbri &lt;ricardofabbri[at]users.sf.net&gt;</member>
+   <member>Pallan Madhavan &lt;witness123[at]users.sf.net&gt;</member>
 </simplelist></refsection>
 
 <refsection><title>Availability</title>
@@ -60,7 +76,7 @@ The latest version of SIP can be found at
 </refsection>
 
 <refsection><title>See Also</title><simplelist type="inline">
-      <member> <link linkend="dewarp">im2gray</link> </member>
+      <member> <link linkend="dewarp">dewarp</link> </member>
       <member> <link linkend="im2gray">im2bw</link> </member>
 </simplelist>
 </refsection>
