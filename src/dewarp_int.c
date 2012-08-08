@@ -136,15 +136,29 @@ int_dewarp(char *fname)
 	   sciprint("pixs not made\r\n");
 	   return false;
 	   }
+
    /* Normalize for varying background and binarize */
    pixn = pixBackgroundNormSimple(pixs, NULL, NULL);
    pixg = pixConvertRGBToGray(pixn, 0.5, 0.3, 0.2);
    pixb = pixThresholdToBinary(pixg, 130);
 
    /* Run the basic functions */
-   dew = dewarpCreate(pixb, 7, 30, 15, 1);
-   dewarpBuildModel(dew, 1);
-   dewarpApplyDisparity(dew, pixg, 1);
+   if((dew = dewarpCreate(pixb, 7, 30, 15, 1))==NULL){
+	    sciprint("Unable to create dewarp\r\n");
+		return false;
+	}
+
+   stat2 =  dewarpBuildModel(dew, 1);
+   if(stat2!=0){
+	    sciprint("pixs not made\r\n");
+		return false;
+	}
+
+   stat1=dewarpApplyDisparity(dew, pixg, 1);
+	if(stat1!=0){
+	    sciprint("pixs not made\r\n");
+		return false;
+	}
 
    /* Save the intermediate dewarped images */
    pixv = pixRead("/tmp/pixv.png");
