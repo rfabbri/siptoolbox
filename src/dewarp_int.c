@@ -49,7 +49,7 @@ int_dewarp(char *fname)
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,    /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
-         name_rows, name_columns, name,
+         name_rows, name_columns, name, let,
          nopt, iopos;
    double *l2;
    static rhs_opts opts[]= {
@@ -74,10 +74,10 @@ int_dewarp(char *fname)
    FPIX      *fpix;
    NUMA      *nax, *nay, *nafit;
    PIX       *pixs, *pixn, *pixg, *pixb, *pixt1, *pixt2, *pixt3, *pixdw;
-   PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd;
+   PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd, *pixmn;
    PTA       *pta, *ptad;
    PTAA      *ptaa1, *ptaa2;
-   
+
    int stat2=0,stat1=0;
 
    /* -- Deal with the arguments -- */
@@ -166,13 +166,17 @@ int_dewarp(char *fname)
 
    /* Normalize another image, that doesn't have enough textlines
          * to build an accurate model */
-   pixs2 = pixRead(filein);
+   pixs2 = pixCopy(pixs2,pixmn);
    pixn2 = pixBackgroundNormSimple(pixs2, NULL, NULL);
    pixg2 = pixConvertRGBToGray(pixn2, 0.5, 0.3, 0.2);
    pixb2 = pixThresholdToBinary(pixg2, 130);
 
    /* Apply the previous disparity model to this image */
-   dewarpApplyDisparity(dew, pixg2, 1);
+
+   stat1= dewarpApplyDisparity(dew, pixg2, 1);
+   if(stat1!=0)
+		return pixv=NULL;
+
    dewarpDestroy(&dew);
 
    /* Get the textline centers */
@@ -210,99 +214,48 @@ int_dewarp(char *fname)
 
    pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
    pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
-   ptaaDestroy(&ptaa1);
-   ptaaDestroy(&ptaa2);
-   pixDestroy(&pixt2);
+   pixv=pixConvert8To32(pixv);
+   pixd=NULL;
 
-   /* Write out the files to be imaged */
-   lept_mkdir("junkdir");
-   pixWrite("/tmp/junkdir/001.jpg", pixs, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/002.jpg", pixn, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/003.jpg", pixg, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/004.png", pixb, IFF_TIFF_G4);
-   pixt1 = pixRead("/tmp/textline1.png");
-   pixWrite("/tmp/junkdir/005.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/textline2.png");
-   pixWrite("/tmp/junkdir/006.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/lines1.png");
-   pixWrite("/tmp/junkdir/007.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/lines2.png");
-   pixWrite("/tmp/junkdir/008.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/vert-contours.png");
-   pixWrite("/tmp/junkdir/009.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixWrite("/tmp/junkdir/010.png", pixv, IFF_PNG);
-   pixt1 = pixThresholdToBinary(pixv, 130);
-   pixWrite("/tmp/junkdir/011.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/horiz-contours.png");
-   pixWrite("/tmp/junkdir/012.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixWrite("/tmp/junkdir/013.png", pixd, IFF_PNG);
+   /* Initialize the image */
+   if ((pixd=pixCopy(pixd,pixv))  == NULL)
+   {
+	  sciprint("pixs not made");
+      return false;
+   }
 
-   pixt1 = pixThresholdToBinary(pixd, 130);
-   pixWrite("/tmp/junkdir/014.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixWrite("/tmp/junkdir/015.png", pixb, IFF_TIFF_G4);
-
-   /* (these are for the second image) */
-   pixWrite("/tmp/junkdir/016.jpg", pixs2, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/017.png", pixb2, IFF_TIFF_G4);
-   pixt1 = pixRead("/tmp/pixv.png");
-   pixt2 = pixThresholdToBinary(pixt1, 130);
-   pixWrite("/tmp/junkdir/018.png", pixt2, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixDestroy(&pixt2);
-   pixt1 = pixRead("/tmp/pixd.png");
-   pixt2 = pixThresholdToBinary(pixt1, 130);
-   pixWrite("/tmp/junkdir/019.png", pixt2, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixDestroy(&pixt2);
-
-   pixdw = pixRead("/tmp/pixv.png");
-   pixWrite(fileout, pixdw, IFF_PNG);
-   pixWriteImpliedFormat(fileout, pixdw, 0, 0);
-
-   /* Initialize the image info structure and read an image.  */
-    m2 = image->rows; n2 = image->columns;
-
-   if (sip_verbose == SIP_WORDY)
-      sciprint("    Size:\t%ld rows X %ld columns\n\r", m2, n2);
-
+   m2=pixGetHeight(pixd);
+   n2=pixGetWidth(pixd);
    imgsize = m2 * n2;
 
-
-   pix1=GetImagePixels(image, 0, 0, n2, m2);
-   if(pix1 == (PixelPacket *) NULL)
-      SIP_MAGICK_ERROR;
-
-   switch(image->storage_class) {
-   case DirectClass: {
-      imgtype = GetImageType(image, &exception);
-      if(imgtype == BilevelType) {
-         stat = magick_binary_image_to_double_array(fname,pix1,&l2, m2, n2);
+   switch(let) {
+   case 1: {
+	     stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
-      } else {
-         stat= magick_truecolor_image_to_double_hypermat(fname,pix1,&Img,m2,n2);
+         m1 = n1 = 0;
+         CreateVar(3,"d",&m1,&n1,&l1);
+         break;
+   }
+
+   case 2: {
+	     stat= pix_truecolor_image_to_double_hypermat(fname,pixd,&Img,m2,n2);
          if (!stat) return false;
          CreateHMat(2,Img);
          free_sci_tru_img(&Img);
-      }
-      m1 = n1 = 0;
-      CreateVar(3,"d",&m1,&n1,&l1);
-      break;
+         m1 = n1 = 0;
+         CreateVar(3,"d",&m1,&n1,&l1);
+         break;
    }
-   case PseudoClass:   {
-      stat= magick_index_map_to_sci_dbl(fname,image,2);
+
+   case 3: {
+	  pixd = pixConvertRGBToColormap(pixd,1);
+      stat= pix_index_map_to_sci_dbl(fname,pixd,2);
       if (!stat) return false;
       break;
    }
+
    default:
       sip_error("unknown color class");
       break;
@@ -310,6 +263,10 @@ int_dewarp(char *fname)
    LhsVar(1) = 2;
    LhsVar(2) = 3;
 
+   ptaaDestroy(&ptaa1);
+   ptaaDestroy(&ptaa2);
+   pixDestroy(&pixt1);
+   pixDestroy(&pixt2);
    pixDestroy(&pixs);
    pixDestroy(&pixn);
    pixDestroy(&pixg);
@@ -345,4 +302,3 @@ check_args(char *fname, int nopts)
 
    return ARG_INDEX_MAP;
 }
-
