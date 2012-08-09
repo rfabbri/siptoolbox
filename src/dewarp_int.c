@@ -166,13 +166,16 @@ int_dewarp(char *fname)
 
    /* Normalize another image, that doesn't have enough textlines
          * to build an accurate model */
-   pixs2 = pixRead(filein);
+   pixs2 = pixCopy(pixs2,pixmn);
    pixn2 = pixBackgroundNormSimple(pixs2, NULL, NULL);
    pixg2 = pixConvertRGBToGray(pixn2, 0.5, 0.3, 0.2);
    pixb2 = pixThresholdToBinary(pixg2, 130);
 
    /* Apply the previous disparity model to this image */
-   dewarpApplyDisparity(dew, pixg2, 1);
+   stat1= dewarpApplyDisparity(dew, pixg2, 1);
+   if(stat1!=0)
+		return pixv=NULL;
+
    dewarpDestroy(&dew);
 
    /* Get the textline centers */
@@ -207,65 +210,6 @@ int_dewarp(char *fname)
         numaDestroy(&nax);
         numaDestroy(&nafit);
     }
-
-   pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
-   pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
-   ptaaDestroy(&ptaa1);
-   ptaaDestroy(&ptaa2);
-   pixDestroy(&pixt2);
-
-   /* Write out the files to be imaged */
-   lept_mkdir("junkdir");
-   pixWrite("/tmp/junkdir/001.jpg", pixs, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/002.jpg", pixn, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/003.jpg", pixg, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/004.png", pixb, IFF_TIFF_G4);
-   pixt1 = pixRead("/tmp/textline1.png");
-   pixWrite("/tmp/junkdir/005.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/textline2.png");
-   pixWrite("/tmp/junkdir/006.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/lines1.png");
-   pixWrite("/tmp/junkdir/007.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/lines2.png");
-   pixWrite("/tmp/junkdir/008.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/vert-contours.png");
-   pixWrite("/tmp/junkdir/009.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixWrite("/tmp/junkdir/010.png", pixv, IFF_PNG);
-   pixt1 = pixThresholdToBinary(pixv, 130);
-   pixWrite("/tmp/junkdir/011.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixt1 = pixRead("/tmp/horiz-contours.png");
-   pixWrite("/tmp/junkdir/012.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixWrite("/tmp/junkdir/013.png", pixd, IFF_PNG);
-
-   pixt1 = pixThresholdToBinary(pixd, 130);
-   pixWrite("/tmp/junkdir/014.png", pixt1, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixWrite("/tmp/junkdir/015.png", pixb, IFF_TIFF_G4);
-
-   /* (these are for the second image) */
-   pixWrite("/tmp/junkdir/016.jpg", pixs2, IFF_JFIF_JPEG);
-   pixWrite("/tmp/junkdir/017.png", pixb2, IFF_TIFF_G4);
-   pixt1 = pixRead("/tmp/pixv.png");
-   pixt2 = pixThresholdToBinary(pixt1, 130);
-   pixWrite("/tmp/junkdir/018.png", pixt2, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixDestroy(&pixt2);
-   pixt1 = pixRead("/tmp/pixd.png");
-   pixt2 = pixThresholdToBinary(pixt1, 130);
-   pixWrite("/tmp/junkdir/019.png", pixt2, IFF_PNG);
-   pixDestroy(&pixt1);
-   pixDestroy(&pixt2);
-
-   pixdw = pixRead("/tmp/pixv.png");
-   pixWrite(fileout, pixdw, IFF_PNG);
-   pixWriteImpliedFormat(fileout, pixdw, 0, 0);
 
    /* Initialize the image info structure and read an image.  */
     m2 = image->rows; n2 = image->columns;
