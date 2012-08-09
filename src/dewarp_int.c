@@ -210,19 +210,21 @@ int_dewarp(char *fname)
         numaDestroy(&nax);
         numaDestroy(&nafit);
     }
+   pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
+   pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
+   pixv=pixConvert8To32(pixv);
+   pixd=NULL;
 
-   /* Initialize the image info structure and read an image.  */
-    m2 = image->rows; n2 = image->columns;
+   /* Initialize the image */
+   if ((pixd=pixCopy(pixd,pixv))  == NULL)
+   {
+	  sciprint("pixs not made");
+      return false;
+   }
 
-   if (sip_verbose == SIP_WORDY)
-      sciprint("    Size:\t%ld rows X %ld columns\n\r", m2, n2);
-
+   m2=pixGetHeight(pixd);
+   n2=pixGetWidth(pixd);
    imgsize = m2 * n2;
-
-
-   pix1=GetImagePixels(image, 0, 0, n2, m2);
-   if(pix1 == (PixelPacket *) NULL)
-      SIP_MAGICK_ERROR;
 
    switch(image->storage_class) {
    case DirectClass: {
