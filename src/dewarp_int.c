@@ -49,7 +49,7 @@ int_dewarp(char *fname)
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,    /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
-         name_rows, name_columns, name,
+         name_rows, name_columns, name, let,
          nopt, iopos;
    double *l2;
    static rhs_opts opts[]= {
@@ -74,10 +74,10 @@ int_dewarp(char *fname)
    FPIX      *fpix;
    NUMA      *nax, *nay, *nafit;
    PIX       *pixs, *pixn, *pixg, *pixb, *pixt1, *pixt2, *pixt3, *pixdw;
-   PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd;
+   PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd, *pixmn;
    PTA       *pta, *ptad;
    PTAA      *ptaa1, *ptaa2;
-   
+
    int stat2=0,stat1=0;
 
    /* -- Deal with the arguments -- */
@@ -172,6 +172,7 @@ int_dewarp(char *fname)
    pixb2 = pixThresholdToBinary(pixg2, 130);
 
    /* Apply the previous disparity model to this image */
+
    stat1= dewarpApplyDisparity(dew, pixg2, 1);
    if(stat1!=0)
 		return pixv=NULL;
@@ -210,6 +211,7 @@ int_dewarp(char *fname)
         numaDestroy(&nax);
         numaDestroy(&nafit);
     }
+
    pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
    pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
    pixv=pixConvert8To32(pixv);
@@ -229,7 +231,7 @@ int_dewarp(char *fname)
    switch(let) {
    case 1: {
 	     stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
-	     if (!stat) return false;
+         if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
          m1 = n1 = 0;
@@ -300,4 +302,3 @@ check_args(char *fname, int nopts)
 
    return ARG_INDEX_MAP;
 }
-
