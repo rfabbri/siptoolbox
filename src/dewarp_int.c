@@ -62,11 +62,9 @@ int_dewarp(char *fname)
 
    /* Other variables */
    unsigned long  imgsize;
-   char str1[1000];
    short int argtype;
 
    /* leptonica variables */
-   char        *filein, *fileout;
    l_int32    j, n, ignore;
    l_float32  a, b, c, d, e;
    L_DEWARP  *dew;
@@ -131,8 +129,9 @@ int_dewarp(char *fname)
       default:
             return false;
    }
+   pixs=NULL;
 
-   if((pixs = pixCopy(pixs,pxmn))==NULL){
+   if((pixs = pixCopy(pixs,pixmn))==NULL){
 	   sciprint("pixs not made\r\n");
 	   return false;
 	   }
@@ -150,7 +149,7 @@ int_dewarp(char *fname)
 
    stat2 =  dewarpBuildModel(dew, 1);
    if(stat2!=0){
-	    sciprint("pixs not made\r\n");
+	    sciprint("Unable to build dewarp Model\r\n");
 		return false;
 	}
 
@@ -166,7 +165,13 @@ int_dewarp(char *fname)
 
    /* Normalize another image, that doesn't have enough textlines
          * to build an accurate model */
-   pixs2 = pixCopy(pixs2,pixmn);
+   pixs2 = NULL;
+    if ((pixs2 = pixCopy(pixs2,pixmn)) == NULL){
+
+		sciprint("pixs not made");
+       return false;
+     }
+
    pixn2 = pixBackgroundNormSimple(pixs2, NULL, NULL);
    pixg2 = pixConvertRGBToGray(pixn2, 0.5, 0.3, 0.2);
    pixb2 = pixThresholdToBinary(pixg2, 130);
@@ -175,7 +180,7 @@ int_dewarp(char *fname)
 
    stat1= dewarpApplyDisparity(dew, pixg2, 1);
    if(stat1!=0)
-		return pixv=NULL;
+		return pixdw=NULL;
 
    dewarpDestroy(&dew);
 
@@ -214,11 +219,15 @@ int_dewarp(char *fname)
 
    pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
    pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
-   pixv=pixConvert8To32(pixv);
+
+   /* Write out the files to be imaged */
+   pixdw=NULL;
+   pixdw=pixConvert8To32(pixv);
+
    pixd=NULL;
 
    /* Initialize the image */
-   if ((pixd=pixCopy(pixd,pixv))  == NULL)
+   if ((pixd=pixCopy(pixd,pixdw))  == NULL)
    {
 	  sciprint("pixs not made");
       return false;
