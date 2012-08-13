@@ -3,6 +3,12 @@ Copyright (C) 2002-2012 Ricardo Fabbri
 __________________________________________________________________
 
 
+0.10.0
+	+ Merged in contributions from Google summer of Code 2012
+	+ New dewarp function to remove distortion from document images taken at close
+	range and with page curvature. Requires Leptonica.
+	+ New deskew function to deskew document images. Requires Leptonica.
+
 0.9.0
 	+ initial leptonica support thanks to Pallan Madhavan
 	+ imshow now works with newer scilab master branch
