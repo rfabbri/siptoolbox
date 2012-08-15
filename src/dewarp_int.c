@@ -147,14 +147,14 @@ int_dewarp(char *fname)
 		return false;
 	}
 
-   stat2 =  dewarpBuildModel(dew, 1);
-   if(stat2!=0){
+   stat1 =  dewarpBuildModel(dew, 1);
+   if(stat1!=0){
 	    sip_error("Unable to build dewarp Model\r\n");
 		return false;
 	}
 
-   stat1=dewarpApplyDisparity(dew, pixg, 1);
-	if(stat1!=0){
+   stat2 = dewarpApplyDisparity(dew, pixg, 1);
+	if(stat2!=0){
 	    sip_error("Unable to apply disparity on pixs\r\n");
 		return false;
 	}
@@ -163,33 +163,12 @@ int_dewarp(char *fname)
    pixv = pixRead("/tmp/pixv.png");
    pixd = pixRead("/tmp/pixd.png");
 
-   /* Normalize another image, that doesn't have enough textlines
-         * to build an accurate model */
-   pixs2 = NULL;
-    if ((pixs2 = pixCopy(pixs2,pixmn)) == NULL){
-
-		sip_error("pixs not made");
-       return false;
-     }
-
-   pixn2 = pixBackgroundNormSimple(pixs2, NULL, NULL);
-   pixg2 = pixConvertRGBToGray(pixn2, 0.5, 0.3, 0.2);
-   pixb2 = pixThresholdToBinary(pixg2, 130);
-
-   /* Apply the previous disparity model to this image */
-
-   stat1= dewarpApplyDisparity(dew, pixg2, 1);
-   if(stat1!=0)
-		return pixdw=NULL;
-
    dewarpDestroy(&dew);
 
    /* Get the textline centers */
    ptaa1 = pixGetTextlineCenters(pixb, 0);
    pixt1 = pixCreateTemplate(pixs);
    pixt2 = pixDisplayPtaa(pixt1, ptaa1);
-   pixWrite("/tmp/textline1.png", pixt2, IFF_PNG);
-   pixDisplayWithTitle(pixt2, 500, 100, "textline centers", 1);
    pixDestroy(&pixt1);
 
    /* Remove short lines */
@@ -215,14 +194,10 @@ int_dewarp(char *fname)
         numaDestroy(&nafit);
     }
 
-   pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
-   pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
-
-   /* Write out the files to be imaged */
+   /* Converting 8bpp to 32bpp pixs */
    pixdw=NULL;
-   pixdw=pixConvert8To32(pixv);
-
    pixd=NULL;
+   pixdw=pixConvert8To32(pixv);
 
    /* Initialize the image */
    if ((pixd=pixCopy(pixd,pixdw))  == NULL)
