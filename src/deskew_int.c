@@ -62,7 +62,7 @@ int_deskew(char *fname)
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,   /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, let,
-         rindex, cindex, nopt, iopos;
+         rindex, cindex, nopt, iopos, stat1, stat2, stat3;
    double *l2;
    static rhs_opts opts[]= {
          {-1,"depth","d",0,0,0},
@@ -140,37 +140,51 @@ int_deskew(char *fname)
    }
 
    /*Deskew Function in SIP*/
-   pixs=NULL;
+   pixs = NULL;
    pixd = NULL;
    if ((pixs = pixCopy(pixs,pixmn)) == NULL){
       sip_error("Unable to create pixs");
       return false;
    }
 
-   rindex=pixGetHeight(pixs);
-   cindex=pixGetWidth(pixs);
+   rindex = pixGetHeight(pixs);
+   cindex = pixGetWidth(pixs);
 
    /*binarizes pixs to pix*/
    pix = pixConvertTo1(pixs, 130);
 
    /*Finds the skew angle for pix*/
-   pixFindSkew(pix, &angle, &conf);
+   stat1 = pixFindSkew(pix, &angle, &conf);
+   if(stat1!=0){
+	    sciprint("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
+		return false;
+	}
 
    /*Finds skew sweep and Score pivot about corner*/
-   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
+   stat2 = pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
-
+   if(stat2!=0){
+	    sciprint("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
+		return false;
+	}
    /*Finds skew sweep and Score pivot about center*/
-   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
+   stat3 = pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
                                         SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CENTER);
-
+	if(stat3!=0){
+	    sciprint("Unable to Find SkewSweep and Search Score pivot about Center\r\n");
+		return false;
+	}
    /* Use top-level */
    pixd = pixDeskew(pixs, 0);
+   if (pixd == NULL){
+      sip_error("Unable to Deskew the image");
+      return false;
+   }
   #if 0
    /* Do it piecemeal; fails if outside the range */
    if (pixGetDepth(pixs) == 1) {
