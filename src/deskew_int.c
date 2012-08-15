@@ -150,14 +150,19 @@ int_deskew(char *fname)
    rindex=pixGetHeight(pixs);
    cindex=pixGetWidth(pixs);
 
+   /*binarizes pixs to pix*/
    pix = pixConvertTo1(pixs, 130);
+
+   /*Finds the skew angle for pix*/
    pixFindSkew(pix, &angle, &conf);
 
+   /*Finds skew sweep and Score pivot about corner*/
    pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
 
+   /*Finds skew sweep and Score pivot about center*/
    pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
                                         SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
@@ -187,7 +192,6 @@ int_deskew(char *fname)
         }
    }
    #endif
-   pixWrite(fileout, pixd, IFF_PNG);
 
    m2 = (unsigned)pixGetHeight(pixd);
    n2 = (unsigned)pixGetWidth(pixd);
