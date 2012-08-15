@@ -153,30 +153,16 @@ int_deskew(char *fname)
    pix = pixConvertTo1(pixs, 130);
    pixFindSkew(pix, &angle, &conf);
 
-   sciprint("     pixFindSkew()\n\r");
-   sciprint("           conf: %5.3f\n\r", conf);
-   sciprint("          angle: %7.3f degrees\n\r\n", angle);
-
    pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
-
-   sciprint("    pixFind...Pivot(about corner):\n\r");
-   sciprint("           conf: %5.3f\n\r", conf);
-   sciprint("          angle: %7.3f degrees\n\r", angle);
-   sciprint("          score: %f\n\r\n", score);
 
    pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
                                         SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CENTER);
-
-   sciprint("    pixFind...Pivot(about center)\n\r");
-   sciprint("           conf: %5.3f\n\r", conf);
-   sciprint("          angle: %7.3f degrees\n\r", angle);
-   sciprint("          score: %f\n\r\n", score);
 
    /* Use top-level */
    pixd = pixDeskew(pixs, 0);
@@ -190,10 +176,8 @@ int_deskew(char *fname)
                                            SEARCH_REDUCTION, SWEEP_RANGE2,
                                            SWEEP_DELTA2, SEARCH_MIN_DELTA);
    if (ret)
-            sciprint("skew angle not valid");
+            sip_error("skew angle not valid");
        else {
-            sciprint("           conf: %5.3f\n\r", conf);
-            sciprint("          angle: %7.3f degrees\n\r\n", angle);
             if (conf > 2.5)
                 pixd = pixRotate(pixs, angle * deg2rad, L_ROTATE_AREA_MAP,
                                  L_BRING_IN_WHITE, 0, 0);
