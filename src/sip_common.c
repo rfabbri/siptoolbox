@@ -491,6 +491,25 @@ PIX
    return pixs3;
 }
 /************************************************************
+ * convert SCI 2D gray double matrix to PIX
+************************************************************/
+PIX
+*sci_2D_gray_double_matrix_to_pix(char *fname, int p, int r, int c)
+{
+   PIX *pix2d;
+   unsigned i, j, pr,
+			 pixrow,pixcolumn;
+   pixrow=r;
+   pixcolumn=c;
+   pix2d=pixCreate(pixcolumn,pixrow,32);
+   for (i=0; i < pixrow; i++)
+      for (j=0; j < pixcolumn; j++) {
+         pr= PROUND(Quantum, (IndexImgByColInPix(stk(p),i,j))*255);
+         pixSetRGBPixel(pix2d,j,i,pr,pr,pr);
+       }
+   return pix2d;
+}
+/************************************************************
  * convert PIX to SCI 2D double matrix
 ************************************************************/
 bool
