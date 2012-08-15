@@ -626,7 +626,34 @@ pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv)
    return true;
 }
 
-/* ---------------------------Interface functions for SIP and Leptonica------------------------------------*/
+/************************************************************
+ * convert PIX Gray to SCI 2D double matrix
+************************************************************/
+bool
+pix_gray_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols)
+{
+   int i,j;
+   double *imptr,prval;
+   l_int32 pr,pg,pb;
+   if (sip_verbose == SIP_WORDY)
+      sciprint("Gray scale image\n\r");
+
+   imptr = (double *)calloc(rows*cols, sizeof(double));
+   if (!imptr)
+     sip_error("unable to alloc memory\n");
+   for (i=0; i < rows; i++){
+      for (j=0; j < cols; j++)
+      {
+		 pixGetRGBPixel(pixme,j,i,&pr,&pg,&pb);
+		 prval= (unsigned)pr;
+		 RCbyCInPix(imptr,i,j,rows) = (double)prval/255;
+	 }
+	}
+   *dbl_array = imptr;
+   return true;
+}
+
+/* ---------------------------End of Interface functions for SIP and Leptonica----------------------------------*/
 
 #ifdef SIP_HAVE_OPENCV  /* ----------------------------------------------------------------------*/
 
