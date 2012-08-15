@@ -210,7 +210,8 @@ PIX
 /* Scilab <--> PIX */
    *sci_2D_double_matrix_to_pix(char *fname, int p, int r, int c),
    *sci_3D_double_hypermat_to_pix(char *fname, int nv),
-   *sci_index_map_to_pix(char *fname, int nv);
+   *sci_index_map_to_pix(char *fname, int nv),
+   *sci_2D_gray_double_matrix_to_pix(char *fname, int p, int r, int c);
 
 #define sci_2D_double_matrix_to_animal(ptr,r,c,img,pixtype,maxval) { \
    for (i=0; i<(r)*(c); ++i) \
