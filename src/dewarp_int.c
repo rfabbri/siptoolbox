@@ -132,7 +132,7 @@ int_dewarp(char *fname)
    pixs=NULL;
 
    if((pixs = pixCopy(pixs,pixmn))==NULL){
-	   sciprint("pixs not made\r\n");
+	   sip_error("pixs not made\r\n");
 	   return false;
 	   }
 
@@ -143,19 +143,19 @@ int_dewarp(char *fname)
 
    /* Run the basic functions */
    if((dew = dewarpCreate(pixb, 7, 30, 15, 1))==NULL){
-	    sciprint("Unable to create dewarp\r\n");
+	    sip("Unable to create dewarp\r\n");
 		return false;
 	}
 
    stat2 =  dewarpBuildModel(dew, 1);
    if(stat2!=0){
-	    sciprint("Unable to build dewarp Model\r\n");
+	    sip_error("Unable to build dewarp Model\r\n");
 		return false;
 	}
 
    stat1=dewarpApplyDisparity(dew, pixg, 1);
 	if(stat1!=0){
-	    sciprint("pixs not made\r\n");
+	    sip_error("Unable to apply disparity on pixs\r\n");
 		return false;
 	}
 
@@ -168,7 +168,7 @@ int_dewarp(char *fname)
    pixs2 = NULL;
     if ((pixs2 = pixCopy(pixs2,pixmn)) == NULL){
 
-		sciprint("pixs not made");
+		sip_error("pixs not made");
        return false;
      }
 
@@ -193,12 +193,10 @@ int_dewarp(char *fname)
    pixDestroy(&pixt1);
 
    /* Remove short lines */
-   sciprint("Num all lines = %d\n", ptaaGetCount(ptaa1));
    ptaa2 = ptaaRemoveShortLines(pixb, ptaa1, 0.8, 0);
 
    /* Fit to curve */
    n = ptaaGetCount(ptaa2);
-   sciprint("Num long lines = %d\n", n);
    for (j = 0; j < n; j++) {
        pta = ptaaGetPta(ptaa2, j, L_CLONE);
        ptaGetArrays(pta, &nax, NULL);
@@ -229,7 +227,7 @@ int_dewarp(char *fname)
    /* Initialize the image */
    if ((pixd=pixCopy(pixd,pixdw))  == NULL)
    {
-	  sciprint("pixs not made");
+	  sip_error("pixs not made");
       return false;
    }
 
