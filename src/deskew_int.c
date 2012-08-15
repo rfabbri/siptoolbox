@@ -77,13 +77,11 @@ int_deskew(char *fname)
    short int argtype;
 
    /* Leptonica variable */
-   char        *fileout;
    l_int32      ret;
    l_float32    deg2rad;
    l_float32    angle, conf, score;
    PIX         *pix, *pixs, *pixd, *pixmn;
    l_int32      pix_depth,pix_quality;
-   fileout="/tmp/help.png";
 
    /* -- Deal with the arguments -- */
    nopt = NumOpt();
