@@ -135,14 +135,17 @@ int_deskew(char *fname)
             let = 3;
             break;
       default:
+            sip_error("Unknown argument type");
             return false;
    }
 
    /*Deskew Function in SIP*/
    pixs=NULL;
    pixd = NULL;
-   if ((pixs = pixCopy(pixs,pixmn)) == NULL)
-      return sciprint("pixs not made");
+   if ((pixs = pixCopy(pixs,pixmn)) == NULL){
+      sip_error("Unable to create pixs");
+      return false;
+   }
 
    rindex=pixGetHeight(pixs);
    cindex=pixGetWidth(pixs);
