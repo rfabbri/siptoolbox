@@ -113,7 +113,7 @@ int_dewarp(char *fname)
    switch (argtype) {
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
-            pixmn = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
+            pixmn = sci_2D_gray_double_matrix_to_pix(fname, l1, m1, n1);
             let = 1;
             break;
 
@@ -239,7 +239,7 @@ int_dewarp(char *fname)
 
    switch(let) {
    case 1: {
-	     stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
+	     stat = pix_gray_image_to_double_array(fname,pixd,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
