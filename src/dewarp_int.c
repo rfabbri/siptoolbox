@@ -253,10 +253,6 @@ int_dewarp(char *fname)
    pixDestroy(&pixn);
    pixDestroy(&pixg);
    pixDestroy(&pixb);
-   pixDestroy(&pixs2);
-   pixDestroy(&pixn2);
-   pixDestroy(&pixg2);
-   pixDestroy(&pixb2);
    pixDestroy(&pixv);
    pixDestroy(&pixd);
    pixDestroy(&pixdw);
