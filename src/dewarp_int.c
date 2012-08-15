@@ -49,8 +49,7 @@ int_dewarp(char *fname)
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,    /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
-         name_rows, name_columns, name, let,
-         nopt, iopos;
+         let, nopt, iopos;
    double *l2;
    static rhs_opts opts[]= {
          {-1,"depth","d",0,0,0},
@@ -61,18 +60,15 @@ int_dewarp(char *fname)
    bool stat;
 
    /* Other variables */
-   unsigned long  imgsize;
    short int argtype;
 
    /* leptonica variables */
-   l_int32    j, n, ignore;
-   l_float32  a, b, c, d, e;
+   l_int32    j, n;
+   l_float32  a, b, c;
    L_DEWARP  *dew;
-   FILE      *fp;
-   FPIX      *fpix;
-   NUMA      *nax, *nay, *nafit;
+   NUMA      *nax, *nafit;
    PIX       *pixs, *pixn, *pixg, *pixb, *pixt1, *pixt2, *pixt3, *pixdw;
-   PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd, *pixmn;
+   PIX       *pixv, *pixd, *pixmn;
    PTA       *pta, *ptad;
    PTAA      *ptaa1, *ptaa2;
 
@@ -208,7 +204,6 @@ int_dewarp(char *fname)
 
    m2=pixGetHeight(pixd);
    n2=pixGetWidth(pixd);
-   imgsize = m2 * n2;
 
    switch(let) {
    case 1: {
