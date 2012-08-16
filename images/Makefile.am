@@ -12,10 +12,10 @@
 ## GNU General Public License for more details.
 ##
 ## You should have received a copy of the GNU General Public License
-## along with this program; if not, write to the Free Software
+## along with this program; if not, write to the Free Softwarepde
 ## Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-images = ararauna.jpg ararauna.png bin.png bin.xpm chapter.jpg disks2.bmp disks.bmp escher.png example.bmp example.png gra.jpg indian.bmp noisypoly.bmp onca.gif onca.png pde.jpg plate.gif r.gif sip.gif star.bmp template.jpg tru.jpg
+images = ararauna.jpg ararauna.png bin.png bin.xpm chapter.jpg chapter.png disks2.bmp disks.bmp escher.png example.bmp example.png gra.jpg indian.bmp noisypoly.bmp onca.gif onca.png pde.jpg pde.png plate.gif r.gif sip.gif star.bmp template.jpg tru.jpg
 imagedir=@TOOLBOXDIR@/images
 image_DATA = $(images) ABOUT.txt
 EXTRA_DIST = $(images) ABOUT.txt
