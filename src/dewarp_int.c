@@ -139,7 +139,7 @@ int_dewarp(char *fname)
 
    /* Run the basic functions */
    if((dew = dewarpCreate(pixb, 7, 30, 15, 1))==NULL){
-	    sip("Unable to create dewarp\r\n");
+	    sip_error("Unable to create dewarp\r\n");
 		return false;
 	}
 

@@ -156,7 +156,7 @@ int_deskew(char *fname)
    /*Finds the skew angle for pix*/
    stat1 = pixFindSkew(pix, &angle, &conf);
    if(stat1!=0){
-	    sci_error("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
+	    sip_error("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
 		return false;
 	}
 
@@ -166,7 +166,7 @@ int_deskew(char *fname)
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
    if(stat2!=0){
-	    sci_error("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
+	    sip_error("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
 		return false;
 	}
    /*Finds skew sweep and Score pivot about center*/
@@ -176,7 +176,7 @@ int_deskew(char *fname)
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CENTER);
 	if(stat3!=0){
-	    sci_error("Unable to Find SkewSweep and Search Score pivot about Center\r\n");
+	    sip_error("Unable to Find SkewSweep and Search Score pivot about Center\r\n");
 		return false;
 	}
    /* Use top-level */
