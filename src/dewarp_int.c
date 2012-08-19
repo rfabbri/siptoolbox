@@ -49,8 +49,7 @@ int_dewarp(char *fname)
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,    /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, i,
-         name_rows, name_columns, name, let,
-         nopt, iopos;
+         let, nopt, iopos;
    double *l2;
    static rhs_opts opts[]= {
          {-1,"depth","d",0,0,0},
@@ -61,18 +60,15 @@ int_dewarp(char *fname)
    bool stat;
 
    /* Other variables */
-   unsigned long  imgsize;
    short int argtype;
 
    /* leptonica variables */
-   l_int32    j, n, ignore;
-   l_float32  a, b, c, d, e;
+   l_int32    j, n;
+   l_float32  a, b, c;
    L_DEWARP  *dew;
-   FILE      *fp;
-   FPIX      *fpix;
-   NUMA      *nax, *nay, *nafit;
+   NUMA      *nax, *nafit;
    PIX       *pixs, *pixn, *pixg, *pixb, *pixt1, *pixt2, *pixt3, *pixdw;
-   PIX       *pixs2, *pixn2, *pixg2, *pixb2, *pixv, *pixd, *pixmn;
+   PIX       *pixv, *pixd, *pixmn;
    PTA       *pta, *ptad;
    PTAA      *ptaa1, *ptaa2;
 
@@ -113,7 +109,7 @@ int_dewarp(char *fname)
    switch (argtype) {
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
-            pixmn = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
+            pixmn = sci_2D_gray_double_matrix_to_pix(fname, l1, m1, n1);
             let = 1;
             break;
 
@@ -132,7 +128,7 @@ int_dewarp(char *fname)
    pixs=NULL;
 
    if((pixs = pixCopy(pixs,pixmn))==NULL){
-	   sciprint("pixs not made\r\n");
+	   sip_error("pixs not made\r\n");
 	   return false;
 	   }
 
@@ -143,19 +139,19 @@ int_dewarp(char *fname)
 
    /* Run the basic functions */
    if((dew = dewarpCreate(pixb, 7, 30, 15, 1))==NULL){
-	    sciprint("Unable to create dewarp\r\n");
+	    sip_error("Unable to create dewarp\r\n");
 		return false;
 	}
 
-   stat2 =  dewarpBuildModel(dew, 1);
-   if(stat2!=0){
-	    sciprint("Unable to build dewarp Model\r\n");
+   stat1 =  dewarpBuildModel(dew, 1);
+   if(stat1!=0){
+	    sip_error("Unable to build dewarp Model\r\n");
 		return false;
 	}
 
-   stat1=dewarpApplyDisparity(dew, pixg, 1);
-	if(stat1!=0){
-	    sciprint("pixs not made\r\n");
+   stat2 = dewarpApplyDisparity(dew, pixg, 1);
+	if(stat2!=0){
+	    sip_error("Unable to apply disparity on pixs\r\n");
 		return false;
 	}
 
@@ -163,42 +159,19 @@ int_dewarp(char *fname)
    pixv = pixRead("/tmp/pixv.png");
    pixd = pixRead("/tmp/pixd.png");
 
-   /* Normalize another image, that doesn't have enough textlines
-         * to build an accurate model */
-   pixs2 = NULL;
-    if ((pixs2 = pixCopy(pixs2,pixmn)) == NULL){
-
-		sciprint("pixs not made");
-       return false;
-     }
-
-   pixn2 = pixBackgroundNormSimple(pixs2, NULL, NULL);
-   pixg2 = pixConvertRGBToGray(pixn2, 0.5, 0.3, 0.2);
-   pixb2 = pixThresholdToBinary(pixg2, 130);
-
-   /* Apply the previous disparity model to this image */
-
-   stat1= dewarpApplyDisparity(dew, pixg2, 1);
-   if(stat1!=0)
-		return pixdw=NULL;
-
    dewarpDestroy(&dew);
 
    /* Get the textline centers */
    ptaa1 = pixGetTextlineCenters(pixb, 0);
    pixt1 = pixCreateTemplate(pixs);
    pixt2 = pixDisplayPtaa(pixt1, ptaa1);
-   pixWrite("/tmp/textline1.png", pixt2, IFF_PNG);
-   pixDisplayWithTitle(pixt2, 500, 100, "textline centers", 1);
    pixDestroy(&pixt1);
 
    /* Remove short lines */
-   sciprint("Num all lines = %d\n", ptaaGetCount(ptaa1));
    ptaa2 = ptaaRemoveShortLines(pixb, ptaa1, 0.8, 0);
 
    /* Fit to curve */
    n = ptaaGetCount(ptaa2);
-   sciprint("Num long lines = %d\n", n);
    for (j = 0; j < n; j++) {
        pta = ptaaGetPta(ptaa2, j, L_CLONE);
        ptaGetArrays(pta, &nax, NULL);
@@ -217,29 +190,24 @@ int_dewarp(char *fname)
         numaDestroy(&nafit);
     }
 
-   pixDisplayWithTitle(pixt2, 700, 100, "fitted lines superimposed", 1);
-   pixWrite("/tmp/textline2.png", pixt2, IFF_PNG);
-
-   /* Write out the files to be imaged */
+   /* Converting 8bpp to 32bpp pixs */
    pixdw=NULL;
-   pixdw=pixConvert8To32(pixv);
-
    pixd=NULL;
+   pixdw=pixConvert8To32(pixv);
 
    /* Initialize the image */
    if ((pixd=pixCopy(pixd,pixdw))  == NULL)
    {
-	  sciprint("pixs not made");
+	  sip_error("pixs not made");
       return false;
    }
 
    m2=pixGetHeight(pixd);
    n2=pixGetWidth(pixd);
-   imgsize = m2 * n2;
 
    switch(let) {
    case 1: {
-	     stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
+	     stat = pix_gray_image_to_double_array(fname,pixd,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);
@@ -280,10 +248,6 @@ int_dewarp(char *fname)
    pixDestroy(&pixn);
    pixDestroy(&pixg);
    pixDestroy(&pixb);
-   pixDestroy(&pixs2);
-   pixDestroy(&pixn2);
-   pixDestroy(&pixg2);
-   pixDestroy(&pixb2);
    pixDestroy(&pixv);
    pixDestroy(&pixd);
    pixDestroy(&pixdw);

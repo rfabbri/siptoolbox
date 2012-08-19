@@ -62,7 +62,7 @@ int_deskew(char *fname)
    int   m1, n1,l1, /* for name input argument      */
          m2, n2,   /* for index output argument    */
          minlhs=1, maxlhs=2, minrhs=1, maxrhs=2, let,
-         rindex, cindex, nopt, iopos;
+         rindex, cindex, nopt, iopos, stat1, stat2, stat3;
    double *l2;
    static rhs_opts opts[]= {
          {-1,"depth","d",0,0,0},
@@ -77,13 +77,11 @@ int_deskew(char *fname)
    short int argtype;
 
    /* Leptonica variable */
-   char        *fileout;
    l_int32      ret;
    l_float32    deg2rad;
    l_float32    angle, conf, score;
    PIX         *pix, *pixs, *pixd, *pixmn;
    l_int32      pix_depth,pix_quality;
-   fileout="/tmp/help.png";
 
    /* -- Deal with the arguments -- */
    nopt = NumOpt();
@@ -122,7 +120,7 @@ int_deskew(char *fname)
    switch (argtype) {
       case ARG_2D:
             GetRhsVar(nv++, "d", &m1, &n1, &l1);
-            pixmn = sci_2D_double_matrix_to_pix(fname, l1, m1, n1);
+            pixmn = sci_2D_gray_double_matrix_to_pix(fname, l1, m1, n1);
             let = 1;
             break;
 
@@ -137,48 +135,56 @@ int_deskew(char *fname)
             let = 3;
             break;
       default:
+            sip_error("Unknown argument type");
             return false;
    }
 
    /*Deskew Function in SIP*/
-   pixs=NULL;
+   pixs = NULL;
    pixd = NULL;
-   if ((pixs = pixCopy(pixs,pixmn)) == NULL)
-      return sciprint("pixs not made");
+   if ((pixs = pixCopy(pixs,pixmn)) == NULL){
+      sip_error("Unable to create pixs");
+      return false;
+   }
 
-   rindex=pixGetHeight(pixs);
-   cindex=pixGetWidth(pixs);
+   rindex = pixGetHeight(pixs);
+   cindex = pixGetWidth(pixs);
 
+   /*binarizes pixs to pix*/
    pix = pixConvertTo1(pixs, 130);
-   pixFindSkew(pix, &angle, &conf);
 
-   sciprint("     pixFindSkew()\n\r");
-   sciprint("           conf: %5.3f\n\r", conf);
-   sciprint("          angle: %7.3f degrees\n\r\n", angle);
+   /*Finds the skew angle for pix*/
+   stat1 = pixFindSkew(pix, &angle, &conf);
+   if(stat1!=0){
+	    sip_error("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
+		return false;
+	}
 
-   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
+   /*Finds skew sweep and Score pivot about corner*/
+   stat2 = pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score, SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CORNER);
-
-   sciprint("    pixFind...Pivot(about corner):\n\r");
-   sciprint("           conf: %5.3f\n\r", conf);
-   sciprint("          angle: %7.3f degrees\n\r", angle);
-   sciprint("          score: %f\n\r\n", score);
-
-   pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
+   if(stat2!=0){
+	    sip_error("Unable to Find SkewSweep and Search Score pivot about Corner\r\n");
+		return false;
+	}
+   /*Finds skew sweep and Score pivot about center*/
+   stat3 = pixFindSkewSweepAndSearchScorePivot(pix, &angle, &conf, &score,
                                         SWEEP_REDUCTION2, SEARCH_REDUCTION,
                                         0.0, SWEEP_RANGE2, SWEEP_DELTA2,
                                         SEARCH_MIN_DELTA,
                                         L_SHEAR_ABOUT_CENTER);
-
-   sciprint("    pixFind...Pivot(about center)\n\r");
-   sciprint("           conf: %5.3f\n\r", conf);
-   sciprint("          angle: %7.3f degrees\n\r", angle);
-   sciprint("          score: %f\n\r\n", score);
-
+	if(stat3!=0){
+	    sip_error("Unable to Find SkewSweep and Search Score pivot about Center\r\n");
+		return false;
+	}
    /* Use top-level */
    pixd = pixDeskew(pixs, 0);
+   if (pixd == NULL){
+      sip_error("Unable to Deskew the image");
+      return false;
+   }
   #if 0
    /* Do it piecemeal; fails if outside the range */
    if (pixGetDepth(pixs) == 1) {
@@ -189,10 +195,8 @@ int_deskew(char *fname)
                                            SEARCH_REDUCTION, SWEEP_RANGE2,
                                            SWEEP_DELTA2, SEARCH_MIN_DELTA);
    if (ret)
-            sciprint("skew angle not valid");
+            sip_error("skew angle not valid");
        else {
-            sciprint("           conf: %5.3f\n\r", conf);
-            sciprint("          angle: %7.3f degrees\n\r\n", angle);
             if (conf > 2.5)
                 pixd = pixRotate(pixs, angle * deg2rad, L_ROTATE_AREA_MAP,
                                  L_BRING_IN_WHITE, 0, 0);
@@ -202,7 +206,6 @@ int_deskew(char *fname)
         }
    }
    #endif
-   pixWrite(fileout, pixd, IFF_PNG);
 
    m2 = (unsigned)pixGetHeight(pixd);
    n2 = (unsigned)pixGetWidth(pixd);
@@ -210,7 +213,7 @@ int_deskew(char *fname)
 
    switch(let) {
    case 1: {
-	     stat = pix_binary_image_to_double_array(fname,pixd,&l2, m2, n2);
+	     stat = pix_gray_image_to_double_array(fname,pixd,&l2, m2, n2);
          if (!stat) return false;
          CreateVarFromPtr(2, "d",&m2,&n2,&l2);
          free(l2);

@@ -27,7 +27,7 @@ macros_bin = $(macros_sci:.sci=.bin)
 macrodir=@TOOLBOXDIR@/macros
 macro_DATA = $(macros_bin) names lib
 
-dist_macro_DATA = $(macros_sci) sip-intro.dem sipdemo_gui.dem interferometry_gui.dem mogrify.dem test_color_classify.sce sip_init.sce
+dist_macro_DATA = $(macros_sci) sip-intro.dem sipdemo_gui.dem interferometry_gui.dem mogrify.dem test_color_classify.sce test_dewarp.sce test_deskew.sce sip_init.sce 
 
 EXTRA_DIST = buildmacros.sce
 
