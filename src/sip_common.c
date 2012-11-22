@@ -403,7 +403,7 @@ animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double
    return true;
 }
 
-/* ---------------------------Interface functions for SIP and Leptonica------------------------------------*/
+#ifdef SIP_HAVE_LIBLEPT /* ---------------------------Interface functions for SIP and Leptonica------------------------------------*/
 
 /************************************************************
  * convert SCI 2D double matrix to PIX
@@ -653,7 +653,7 @@ pix_gray_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int 
    return true;
 }
 
-/* ---------------------------End of Interface functions for SIP and Leptonica----------------------------------*/
+#endif /* ---------------------------End of Interface functions for SIP and Leptonica----------------------------------*/
 
 #ifdef SIP_HAVE_OPENCV  /* ----------------------------------------------------------------------*/
 

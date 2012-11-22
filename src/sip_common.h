@@ -200,10 +200,11 @@ bool
 
 /* Scilab <--> Animal I/O */
    animal_grayscale_image_to_double_array(char *fname, Img *img, double **ptr),
-   animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double **ptr),
+   animal_grayscale_imgpuint32_to_double_array(char *fname, ImgPUInt32 *img, double **ptr);
 
 /* PIX <--> Scilab */
 #ifdef SIP_HAVE_LIBLEPT
+bool
    pix_truecolor_image_to_double_hypermat(char *fname, PIX *pixme, HyperMat **H, int rows, int cols),
    pix_binary_image_to_double_array(char *fname, PIX *pixme, double **dbl_array, int rows, int cols),
    pix_index_map_to_sci_dbl(char *fname, PIX *pixme, int nv),

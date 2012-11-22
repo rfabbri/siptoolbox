@@ -1,3 +1,4 @@
+#ifdef SIP_HAVE_LIBLEPT
 /*
  * -------------------------------------------------------------------------
  * SIP - Scilab Image Processing toolbox
@@ -275,3 +276,4 @@ check_args(char *fname, int nopts)
 
    return ARG_INDEX_MAP;
 }
+#endif

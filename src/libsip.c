@@ -7,8 +7,12 @@ static int direct_gateway(char *fname,void F(void)) { F();return 0;};
 SipExport extern Gatefunc int_imread;
 SipExport extern Gatefunc int_imwrite;
 SipExport extern Gatefunc int_imfinfo;
+
+#ifdef SIP_HAVE_LIBLEPT
 SipExport extern Gatefunc int_deskew;
 SipExport extern Gatefunc int_dewarp;
+#endif
+
 SipExport extern Gatefunc imvariance_int;
 SipExport extern Gatefunc unwrapl_c_int;
 SipExport extern Gatefunc unwrapp_c_int;
@@ -32,8 +36,10 @@ static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,int_imread,"imread"},
   {(Myinterfun)sci_gateway,int_imwrite,"imwrite"},
   {(Myinterfun)sci_gateway,int_imfinfo,"imfinfo"},
+#ifdef SIP_HAVE_LIBLEPT
   {(Myinterfun)sci_gateway,int_deskew,"deskew"},
   {(Myinterfun)sci_gateway,int_dewarp,"dewarp"},
+#endif
   {(Myinterfun)sci_gateway,imvariance_int,"imvariance"},
   {(Myinterfun)sci_gateway,unwrapl_c_int,"sip_unwrapl_c"},
   {(Myinterfun)sci_gateway,unwrapp_c_int,"sip_unwrapp_c"},
