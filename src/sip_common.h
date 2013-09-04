@@ -41,7 +41,9 @@
 #endif
 
 #ifndef SIP_HAVE_GetLocaleExceptionMessage
-#  define GetLocaleExceptionMessage(severity,description) description
+#  define SipGetLocaleExceptionMessage(severity,description) description
+#else
+#  define SipGetLocaleExceptionMessage(severity,description) GetLocaleExceptionMessage(severity,description) 
 #endif
 
 #ifndef SIP_HAVE_QueryColorDatabase_3args

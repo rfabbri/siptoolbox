@@ -96,7 +96,7 @@ int_imfinfo(char *fname)
          for (i=0; i<49; i++)
             errmsg[i]=' ';
          errmsg[49]='\0';
-         strncpy(errmsg,GetLocaleExceptionMessage(exception.severity,exception.reason),50);
+         strncpy(errmsg,SipGetLocaleExceptionMessage(exception.severity,exception.reason),50);
          DestroyImageInfo(image_info);
          DestroyExceptionInfo(&exception);
          DestroyMagick();

@@ -117,15 +117,15 @@ mogrify_int(char *fname)
             fprintf(stderr,"argv parameter %d unrecognized",argc);
          } else {
             fprintf(stderr,"%s (near argv parameter %d)",
-               GetLocaleExceptionMessage(exception.severity,exception.reason),argc);
+               SipGetLocaleExceptionMessage(exception.severity,exception.reason),argc);
             sciprint("%s (near argv parameter %d)",
-               GetLocaleExceptionMessage(exception.severity,exception.reason),argc);
+               SipGetLocaleExceptionMessage(exception.severity,exception.reason),argc);
          }
          if (exception.description != NULL)
             fprintf(stderr,": %s",
-               GetLocaleExceptionMessage(exception.severity,exception.description));
+               SipGetLocaleExceptionMessage(exception.severity,exception.description));
             sciprint(": %s",
-               GetLocaleExceptionMessage(exception.severity,exception.description));
+               SipGetLocaleExceptionMessage(exception.severity,exception.description));
          fprintf(stderr,".\n");
          sciprint(".\n\r");
       } else {
