@@ -19,10 +19,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-AC_PREREQ(2.61)
+AC_PREREQ(2.69)
 
 #AC_INIT([sip], [20040710-2], [ricardofabbri@users.sf.net],[sip-dev])
-AC_INIT([sip], [0.10.0-git], [ricardofabbri@users.sourceforge.net])
+AC_INIT([sip], [0.11.0-SNAPSHOT], [ricardofabbri@users.sourceforge.net])
 echo "configuring SIP AC_PACKAGE_VERSION"
 AC_CONFIG_AUX_DIR([config])
 AC_CONFIG_SRCDIR([src/imread.c])
@@ -214,11 +214,6 @@ AC_SUBST(HELPDIR)
 # Set defines required to build DLLs and modules using MinGW
 # thx to Bob F.
 #
-# These options are set for DLL build
-#  libanimal:           _DLL ANIMAL_LIB
-# TODO:
-#   - update from SIMPLE toolbox
-#
 LIBRARY_EXTRA_CPPFLAGS=''
 LIBRARY_EXTRA_LIBS=''
 if test "${native_win32_build}" = 'yes'
@@ -229,7 +224,8 @@ then
       CPPFLAGS="$CPPFLAGS -DFORDLL -D_DLL"
       AC_MSG_WARN([[Dont forget to rename SCI/bin/LibScilab* to lowercase]])
       LDFLAGS="$LDFLAGS -L${SCIDIR}/bin"
-      LIBS="-lscilab"
+      LIBRARY_EXTRA_CPPFLAGS="-D_SIPLIB"
+      LIBRARY_EXTRA_LIBS="-lscilab"
    else
       CPPFLAGS="$CPPFLAGS -D_LIB"
    fi
