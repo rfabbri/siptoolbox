@@ -39,29 +39,31 @@
 SipExport int
 hello_int(char *fname)
 {
-   // Interface Variables
-   int   ra, ca, pa,
-         rb, cb, pb,
-         rsum, csum, psum,
-         minlhs=1, maxlhs=1, minrhs=2, maxrhs=2;  // specify # of args
-   double sum;
+  SciErr sciErr;
 
-   // check if # of args is correct
-   CheckRhs(minrhs,maxrhs);
-   CheckLhs(minlhs,maxlhs);
+  // Interface Variables
+  int   ra, ca, pa,
+        rb, cb, pb,
+        rsum, csum, psum,
+        minlhs=1, maxlhs=1, minrhs=2, maxrhs=2;  // specify # of args
+  double sum;
 
-   GetRhsVar(1, "d", &ra, &ca, &pa);  // parameter a
-   GetRhsVar(2, "d", &rb, &cb, &pb);  // parameter b
+  // check if # of args is correct
+  CheckRhs(minrhs,maxrhs);
+  CheckLhs(minlhs,maxlhs);
 
-   // access the variables in the scilab stack
-   // and pass them to "hello"
-   sum = animal_hello(*stk(pa), *stk(pb));
+  GetRhsVar(1, "d", &ra, &ca, &pa);  // parameter a
+  GetRhsVar(2, "d", &rb, &cb, &pb);  // parameter b
 
-   // return the result back to Scilab
-   rsum=csum=1;
-   CreateVar(3, "d", &rsum, &csum, &psum);
-   *stk(psum) = sum;
+  // access the variables in the scilab stack
+  // and pass them to "hello"
+  sum = animal_hello(*stk(pa), *stk(pb));
 
-   LhsVar(1) = 3;
-   return true;
+  // return the result back to Scilab
+  rsum=csum=1;
+  CreateVar(3, "d", &rsum, &csum, &psum);
+  *stk(psum) = sum;
+
+  LhsVar(1) = 3;
+  return true;
 }
