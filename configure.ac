@@ -230,7 +230,14 @@ then
       CPPFLAGS="$CPPFLAGS -D_LIB"
    fi
 else
-      SHARED_LIB_SUFFIX=so
+  case "$host_os" in
+       *Darwin* | *darwin*)
+          SHARED_LIB_SUFFIX=dylib
+       ;;
+       *)
+          SHARED_LIB_SUFFIX=so
+       ;;
+  esac
 fi
 AC_SUBST(SHARED_LIB_SUFFIX)
 AC_SUBST(LIBRARY_EXTRA_CPPFLAGS)
