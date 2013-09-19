@@ -20,7 +20,7 @@
 #   run sip_link_test. Perhaps a wrapper script to do this; scilab does the
 #   same, see:
 #   		http://wiki.scilab.org/Debugging%20and%20Profiling%20Scilab%205
-LDADD = $(top_builddir)/src/libsip.la @SCILIBDIR@/libscilab.so
+LDADD = $(top_builddir)/src/libsip.la @SCILIBDIR@/libscilab.@SHARED_LIB_SUFFIX@
 
 noinst_PROGRAMS = sip_link_test
 sip_link_test_SOURCES = sip_link_test.c
