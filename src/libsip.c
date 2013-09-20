@@ -4,9 +4,12 @@
   #include <sci_gateway.h> 
 #endif
 static int direct_gateway(char *fname,void F(void)) { F();return 0;};
+SipExport extern Gatefunc int_imread;
+SipExport extern Gatefunc int_imfinfo;
 SipExport extern Gatefunc imvariance_int;
 SipExport extern Gatefunc unwrapl_c_int;
 SipExport extern Gatefunc unwrapp_c_int;
+SipExport extern Gatefunc mogrify_int;
 SipExport extern Gatefunc edilate_int;
 SipExport extern Gatefunc percol_int;
 SipExport extern Gatefunc drawline_int;
@@ -22,9 +25,12 @@ SipExport extern Gatefunc sip_set_verbose_int;
 SipExport extern Gatefunc sip_get_verbose_int;
 SipExport extern Gatefunc hello_int;
 static GenericTable Tab[]={
+  {(Myinterfun)sci_gateway,int_imread,"imread"},
+  {(Myinterfun)sci_gateway,int_imfinfo,"imfinfo"},
   {(Myinterfun)sci_gateway,imvariance_int,"imvariance"},
   {(Myinterfun)sci_gateway,unwrapl_c_int,"sip_unwrapl_c"},
   {(Myinterfun)sci_gateway,unwrapp_c_int,"sip_unwrapp_c"},
+  {(Myinterfun)sci_gateway,mogrify_int,"mogrify"},
   {(Myinterfun)sci_gateway,edilate_int,"edilate"},
   {(Myinterfun)sci_gateway,percol_int,"percol"},
   {(Myinterfun)sci_gateway,drawline_int,"drawline"},

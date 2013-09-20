@@ -21,7 +21,7 @@ lib_LTLIBRARIES = libsip.la
 AM_CPPFLAGS = @LIBRARY_EXTRA_CPPFLAGS@
 
 #libsip_la_SOURCES = libsip.c sip_common.h sip_common.c hello_int.c misc_int.c
-libsip_la_SOURCES = libsip.c sip_common.h hello_int.c sip_common.c misc_int.c imvariance_int.c segment_int.c img_int.c analysis_int.c morphology_int.c unwrapp_int.c unwrapl_int.c
+libsip_la_SOURCES = libsip.c sip_common.h hello_int.c sip_common.c misc_int.c imvariance_int.c segment_int.c img_int.c analysis_int.c morphology_int.c unwrapp_int.c unwrapl_int.c imfinfo.c imread.c mogrify_int.c
 
 libsip_la_LDFLAGS = -version-info 0:0:0 -release @PACKAGE_VERSION@
 
