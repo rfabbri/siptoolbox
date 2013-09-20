@@ -90,7 +90,7 @@ int_imwrite(char *fname)
       quality= 75; /* Default quality/compression for jpeg/png/miff */
    } else { 
       double dblQuality = 0;
-      getScalarDouble(pvApiCtx, opts[0].piAddr, &dblQuality);
+      getScalarDouble(pvApiCtx, opts[1].piAddr, &dblQuality);
       quality = (unsigned long) dblQuality;
       if (dblQuality < 0 || quality > 100) 
          sip_error("quality must be in range 0-100")
