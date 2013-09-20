@@ -72,9 +72,10 @@ select type(img)
           [m,n]=size(img)
           xset('colormap', graycolormap(256))
           try
-            xset('wdim',n,m)
-          catch
             set(gcf(), 'axes_size', [n m]);
+            set(gca(), 'tight_limits','on')
+          catch
+            xset('wdim',n,m)
           end
           Matplot(img*255 + 1,strf)
         else
@@ -146,9 +147,10 @@ select type(img)
             error('Invalid size of 2nd argument.')
          end
          try
-           xset('wdim',n,m)
-         catch
            set(gcf(), 'axes_size', [n m]);
+           set(gca(), 'tight_limits','on')
+         catch
+           xset('wdim',n,m)
          end
          Matplot(img,strf)
       end
@@ -170,9 +172,10 @@ select type(img)
         end
         xset('colormap',sip_approx_true_cmap(nlevels))
         try
-          xset('wdim',n,m)
-        catch
           set(gcf(), 'axes_size', [dims(2) dims(1)]);
+          set(gca(), 'tight_limits','on')
+        catch
+          xset('wdim',n,m)
         end
         Matplot(sip_index_true_cmap(img,nlevels),strf)
       else
