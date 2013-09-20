@@ -15,7 +15,7 @@ ilib_name  = 'libsip' 		      // interface library name
 //           sip_common.c misc_int.c imvariance_int.c unwrapp_int.c ...
 //           unwrapl_int.c canny_int.c deskew_int.c dewarp_int.c';
 
-sources = 'hello_int.c sip_common.c misc_int.c';
+sources = 'hello_int.c sip_common.c misc_int.c imvariance_int.c';
 
 // table of (scilab_name, interface-name) 
 table = [ ...
@@ -24,7 +24,7 @@ table = [ ...
 //          'imfinfo',    'int_imfinfo';
 //          'deskew',      'int_deskew';
 //          'dewarp',      'int_dewarp';
-//          'imvariance', 'imvariance_int';
+          'imvariance', 'imvariance_int';
 //          'sip_unwrapl_c', 'unwrapl_c_int';
 //          'sip_unwrapp_c', 'unwrapp_c_int';
 //          'mogrify',    'mogrify_int';

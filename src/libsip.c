@@ -4,11 +4,13 @@
   #include <sci_gateway.h> 
 #endif
 static int direct_gateway(char *fname,void F(void)) { F();return 0;};
+SipExport extern Gatefunc imvariance_int;
 SipExport extern Gatefunc sip_setenv_int;
 SipExport extern Gatefunc sip_set_verbose_int;
 SipExport extern Gatefunc sip_get_verbose_int;
 SipExport extern Gatefunc hello_int;
 static GenericTable Tab[]={
+  {(Myinterfun)sci_gateway,imvariance_int,"imvariance"},
   {(Myinterfun)sci_gateway,sip_setenv_int,"sip_setenv"},
   {(Myinterfun)sci_gateway,sip_set_verbose_int,"sip_set_verbose"},
   {(Myinterfun)sci_gateway,sip_get_verbose_int,"sip_get_verbose"},

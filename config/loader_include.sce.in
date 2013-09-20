@@ -2,7 +2,8 @@
 // -----------------------------------------------------
 libsip_path=get_file_path('loader_include.sce');
 libsip_path=libsip_path + '/lib'; 
-functions=[ 'sip_setenv';
+functions=[ 'imvariance';
+            'sip_setenv';
             'sip_set_verbose';
             'sip_get_verbose';
             'hello_sip';
