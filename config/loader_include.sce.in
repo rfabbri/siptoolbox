@@ -2,27 +2,7 @@
 // -----------------------------------------------------
 libsip_path=get_file_path('loader_include.sce');
 libsip_path=libsip_path + '/lib'; 
-functions=[ 'imread';
-            'imwrite';
-            'imfinfo';
-            'deskew';
-            'dewarp';
-            'imvariance';
-            'sip_unwrapl_c';
-            'sip_unwrapp_c';
-            'mogrify';
-            'edilate';
-            'percol';
-            'canny_c';
-            'drawline';
-            'skel';
-            'thin';
-            'bwdist';
-            'watershed';
-            'bwlabel';
-            'rgb2hsv';
-            'hsv2rgb';
-            'sip_setenv';
+functions=[ 'sip_setenv';
             'sip_set_verbose';
             'sip_get_verbose';
             'hello_sip';
