@@ -3,11 +3,13 @@
 libsip_path=get_file_path('loader_include.sce');
 libsip_path=libsip_path + '/lib'; 
 functions=[ 'imvariance';
+            'edilate';
             'percol';
             'drawline';
             'skel';
             'thin';
             'bwdist';
+            'watershed';
             'bwlabel';
             'rgb2hsv';
             'hsv2rgb';

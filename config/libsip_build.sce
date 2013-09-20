@@ -16,7 +16,7 @@ ilib_name  = 'libsip' 		      // interface library name
 //           unwrapl_int.c canny_int.c deskew_int.c dewarp_int.c';
 
 sources = 'hello_int.c sip_common.c misc_int.c imvariance_int.c ...
-           segment_int.c img_int.c analysis_int.c';
+           segment_int.c img_int.c analysis_int.c morphology_int.c';
 
 // table of (scilab_name, interface-name) 
 table = [ ...
@@ -29,14 +29,14 @@ table = [ ...
 //          'sip_unwrapl_c', 'unwrapl_c_int';
 //          'sip_unwrapp_c', 'unwrapp_c_int';
 //          'mogrify',    'mogrify_int';
-//          'edilate',    'edilate_int';
+          'edilate',    'edilate_int';
           'percol',     'percol_int';
 //          'canny_c',      'canny_int';
           'drawline',   'drawline_int';
           'skel',       'skel_int';
           'thin',       'thin_int';
           'bwdist',     'bwdist_int';
-//          'watershed',  'watershed_int';
+          'watershed',  'watershed_int';
           'bwlabel',    'bwlabel_int';
           'rgb2hsv',    'rgb2hsv_int';
           'hsv2rgb',    'hsv2rgb_int';
