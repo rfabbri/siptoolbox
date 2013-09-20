@@ -3,6 +3,7 @@
 libsip_path=get_file_path('loader_include.sce');
 libsip_path=libsip_path + '/lib'; 
 functions=[ 'imread';
+            'imwrite';
             'imfinfo';
             'imvariance';
             'sip_unwrapl_c';

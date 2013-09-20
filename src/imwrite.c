@@ -44,12 +44,14 @@ int_imwrite(char *fname)
          name_rows, name_columns, name,
          nopt, iopos; 
    static rhs_opts opts[]= { 
-         {-1,"depth","d",0,0,0},
-         {-1,"quality","d",0,0,0},
-		   {-1,NULL,NULL,0,0,0}
+         {-1,"depth",-1,0,0,NULL},
+         {-1,"quality",-1,0,0,NULL},
+		   {-1,NULL,-1,0,0,NULL}
    };
    unsigned nv;
    bool stat;
+
+   unsigned long depth, quality;
 
    /* Other variables */
    short int argtype;
@@ -65,29 +67,34 @@ int_imwrite(char *fname)
    CheckRhs(minrhs,maxrhs + nopt);
    CheckLhs(minlhs,maxlhs);
 
-   if ( get_optionals(fname,opts) == 0) return false;
+   if ( getOptionals(pvApiCtx,fname,opts) == 0) return false;
    if ( (argtype = check_args(fname, nopt)) == false) return false;
 
    /* default values if optional arguments are not given */
    iopos=Rhs ;
-   if ( opts[0].position  == -1 ) {
-      iopos++; opts[0].position = iopos;
-      opts[0].m = opts[0].n = 1; opts[0].type = "d";
-      CreateVar(opts[0].position,opts[0].type,&opts[0].m,&opts[0].n,&opts[0].l);
-      *stk(opts[0].l) = QuantumDepth; 
-   } else if ( *stk(opts[0].l) != 8) {
-      if  (*stk(opts[0].l) == 16 && QuantumDepth < 16) 
-         sip_error("depth cannot be 16 in your current setup")
-      else if (*stk(opts[0].l) != 16)
-         sip_error("depth must be 8 or 16")
+   if ( opts[0].iPos == -1 ) {
+      depth = QuantumDepth;
+   } else {
+      double dblDepth = 0;
+      getScalarDouble(pvApiCtx, opts[0].piAddr, &dblDepth);
+      depth = (unsigned long)dblDepth;
+      if ( depth != 8) {
+        if  (depth == 16 && QuantumDepth < 16) 
+           sip_error("depth cannot be 16 in your current setup")
+        else if (depth != 16)
+           sip_error("depth must be 8 or 16")
+      }
    }
-   if ( opts[1].position  == -1 ) {
-      iopos++; opts[1].position = iopos;
-      opts[1].m = opts[1].n = 1; opts[1].type = "d";
-      CreateVar(opts[1].position,opts[1].type,&opts[1].m,&opts[1].n,&opts[1].l);
-      *stk(opts[1].l)=75.0; /* Default quality/compression for jpeg/png/miff */
-   } else if ( *stk(opts[1].l) < 0 || *stk(opts[1].l) > 100) 
-      sip_error("quality must be in range 0-100")
+
+   if ( opts[1].iPos == -1 ) {
+      quality= 75; /* Default quality/compression for jpeg/png/miff */
+   } else { 
+      double dblQuality = 0;
+      getScalarDouble(pvApiCtx, opts[0].piAddr, &dblQuality);
+      quality = (unsigned long) dblQuality;
+      if (dblQuality < 0 || quality > 100) 
+         sip_error("quality must be in range 0-100")
+   }
 
 
    /* -- Pass scilab structures to IM -- */
@@ -100,8 +107,8 @@ int_imwrite(char *fname)
    image_info->monochrome = 0;
    image_info->dither = 0;  // Imagemagick sets this as true by default.
                             // But this changes binary images too much.
-   image_info->depth= (unsigned long) *stk(opts[0].l);
-   image_info->quality= (unsigned long) *stk(opts[1].l);
+   image_info->depth = depth;
+   image_info->quality = quality;
    image=AllocateImage(image_info);
 
    nv = 1;

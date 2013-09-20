@@ -5,6 +5,7 @@
 #endif
 static int direct_gateway(char *fname,void F(void)) { F();return 0;};
 SipExport extern Gatefunc int_imread;
+SipExport extern Gatefunc int_imwrite;
 SipExport extern Gatefunc int_imfinfo;
 SipExport extern Gatefunc imvariance_int;
 SipExport extern Gatefunc unwrapl_c_int;
@@ -26,6 +27,7 @@ SipExport extern Gatefunc sip_get_verbose_int;
 SipExport extern Gatefunc hello_int;
 static GenericTable Tab[]={
   {(Myinterfun)sci_gateway,int_imread,"imread"},
+  {(Myinterfun)sci_gateway,int_imwrite,"imwrite"},
   {(Myinterfun)sci_gateway,int_imfinfo,"imfinfo"},
   {(Myinterfun)sci_gateway,imvariance_int,"imvariance"},
   {(Myinterfun)sci_gateway,unwrapl_c_int,"sip_unwrapl_c"},
