@@ -15,7 +15,7 @@ ilib_name  = 'libsip' 		      // interface library name
 //           sip_common.c misc_int.c imvariance_int.c unwrapp_int.c ...
 //           unwrapl_int.c canny_int.c deskew_int.c dewarp_int.c';
 
-sources = 'hello_int.c sip_common.c misc_int.c imvariance_int.c';
+sources = 'hello_int.c sip_common.c misc_int.c imvariance_int.c segment_int.c';
 
 // table of (scilab_name, interface-name) 
 table = [ ...
@@ -36,7 +36,7 @@ table = [ ...
 //          'thin',       'thin_int';
 //          'bwdist',     'bwdist_int';
 //          'watershed',  'watershed_int';
-//          'bwlabel',    'bwlabel_int';
+          'bwlabel',    'bwlabel_int';
 //          'rgb2hsv',    'rgb2hsv_int';
 //          'hsv2rgb',    'hsv2rgb_int';
           'sip_setenv', 'sip_setenv_int';
