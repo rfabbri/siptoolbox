@@ -1,5 +1,5 @@
 mode (-1);
-deff('[] = clrscr()', 'clc()')
+deff('[] = clrscr()', '')
 clrscr()
 
 // TODO turn on double-buffering:

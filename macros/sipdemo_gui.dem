@@ -14,7 +14,6 @@ sip_demolist = ['Introduction'
             'TransMogrify'
             'Interferometry GUI (beta)'];
 
-while %t
 num = x_choose(sip_demolist, 'Choose a demo');
 
 select num
@@ -28,4 +27,3 @@ case 3
    exec (SIPDIR+'macros/interferometry_gui.dem')
    break
 end // case
-end // while
