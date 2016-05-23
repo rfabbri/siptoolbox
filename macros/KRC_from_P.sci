@@ -19,15 +19,25 @@ H = P(:,1:N);
   
 if argn(2) < 2
   K = K / K(N,N);
-  if K(1,1) < 0
-    D = diag([-1 -1 ones(1,N-2)]);
-    K = K * D;
-    R = D * R;
+//  if K(1,1) < 0
+//    D = diag([-1 -1 ones(1,N-2)]);
+//    K = K * D;
+//    R = D * R;
     
 //    test = K*R; 
 //    vgg_assert0(test/test(1,1) - H/H(1,1), 1e-07)
-  end
+//  end
+  // from http://ksimek.github.io/2012/08/14/decompose/
+  // make diagonal of K positive
+  sg = diag(sign(diag(K)));
+
+  K = K * sg;
+  R = sg * R; 
+  // det(R) negative, just invert - the proj equation remains same:
+  R = -R
 end
+
+
 
 if argn(1) > 2
   C = -P(:,1:N)\P(:,$);
