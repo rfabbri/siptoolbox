@@ -18,6 +18,9 @@
 /* Define to 1 if you have the `lept' library (-llept). */
 #undef HAVE_LIBLEPT
 
+/* define HAVE_OPENCV if you have opencv */
+#undef HAVE_MAGICK
+
 /* Define to 1 if you have the `malloc' function. */
 #undef HAVE_MALLOC
 
@@ -72,8 +75,7 @@
 /* Define to 1 if the system has the type `_Bool'. */
 #undef HAVE__BOOL
 
-/* Define to the sub-directory in which libtool stores uninstalled libraries.
-   */
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
 #undef LT_OBJDIR
 
 /* The name of the default compression quality in this particular ImageMagick

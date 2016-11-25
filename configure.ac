@@ -315,6 +315,7 @@ fi
 
 
 
+have_magick='no'
 AC_PATH_LIB([ImageMagick], [[5.4.2 -nocheck]], [$MAGICK_CONFIG], ,[
    # if found:
    if test x$IMAGEMAGICK_VERSION = "x5.5.5"; then
@@ -338,9 +339,37 @@ www.imagemagick.org
    LIBS="$IMAGEMAGICK_LIBS $LIBS"
    LDFLAGS="$IMAGEMAGICK_LDFLAGS $LDFLAGS"
    CPPFLAGS="$IMAGEMAGICK_CPPFLAGS $CPPFLAGS"
-], [AC_MSG_ERROR([[ImageMagick version >= 5.4.2 was not found.]])],
+   have_magick=yes
+], [
+    AC_MSG_RESULT([[First try to configure ImageMagick version >= 5.4.2 could not be done by Magick-config, 
+trying pkg-config]])
+    have_magick=no
+],
 [--cppflags --cflags], [--ldflags --libs])
 fi
+
+if test "$have_magick" = 'no'; then
+  # Try finding imagemagick by pkg-config
+  PKG_CHECK_MODULES(MAGICK, 
+      [MagickCore >= 5.4.2],
+      [CFLAGS="$CFLAGS $MAGICK_CFLAGS"
+       LDFLAGS="$LDFLAGS $MAGICK_LDFLAGS"
+       CPPFLAGS="$CPPFLAGS $MAGICK_CPPFLAGS"
+       LIBS="$LIBS $MAGICK_LIBS"
+       have_magick=yes
+       # On older versions of pkg-config, the PKG_* macro will not call AC_SUBST on
+       # these variables; modern versions (at least version 0.24) will take care
+       # of that already. Running it twice, though, will not cause problems...
+       AC_SUBST([MAGICK_LIBS])
+       AC_SUBST([MAGICK_LDFLAGS])
+       AC_SUBST([MAGICK_CPPFLAGS])
+       AC_DEFINE(HAVE_MAGICK,[], [define HAVE_OPENCV if you have opencv])],
+      [AC_MSG_ERROR([[ ImageMagick >= 5.4.2 not found ]])])
+fi
+
+#   END of ImageMagick tests
+dnl ===========================================================================
+
 
 AC_MSG_CHECKING([if  ImageMagick links])
 AC_COMPILE_IFELSE(AC_LANG_PROGRAM([[#include <stdio.h>
@@ -500,11 +529,11 @@ particular ImageMagick setup]),
 
 
 # END OF IMAGEMAGICK TESTS
-##############################################
+dnl #############################################
 
-################
-# OpenCV tests
-################
+dnl ###############
+    # OpenCV tests
+dnl ###############
 have_opencv=no
 
 AC_ARG_WITH([opencv], 
@@ -519,15 +548,15 @@ PKG_CHECK_MODULES(OPENCV,
      LDFLAGS="$LDFLAGS $OPENCV_LIBS"
      have_opencv=yes
      AC_DEFINE(HAVE_OPENCV,[], [define HAVE_OPENCV if you have opencv])],
-    [AC_MSG_WARN([[ OpenCV >= 0.26 was not found. ]])])
+    [AC_MSG_WARN([[ OpenCV >= 0.26 not found ]])])
 ])
 
 # END of OpenCV tests
-##############################################
+dnl #############################################
 
-######################
+dnl #####################
 #  L E P T O N I C A
-######################
+dnl #####################
 
 have_lept=no
 
