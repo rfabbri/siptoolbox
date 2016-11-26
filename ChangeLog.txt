@@ -1,7 +1,14 @@
 SIP - Scilab Image Processing Toolbox
-Copyright (C) 2002-2012 Ricardo Fabbri
+Copyright (C) 2002-2016 Ricardo Fabbri
 __________________________________________________________________
 
+0.12.1
+	+ Works on Imagemagick 6.8.9-9 and Scilab 5.5.2 that comes with ubuntu 16.10
+	+ Imagemagick detected with pkg-config
+	+ PCA Implementations
+
+0.12.0
+	+ Major updates to many functions to work with latest Imagemagick and Scilab
 
 0.10.0
 	+ Merged in contributions from Google summer of Code 2012
