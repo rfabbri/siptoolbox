@@ -30,9 +30,11 @@ set -x
 #
 
 # Download in parallel
+
 git clone git://siptoolbox.git.sourceforge.net/gitroot/siptoolbox/animal  &
 git clone git://siptoolbox.git.sourceforge.net/gitroot/siptoolbox/siptoolbox &
-sudo apt install imagemagick libmagick++-dev libmagickwand-dev
+# If you already have these packages, this won't hurt
+sudo apt install scilab imagemagick libmagick++-dev libmagickwand-dev
 
 # Wait for everything to download
 wait
