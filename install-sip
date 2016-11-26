@@ -4,7 +4,7 @@ set -x
 # DESCRIPTION
 #
 #   This is a script to help automate massive installation of SIP.
-#   It has been tested under Ubuntu 12.04 LTS and a few other distros.
+#   It has been tested under Ubuntu 16.10 down to 12.04 and a few other distros.
 #  
 #   Things I'd like to see in the future are: 
 #      * automatic downloading, compiling and installing of third party
@@ -29,9 +29,13 @@ set -x
 #   Ricardo Fabbri
 #
 
-git clone git://siptoolbox.git.sourceforge.net/gitroot/siptoolbox/animal 
+# Download in parallel
+git clone git://siptoolbox.git.sourceforge.net/gitroot/siptoolbox/animal  &
+git clone git://siptoolbox.git.sourceforge.net/gitroot/siptoolbox/siptoolbox &
+sudo apt install imagemagick libmagick++-dev libmagickwand-dev
 
-git clone git://siptoolbox.git.sourceforge.net/gitroot/siptoolbox/siptoolbox 
+# Wait for everything to download
+wait
 
 cd animal 
 
