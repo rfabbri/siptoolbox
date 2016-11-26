@@ -355,15 +355,27 @@ if test "$have_magick" = 'no'; then
       [CFLAGS="$CFLAGS $MAGICK_CFLAGS"
        LDFLAGS="$LDFLAGS $MAGICK_LDFLAGS"
        CPPFLAGS="$CPPFLAGS $MAGICK_CPPFLAGS"
-       LIBS="$LIBS $MAGICK_LIBS"
+       LIBS="$LIBS $MAGICK_LIBS"],
+      [AC_MSG_ERROR([[ ImageMagick core >= 5.4.2 not found ]])])
+
+  PKG_CHECK_MODULES(MAGICKWAND, 
+      [MagickWand >= 5.4.2],
+      [CFLAGS="$CFLAGS $MAGICKWAND_CFLAGS"
+       LDFLAGS="$LDFLAGS $MAGICKWAND_LDFLAGS"
+       CPPFLAGS="$CPPFLAGS $MAGICKWAND_CPPFLAGS"
+       LIBS="$LIBS $MAGICKWAND_LIBS"
        have_magick=yes
        # On older versions of pkg-config, the PKG_* macro will not call AC_SUBST on
        # these variables; modern versions (at least version 0.24) will take care
        # of that already. Running it twice, though, will not cause problems...
+       MAGICK_LIBS="$MAGICK_LIBS $MAGICKWAND_LIBS"
+       MAGICK_LDFLAGS="$MAGICK_LDFLAGS $MAGICKWAND_LDFLAGS"
+       MAGICK_CPPFLAGS="$MAGICK_CPPFLAGS $MAGICKWAND_CPPFLAGS"
        AC_SUBST([MAGICK_LIBS])
        AC_SUBST([MAGICK_LDFLAGS])
        AC_SUBST([MAGICK_CPPFLAGS])
-       AC_DEFINE(HAVE_MAGICK,[], [define HAVE_OPENCV if you have opencv])],
+       have_magick=yes
+       AC_DEFINE(HAVE_MAGICK,[], [define HAVE_MAGICK if you have ImageMagick])],
       [AC_MSG_ERROR([[ ImageMagick >= 5.4.2 not found ]])])
 fi
 

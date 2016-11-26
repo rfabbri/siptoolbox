@@ -18,7 +18,7 @@
 /* Define to 1 if you have the `lept' library (-llept). */
 #undef HAVE_LIBLEPT
 
-/* define HAVE_OPENCV if you have opencv */
+/* define HAVE_MAGICK if you have ImageMagick */
 #undef HAVE_MAGICK
 
 /* Define to 1 if you have the `malloc' function. */
