@@ -15,3 +15,28 @@ sure to check out the SIP development home page at:
    that reason, compilation of shared libraries can be turned off
    by specifying the `--disable-shared' option to `configure'. This
    will make compilation much faster.
+
+Making a Release
+================
+
+- update changelog
+- bump version in configure.ac
+- git tag your release
+- push
+- make dist in animal to generate .tar.gz with configure in it
+- make dist in SIP
+- sfupload archive.tar.gz  # for animal and sip
+- sshfor # to create a shell
+- cd /home/frs/project/animal/animal/
+- mkdikr 0.16.0
+- cd 0.16.0
+- cp ~/uploads/animal-0.16.0.tar.gz .
+- chmod a+r *gz
+- similarly for SIP and for /home/frs/project/siptoolbox/animal/
+- update website: link and news
+- publish news on sourceforge
+- mailing list announces to all SIP lists
+- anounce in Scilab
+- download and test the archives
+- sfupload ChangeLog.txt  # this is automatically linked on the webpage
+- mv ~/uploads/ChangeLog.txt  /home/frs/project/siptoolbox/SIP
